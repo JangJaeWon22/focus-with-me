@@ -9,29 +9,33 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(db) {
       User.hasMany(db.Post, {
-        foreignKey: "userName",
-        sourceKey: "nickname",
+        foreignKey: "userId",
+        sourceKey: "id",
       });
       User.hasMany(db.Comment, {
-        foreignKey: "userName",
-        sourceKey: "nickname",
+        foreignKey: "userId",
+        sourceKey: "id",
       });
       User.hasMany(db.Item, {
-        foreignKey: "userName",
-        sourceKey: "nickname",
+        foreignKey: "userId",
+        sourceKey: "id",
       });
       User.hasMany(db.Like, {
-        foreignKey: "userName",
-        sourceKey: "nickname",
+        foreignKey: "userId",
+        sourceKey: "id",
       });
       User.hasMany(db.Bookmark, {
-        foreignKey: "userName",
-        sourceKey: "nickname",
+        foreignKey: "userId",
+        sourceKey: "id",
       });
     }
   }
   User.init(
     {
+      id: {
+        primaryKey: true,
+        type: DataTypes.INTEGER,
+      },
       email: DataTypes.STRING,
       nickname: DataTypes.STRING,
       password: DataTypes.STRING,

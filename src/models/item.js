@@ -9,8 +9,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(db) {
       Item.belongsTo(db.User, {
-        foreignKey: "userName",
-        targetKey: "nickname",
+        foreignKey: "userId",
+        targetKey: "id",
       });
       Item.belongsTo(db.Post, {
         foreignKey: "postId",
@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
       itemName: DataTypes.STRING,
       itemUrl: DataTypes.STRING,
       itemCategory: DataTypes.STRING,
-      userName: DataTypes.STRING,
+      userId: DataTypes.INTEGER,
       postId: DataTypes.INTEGER,
     },
     {

@@ -13,15 +13,15 @@ module.exports = (sequelize, DataTypes) => {
         targetKey: "postId",
       });
       Bookmark.belongsTo(db.User, {
-        foreignKey: "userName",
-        targetKey: "nickname",
+        foreignKey: "userId",
+        targetKey: "id",
       });
     }
   }
   Bookmark.init(
     {
       postiId: DataTypes.INTEGER,
-      userName: DataTypes.STRING,
+      userId: DataTypes.INTEGER,
     },
     {
       sequelize,

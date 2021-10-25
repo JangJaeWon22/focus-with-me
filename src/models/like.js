@@ -13,15 +13,15 @@ module.exports = (sequelize, DataTypes) => {
         targetKey: "postId",
       });
       Like.belongsTo(db.User, {
-        foreignKey: "userName",
-        targetKey: "nickname",
+        foreignKey: "userId",
+        targetKey: "id",
       });
     }
   }
   Like.init(
     {
       postId: DataTypes.INTEGER,
-      userName: DataTypes.STRING,
+      userId: DataTypes.INTEGER,
     },
     {
       sequelize,

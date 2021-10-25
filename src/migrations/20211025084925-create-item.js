@@ -7,6 +7,7 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
+        unique: true,
       },
       itemName: {
         allowNull: false,
@@ -20,9 +21,9 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      userName: {
+      userId: {
         allowNull: false,
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
       },
       postId: {
         allowNull: false,
