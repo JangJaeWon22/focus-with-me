@@ -9,8 +9,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(db) {
       Post.belongsTo(db.User, {
-        foreignKey: "userName",
-        targetKey: "nickname",
+        foreignKey: "userId",
+        targetKey: "id",
       });
       Post.hasMany(db.Item, {
         foreignKey: "postId",
@@ -44,7 +44,7 @@ module.exports = (sequelize, DataTypes) => {
       imageContents: DataTypes.STRING,
       textContent: DataTypes.STRING,
       youtubeUrl: DataTypes.STRING,
-      userName: DataTypes.STRING,
+      userId: DataTypes.INTEGER,
     },
     {
       sequelize,
