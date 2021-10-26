@@ -13,6 +13,7 @@ const commentList = {
                     [Op.or]: [{ userId }, { postId }],
                 }
             })
+            
             res.status(201).send({ message : "댓글에 성공했습니다." })
      
             
