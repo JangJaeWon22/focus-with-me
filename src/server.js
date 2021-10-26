@@ -1,6 +1,7 @@
 const express = require("express");
 const logger = require("morgan");
 const app = express();
+const cmtRouter = require("./routes/comments");
 const postsRouter = require("./routes/postsRouter");
 
 const { sequelize } = require("./models");
@@ -20,9 +21,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static("public"));
 
-// routing;
+//routing
+app.use("/api", cmtRouter);
 app.use("/api", userRouter);
-
 app.use("/api/posts", postsRouter);
 
 //Error handler
