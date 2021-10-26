@@ -1,8 +1,14 @@
 const { Post } = require("../models");
 const { Op } = require("sequelize");
+const Joi = require("joi");
+/* option + shift + a */
 
 module.exports = {
-  getPosts: (req, res) => {
+  getPosts: async (req, res) => {
+    const posts = await Post.findAll({
+      where: {},
+      limit: 10,
+    });
     return res.send({});
   },
   postPosts: async (req, res) => {
@@ -20,27 +26,38 @@ module.exports = {
       // },
       file,
     } = req;
+    //multipart 에서 json 형식으로 변환
+    const body = JSON.parse(JSON.stringify(req.body));
+    const {
+      title,
+      categorySpace,
+      categoryStudyMate,
+      categoryInterest,
+      imageContent,
+      textContent,
+      youtubeUrl,
+    } = body;
+
     const userId = 237237420;
     const date = new Date();
-    console.log(date);
     const post = {
       userId: 312412,
       imageCover: file.path,
-      title: "title",
-      categoryInterests: "dev",
-      categorySpace: "home",
-      categoryStudyMates: "group",
-      imageContents: "image contents",
-      textContent: "text contents",
-      youtubeUrl: "youtube url",
+      title,
+      categoryInterest,
+      categorySpace,
+      categoryStudyMate,
+      imageContent,
+      textContent,
+      youtubeUrl,
       date,
     };
-
-    console.log(file);
-
-    await Post.create(post);
-
-    return res.status(200).send({ message: "게시물 작성 성공!" });
+    try {
+      await Post.create(post);
+      return res.status(200).send({ message: "게시물 작성 성공!" });
+    } catch (error) {
+      return res.status(500).send({ message: "DB 저장에 실패했습니다." });
+    }
   },
   putPosts: (req, res) => {
     // const { postId } = req.params;
