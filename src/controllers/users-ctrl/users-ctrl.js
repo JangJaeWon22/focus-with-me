@@ -6,7 +6,8 @@ const bcrypt = require("bcrypt");
 const userProcess = {
   createUser: async (req, res) => {
     try {
-      const { email, nickname, password, confirmPassword } = req.body;
+      const { email, nickname, password, avatarUrl, confirmPassword } =
+        req.body;
       const isUser = await User.findOne({
         where: {
           [Op.or]: [{ email }, { nickname }],
@@ -15,9 +16,12 @@ const userProcess = {
       if (!isUser) {
         if (password === confirmPassword) {
           date = new Date();
+          console.log("------------------------------");
+          console.log(avatarUrl);
           const user = await User.create({
             email,
             nickname,
+            avatarUrl,
             password,
             date,
           });

@@ -7,14 +7,14 @@ const postsRouter = require("./routes/posts");
 const { sequelize } = require("./models");
 const userRouter = require("./routes/users");
 
-sequelize
-  .sync({ force: false })
-  .then(() => {
-    console.log("db 연결 성공");
-  })
-  .catch((err) => {
-    console.error(err);
-  });
+// sequelize
+//   .sync({ force: false })
+//   .then(() => {
+//     console.log("db 연결 성공");
+//   })
+//   .catch((err) => {
+//     console.error(err);
+//   });
 
 app.use(logger("dev"));
 app.use(express.json());

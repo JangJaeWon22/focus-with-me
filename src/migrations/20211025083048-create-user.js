@@ -23,6 +23,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
+      avatarUrl: {
+        allowNull: true,
+        type: Sequelize.STRING,
+      },
       date: {
         allowNull: false,
         type: Sequelize.DATE,

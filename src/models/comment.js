@@ -23,10 +23,13 @@ module.exports = (sequelize, DataTypes) => {
       userId: DataTypes.INTEGER,
       postId: DataTypes.INTEGER,
       textContent: DataTypes.STRING,
+      avatarUrl: DataTypes.STRING,
+      date: DataTypes.DATE,
     },
     {
       sequelize,
       modelName: "Comment",
+      timestamps: false,
     }
   );
   return Comment;
