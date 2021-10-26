@@ -29,7 +29,7 @@ module.exports = {
         type: Sequelize.STRING,
       },
       textContent: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
       },
       youtubeUrl: {
         type: Sequelize.STRING,
