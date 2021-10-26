@@ -2,7 +2,11 @@ const express = require("express");
 const logger = require("morgan");
 const app = express();
 const cmtRouter = require("./routes/comments");
+<<<<<<< HEAD
 const postsRouter = require("./routes/posts");
+=======
+const postsRouter = require("./routes/postsRouter");
+>>>>>>> f60e579c7573c2222f116549420ffc9aabbda33a
 
 const { sequelize } = require("./models");
 const userRouter = require("./routes/users");
