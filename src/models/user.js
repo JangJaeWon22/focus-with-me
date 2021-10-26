@@ -16,10 +16,6 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "userId",
         sourceKey: "id",
       });
-      User.hasMany(db.Item, {
-        foreignKey: "userId",
-        sourceKey: "id",
-      });
       User.hasMany(db.Like, {
         foreignKey: "userId",
         sourceKey: "id",
@@ -39,10 +35,13 @@ module.exports = (sequelize, DataTypes) => {
       email: DataTypes.STRING,
       nickname: DataTypes.STRING,
       password: DataTypes.STRING,
+      avatarUrl: DataTypes.STRING,
+      date: DataTypes.DATE,
     },
     {
       sequelize,
       modelName: "User",
+      timestamps: false,
     }
   );
   return User;
