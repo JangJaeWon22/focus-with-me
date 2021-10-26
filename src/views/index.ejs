@@ -16,9 +16,11 @@
   </p>
 
   <div class="container">
-    <form action="/api/posts" method="POST" enctype="multipart/form-data">
-      <input type="file" class="form-control-file" name="cover">
-      <input type="submit" value="Get me the stats!" class="btn btn-default">
+    <form action="/api/posts" method="post" enctype="multipart/form-data">
+      <div class="form-group">
+        <input type="file" class="form-control-file" name="cover">
+        <input type="submit" value="Get me the stats!" class="btn btn-default">            
+      </div>
     </form>
   </div>
 </body>
