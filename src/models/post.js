@@ -12,10 +12,6 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "userId",
         targetKey: "id",
       });
-      Post.hasMany(db.Item, {
-        foreignKey: "postId",
-        sourceKey: "postId",
-      });
       Post.hasMany(db.Like, {
         foreignKey: "postId",
         sourceKey: "postId",
@@ -39,16 +35,18 @@ module.exports = (sequelize, DataTypes) => {
       imageCover: DataTypes.STRING,
       title: DataTypes.STRING,
       categorySpace: DataTypes.STRING,
-      categoryStudyMates: DataTypes.STRING,
-      categoryInterests: DataTypes.STRING,
-      imageContents: DataTypes.STRING,
+      categoryStudyMate: DataTypes.STRING,
+      categoryInterest: DataTypes.STRING,
+      imageContent: DataTypes.STRING,
       textContent: DataTypes.STRING,
       youtubeUrl: DataTypes.STRING,
       userId: DataTypes.INTEGER,
+      date: DataTypes.DATE,
     },
     {
       sequelize,
       modelName: "Post",
+      timestamps: false,
     }
   );
   return Post;

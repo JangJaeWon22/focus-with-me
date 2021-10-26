@@ -1,4 +1,5 @@
 "use strict";
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable("Comments", {
@@ -21,7 +22,11 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      createdAt: {
+      avatarUrl: {
+        allowNull: false,
+        type: Sequelize.STRING,
+      },
+      date: {
         allowNull: false,
         type: Sequelize.DATE,
       },

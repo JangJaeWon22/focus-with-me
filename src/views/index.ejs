@@ -1,11 +1,26 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
+
+<head>
+  <title>
+    <%= title %>
+  </title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+  <h1>
+    <%= title %>
+  </h1>
+  <p>Welcome to <%= title %>
+  </p>
+
+  <div class="container">
+    <form action="/api/posts" method="POST" enctype="multipart/form-data">
+      <input type="file" class="form-control-file" name="cover">
+      <input type="submit" value="Get me the stats!" class="btn btn-default">
+    </form>
+  </div>
+</body>
+
 </html>

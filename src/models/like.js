@@ -22,10 +22,12 @@ module.exports = (sequelize, DataTypes) => {
     {
       postId: DataTypes.INTEGER,
       userId: DataTypes.INTEGER,
+      date: DataTypes.DATE,
     },
     {
       sequelize,
       modelName: "Like",
+      timestamps: false,
     }
   );
   return Like;
