@@ -40,6 +40,7 @@ module.exports = {
   },
   putPosts: (req, res) => {
     const { postId } = req.params;
+    const { path } = req.file;
 
     //postId로 해당 post 조회
     //파일 다시 저장
@@ -51,12 +52,16 @@ module.exports = {
   },
   deletePosts: async (req, res) => {
     const { postId } = req.params;
-    await Post.destory({
-      where: {
-        postId,
-      },
-    });
-
-    return res.send({});
+    try {
+      await Post.destroy({
+        where: {
+          postId,
+        },
+      });
+      return res.status(200).send({ message: "포스팅 삭제 성공" });
+    } catch (error) {
+      console.log(error);
+      return res.status(400).send({ message: "포스팅 삭제 실패" });
+    }
   },
 };
