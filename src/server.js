@@ -1,6 +1,7 @@
 const express = require("express");
 const logger = require("morgan");
 const app = express();
+const cmtRouter = require("./routes/comments");
 
 const { sequelize } = require("./models");
 // const userRouter = require("./routes/users");
@@ -21,7 +22,7 @@ app.use(express.static("public"));
 
 //routing
 // app.use("/api", userRouter);
-
+app.use("/api", cmtRouter);
 //Error handler
 app.use(function (err, req, res, next) {
   res.locals.message = err.message;
