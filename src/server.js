@@ -3,7 +3,7 @@ const logger = require("morgan");
 const app = express();
 
 const { sequelize } = require("./models");
-// const userRouter = require("./routes/users");
+const userRouter = require("./routes/users");
 
 sequelize
   .sync({ force: false })
@@ -19,8 +19,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static("public"));
 
-//routing
-// app.use("/api", userRouter);
+// routing;
+app.use("/api", userRouter);
 
 //Error handler
 app.use(function (err, req, res, next) {
