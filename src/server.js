@@ -26,7 +26,6 @@ app.use("/api", cmtRouter);
 app.use("/api", userRouter);
 app.use("/api", postsRouter);
 
-app.use("/api/posts", postsRouter);
 
 //Error handler
 app.use(function (err, req, res, next) {
