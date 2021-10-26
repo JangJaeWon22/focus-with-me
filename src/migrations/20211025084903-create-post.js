@@ -19,13 +19,13 @@ module.exports = {
       categorySpace: {
         type: Sequelize.STRING,
       },
-      categoryStudyMates: {
+      categoryStudyMate: {
         type: Sequelize.STRING,
       },
-      categoryInterests: {
+      categoryInterest: {
         type: Sequelize.STRING,
       },
-      imageContents: {
+      imageContent: {
         type: Sequelize.STRING,
       },
       textContent: {
@@ -38,7 +38,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER,
       },
-      createdAt: {
+      date: {
         allowNull: false,
         type: Sequelize.DATE,
       },

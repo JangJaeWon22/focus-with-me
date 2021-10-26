@@ -22,10 +22,12 @@ module.exports = (sequelize, DataTypes) => {
     {
       postiId: DataTypes.INTEGER,
       userId: DataTypes.INTEGER,
+      date: DataTypes.DATE,
     },
     {
       sequelize,
       modelName: "Bookmark",
+      timestamps: false,
     }
   );
   return Bookmark;
