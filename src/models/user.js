@@ -39,10 +39,12 @@ module.exports = (sequelize, DataTypes) => {
       email: DataTypes.STRING,
       nickname: DataTypes.STRING,
       password: DataTypes.STRING,
+      date: DataTypes.DATE,
     },
     {
       sequelize,
       modelName: "User",
+      timestamps: false,
     }
   );
   return User;

@@ -2,9 +2,10 @@ const express = require("express");
 const logger = require("morgan");
 const app = express();
 const cmtRouter = require("./routes/comments");
+const postsRouter = require("./routes/postsRouter");
 
 const { sequelize } = require("./models");
-// const userRouter = require("./routes/users");
+const userRouter = require("./routes/users");
 
 sequelize
   .sync({ force: false })
@@ -21,8 +22,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static("public"));
 
 //routing
-// app.use("/api", userRouter);
 app.use("/api", cmtRouter);
+app.use("/api", userRouter);
+app.use("/api/posts", postsRouter);
+
 //Error handler
 app.use(function (err, req, res, next) {
   res.locals.message = err.message;

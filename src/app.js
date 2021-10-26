@@ -8,7 +8,8 @@ app.set("views", __dirname + "/views");
 app.set("view engine", "ejs");
 
 app.get("/", (req, res) => {
-  res.render("index");
+  const title = "YJ's playground";
+  res.render("index", { title });
 });
 //test용 끝
 
