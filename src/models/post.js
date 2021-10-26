@@ -45,10 +45,12 @@ module.exports = (sequelize, DataTypes) => {
       textContent: DataTypes.STRING,
       youtubeUrl: DataTypes.STRING,
       userId: DataTypes.INTEGER,
+      date: DataTypes.DATE,
     },
     {
       sequelize,
       modelName: "Post",
+      timestamps: false,
     }
   );
   return Post;
