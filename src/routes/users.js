@@ -4,9 +4,10 @@ const { userProcess } = require("../controllers/users-ctrl/userProcess");
 const { userOutPut } = require("../controllers/users-ctrl/userOutPut");
 const { userExist } = require("../controllers/users-ctrl/userExist");
 const authMW = require("../middlewares/auth");
+const verifyJoi = require("../middlewares/verifyJoi");
 
 //회원가입
-router.post("/users/signup", userProcess.createUser);
+router.post("/users/signup", verifyJoi, userProcess.createUser);
 //로그인
 router.post("/users/login", userOutPut.getUser);
 //회원탈퇴
