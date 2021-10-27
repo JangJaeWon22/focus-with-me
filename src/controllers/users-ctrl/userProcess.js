@@ -29,7 +29,7 @@ const userProcess = {
     }
 
     // 패스워드에 아이디 포함여부 검사
-    if (password.match(email) !== null) {
+    if (password.match(email) !== null || email.match(password) !== null) {
       return res.status(400).send({
         message: "아이디가 포함된 비밀번호는 사용이 불가능합니다.",
       });

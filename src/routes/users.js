@@ -11,7 +11,6 @@ router.post("/users/signup", userProcess.createUser);
 router.post("/users/login", userOutPut.getUser);
 //회원탈퇴
 router.delete("/users/withdrawal", authMW, userProcess.deleteUser);
-
 //중복확인 - email
 router.post("/users/emailexist", userExist.emailExist);
 //중복확인 - nickname

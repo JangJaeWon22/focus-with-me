@@ -5,6 +5,7 @@ const cmtRouter = require("./routes/comments");
 const postsRouter = require("./routes/posts");
 const cors = require("cors");
 const userRouter = require("./routes/users");
+require("dotenv").config();
 
 // sequelize
 //   .sync({ force: false })
@@ -14,8 +15,7 @@ const userRouter = require("./routes/users");
 //   .catch((err) => {
 //     console.error(err);
 //   });
-
-app.use(cors());
+app.use(cors({ origin: "*", credentials: true }));
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
