@@ -3,8 +3,7 @@ const logger = require("morgan");
 const app = express();
 const cmtRouter = require("./routes/comments");
 const postsRouter = require("./routes/posts");
-
-const { sequelize } = require("./models");
+const cors = require("cors");
 const userRouter = require("./routes/users");
 
 // sequelize
@@ -16,6 +15,7 @@ const userRouter = require("./routes/users");
 //     console.error(err);
 //   });
 
+app.use(cors());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

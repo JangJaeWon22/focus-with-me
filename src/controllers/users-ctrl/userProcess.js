@@ -3,7 +3,9 @@ const joiSchema = require("../../models/joi/joi");
 const { Op } = require("sequelize");
 const bcrypt = require("bcrypt");
 
+//userProcess => user 관련 db 생성, 삭제 메소드 포함
 const userProcess = {
+  //회원 가입
   createUser: async (req, res) => {
     const { email, nickname, password, avatarUrl, confirmPassword } = req.body;
     try {
@@ -57,6 +59,24 @@ const userProcess = {
       res.status(201).send({
         user,
         message: "회원가입에 성공했습니다.",
+      });
+    }
+  },
+
+  //회원탈퇴
+  deleteUser: async (req, res) => {
+    try {
+      const { user } = res.locals;
+      const existUser = await User.findOne({ where: { id: user.id } });
+      if (existUser) {
+        await User.destroy({ where: { id: existUser.id } });
+        res.status(200).send({ message: "회원탈퇴가 완료되었습니다." });
+      } else {
+        res.stauts(400).send({ message: "회원탈퇴에 실패했습니다." });
+      }
+    } catch (err) {
+      res.status(500).send({
+        message: "알 수 없는 문제가 발생했습니다. 잠시 후 다시 시도해주세요.",
       });
     }
   },
