@@ -15,15 +15,15 @@ const userOutPut = {
         });
       }
       //회원정보 암호화
-      const token = Jwt.sign({ email: existUser.email }, process.env.TOKEN_KEY);
+      const token = Jwt.sign({ userId: existUser.id }, process.env.TOKEN_KEY);
       return res.status(201).send({
-        message: "로그인에 성공하셨습니다",
+        message: "로그인에 성공하셨습니다.",
         token,
       });
     } catch (err) {
       console.log(err);
-      res.status(400).send({
-        message: "알 수 없는 문제가 발생했습니다. 잠시 후 다시 시도해주세요",
+      res.status(500).send({
+        message: "알 수 없는 문제가 발생했습니다. 잠시 후 다시 시도해주세요.",
       });
     }
   },

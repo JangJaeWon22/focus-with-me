@@ -8,21 +8,19 @@ const authMiddleware = (req, res, next) => {
   const [tokenType, tokenValue] = authorization.split(" ");
   if (tokenType !== "Bearer") {
     return res.status(200).send({
-      message: "로그인 후 사용하세요.",
+      message: "로그인이 필요한 기능입니다.",
     });
   }
 
   try {
-    const { userId } = jwt.verify(tokenValue, process.env.TOKEN_KEY);
-    User.findOne({ where: { userId } }).then((user) => {
+    const { userId } = Jwt.verify(tokenValue, process.env.TOKEN_KEY);
+    User.findOne({ where: { id: userId } }).then((user) => {
       res.locals.user = user;
-      console.log(user);
-      console.log(res.locals.user);
       next();
     });
   } catch (error) {
     res.status(400).send({
-      message: "로그인 후 사용하세요.",
+      message: "로그인이 필요한 기능입니다.",
     });
     return;
   }
