@@ -15,7 +15,7 @@ require("dotenv").config();
 //   .catch((err) => {
 //     console.error(err);
 //   });
-app.use(cors({ origin: "*", credentials: true }));
+app.use(cors({ origin: true, credentials: true }));
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
