@@ -2,15 +2,15 @@ const multer = require("multer");
 
 module.exports = {
   uploadAvatar: multer({
-    dest: "uploads/avatars",
+    dest: "public/uploads/avatars",
     limits: { fileSize: 1000000 },
   }),
   uploadCover: multer({
-    dest: "uploads/covers",
+    dest: "public/uploads/covers",
     limits: { fileSize: 1000000 },
   }),
   uploadContents: multer({
-    dest: "uploads/Contents",
+    dest: "public/uploads/contents",
     limits: { fileSize: 1000000 },
   }),
 };

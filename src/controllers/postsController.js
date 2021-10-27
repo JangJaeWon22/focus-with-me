@@ -1,6 +1,9 @@
 const { Post } = require("../models");
 const { Op } = require("sequelize");
 const Joi = require("joi");
+const fs = require("fs/promises");
+
+const { removeImage } = require("../library/removeImage");
 /* option + shift + a */
 
 module.exports = {
@@ -12,20 +15,11 @@ module.exports = {
     return res.send({});
   },
   postPosts: async (req, res) => {
-    const {
-      // headers: { token },
-      // body: {
-      //   imageCover,
-      //   title,
-      //   categorySpace,
-      //   categoryStudyMates,
-      //   categoryInterests,
-      //   imageContents,
-      //   textContent,
-      //   youtubeUrl,
-      // },
-      file,
-    } = req;
+    /* 
+      사용자 인증 미들웨어 사용할 경우
+      const { userId } = req.locals.user;
+     */
+    const { path } = req.file;
     //multipart 에서 json 형식으로 변환
     const body = JSON.parse(JSON.stringify(req.body));
     const {
@@ -42,7 +36,7 @@ module.exports = {
     const date = new Date();
     const post = {
       userId: 312412,
-      imageCover: file.path,
+      imageCover: path,
       title,
       categoryInterest,
       categorySpace,
@@ -59,13 +53,54 @@ module.exports = {
       return res.status(500).send({ message: "DB 저장에 실패했습니다." });
     }
   },
-  putPosts: (req, res) => {
-    // const { postId } = req.params;
-    // const { path } = req.file;
+  putPosts: async (req, res) => {
+    // 사용자 인증 미들웨어 사용 시
+    // const { userId } = req.locals.user;
+    const { postId } = req.params;
+    const { path } = req.file;
+    const {
+      title,
+      categorySpace,
+      categoryInterest,
+      categoryStudyMate,
+      textContent,
+      youtubeUrl,
+    } = req.body;
 
     //postId로 해당 post 조회
-    //파일 다시 저장
+    const post = await Post.findByPk(postId);
+    if (!post) {
+      const result = await removeImage(path);
+      console.log(result);
+      return res
+        .status(505)
+        .send({ message: "해당 게시물이 존재하지 않습니다." });
+    }
+
     //post 의 이미지 url 따라가서 삭제
+    const removeUrl = post.imageCover;
+    // try {
+    //   await fs.unlink(removeUrl);
+    // } catch (error) {
+    //   console.log(error);
+    //   return res.status(500).send({ message: "기존 이미지 삭제 실패" });
+    // }
+    // imageCover 업데이트 후 DB 다시 저장
+    try {
+      post.imageCover = path;
+      post.title = title;
+      post.categorySpace = categorySpace;
+      post.categoryInterest = categoryInterest;
+      post.categoryStudyMate = categoryStudyMate;
+      post.textContent = textContent;
+      post.youtubeUrl = youtubeUrl;
+      await post.save();
+      await removeImage(removeUrl);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send({ message: "DB 업데이트 실패" });
+    }
+
     //req.files에서 path를 받아서 다시 DB에 저장
 
     console.log("PUT posts");

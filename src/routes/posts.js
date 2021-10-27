@@ -13,6 +13,9 @@ postsRouter
   .route("/posts")
   .get(getPosts)
   .post(uploadCover.single("cover"), postPosts);
-postsRouter.route("/posts/:postId").put(putPosts).delete(deletePosts);
+postsRouter
+  .route("/posts/:postId")
+  .put(uploadCover.single("cover"), putPosts)
+  .delete(deletePosts);
 
 module.exports = postsRouter;
