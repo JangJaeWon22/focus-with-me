@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>
     <%= title %>
   </title>
-  <link rel='stylesheet' href='/stylesheets/style.css' />
 </head>
 
 <body>
@@ -14,13 +16,10 @@
   </h1>
   <p>Welcome to <%= title %>
   </p>
-
-  <div class="container">
-    <form action="/api/posts" method="POST" enctype="multipart/form-data">
-      <input type="file" class="form-control-file" name="cover">
-      <input type="submit" value="Get me the stats!" class="btn btn-default">
-    </form>
-  </div>
+  <form action="/api/posts" method="post" enctype="multipart/form-data">
+    <input type="file" class="form-control-file" name="cover" id="cover">
+    <input type="submit" value="Get me the stats!" class="btn btn-default">
+  </form>
 </body>
 
 </html>
