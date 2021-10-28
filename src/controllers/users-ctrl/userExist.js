@@ -1,7 +1,7 @@
 const { User } = require("../../models");
 
 const userExist = {
-  emailExist: async (req, res) => {
+  existEmail: async (req, res) => {
     try {
       const { email } = req.body;
       const existEmail = await User.findOne({ where: { email } });
@@ -18,7 +18,7 @@ const userExist = {
       });
     }
   },
-  nicknameExist: async (req, res) => {
+  existNickname: async (req, res) => {
     try {
       const { nickname } = req.body;
       const existNickname = await User.findOne({ where: { nickname } });
