@@ -1,6 +1,7 @@
 const { User } = require("../../models");
 const bcrypt = require("bcrypt");
 const multer = require("multer");
+const { removeImage } = require("../../library/removeImage");
 const fs = require("fs");
 //이미지 저장 폴더 생성
 try {
@@ -15,18 +16,24 @@ const userUpdate = {
     try {
       const { user } = res.locals;
       const file = req.file;
-      // console.log("file :", file);
-      // console.log(req.file);
+
       const { nicknameNew, passwordOld, passwordNew } = res.verifyBody;
       console.log(res.verifyBody);
       const existUser = await User.findOne({ where: { id: user.id } });
+      if (existUser.avatarUrl) {
+        await removeImage(existUser.avatarUrl);
+      }
       //등록된 유저가 있는지 다시 한번 조회
       if (existUser) {
         //기존 비밀번호 확인
         if (bcrypt.compareSync(passwordOld, existUser.password)) {
           const encryptPassword = bcrypt.hashSync(passwordNew, 10);
           await User.update(
-            { nickname: nicknameNew, password: encryptPassword },
+            {
+              nickname: nicknameNew,
+              password: encryptPassword,
+              avatarUrl: file.path,
+            },
             { where: { id: user.id } }
           );
           res.status(201).send({
