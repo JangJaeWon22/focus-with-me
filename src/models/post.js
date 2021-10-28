@@ -38,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
       categoryStudyMate: DataTypes.STRING,
       categoryInterest: DataTypes.STRING,
       imageContent: DataTypes.STRING,
-      textContent: DataTypes.STRING,
+      textContent: DataTypes.TEXT,
       youtubeUrl: DataTypes.STRING,
       userId: DataTypes.INTEGER,
       date: DataTypes.DATE,
