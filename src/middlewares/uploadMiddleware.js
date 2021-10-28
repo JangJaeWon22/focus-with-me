@@ -6,7 +6,7 @@ module.exports = {
   uploadAvatar: multer({
     storage: multer.diskStorage({
       destination(req, file, cb) {
-        cb(null, "${__dirname}/../public/uploads");
+        cb(null, "${__dirname}/../public/uploads/avatar");
       },
       filename(req, file, cb) {
         // const fileName = randomstring.generate(20);
