@@ -18,11 +18,12 @@ module.exports = {
   }),
 
   uploadCover: multer({
-    dest: "uploads/covers",
+    dest: "public/uploads/covers",
     limits: { fileSize: 1000000 },
   }),
+
   uploadContents: multer({
-    dest: "uploads/Contents",
+    dest: "public/uploads/contents",
     limits: { fileSize: 1000000 },
   }),
 };
