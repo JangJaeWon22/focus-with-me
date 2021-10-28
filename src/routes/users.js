@@ -5,7 +5,7 @@ const { userOutPut } = require("../controllers/users-ctrl/userOutPut");
 const { userExist } = require("../controllers/users-ctrl/userExist");
 const { userUpdate } = require("../controllers/users-ctrl/userUpdate");
 const authMW = require("../middlewares/auth");
-const { uploadAvatar } = require("../middlewares/uploadMiddleware");
+const { uploadAvatar } = require("../middlewares/upload");
 const verifyJoi = require("../middlewares/verifyJoi");
 
 //회원가입
