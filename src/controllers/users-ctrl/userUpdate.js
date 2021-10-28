@@ -28,7 +28,7 @@ const userUpdate = {
         //기존 비밀번호 확인
         if (bcrypt.compareSync(passwordOld, existUser.password)) {
           const encryptPassword = bcrypt.hashSync(passwordNew, 10);
-          await User.update(
+          const upuser = await User.update(
             {
               nickname: nicknameNew,
               password: encryptPassword,
@@ -36,9 +36,9 @@ const userUpdate = {
             },
             { where: { id: user.id } }
           );
-          res.status(201).send({
-            message: "회원정보 수정이 완료되었습니다.",
-          });
+          res
+            .status(201)
+            .send({ file, upuser, message: "회원정보 수정이 완료되었습니다." });
         } else {
           res.status(400).send({
             message: "입력하신 현재의 비밀번호가 일치하지 않습니다.",
