@@ -5,7 +5,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const userOutPut = {
-  getUser: async (req, res) => {
+  authUser: async (req, res) => {
     try {
       const { email, password } = req.body;
       const existUser = await User.findOne({ where: { email } });
