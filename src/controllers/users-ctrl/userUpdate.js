@@ -15,20 +15,24 @@ const userUpdate = {
   updateUser: async (req, res) => {
     try {
       const { user } = res.locals;
-      const file = req.file;
-
+      let file = req.file;
       const { nicknameNew, passwordOld, passwordNew } = res.verifyBody;
       console.log(res.verifyBody);
       const existUser = await User.findOne({ where: { id: user.id } });
-      if (existUser.avatarUrl) {
+      //변경할 file이 있을 때 (+계정에 프로필 사진이 등록이 되어 있을 때를 해야될지 고민)
+      if (file) {
         await removeImage(existUser.avatarUrl);
+      } else {
+        //프로필 사진을 변경 안할때
+        file = existUser;
       }
+
       //등록된 유저가 있는지 다시 한번 조회
       if (existUser) {
         //기존 비밀번호 확인
         if (bcrypt.compareSync(passwordOld, existUser.password)) {
           const encryptPassword = bcrypt.hashSync(passwordNew, 10);
-          const upuser = await User.update(
+          await User.update(
             {
               nickname: nicknameNew,
               password: encryptPassword,
@@ -36,9 +40,7 @@ const userUpdate = {
             },
             { where: { id: user.id } }
           );
-          res
-            .status(201)
-            .send({ file, upuser, message: "회원정보 수정이 완료되었습니다." });
+          res.status(201).send({ message: "회원정보 수정이 완료되었습니다." });
         } else {
           res.status(400).send({
             message: "입력하신 현재의 비밀번호가 일치하지 않습니다.",
