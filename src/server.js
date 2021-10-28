@@ -7,6 +7,8 @@ const cors = require("cors");
 const userRouter = require("./routes/users");
 require("dotenv").config();
 
+// 테스트용
+const { uploadContents } = require("./middlewares/upload");
 // sequelize
 //   .sync({ force: false })
 //   .then(() => {
@@ -20,12 +22,20 @@ app.use(cors({ origin: true, credentials: true }));
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use("/static", express.static("public"));
+app.use("/public", express.static("public"));
 
 //routing
 app.use("/api", cmtRouter);
 app.use("/api", userRouter);
 app.use("/api", postsRouter);
+
+//테스트 router
+app.use("/api/test", uploadContents.single("image"), async (req, res) => {
+  const { path } = req.file;
+
+  console.log(path);
+  return res.status(200).send({ path });
+});
 
 //Error handler
 app.use(function (err, req, res, next) {
