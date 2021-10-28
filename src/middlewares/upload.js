@@ -9,6 +9,7 @@ module.exports = {
     dest: "public/uploads/covers",
     limits: { fileSize: 1000000 },
   }),
+
   uploadContents: multer({
     dest: "public/uploads/contents",
     limits: { fileSize: 1000000 },

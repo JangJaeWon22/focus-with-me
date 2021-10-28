@@ -8,11 +8,12 @@ const { removeImage } = require("../library/removeImage");
 
 module.exports = {
   getPosts: async (req, res) => {
-    const posts = await Post.findAll({
-      where: {},
-      limit: 10,
-    });
-    return res.send({});
+    //조회는 미들웨어에서 처리하고, 여기는 던지는 역할만 하기
+    const posts = req.posts;
+    const { queryResult } = req;
+    return res
+      .status(200)
+      .send({ message: "posts 조회 성공", posts, queryResult });
   },
   postPosts: async (req, res) => {
     /* 
@@ -96,19 +97,16 @@ module.exports = {
       post.youtubeUrl = youtubeUrl;
       await post.save();
       await removeImage(removeUrl);
+      return res.status(200).send({ message: "게시물 수정 성공" });
     } catch (error) {
       console.log(error);
       return res.status(500).send({ message: "DB 업데이트 실패" });
     }
-
-    //req.files에서 path를 받아서 다시 DB에 저장
-
-    console.log("PUT posts");
-    return res.send({});
   },
   deletePosts: async (req, res) => {
     const { postId } = req.params;
     try {
+      //이미지도 지워야겠네??
       await Post.destroy({
         where: {
           postId,
