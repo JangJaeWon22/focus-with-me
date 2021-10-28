@@ -13,6 +13,6 @@ router.post("/posts/:postId/comments", cmtCtrl.commentList.commentUser);
 //댓글 조회
 router.get("/posts/:postId/comments", cmtCtrl.commentList.commentSearch);
 //댓글 삭제
-//router.delete("/posts/:postId/comments/:commentId", cmtCtrl.commentList.commentDel);
+router.delete("/posts/:postId/comments/:commentId", cmtCtrl.commentList.commentDel);
 
 module.exports = router;
