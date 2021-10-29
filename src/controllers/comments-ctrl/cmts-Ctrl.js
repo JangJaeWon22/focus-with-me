@@ -56,7 +56,6 @@ const commentList = {
             res.status(400).send({ message: "댓글 삭제에 문제가 생겼습니다! 관리자에게 문의해주세요." })
         }
     }
-    //댓글 좋아요
 }
 
 
