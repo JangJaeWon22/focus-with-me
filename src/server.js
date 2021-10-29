@@ -7,6 +7,8 @@ const cors = require("cors");
 const userRouter = require("./routes/users");
 const { sequelize } = require("./models");
 require("dotenv").config();
+const passport = require("passport");
+const passportConfig = require("./passport");
 
 // 테스트용
 const { uploadContents } = require("./middlewares/upload");
@@ -25,6 +27,10 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use("/public", express.static("public"));
+
+//passport
+app.use(passport.initialize());
+passportConfig();
 
 //routing
 app.use("/api", cmtRouter);
