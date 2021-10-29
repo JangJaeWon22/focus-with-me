@@ -41,10 +41,8 @@
 // }
 
 const html =
-  '<p>Hello from CKEditor 5!asdasd<img src="http://3.34.44.44/public/uploads/content/118a341adfcd0d8c8fa644fd864fa5ac"><img src="http://3.34.44.44/public/uploads/content/cd89fda042bfb6b9b860bbf9119d7213"><img src="http://3.34.44.44/public/uploads/content/0b0ae407a1726bcaeb05614b8bec9264"></p>';
+  '<p>Hello from CKEditor 5!asdasd<img src="http://3.34.44.44/public/uploads/temp/118a341adfcd0d8c8fa644fd864fa5ac"><img src="http://3.34.44.44/public/uploads/temp/cd89fda042bfb6b9b860bbf9119d7213"><img src="http://3.34.44.44/public/uploads/temp/0b0ae407a1726bcaeb05614b8bec9264"></p>';
 
-var url =
-  '<img height="100" src="data:image/png;base64,testurlhere" width="200"></img>';
 var regexp = /<img[^>]+src\s*=\s*['"]([^'"]+)['"][^>]*>/g;
 var srcs = html.match(regexp);
 
