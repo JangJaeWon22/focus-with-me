@@ -8,11 +8,11 @@ module.exports = {
       destination(req, file, cb) {
         cb(null, "${__dirname}/../public/uploads/avatar");
       },
-      filename(req, file, cb) {
+      /*       filename(req, file, cb) {
         // const fileName = randomstring.generate(20);
         const ext = path.extname(file.originalname);
-        cb(null, path.extname(file.originalname, ext) + Date.now() + ext);
-      },
+        cb(null, Date.now() + ext);
+      }, */
     }),
     limits: { fileSize: 5 * 1024 * 1024 },
   }),
