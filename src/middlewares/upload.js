@@ -16,14 +16,16 @@ module.exports = {
     }),
     limits: { fileSize: 5 * 1024 * 1024 },
   }),
-
   uploadCover: multer({
     dest: "public/uploads/cover",
     limits: { fileSize: 1000000 },
   }),
-
   uploadContents: multer({
     dest: "public/uploads/content",
+    limits: { fileSize: 1000000 },
+  }),
+  uploadTemp: multer({
+    dest: "public/uploads/temp",
     limits: { fileSize: 1000000 },
   }),
 };
