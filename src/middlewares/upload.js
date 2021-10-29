@@ -8,22 +8,22 @@ module.exports = {
       destination(req, file, cb) {
         cb(null, "${__dirname}/../public/uploads/avatar");
       },
-      filename(req, file, cb) {
+      /*       filename(req, file, cb) {
         // const fileName = randomstring.generate(20);
         const ext = path.extname(file.originalname);
-        cb(null, path.extname(file.originalname, ext) + Date.now() + ext);
-      },
+        cb(null, Date.now() + ext);
+      }, */
     }),
     limits: { fileSize: 5 * 1024 * 1024 },
   }),
 
   uploadCover: multer({
-    dest: "public/uploads/covers",
+    dest: "public/uploads/cover",
     limits: { fileSize: 1000000 },
   }),
 
   uploadContents: multer({
-    dest: "public/uploads/contents",
+    dest: "public/uploads/content",
     limits: { fileSize: 1000000 },
   }),
 };

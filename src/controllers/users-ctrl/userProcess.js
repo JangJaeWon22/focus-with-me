@@ -39,7 +39,6 @@ const userProcess = {
         const user = await User.create({
           email,
           nickname,
-          avatarUrl,
           password: encryptPassword,
           date,
         });

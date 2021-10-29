@@ -16,10 +16,9 @@ module.exports = {
       .send({ message: "posts 조회 성공", posts, queryResult });
   },
   postPosts: async (req, res) => {
-    /* 
-      사용자 인증 미들웨어 사용할 경우
-      const { userId } = req.locals.user;
-     */
+    // 사용자 인증 미들웨어 사용할 경우
+    // const { userId } = req.locals.user;
+
     const { path } = req.file;
     //multipart 에서 json 형식으로 변환
     const body = JSON.parse(JSON.stringify(req.body));
