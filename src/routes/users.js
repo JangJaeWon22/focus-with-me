@@ -8,7 +8,6 @@ const authMW = require("../middlewares/auth");
 const { uploadAvatar } = require("../middlewares/upload");
 const { verifyJoi } = require("../middlewares/verifyJoi");
 
-
 //회원가입
 router.post("/users/signup", verifyJoi.singUpUser, userProcess.createUser);
 //로그인

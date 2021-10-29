@@ -4,6 +4,7 @@ const Joi = require("joi");
 const fs = require("fs/promises");
 
 const { removeImage } = require("../library/removeImage");
+const { remove } = require("cheerio/lib/api/manipulation");
 /* option + shift + a */
 
 module.exports = {
@@ -107,11 +108,14 @@ module.exports = {
     const { postId } = req.params;
     try {
       //이미지도 지워야겠네??
-      await Post.destroy({
-        where: {
-          postId,
-        },
-      });
+      const post = await Post.findByPk(postId);
+      await removeImage(post.imageCover);
+      await post.destroy();
+      // await Post.destroy({
+      //   where: {
+      //     postId,
+      //   },
+      // });
       return res.status(200).send({ message: "포스팅 삭제 성공" });
     } catch (error) {
       console.log(error);
