@@ -5,18 +5,20 @@ const cmtRouter = require("./routes/comments");
 const postsRouter = require("./routes/posts");
 const cors = require("cors");
 const userRouter = require("./routes/users");
+const { sequelize } = require("./models");
 require("dotenv").config();
 
 // 테스트용
 const { uploadContents } = require("./middlewares/upload");
-// sequelize
-//   .sync({ force: false })
-//   .then(() => {
-//     console.log("db 연결 성공");
-//   })
-//   .catch((err) => {
-//     console.error(err);
-//   });
+
+sequelize
+  .sync({ force: false })
+  .then(() => {
+    console.log("db 연결 성공");
+  })
+  .catch((err) => {
+    console.error(err);
+  });
 
 app.use(cors({ origin: true, credentials: true }));
 app.use(logger("dev"));

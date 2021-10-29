@@ -28,6 +28,8 @@ module.exports = (sequelize, DataTypes) => {
       sequelize,
       modelName: "Like",
       timestamps: false,
+      charset: "utf8",
+      collate: "utf8_general_ci",
     }
   );
   return Like;

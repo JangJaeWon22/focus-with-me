@@ -8,21 +8,31 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(db) {
-      User.hasMany(db.Post, {
+      db.User.hasMany(db.Post, {
         foreignKey: "userId",
         sourceKey: "id",
       });
-      User.hasMany(db.Comment, {
+      db.User.hasMany(db.Comment, {
         foreignKey: "userId",
         sourceKey: "id",
       });
-      User.hasMany(db.Like, {
+      db.User.hasMany(db.Like, {
         foreignKey: "userId",
         sourceKey: "id",
       });
-      User.hasMany(db.Bookmark, {
+      db.User.hasMany(db.Bookmark, {
         foreignKey: "userId",
         sourceKey: "id",
+      });
+      db.User.belongsToMany(db.User, {
+        foreignKey: "followingId",
+        as: "Followers",
+        through: "Follow",
+      });
+      db.User.belongsToMany(db.User, {
+        foreignKey: "followerId",
+        as: "Followings",
+        through: "Follow",
       });
     }
   }
@@ -36,12 +46,16 @@ module.exports = (sequelize, DataTypes) => {
       nickname: DataTypes.STRING,
       password: DataTypes.STRING,
       avatarUrl: DataTypes.STRING,
+      provider: DataTypes.STRING,
+      snsId: DataTypes.STRING,
       date: DataTypes.DATE,
     },
     {
       sequelize,
       modelName: "User",
       timestamps: false,
+      charset: "utf8",
+      collate: "utf8_general_ci",
     }
   );
   return User;

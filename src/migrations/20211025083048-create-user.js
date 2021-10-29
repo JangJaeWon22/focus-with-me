@@ -10,22 +10,31 @@ module.exports = {
         unique: true,
       },
       email: {
-        allowNull: false,
-        type: Sequelize.STRING(50),
+        type: Sequelize.STRING(40),
+        allowNull: true,
         unique: true,
       },
       nickname: {
-        allowNull: false,
         type: Sequelize.STRING(20),
+        allowNull: false,
         unique: true,
       },
       password: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.STRING,
       },
       avatarUrl: {
         allowNull: true,
         type: Sequelize.STRING,
+      },
+      provider: {
+        type: Sequelize.STRING(20),
+        allowNull: false,
+        defaultValue: "local",
+      },
+      snsId: {
+        type: Sequelize.STRING(30),
+        allowNull: true,
       },
       date: {
         allowNull: false,
