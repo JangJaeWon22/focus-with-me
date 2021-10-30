@@ -10,19 +10,19 @@ module.exports = (sequelize, DataTypes) => {
     static associate(db) {
       db.User.hasMany(db.Post, {
         foreignKey: "userId",
-        sourceKey: "id",
+        sourceKey: "userId",
       });
       db.User.hasMany(db.Comment, {
         foreignKey: "userId",
-        sourceKey: "id",
+        sourceKey: "userId",
       });
       db.User.hasMany(db.Like, {
         foreignKey: "userId",
-        sourceKey: "id",
+        sourceKey: "userId",
       });
       db.User.hasMany(db.Bookmark, {
         foreignKey: "userId",
-        sourceKey: "id",
+        sourceKey: "userId",
       });
       db.User.belongsToMany(db.User, {
         foreignKey: "followingId",
@@ -38,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   User.init(
     {
-      id: {
+      userId: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
