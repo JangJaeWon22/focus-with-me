@@ -8,40 +8,81 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(db) {
-      User.hasMany(db.Post, {
+      db.User.hasMany(db.Post, {
         foreignKey: "userId",
         sourceKey: "id",
       });
-      User.hasMany(db.Comment, {
+      db.User.hasMany(db.Comment, {
         foreignKey: "userId",
         sourceKey: "id",
       });
-      User.hasMany(db.Like, {
+      db.User.hasMany(db.Like, {
         foreignKey: "userId",
         sourceKey: "id",
       });
-      User.hasMany(db.Bookmark, {
+      db.User.hasMany(db.Bookmark, {
         foreignKey: "userId",
         sourceKey: "id",
+      });
+      db.User.belongsToMany(db.User, {
+        foreignKey: "followingId",
+        as: "Followers",
+        through: "Follow",
+      });
+      db.User.belongsToMany(db.User, {
+        foreignKey: "followerId",
+        as: "Followings",
+        through: "Follow",
       });
     }
   }
   User.init(
     {
       id: {
+        allowNull: false,
+        autoIncrement: true,
         primaryKey: true,
         type: DataTypes.INTEGER,
+        unique: true,
       },
-      email: DataTypes.STRING,
-      nickname: DataTypes.STRING,
-      password: DataTypes.STRING,
-      avatarUrl: DataTypes.STRING,
-      date: DataTypes.DATE,
+      email: {
+        type: DataTypes.STRING(40),
+        allowNull: true,
+        unique: true,
+      },
+      nickname: {
+        type: DataTypes.STRING(20),
+        allowNull: false,
+        unique: true,
+      },
+      password: {
+        allowNull: true,
+        type: DataTypes.STRING,
+      },
+      avatarUrl: {
+        allowNull: true,
+        type: DataTypes.STRING,
+      },
+      provider: {
+        type: DataTypes.STRING(20),
+        allowNull: false,
+        defaultValue: "local",
+      },
+      snsId: {
+        type: DataTypes.STRING(30),
+        allowNull: true,
+      },
+      date: {
+        allowNull: false,
+        type: DataTypes.DATE,
+      },
     },
     {
       sequelize,
       modelName: "User",
       timestamps: false,
+      charset: "utf8",
+      collate: "utf8_general_ci",
     }
   );
   return User;

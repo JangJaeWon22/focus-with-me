@@ -3,28 +3,33 @@ const Jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const dotenv = require("dotenv");
 dotenv.config();
+const passport = require("passport");
 
 const userOutPut = {
   authUser: async (req, res) => {
     try {
-      const { email, password } = req.body;
-      const existUser = await User.findOne({ where: { email } });
-      if (!existUser || !bcrypt.compareSync(password, existUser.password)) {
-        return res.status(200).send({
-          message: "잘못된 아이디 또는 패스워드입니다.",
+      // 아까 local로 등록한 인증과정 실행
+      passport.authenticate("local", (passportError, user, info) => {
+        // 인증이 실패했거나 유저 데이터가 없다면 에러 발생
+        if (passportError || !user) {
+          res.status(400).json({ message: info.reason });
+          return;
+        }
+        // user데이터를 통해 로그인 진행
+        req.login(user, { session: false }, (loginError) => {
+          console.log(user);
+          if (loginError) {
+            res.send(loginError);
+            return;
+          }
+          //회원정보 암호화
+          const token = Jwt.sign({ email: user.email }, process.env.TOKEN_KEY);
+          res.status(201).send({ token, message: "로그인에 성공하셨습니다." });
         });
-      }
-      //회원정보 암호화
-      const token = Jwt.sign({ userId: existUser.id }, process.env.TOKEN_KEY);
-      return res.status(201).send({
-        message: "로그인에 성공하셨습니다.",
-        token,
-      });
-    } catch (err) {
-      console.log(err);
-      res.status(500).send({
-        message: "알 수 없는 문제가 발생했습니다. 잠시 후 다시 시도해주세요.",
-      });
+      })(req, res);
+    } catch (error) {
+      console.error(error);
+      next(error);
     }
   },
 };
