@@ -15,7 +15,7 @@ const passportConfig = require("./passport");
 // const swaggerFile = require("./swagger-output");
 
 // 테스트용
-const { uploadContents } = require("./middlewares/upload");
+const { uploadContents, uploadTemp } = require("./middlewares/upload");
 
 sequelize
   .sync({ force: false })
