@@ -34,6 +34,7 @@ module.exports = {
     const imageList = extractImageSrc(contentsEditor);
     // DB 저장 시에도 imageUrl을 사용하기 위해 let 선언
     let imageUrl = "";
+    console.log(imageList);
     //image 리스트에 대해서 for 문을 돌려서 temp 폴더 확인
     imageList.forEach(async (url) => {
       const isExist = fsSync.existsSync(url);
@@ -54,23 +55,23 @@ module.exports = {
     // const innerHtml = contentsEditor.replaceAll("temp", "content");
     const date = new Date();
     const post = {
-      userId: 312412,
+      userId: 1,
       imageCover: path,
       title,
       categoryInterest,
       categorySpace,
       categoryStudyMate,
-      innerHtml,
+      contentEditor: innerHtml,
       date,
     };
-    // try {
-    //   await Post.create(post);
-    //   return res.status(200).send({ message: "게시물 작성 성공!" });
-    // } catch (error) {
-    //   return res.status(500).send({ message: "DB 저장에 실패했습니다." });
-    // }
-
-    return res.status(200).send({ message: "후후후후후", post });
+    try {
+      console.log(post);
+      await Post.create(post);
+      return res.status(200).send({ message: "게시물 작성 성공!" });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send({ message: "DB 저장에 실패했습니다." });
+    }
   },
   putPosts: async (req, res) => {
     // 사용자 인증 미들웨어 사용 시
@@ -138,6 +139,18 @@ module.exports = {
     } catch (error) {
       console.log(error);
       return res.status(400).send({ message: "포스팅 삭제 실패" });
+    }
+  },
+  getOnePost: async (req, res) => {
+    const { postId } = req.params;
+
+    try {
+      const post = await Post.findByPk(postId);
+
+      return res.status(200).send({ post });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send({ message: "DB 조회에 실패했습니다." });
     }
   },
 };
