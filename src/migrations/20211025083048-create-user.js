@@ -6,30 +6,39 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        type: DataTypes.INTEGER,
         unique: true,
       },
       email: {
-        allowNull: false,
-        type: Sequelize.STRING(50),
+        type: DataTypes.STRING(40),
+        allowNull: true,
         unique: true,
       },
       nickname: {
+        type: DataTypes.STRING(20),
         allowNull: false,
-        type: Sequelize.STRING(20),
         unique: true,
       },
       password: {
-        allowNull: false,
-        type: Sequelize.STRING,
+        allowNull: true,
+        type: DataTypes.STRING,
       },
       avatarUrl: {
         allowNull: true,
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
+      },
+      provider: {
+        type: DataTypes.STRING(20),
+        allowNull: false,
+        defaultValue: "local",
+      },
+      snsId: {
+        type: DataTypes.STRING(30),
+        allowNull: true,
       },
       date: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: DataTypes.DATE,
       },
     });
   },

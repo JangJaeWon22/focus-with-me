@@ -7,7 +7,7 @@ const { userUpdate } = require("../controllers/users-ctrl/userUpdate");
 const authMW = require("../middlewares/auth");
 const { uploadAvatar } = require("../middlewares/upload");
 const { verifyJoi } = require("../middlewares/verifyJoi");
-
+const passport = require("passport");
 
 //회원가입
 router.post("/users/signup", verifyJoi.singUpUser, userProcess.createUser);
@@ -19,6 +19,17 @@ router.delete("/users/withdrawal", authMW, userProcess.deleteUser);
 router.post("/users/emailexist", userExist.existEmail);
 //중복확인 - nickname
 router.post("/users/nicknameexist", userExist.existNickname);
+
+router.get("/kakao", passport.authenticate("kakao"));
+router.get(
+  "/kakao/callback",
+  passport.authenticate("kakao", {
+    failureRedirect: "/",
+  }),
+  (req, res) => {
+    res.status(201).send({ message: "로그인에 성공하셨습니다." });
+  }
+);
 
 router.put(
   "/users/edit",
