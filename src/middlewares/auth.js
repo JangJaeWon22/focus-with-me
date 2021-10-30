@@ -14,7 +14,7 @@ const authMiddleware = (req, res, next) => {
 
   try {
     const { userId } = Jwt.verify(tokenValue, process.env.TOKEN_KEY);
-    User.findOne({ where: { id: userId } }).then((user) => {
+    User.findOne({ where: { userId: userId } }).then((user) => {
       res.locals.user = user;
       next();
     });
