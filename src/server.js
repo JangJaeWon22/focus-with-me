@@ -10,13 +10,21 @@ require("dotenv").config();
 const passport = require("passport");
 const passportConfig = require("./passport");
 
+//swagger
+const swaggerUi = require("swagger-ui-express");
+const swaggerFile = require("./swagger-output");
+
 // 테스트용
 const { uploadContents } = require("./middlewares/upload");
 
 sequelize
   .sync({ force: false })
   .then(() => {
-    console.log("db 연결 성공");
+    console.log(` 🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬
+                  🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬
+                  🐳🐳 돌고래 db 연결 🐧🐧
+                  🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬
+                  🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬`);
   })
   .catch((err) => {
     console.error(err);
@@ -27,6 +35,9 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use("/public", express.static("public"));
+
+//swagger
+app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 //passport
 app.use(passport.initialize());

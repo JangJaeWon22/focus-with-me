@@ -25,7 +25,9 @@
     "passport-kakao": "^1.0.1",
     "passport-local": "^1.0.0",
     "path": "^0.12.7",
-    "sequelize": "^6.8.0"
+    "sequelize": "^6.8.0",
+    "swagger-autogen": "^2.12.4",
+    "swagger-ui-express": "^4.1.6"
   },
   "main": "app.js",
   "author": "",
