@@ -59,7 +59,7 @@ app.use("/api/test", uploadContents.single("image"), async (req, res) => {
   return res.status(200).send({ path });
 });
 
-app.use("/api/ckUpload", uploadContents.single("image"), async (req, res) => {
+app.use("/api/ckUpload", uploadTemp.single("temp"), async (req, res) => {
   const { path } = req.file;
 
   return res.status(200).send({ path });

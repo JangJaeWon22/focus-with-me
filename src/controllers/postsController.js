@@ -44,9 +44,14 @@ module.exports = {
         await fs.rename(url, imageUrl);
       }
     });
-    const innerHtml = encodeURIComponent(
-      contentsEditor.replaceAll("temp", "content")
-    );
+    console.log(imageList);
+    console.log(contentsEditor);
+    // 모든 temp 경로를 content로 바꾸기
+    // const innerHtml = encodeURIComponent(
+    // contentsEditor.replaceAll("temp", "content")
+    // );
+    const innerHtml = contentsEditor.replace(/temp/g, "content");
+    // const innerHtml = contentsEditor.replaceAll("temp", "content");
     const date = new Date();
     const post = {
       userId: 312412,
