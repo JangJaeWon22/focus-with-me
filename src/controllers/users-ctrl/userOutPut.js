@@ -23,7 +23,10 @@ const userOutPut = {
             return;
           }
           //회원정보 암호화
-          const token = Jwt.sign({ email: user.email }, process.env.TOKEN_KEY);
+          const token = Jwt.sign(
+            { userId: user.userId },
+            process.env.TOKEN_KEY
+          );
           res.status(201).send({ token, message: "로그인에 성공하셨습니다." });
         });
       })(req, res);
@@ -32,6 +35,20 @@ const userOutPut = {
       next(error);
     }
   },
+  kakaoCallback: async (req, res) => {
+    try {
+      console.log("넘어와찌롱");
+      const user = req.user;
+      const token = Jwt.sign({ userId: user.userId }, process.env.TOKEN_KEY);
+      res.status(200).send({
+        message: "로그인에 성공하였습니다.",
+        token: token,
+      });
+    } catch (error) {
+      res.status(500).send({
+        message: "알 수 없는 문제가 발생했습니다. 잠시 후 다시 시도해주세요.",
+      });
+    }
+  },
 };
-
 module.exports = { userOutPut };
