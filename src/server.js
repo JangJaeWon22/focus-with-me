@@ -51,15 +51,16 @@ app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 //passport
 passportConfig();
-app.use(
-  session({
-    resave: false,
-    saveUninitialized: false,
-    secret: "secret",
-  })
-);
+// app.use(
+//   session({
+//     resave: false,
+//     saveUninitialized: false, //초기화되지 않은채 스토어에 저장되는 세션
+//     secret: "secret",
+//   })
+// );
 app.use(passport.initialize());
-app.use(passport.session()); // passport index 실행
+// app.use(passport.session());
+// passport index 실행
 
 //routing
 app.use("/api", cmtRouter);

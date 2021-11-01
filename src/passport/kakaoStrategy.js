@@ -3,6 +3,7 @@ const KakaoStrategy = require("passport-kakao").Strategy;
 const { User } = require("../models");
 
 module.exports = () => {
+  console.log("hihihii");
   passport.use(
     "kakao",
     new KakaoStrategy(
@@ -12,7 +13,9 @@ module.exports = () => {
         callbackURL: "/api/kakao/callback",
       },
       async (accessToken, refreshToken, profile, done) => {
-        console.log(profile);
+        console.log("accessToken:", accessToken);
+        console.log("refreshToken:", refreshToken);
+        console.log("profile", profile);
         const email = profile["_json"].kakao_account.email;
         const nickname = profile.displayName;
         const provider = "kakao";

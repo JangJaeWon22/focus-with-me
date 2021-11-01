@@ -39,12 +39,15 @@ const userOutPut = {
     try {
       console.log("넘어와찌롱");
       const user = req.user;
+      console.log(user);
       const token = Jwt.sign({ userId: user.userId }, process.env.TOKEN_KEY);
-      res.status(200).send({
-        message: "로그인에 성공하였습니다.",
-        token: token,
-      });
+      res.redirect("http://www.naver.com");
+      // res.status(200).send({
+      //   message: "로그인에 성공하였습니다.",
+      //   token: token,
+      // });
     } catch (error) {
+      console.log(error);
       res.status(500).send({
         message: "알 수 없는 문제가 발생했습니다. 잠시 후 다시 시도해주세요.",
       });

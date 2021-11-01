@@ -22,7 +22,17 @@ router.post("/users/nicknameexist", userExist.existNickname);
 
 router.get("/user/kakaoIogin", userOutPut.kakaoCallback);
 
+// router.get("/auth/kakao/callback", passport.authenticate("kakao"));
+
 router.get("/kakao", passport.authenticate("kakao"));
+
+router.get("/kakao/abcd", async (req, res) => {
+  console.log("이름은 " + req.query.code + " 입니다");
+  const { code } = req.query;
+  console.log(req);
+  console.log("code : ", code);
+});
+
 router.get(
   "/kakao/callback",
   passport.authenticate("kakao"),
