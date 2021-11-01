@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(db) {
       Comment.belongsTo(db.User, {
         foreignKey: "userId",
-        targetKey: "id",
+        targetKey: "userId",
       });
       Comment.belongsTo(db.Post, {
         foreignKey: "postId",
@@ -20,11 +20,33 @@ module.exports = (sequelize, DataTypes) => {
   }
   Comment.init(
     {
-      userId: DataTypes.INTEGER,
-      postId: DataTypes.INTEGER,
-      textContent: DataTypes.STRING,
-      avatarUrl: DataTypes.STRING,
-      date: DataTypes.DATE,
+      commentId: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER,
+        unique: true,
+      },
+      userId: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+      },
+      postId: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+      },
+      textContent: {
+        allowNull: false,
+        type: DataTypes.STRING,
+      },
+      avatarUrl: {
+        allowNull: true,
+        type: DataTypes.STRING,
+      },
+      date: {
+        allowNull: false,
+        type: DataTypes.DATE,
+      },
     },
     {
       sequelize,

@@ -10,23 +10,29 @@ const { sequelize } = require("./models");
 require("dotenv").config();
 const passport = require("passport");
 const passportConfig = require("./passport");
+const session = require("express-session");
 
 //swagger
-// const swaggerUi = require("swagger-ui-express");
-// const swaggerFile = require("./swagger-output");
+const swaggerUi = require("swagger-ui-express");
+const swaggerFile = require("./swagger-output");
 
 // 테스트용
-const { uploadContents } = require("./middlewares/upload");
+const { uploadContents, uploadTemp } = require("./middlewares/upload");
 
 sequelize
   .sync({ force: false })
   .then(() => {
     console.log(
-      ` 🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬
-        🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬
-         🐳🐳 돌고래 db 연결 🐧🐧
-        🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬
-        🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬
+      `
+      🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬
+      🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬
+      🐬🐬 돌고래 db 연결 🐬🐬
+      🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬
+      🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬
+      🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙
+      🐙🐙🐙 나는 무너! 🐙🐙🐙
+      🐙🐙 꿈을 꾸는 무너 🐙🐙
+      🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙
       `
     );
   })
@@ -41,11 +47,19 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/public", express.static("public"));
 
 //swagger
-// app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerFile));
+app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 //passport
-app.use(passport.initialize());
 passportConfig();
+app.use(
+  session({
+    resave: false,
+    saveUninitialized: false,
+    secret: "secret",
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session()); // passport index 실행
 
 //routing
 app.use("/api", cmtRouter);
@@ -53,11 +67,8 @@ app.use("/api", userRouter);
 app.use("/api", postsRouter);
 app.use("/api", likeRouter);
 
-//테스트 router
-app.use("/api/test", uploadContents.single("image"), async (req, res) => {
+app.use("/api/ckUpload", uploadTemp.single("temp"), async (req, res) => {
   const { path } = req.file;
-
-  console.log(path);
   return res.status(200).send({ path });
 });
 

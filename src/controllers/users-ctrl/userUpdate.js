@@ -18,7 +18,7 @@ const userUpdate = {
       let file = req.file;
       const { nicknameNew, passwordOld, passwordNew } = res.verifyBody;
       console.log(res.verifyBody);
-      const existUser = await User.findOne({ where: { id: user.id } });
+      const existUser = await User.findOne({ where: { userId: user.userId } });
       //변경할 file이 있을 때 (+계정에 프로필 사진이 등록이 되어 있을 때를 해야될지 고민)
       if (file) {
         await removeImage(existUser.avatarUrl);
@@ -38,7 +38,7 @@ const userUpdate = {
               password: encryptPassword,
               avatarUrl: file.path,
             },
-            { where: { id: user.id } }
+            { where: { userId: user.userId } }
           );
           res.status(201).send({ message: "회원정보 수정이 완료되었습니다." });
         } else {

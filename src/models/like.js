@@ -14,15 +14,31 @@ module.exports = (sequelize, DataTypes) => {
       });
       Like.belongsTo(db.User, {
         foreignKey: "userId",
-        targetKey: "id",
+        targetKey: "userId",
       });
     }
   }
   Like.init(
     {
-      postId: DataTypes.INTEGER,
-      userId: DataTypes.INTEGER,
-      date: DataTypes.DATE,
+      likeId: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER,
+        unique: true,
+      },
+      postId: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+      },
+      userId: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+      },
+      date: {
+        allowNull: false,
+        type: DataTypes.DATE,
+      },
     },
     {
       sequelize,

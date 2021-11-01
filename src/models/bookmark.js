@@ -14,15 +14,31 @@ module.exports = (sequelize, DataTypes) => {
       });
       Bookmark.belongsTo(db.User, {
         foreignKey: "userId",
-        targetKey: "id",
+        targetKey: "userId",
       });
     }
   }
   Bookmark.init(
     {
-      postiId: DataTypes.INTEGER,
-      userId: DataTypes.INTEGER,
-      date: DataTypes.DATE,
+      bookmarkId: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER,
+        unique: true,
+      },
+      postiId: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+      },
+      userId: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+      },
+      date: {
+        allowNull: false,
+        type: DataTypes.DATE,
+      },
     },
     {
       sequelize,

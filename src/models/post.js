@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(db) {
       Post.belongsTo(db.User, {
         foreignKey: "userId",
-        targetKey: "id",
+        targetKey: "userId",
       });
       Post.hasMany(db.Like, {
         foreignKey: "postId",
@@ -29,19 +29,39 @@ module.exports = (sequelize, DataTypes) => {
   Post.init(
     {
       postId: {
+        allowNull: false,
+        autoIncrement: true,
         primaryKey: true,
         type: DataTypes.INTEGER,
+        unique: true,
       },
-      imageCover: DataTypes.STRING,
-      title: DataTypes.STRING,
-      categorySpace: DataTypes.STRING,
-      categoryStudyMate: DataTypes.STRING,
-      categoryInterest: DataTypes.STRING,
-      imageContent: DataTypes.STRING,
-      textContent: DataTypes.TEXT,
-      youtubeUrl: DataTypes.STRING,
-      userId: DataTypes.INTEGER,
-      date: DataTypes.DATE,
+      imageCover: {
+        type: DataTypes.STRING,
+      },
+      title: {
+        allowNull: false,
+        type: DataTypes.STRING,
+      },
+      categorySpace: {
+        type: DataTypes.STRING,
+      },
+      categoryStudyMate: {
+        type: DataTypes.STRING,
+      },
+      categoryInterest: {
+        type: DataTypes.STRING,
+      },
+      contentEditor: {
+        type: DataTypes.TEXT,
+      },
+      userId: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+      },
+      date: {
+        allowNull: false,
+        type: DataTypes.DATE,
+      },
     },
     {
       sequelize,

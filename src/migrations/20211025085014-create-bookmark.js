@@ -2,7 +2,7 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable("Bookmarks", {
-      id: {
+      bookmarkId: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,

@@ -49,7 +49,7 @@ const postList = {
       });
       //console.log("isNotLiked", isNotLiked);
       if (isNotLiked) {
-        await Like.destroy({ where : {postId, userId}}); // 값 입력해주기
+        await Like.destroy({ where : {postId, userId}}); 
         return res.status(200).send({
           isNotLiked,
           message: "게시물에 좋아요 취소를 눌렀습니다. ",
@@ -58,7 +58,7 @@ const postList = {
         return res.status(400).send({ message: "좋아요 취소 한번만 가능한 기능입니다." });
       }
     } catch (err) {
-      console.log(err); //catch error 문 이렇게 찍어야한다. 
+      console.log(err); //catch error 문 이렇게 확인
       return res.status(400).send({
         message: "좋아요 취소 구현에 문제가 있습니다. 관리자에게 문의해주세요. ",
       });

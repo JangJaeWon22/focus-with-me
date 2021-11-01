@@ -25,14 +25,8 @@ module.exports = {
       categoryInterest: {
         type: Sequelize.STRING,
       },
-      imageContent: {
-        type: Sequelize.STRING,
-      },
-      textContent: {
+      contentEditor: {
         type: Sequelize.TEXT,
-      },
-      youtubeUrl: {
-        type: Sequelize.STRING,
       },
       userId: {
         allowNull: false,

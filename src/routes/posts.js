@@ -1,6 +1,7 @@
 const express = require("express");
 const postsRouter = express.Router();
 const {
+  getOnePost,
   getPosts,
   postPosts,
   putPosts,
@@ -13,10 +14,11 @@ const { filter, main } = require("../middlewares/filter");
 postsRouter
   .route("/posts")
   .get(main, filter, getPosts)
-  .post(uploadCover.single("cover"), postPosts);
+  .post(uploadCover.single("imageCover"), postPosts);
 postsRouter
   .route("/posts/:postId")
   .put(uploadCover.single("cover"), putPosts)
-  .delete(deletePosts);
+  .delete(deletePosts)
+  .get(getOnePost);
 
 module.exports = postsRouter;
