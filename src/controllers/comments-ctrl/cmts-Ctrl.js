@@ -1,5 +1,4 @@
 const { Comment } = require("../../models");
-//const { Op } = require("sequelize");
 
 
 const commentList = {

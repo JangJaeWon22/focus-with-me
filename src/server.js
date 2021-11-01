@@ -5,6 +5,7 @@ const cmtRouter = require("./routes/comments");
 const postsRouter = require("./routes/posts");
 const cors = require("cors");
 const userRouter = require("./routes/users");
+const likeRouter = require("./routes/postlike");
 const { sequelize } = require("./models");
 require("dotenv").config();
 const passport = require("passport");
@@ -23,7 +24,7 @@ sequelize
     console.log(
       ` 🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬
         🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬
-        🐳🐳 돌고래 db 연결 🐧🐧
+         🐳🐳 돌고래 db 연결 🐧🐧
         🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬
         🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬
       `
@@ -50,6 +51,7 @@ passportConfig();
 app.use("/api", cmtRouter);
 app.use("/api", userRouter);
 app.use("/api", postsRouter);
+app.use("/api", likeRouter);
 
 //테스트 router
 app.use("/api/test", uploadContents.single("image"), async (req, res) => {
