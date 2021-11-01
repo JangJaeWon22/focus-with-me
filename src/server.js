@@ -64,18 +64,8 @@ app.use(passport.session()); // passport index 실행
 app.use("/api", cmtRouter);
 app.use("/api", userRouter);
 app.use("/api", postsRouter);
-
-//테스트 router
-app.use("/api/test", uploadContents.single("image"), async (req, res) => {
-  const { path } = req.file;
-
-  console.log(path);
-  return res.status(200).send({ path });
-});
-
 app.use("/api/ckUpload", uploadTemp.single("temp"), async (req, res) => {
   const { path } = req.file;
-
   return res.status(200).send({ path });
 });
 

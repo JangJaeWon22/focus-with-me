@@ -1,6 +1,7 @@
 const express = require("express");
 const postsRouter = express.Router();
 const {
+  getOnePost,
   getPosts,
   postPosts,
   putPosts,
@@ -17,6 +18,7 @@ postsRouter
 postsRouter
   .route("/posts/:postId")
   .put(uploadCover.single("cover"), putPosts)
-  .delete(deletePosts);
+  .delete(deletePosts)
+  .get(getOnePost);
 
 module.exports = postsRouter;

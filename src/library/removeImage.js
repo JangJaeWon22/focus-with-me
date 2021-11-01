@@ -22,8 +22,14 @@ const extractImageSrc = (html) => {
     return imageList;
   } catch (error) {
     console.log(error);
-    return "추출 실패";
+    return [];
   }
 };
 
-module.exports = { removeImage, extractImageSrc };
+const emptyTemp = async () => {
+  const baseUrl = `${process.cwd()}/public/uploads/temp`;
+  await fs.rmdir(baseUrl, { recursive: true });
+  await fs.mkdir(baseUrl);
+};
+
+module.exports = { removeImage, extractImageSrc, emptyTemp };

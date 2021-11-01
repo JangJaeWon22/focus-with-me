@@ -1,5 +1,8 @@
 const app = require("./server");
 const dotenv = require("dotenv");
+const schedule = require("node-schedule");
+const { emptyTemp } = require("./library/removeImage");
+
 dotenv.config();
 const port = process.env.EXPRESS_PORT;
 
@@ -11,7 +14,12 @@ app.get("/", (req, res) => {
   const title = "YJ's playground";
   res.render("index", { title });
 });
-//test용 끝
+
+// 매일 0시 0분 0초에 temp 폴더 비우기
+const job = schedule.scheduleJob("0 15 0 * * *", () => {
+  emptyTemp();
+  console.log("temp 폴더 삭제 후 다시 생성");
+});
 
 app.listen(port, () => {
   console.log(`${port} 포트에서 서버가 가동되었습니다.`);

@@ -2,6 +2,8 @@
 *.DS_Store
 *.env
 */uploads
+src/public/uploads/
+test.js
 # Logs
 logs
 *.log
