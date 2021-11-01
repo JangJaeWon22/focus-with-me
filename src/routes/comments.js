@@ -1,11 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
-//add middleware function
 //add controller function 
 const cmtCtrl = require("../controllers/comments-ctrl/cmts-Ctrl");
-//add function for replyCtrl
-
 
 /* comments listing. */
 //댓글 생성

@@ -5,6 +5,7 @@ const cmtRouter = require("./routes/comments");
 const postsRouter = require("./routes/posts");
 const cors = require("cors");
 const userRouter = require("./routes/users");
+const likeRouter = require("./routes/postlike");
 const { sequelize } = require("./models");
 require("dotenv").config();
 const passport = require("passport");
@@ -64,6 +65,8 @@ app.use(passport.session()); // passport index 실행
 app.use("/api", cmtRouter);
 app.use("/api", userRouter);
 app.use("/api", postsRouter);
+app.use("/api", likeRouter);
+
 app.use("/api/ckUpload", uploadTemp.single("temp"), async (req, res) => {
   const { path } = req.file;
   return res.status(200).send({ path });
