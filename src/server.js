@@ -12,8 +12,8 @@ const passportConfig = require("./passport");
 const session = require("express-session");
 
 //swagger
-// const swaggerUi = require("swagger-ui-express");
-// const swaggerFile = require("./swagger-output");
+const swaggerUi = require("swagger-ui-express");
+const swaggerFile = require("./swagger-output");
 
 // 테스트용
 const { uploadContents, uploadTemp } = require("./middlewares/upload");
@@ -46,7 +46,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/public", express.static("public"));
 
 //swagger
-// app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerFile));
+app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 //passport
 passportConfig();

@@ -2,15 +2,21 @@ const swaggerAutogen = require("swagger-autogen")();
 
 const doc = {
   info: {
-    title: "My API",
+    title: "API",
     description: "Description",
   },
-  host: "localhost:3000",
+  host: "localhost:8080",
   schemes: ["http"],
 };
 
-const outputFile = "./path/swagger-output.json";
-const endpointsFiles = ["./app.js"];
+const outputFile = "./swagger-output.json";
+const endpointsFiles = [
+  "./app.js",
+  "./routes/users.js",
+  "./routes/posts.js",
+  "./routes/postlike.js",
+  "./routes/comments.js",
+];
 
 /* NOTE: if you use the express Router, you must pass in the 
    'endpointsFiles' only the root file where the route starts,
