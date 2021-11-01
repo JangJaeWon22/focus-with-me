@@ -22,7 +22,7 @@ const extractImageSrc = (html) => {
     return imageList;
   } catch (error) {
     console.log(error);
-    return "추출 실패";
+    return [];
   }
 };
 
