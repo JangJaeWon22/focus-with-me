@@ -24,6 +24,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "userId",
         sourceKey: "userId",
       });
+      db.User.hasMany(db.CommentLike, {
+        foreignKey: "userId",
+        sourceKey: "userId",
+      });
       db.User.belongsToMany(db.User, {
         foreignKey: "followingId",
         as: "Followers",
