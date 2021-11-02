@@ -1,15 +1,5 @@
-const { Op, Sequelize } = require("sequelize");
-const { Post, User, Like, sequelize } = require("../models");
-// const { Sequelize, QueryTypes } = require("sequelize");
-// const sequelize = new Sequelize("focus", "root", process.env.DB_PASSWORD, {
-//   host: "localhost",
-//   dialect: "mysql" /* one of 'mysql' | 'mariadb' | 'postgres' | 'mssql' */,
-//   pool: {
-//     max: 5,
-//     min: 0,
-//     idle: 10000,
-//   },
-// });
+const { Op, sequelize, Sequelize } = require("../models");
+const { Post, User, Like } = require("../models");
 const filter = (req, res, next) => {
   const { searchMode } = req.query;
   searchMode === "main"
@@ -45,14 +35,16 @@ const main = (req, res, next) => {
     : (async () => {
         // 여기서 해야 할 일
         // 전체 게시물을 좋아요와 join 뒤에 좋아요 순으로 정렬, limit 10개만
-        const sqlQuery = `
+        const postQuery = `
         SELECT Posts.*, COUNT(Likes.postId) AS cnt
         FROM Posts
         JOIN Likes On Posts.postId = Likes.postId
         GROUP BY Posts.postId
-        ORDER BY cnt ASC;`;
+        ORDER BY cnt DESC;`;
 
-        const posts = await sequelize.query(sqlQuery);
+        const posts = await sequelize.query(postQuery, {
+          type: Sequelize.QueryTypes.SELECT,
+        });
         // const posts = await Post.findAll({
         //   attributes: {
         //     include: [[Sequelize.fn("COUNT", "Likes.postId"), "cnt"]],
