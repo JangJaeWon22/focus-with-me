@@ -54,15 +54,16 @@ const main = (req, res, next) => {
 
         const posts = await Post.findAll({
           attributes: {
-            include: [[Sequelize.fn("COUNT", "Like.postId"), "cnt"]],
+            include: [[Sequelize.fn("COUNT", "Likes.postId"), "cnt"]],
           },
           include: [
             {
               model: Like,
               attributes: [],
+              right: true,
             },
           ],
-          group: ["postId"],
+          group: ["Post.postId"],
         });
         console.log(posts);
         console.log("여기는 메인 미들웨어");
