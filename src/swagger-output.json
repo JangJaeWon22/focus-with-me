@@ -6,11 +6,19 @@
     "version": "1.0.0"
   },
   "host": "localhost:8080",
-  "basePath": "/",
+  "basePath": "/api",
   "tags": [],
   "schemes": [
     "http"
   ],
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization",
+      "description": "token"
+    }
+  },
   "consumes": [],
   "produces": [],
   "paths": {
@@ -65,21 +73,39 @@
             }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Bad Request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "클라이언트 서버에러"
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "내부서버에러"
+                }
+              }
+            }
           }
         }
       }
     },
     "/users/login": {
-      "post": {
-        "tags": [
+      "post" : {
+        "tags" : [
           "users"
         ],
-        "description": "local로그인",
-        "parameters": [
+        "description" : "로그인 기능",
+        "parameters" : [
           {
             "name": "obj",
             "in": "body",
@@ -93,305 +119,543 @@
                   "example": "password001"
                 }
               }
-            }
+            }  
           }
         ],
         "responses": {
           "201": {
             "description": "Created",
-            "message": "success"
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "성공이다 이자슥아"
+                }
+              }
+            }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Bad Request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "클라이언트 서버에러"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "내부서버에러"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/users/withdrawal": {
-      "delete": {
-        "tags": [
+    "/users/withdrawal" : {
+      "delete" : {
+        "tags" : [
           "users"
         ],
         "description": "회원탈퇴",
-        "parameters": [],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/users/emailexist": {
-      "post": {
-        "tags": [],
-        "description": "",
-        "parameters": [
-          {
-            "name": "obj",
-            "in": "body",
+          "201": {
+            "description": "Created",
             "schema": {
               "type": "object",
               "properties": {
-                "email": {
-                  "example": "any"
+                "message": {
+                  "type": "string",
+                  "example": "성공이다 이자슥아"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "클라이언트 서버에러"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "내부서버에러"
                 }
               }
             }
           }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
         }
       }
     },
-    "/users/nicknameexist": {
-      "post": {
-        "tags": [],
-        "description": "",
-        "parameters": [
+    "users/edit" : {
+      "put" : {
+        "tags" : [
+          "users"
+        ],
+        "description": "회원정보 수정",
+        "parameters" : [
           {
             "name": "obj",
             "in": "body",
             "schema": {
               "type": "object",
               "properties": {
-                "nickname": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/user/kakaoIogin": {
-      "get": {
-        "tags": [],
-        "description": "",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/kakao": {
-      "get": {
-        "tags": [],
-        "description": "",
-        "parameters": [],
-        "responses": {}
-      }
-    },
-    "/kakao/callback": {
-      "get": {
-        "tags": [],
-        "description": "",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/users/edit": {
-      "put": {
-        "tags": [],
-        "description": "",
-        "parameters": [
-          {
-            "name": "obj",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "nicknameNew": {
-                  "example": "any"
+                "avatarUrl" : {
+                  "type": "File",
+                  "example": "txt.file"
                 },
                 "passwordOld": {
-                  "example": "any"
+                  "example": "password001"
                 },
                 "passwordNew": {
-                  "example": "any"
+                  "example": "password001"
                 },
                 "confirmPasswordNew": {
-                  "example": "any"
+                  "example": "password001"
+                },
+                "nicknameNew" : {
+                  "example": "user2"
                 }
               }
-            }
+            }  
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "201": {
-            "description": "Created"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/posts": {
-      "get": {
-        "tags": [],
-        "description": "",
-        "parameters": [
-          {
-            "name": "searchMode",
-            "in": "query",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "post": {
-        "tags": [],
-        "description": "",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/posts/{postId}": {
-      "put": {
-        "tags": [],
-        "description": "",
-        "parameters": [
-          {
-            "name": "postId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "obj",
-            "in": "body",
+            "description": "Created",
             "schema": {
               "type": "object",
               "properties": {
-                "title": {
-                  "example": "any"
-                },
-                "categorySpace": {
-                  "example": "any"
-                },
-                "categoryInterest": {
-                  "example": "any"
-                },
-                "categoryStudyMate": {
-                  "example": "any"
-                },
-                "textContent": {
-                  "example": "any"
-                },
-                "youtubeUrl": {
-                  "example": "any"
+                "message": {
+                  "type": "string",
+                  "example": "성공이다 이자슥아"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "클라이언트 서버에러"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "내부서버에러"
                 }
               }
             }
           }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          },
-          "505": {
-            "description": "HTTP Version Not Supported"
-          }
         }
-      },
-      "delete": {
-        "tags": [],
-        "description": "",
-        "parameters": [
-          {
-            "name": "postId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
+      }
+    },
+    "/users/isme" : {
+      "get" : {
+        "tags" : [
+          "users"
         ],
-        "responses": {
-          "200": {
-            "description": "OK"
+        "description": "사용자 인증",
+        "responses" : {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "성공이다 이자슥아"
+                }
+              }
+            }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Bad Request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "클라이언트 서버에러"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "내부서버에러"
+                }
+              }
+            }
+          }  
+        },
+        "/users/emailexist" : {
+          "post": {
+            "tags": [
+              "users"
+            ],
+            "description" : "이메일 중복 존재여부",
+            "parameters" : [
+              {
+                "name" : "obj",
+                "in" : "body",
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "email" : {
+                      "example": "abc@email.com"
+                    }
+                  }
+                }
+              }
+            ],
+            "responses" : {
+              "201": {
+                "description": "Created",
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "성공이다 이자슥아"
+                    }
+                  }
+                }
+              },
+              "400": {
+                "description": "Bad Request",
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "클라이언트 서버에러"
+                    }
+                  }
+                }
+              },
+              "500": {
+                "description": "Internal Server Error",
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "내부서버에러"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/users/nicknameexist": {
+          "post" : {
+            "tags": [
+              "users"
+            ],
+            "description" : "닉네임 중복 존재여부",
+            "parameters" : [
+              {
+                "name" : "obj",
+                "in" : "body",
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "nickname" : {
+                      "example": "user1"
+                    }
+                  }
+                }
+              }
+            ],
+            "responses" : {
+              "201": {
+                "description": "Created",
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "성공이다 이자슥아"
+                    }
+                  }
+                }
+              },
+              "400": {
+                "description": "Bad Request",
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "클라이언트 서버에러"
+                    }
+                  }
+                }
+              },
+              "500": {
+                "description": "Internal Server Error",
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "내부서버에러"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/posts": {
+          "post":{
+            "tags": [
+              "post"    
+            ],
+            "description" : "작성페이지 포스팅 작성",
+            "parameters": [
+              {
+                "name" : "obj",
+                "in": "body",
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "imageCover" : {
+                      "type" : "image",
+                      "example" : "jpg"
+                    },
+                    "title" : {
+                      "type" : "string",
+                      "example" : "abc"
+                    },
+                    "categorySpace" : {
+                      "type": "string",
+                      "example" : "text1"
+                    },
+                    "categoryStudyMate": {
+                      "type": "boolean",
+                      "example": "true"
+                    },
+                    "categoryInterest" : {
+                      "type": "string",
+                      "example":"text2"
+                    },
+                    "contentsEditor": {
+                      "type": "string",
+                      "example": "text3"
+                    },
+                    "imgList": {
+                      "type":"array",
+                      "example":"[image1]"
+                    }
+                  }
+                }
+              }
+            ],
+            "responses" : {
+              "201": {
+                "description": "Created",
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "성공이다 이자슥아"
+                    }
+                  }
+                }
+              },
+              "400": {
+                "description": "Bad Request",
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "클라이언트 서버에러"
+                    }
+                  }
+                }
+              },
+              "500": {
+                "description": "Internal Server Error",
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "내부서버에러"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/posts/{postId}" : {
+          "get": {
+            "tags": [
+              "posts"
+            ],
+            "description":"상세페이지 조회",
+            "responses" : {
+              "201": {
+                "description": "Created",
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "성공이다 이자슥아"
+                    }
+                  }
+                }
+              },
+              "post" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties": {
+                    "success": {
+                      "imageCover" : {
+                        "type": "file",
+                        "example": "a.jpg"
+                      },
+                      "title" : {
+                        "type": "string",
+                        "example": "abc"
+                      },
+                      "categorySpace" : {
+                        "type": "string",
+                        "example": "abc"
+                      },
+                      "categoryStudyMate" : {
+                        "type": "boolean",
+                        "example": "true"
+                      },
+                      "categoryInterest" : {
+                        "type": "string",
+                        "example": "abcd"
+                      },
+                      "imageContent" : {
+                        "type": "file",
+                        "example": "abc.jpg"
+                      },
+                      "textContent" : {
+                        "type": "string",
+                        "example": "abc"
+                      },
+                      "youtubeUrl" : {
+                        "type": "string",
+                        "example" : "youtu.be/..."
+                      },
+                      "bookmarkUsers" : {
+                        "type": "array",
+                        "example": "[userId, userId, ...]"
+                      },
+                      "date" : {
+                        "type": "date",
+                        "example": "2021-11-02"
+                      },
+                      "likeUsers" : {
+                        "type": "array",
+                        "example": "{[userId, userId, ....]}"
+                      },
+                      "isLiked": {
+                        "type": "boolean",
+                        "example": "{true}"
+                      },
+                      "isBookmarked": {
+                        "type": "boolean",
+                        "example": "{true}"
+                      },
+                      "userNickname": {
+                        "type": "string",
+                        "example": "anna"
+                      },
+                      "avartarUrl" : {
+                        "type": "string",
+                        "example": "xxx"
+                      }
+                    }
+                  }
+                }
+              },
+              "400": {
+                "description": "Bad Request",
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "클라이언트 서버에러"
+                    }
+                  }
+                }
+              },
+              "500": {
+                "description": "Internal Server Error",
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "내부서버에러"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
-    },
-    "/posts/{postId}/comments": {
-      "post": {
-        "tags": [],
-        "description": "",
-        "parameters": [],
-        "responses": {}
-      },
-      "get": {
-        "tags": [],
-        "description": "",
-        "parameters": [],
-        "responses": {}
-      }
-    },
-    "/posts/{postId}/comments/{commentId}": {
-      "delete": {
-        "tags": [],
-        "description": "",
-        "parameters": [],
-        "responses": {}
-      }
     }
-  },
-  "definitions": {}
+  }
 }
+
+    
+          
+                  
+                  
+       
+       
+    
+
+   
