@@ -1,11 +1,23 @@
 const { User } = require("../../models");
 const Jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
 const dotenv = require("dotenv");
 dotenv.config();
 const passport = require("passport");
 
 const userOutPut = {
+  getUser: async (req, res) => {
+    try {
+      const { user } = res.locals;
+      console.log(user.userId);
+      const userId = user.userId;
+      const getUser = await User.findByPk(userId);
+      res.status(200).send({ getUser, message: "회원 정보 조회를 했습니다." });
+    } catch (error) {
+      console.log(error);
+      res.status(400).send({ message: "회원 정보 조회에 실패 했습니다." });
+    }
+  },
+
   authUser: async (req, res) => {
     try {
       // 아까 local로 등록한 인증과정 실행
@@ -39,12 +51,14 @@ const userOutPut = {
     try {
       console.log("넘어와찌롱");
       const user = req.user;
+      console.log(user);
       const token = Jwt.sign({ userId: user.userId }, process.env.TOKEN_KEY);
       res.status(200).send({
         message: "로그인에 성공하였습니다.",
         token: token,
       });
     } catch (error) {
+      console.log(error);
       res.status(500).send({
         message: "알 수 없는 문제가 발생했습니다. 잠시 후 다시 시도해주세요.",
       });

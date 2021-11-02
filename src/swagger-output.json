@@ -22,7 +22,7 @@
         "responses": {}
       }
     },
-    "/users/signup": {
+    "/api/users/signup": {
       "post": {
         "tags": [
           "users"
@@ -53,7 +53,16 @@
         ],
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Created",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "성공이다 이자슥아"
+                }
+              }
+            }
           },
           "400": {
             "description": "Bad Request"

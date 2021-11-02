@@ -1,16 +1,17 @@
 const express = require("express");
 const logger = require("morgan");
 const app = express();
-const cmtRouter = require("./routes/comments");
-const postsRouter = require("./routes/posts");
 const cors = require("cors");
-const userRouter = require("./routes/users");
-const likeRouter = require("./routes/postlike");
 const { sequelize } = require("./models");
 require("dotenv").config();
 const passport = require("passport");
 const passportConfig = require("./passport");
 const session = require("express-session");
+const userRouter = require("./routes/users");
+const postsRouter = require("./routes/posts");
+const likeRouter = require("./routes/postlike");
+const cmtRouter = require("./routes/comments");
+const followRouter = require("./routes/follow");
 
 //swagger
 const swaggerUi = require("swagger-ui-express");
@@ -54,18 +55,20 @@ passportConfig();
 app.use(
   session({
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: false, //초기화되지 않은채 스토어에 저장되는 세션
     secret: "secret",
   })
 );
 app.use(passport.initialize());
-app.use(passport.session()); // passport index 실행
+app.use(passport.session());
+// passport index 실행
 
 //routing
 app.use("/api", cmtRouter);
 app.use("/api", userRouter);
 app.use("/api", postsRouter);
 app.use("/api", likeRouter);
+app.use("/api", followRouter);
 
 app.use("/api/ckUpload", uploadTemp.single("temp"), async (req, res) => {
   const { path } = req.file;
