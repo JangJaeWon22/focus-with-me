@@ -5,7 +5,7 @@ const postList = {
   addLike: async (req, res) => {
     try {
       const { postId } = req.params;
-      const userId = 1; //임시로 지정 //미들웨어 연결 후 변경
+      const userId = 3; //임시로 지정 //미들웨어 연결 후 변경
       const date = new Date();
 
       // isLiked는 기존에 userId에 해당하는 user가 좋아요를 한 적이 있는지 체크 하기 위해 db에서 검색

@@ -52,80 +52,19 @@ const main = (req, res, next) => {
         GROUP BY Posts.postId
         ORDER BY cnt ASC;`;
 
-        // const posts = await Post.findAll({
-        //   include: [{ model: Like }],
-        // });
-        // const posts = await Post.findAll({
-        //   include: [
-        //     {
-        //       model: Like,
-        //       attributes: [[Sequelize.fn("COUNT", "postId"), "cnt"]],
-        //     },
-        //   ],
-        //   // attributes: {
-        //   //   include: [
-        //   //     [Sequelize.fn("COUNT", Sequelize.col("Likes.postId")), "cnt"],
-        //   //   ],
-        //   // },
-        //   group: ["postId"],
-        // });
-
         const posts = await Post.findAll({
-          // attributes: {
-          //   include: [
-          //     [
-          //       Sequelize.fn("COUNT", Sequelize.col("Likes.postId")),
-          //       "sensorCount",
-          //     ],
-          //   ],
-          // },
+          attributes: {
+            include: [[Sequelize.fn("COUNT", "Like.postId"), "cnt"]],
+          },
           include: [
             {
               model: Like,
+              attributes: [],
             },
           ],
-          // group: null,
+          group: ["postId"],
         });
         console.log(posts);
-        // const posts = await Post.findAll({
-        //   where,
-        //   limit: 10,
-        //   include: [
-        //     {
-        //       model: User, // 게시글 작성자
-        //       attributes: ["id", "nickname", "profileImg"],
-        //     },
-        //     {
-        //       model: Image, // 게시글의 이미지
-        //     },
-        //     {
-        //       model: Comment, // 게시글의 댓글
-        //       include: [
-        //         {
-        //           model: User, //댓글을 쓴 사람
-        //           attributes: ["id", "nickname", "profileImg"],
-        //         },
-        //       ],
-        //     },
-        //     {
-        //       model: User, // 좋아요 누른 사람
-        //       as: "Likers",
-        //       attributes: ["id"],
-        //     },
-        //   ],
-        //   order: [
-        //     ["createdAt", "DESC"],
-        //     [Comment, "createdAt", "DESC"],
-        //   ],
-        // });
-
-        // const posts = await Post.findAll({
-        //   include: [
-        //     {
-        //       model: Like,
-        //     },
-        //   ],
-        // });
         console.log("여기는 메인 미들웨어");
         req.posts = posts;
         req.queryResult = { message: "쿼리 결과 : 메인" };
