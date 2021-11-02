@@ -22,7 +22,7 @@
         "responses": {}
       }
     },
-    "/users/signup": {
+    "/api/users/signup": {
       "post": {
         "tags": [
           "users"

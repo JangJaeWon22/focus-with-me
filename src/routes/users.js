@@ -19,17 +19,17 @@ router.delete("/users/withdrawal", authMW, userProcess.deleteUser);
 router.post("/users/emailexist", userExist.existEmail);
 //중복확인 - nickname
 router.post("/users/nicknameexist", userExist.existNickname);
-
+//회원정보조회
 router.get("/users/info", authMW, userOutPut.getUser);
-
+//카카오 로그인 기능
 router.get("/kakao", passport.authenticate("kakao"));
-
+//카카오 로그인 콜백(카카오에서 콜백 받는 동시에, 프론트와 통신)
 router.get(
   "/kakao/callback",
   passport.authenticate("kakao"),
   userOutPut.kakaoCallback
 );
-
+//회원 정보 수정
 router.put(
   "/users/edit",
   authMW,
