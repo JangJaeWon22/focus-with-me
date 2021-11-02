@@ -20,24 +20,23 @@ router.post("/users/emailexist", userExist.existEmail);
 //중복확인 - nickname
 router.post("/users/nicknameexist", userExist.existNickname);
 
-router.get("/user/kakaoIogin", userOutPut.kakaoCallback);
-
 // router.get("/auth/kakao/callback", passport.authenticate("kakao"));
 
 router.get("/kakao", passport.authenticate("kakao"));
 
-router.get("/kakao/abcd", async (req, res) => {
+router.get("/kaka/call", async (req, res) => {
   console.log("이름은 " + req.query.code + " 입니다");
-  const { code } = req.query;
+  const { codes } = req.query.code;
   console.log(req);
-  console.log("code : ", code);
+  console.log("code : ", codes);
+  res.send(req.query.code);
 });
 
-router.get(
-  "/kakao/callback",
-  passport.authenticate("kakao"),
-  userOutPut.kakaoCallback
-);
+// router.get(
+//   "/kakao/callback",
+//   passport.authenticate("kakao"),
+//   userOutPut.kakaoCallback
+// );
 
 router.put(
   "/users/edit",

@@ -41,11 +41,10 @@ const userOutPut = {
       const user = req.user;
       console.log(user);
       const token = Jwt.sign({ userId: user.userId }, process.env.TOKEN_KEY);
-      res.redirect("http://www.naver.com");
-      // res.status(200).send({
-      //   message: "로그인에 성공하였습니다.",
-      //   token: token,
-      // });
+      res.status(200).send({
+        message: "로그인에 성공하였습니다.",
+        token: token,
+      });
     } catch (error) {
       console.log(error);
       res.status(500).send({
