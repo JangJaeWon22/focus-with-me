@@ -6,11 +6,9 @@
     "version": "1.0.0"
   },
   "host": "localhost:8080",
-  "basePath": "/",
+  "basePath": "/api",
   "tags": [],
-  "schemes": [
-    "http"
-  ],
+  "schemes": ["http"],
   "consumes": [],
   "produces": [],
   "paths": {
@@ -22,11 +20,9 @@
         "responses": {}
       }
     },
-    "/api/users/signup": {
+    "/users/signup": {
       "post": {
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "description": "회원가입",
         "parameters": [
           {
@@ -75,9 +71,7 @@
     },
     "/users/login": {
       "post": {
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "description": "local로그인",
         "parameters": [
           {
@@ -109,9 +103,7 @@
     },
     "/users/withdrawal": {
       "delete": {
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "description": "회원탈퇴",
         "parameters": [],
         "responses": {
