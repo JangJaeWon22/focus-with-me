@@ -6,7 +6,7 @@
     "version": "1.0.0"
   },
   "host": "localhost:8080",
-  "basePath": "/api",
+  "basePath": "/",
   "tags": [],
   "schemes": [
     "http"
@@ -30,7 +30,7 @@
         "responses": {}
       }
     },
-    "/users/signup": {
+    "/api/users/signup": {
       "post": {
         "tags": [
           "users"
@@ -99,7 +99,7 @@
         }
       }
     },
-    "/users/login": {
+    "/api/users/login": {
       "post" : {
         "tags" : [
           "users"
@@ -162,7 +162,7 @@
         }
       }
     },
-    "/users/withdrawal" : {
+    "/api/users/withdrawal" : {
       "delete" : {
         "tags" : [
           "users"
@@ -208,7 +208,7 @@
         }
       }
     },
-    "users/edit" : {
+    "/api/users/edit" : {
       "put" : {
         "tags" : [
           "users"
@@ -281,7 +281,7 @@
         }
       }
     },
-    "/users/isme" : {
+    "/api/users/isme" : {
       "get" : {
         "tags" : [
           "users"
@@ -325,7 +325,7 @@
             }
           }  
         },
-        "/users/emailexist" : {
+        "/api/users/emailexist" : {
           "post": {
             "tags": [
               "users"
@@ -385,7 +385,7 @@
             }
           }
         },
-        "/users/nicknameexist": {
+        "/api/users/nicknameexist": {
           "post" : {
             "tags": [
               "users"
@@ -445,7 +445,7 @@
             }
           }
         },
-        "/posts": {
+        "/api/posts": {
           "post":{
             "tags": [
               "post"    
@@ -530,7 +530,7 @@
             }
           }
         },
-        "/posts/{postId}" : {
+        "/api/posts/{postId}" : {
           "get": {
             "tags": [
               "posts"
