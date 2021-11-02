@@ -6,6 +6,19 @@ dotenv.config();
 const passport = require("passport");
 
 const userOutPut = {
+  getUser: async (req, res) => {
+    try {
+      const { user } = res.locals;
+      console.log(user.userId);
+      const userId = user.userId;
+      const getUser = await User.findByPk(userId);
+      res.status(200).send({ getUser, message: "회원 정보 조회를 했습니다." });
+    } catch (error) {
+      console.log(error);
+      res.status(400).send({ message: "회원 정보 조회에 실패 했습니다." });
+    }
+  },
+
   authUser: async (req, res) => {
     try {
       // 아까 local로 등록한 인증과정 실행
