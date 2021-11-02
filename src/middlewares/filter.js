@@ -1,5 +1,5 @@
 const { Op, Sequelize } = require("sequelize");
-const { Post, User, Like } = require("../models");
+const { Post, User, Like, sequelize } = require("../models");
 // const { Sequelize, QueryTypes } = require("sequelize");
 // const sequelize = new Sequelize("focus", "root", process.env.DB_PASSWORD, {
 //   host: "localhost",
@@ -52,21 +52,21 @@ const main = (req, res, next) => {
         GROUP BY Posts.postId
         ORDER BY cnt ASC;`;
 
-        const posts = await Post.findAll({
-          attributes: {
-            include: [[Sequelize.fn("COUNT", "Likes.postId"), "cnt"]],
-          },
-          include: [
-            {
-              model: Like,
-              attributes: [],
-              right: true,
-            },
-          ],
-          group: ["Post.postId"],
-        });
+        const posts = await sequelize.query(sqlQuery);
+        // const posts = await Post.findAll({
+        //   attributes: {
+        //     include: [[Sequelize.fn("COUNT", "Likes.postId"), "cnt"]],
+        //   },
+        //   include: [
+        //     {
+        //       model: Like,
+        //       attributes: [],
+        //       right: true,
+        //     },
+        //   ],
+        //   group: ["Post.postId"],
+        // });
         console.log(posts);
-        console.log("여기는 메인 미들웨어");
         req.posts = posts;
         req.queryResult = { message: "쿼리 결과 : 메인" };
         next();
