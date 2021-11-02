@@ -6,7 +6,7 @@
     "version": "1.0.0"
   },
   "host": "localhost:8080",
-  "basePath": "/",
+  "basePath": "/api",
   "tags": [],
   "schemes": [
     "http"
@@ -22,7 +22,7 @@
         "responses": {}
       }
     },
-    "/api/users/signup": {
+    "/users/signup": {
       "post": {
         "tags": [
           "users"
