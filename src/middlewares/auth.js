@@ -3,6 +3,7 @@ const { User } = require("../models");
 const dotenv = require("dotenv");
 dotenv.config();
 
+// 로그인 판별
 const authMiddleware = (req, res, next) => {
   const { authorization } = req.headers;
   if (!authorization)
