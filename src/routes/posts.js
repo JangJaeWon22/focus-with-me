@@ -9,6 +9,7 @@ const {
 } = require("../controllers/postsController");
 const { uploadCover } = require("../middlewares/upload");
 const { filter, main } = require("../middlewares/filter");
+const authMiddleware = require("../middlewares/auth");
 
 /* GET users listing. */
 postsRouter
