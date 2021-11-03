@@ -2,35 +2,49 @@
   "swagger": "2.0",
   "info": {
     "title": "API",
-    "description": "Description",
+    "description": "ㅇㅔㅇㅣㅊㅣ ㅇㅏㅇㅣ",
     "version": "1.0.0"
   },
   "host": "localhost:8080",
   "basePath": "/api",
   "tags": [],
-  "schemes": ["http"],
+  "schemes": [
+    "http"
+  ],
+  "components": {
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "schema": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": []
+    }
+  ],
   "securityDefinitions": {
     "Bearer": {
       "type": "apiKey",
-      "in": "header",
       "name": "Authorization",
+      "in": "header",
       "description": "token"
     }
   },
-  "consumes": [],
-  "produces": [],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
   "paths": {
-    "/": {
-      "get": {
-        "tags": [],
-        "description": "",
-        "parameters": [],
-        "responses": {}
-      }
-    },
     "/users/signup": {
       "post": {
-        "tags": ["users"],
+        "tags": [
+          "users"
+        ],
         "description": "회원가입",
         "parameters": [
           {
@@ -57,47 +71,22 @@
         ],
         "responses": {
           "201": {
-            "description": "Created",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "성공이다 이자슥아"
-                }
-              }
-            }
+            "description": "Created"
           },
           "400": {
-            "description": "Bad Request",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "클라이언트 서버에러"
-                }
-              }
-            }
+            "description": "Bad Request"
           },
           "500": {
-            "description": "Internal Server Error",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "내부서버에러"
-                }
-              }
-            }
+            "description": "Internal Server Error"
           }
         }
       }
     },
     "/users/login": {
       "post": {
-        "tags": ["users"],
+        "tags": [
+          "users"
+        ],
         "description": "local로그인",
         "parameters": [
           {
@@ -119,513 +108,360 @@
         "responses": {
           "201": {
             "description": "Created",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "성공이다 이자슥아"
-                }
-              }
-            }
+            "message": "success"
           },
           "400": {
-            "description": "Bad Request",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "클라이언트 서버에러"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "내부서버에러"
-                }
-              }
-            }
-          }
-        }
-      },
-      "/users/withdrawal": {
-        "delete": {
-          "tags": ["users"],
-          "description": "회원탈퇴",
-          "responses": {
-            "201": {
-              "description": "Created",
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "message": {
-                    "type": "string",
-                    "example": "성공이다 이자슥아"
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "Bad Request",
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "message": {
-                    "type": "string",
-                    "example": "클라이언트 서버에러"
-                  }
-                }
-              }
-            },
-            "500": {
-              "description": "Internal Server Error",
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "message": {
-                    "type": "string",
-                    "example": "내부서버에러"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "/users/edit": {
-        "put": {
-          "tags": ["users"],
-          "description": "회원정보 수정",
-          "parameters": [
-            {
-              "name": "obj",
-              "in": "body",
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "avatarUrl": {
-                    "type": "File",
-                    "example": "txt.file"
-                  },
-                  "passwordOld": {
-                    "example": "password001"
-                  },
-                  "passwordNew": {
-                    "example": "password001"
-                  },
-                  "confirmPasswordNew": {
-                    "example": "password001"
-                  },
-                  "nicknameNew": {
-                    "example": "user2"
-                  }
-                }
-              }
-            }
-          ],
-          "responses": {
-            "201": {
-              "description": "Created",
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "message": {
-                    "type": "string",
-                    "example": "성공이다 이자슥아"
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "Bad Request",
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "message": {
-                    "type": "string",
-                    "example": "클라이언트 서버에러"
-                  }
-                }
-              }
-            },
-            "500": {
-              "description": "Internal Server Error",
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "message": {
-                    "type": "string",
-                    "example": "내부서버에러"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "/users/isme": {
-        "get": {
-          "tags": ["users"],
-          "description": "사용자 인증",
-          "responses": {
-            "201": {
-              "description": "Created",
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "message": {
-                    "type": "string",
-                    "example": "성공이다 이자슥아"
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "Bad Request",
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "message": {
-                    "type": "string",
-                    "example": "클라이언트 서버에러"
-                  }
-                }
-              }
-            },
-            "500": {
-              "description": "Internal Server Error",
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "message": {
-                    "type": "string",
-                    "example": "내부서버에러"
-                  }
-                }
-              }
-            }
-          },
-          "/api/users/emailexist": {
-            "post": {
-              "tags": ["users"],
-              "description": "이메일 중복 존재여부",
-              "parameters": [
-                {
-                  "name": "obj",
-                  "in": "body",
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "email": {
-                        "example": "abc@email.com"
-                      }
-                    }
-                  }
-                }
-              ],
-              "responses": {
-                "201": {
-                  "description": "Created",
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "message": {
-                        "type": "string",
-                        "example": "성공이다 이자슥아"
-                      }
-                    }
-                  }
-                },
-                "400": {
-                  "description": "Bad Request",
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "message": {
-                        "type": "string",
-                        "example": "클라이언트 서버에러"
-                      }
-                    }
-                  }
-                },
-                "500": {
-                  "description": "Internal Server Error",
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "message": {
-                        "type": "string",
-                        "example": "내부서버에러"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "/users/nicknameexist": {
-            "post": {
-              "tags": ["users"],
-              "description": "닉네임 중복 존재여부",
-              "parameters": [
-                {
-                  "name": "obj",
-                  "in": "body",
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "nickname": {
-                        "example": "user1"
-                      }
-                    }
-                  }
-                }
-              ],
-              "responses": {
-                "201": {
-                  "description": "Created",
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "message": {
-                        "type": "string",
-                        "example": "성공이다 이자슥아"
-                      }
-                    }
-                  }
-                },
-                "400": {
-                  "description": "Bad Request",
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "message": {
-                        "type": "string",
-                        "example": "클라이언트 서버에러"
-                      }
-                    }
-                  }
-                },
-                "500": {
-                  "description": "Internal Server Error",
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "message": {
-                        "type": "string",
-                        "example": "내부서버에러"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "/posts": {
-            "post": {
-              "tags": ["post"],
-              "description": "작성페이지 포스팅 작성",
-              "parameters": [
-                {
-                  "name": "obj",
-                  "in": "body",
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "imageCover": {
-                        "type": "image",
-                        "example": "jpg"
-                      },
-                      "title": {
-                        "type": "string",
-                        "example": "abc"
-                      },
-                      "categorySpace": {
-                        "type": "string",
-                        "example": "text1"
-                      },
-                      "categoryStudyMate": {
-                        "type": "boolean",
-                        "example": "true"
-                      },
-                      "categoryInterest": {
-                        "type": "string",
-                        "example": "text2"
-                      },
-                      "contentsEditor": {
-                        "type": "string",
-                        "example": "text3"
-                      },
-                      "imgList": {
-                        "type": "array",
-                        "example": "[image1]"
-                      }
-                    }
-                  }
-                }
-              ],
-              "responses": {
-                "201": {
-                  "description": "Created",
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "message": {
-                        "type": "string",
-                        "example": "성공이다 이자슥아"
-                      }
-                    }
-                  }
-                },
-                "400": {
-                  "description": "Bad Request",
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "message": {
-                        "type": "string",
-                        "example": "클라이언트 서버에러"
-                      }
-                    }
-                  }
-                },
-                "500": {
-                  "description": "Internal Server Error",
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "message": {
-                        "type": "string",
-                        "example": "내부서버에러"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "/posts/{postId}": {
-            "get": {
-              "tags": ["posts"],
-              "description": "상세페이지 조회",
-              "responses": {
-                "201": {
-                  "description": "Created",
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "message": {
-                        "type": "string",
-                        "example": "성공이다 이자슥아"
-                      }
-                    }
-                  }
-                },
-                "post": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "success": {
-                        "imageCover": {
-                          "type": "file",
-                          "example": "a.jpg"
-                        },
-                        "title": {
-                          "type": "string",
-                          "example": "abc"
-                        },
-                        "categorySpace": {
-                          "type": "string",
-                          "example": "abc"
-                        },
-                        "categoryStudyMate": {
-                          "type": "boolean",
-                          "example": "true"
-                        },
-                        "categoryInterest": {
-                          "type": "string",
-                          "example": "abcd"
-                        },
-                        "imageContent": {
-                          "type": "file",
-                          "example": "abc.jpg"
-                        },
-                        "textContent": {
-                          "type": "string",
-                          "example": "abc"
-                        },
-                        "youtubeUrl": {
-                          "type": "string",
-                          "example": "youtu.be/..."
-                        },
-                        "bookmarkUsers": {
-                          "type": "array",
-                          "example": "[userId, userId, ...]"
-                        },
-                        "date": {
-                          "type": "date",
-                          "example": "2021-11-02"
-                        },
-                        "likeUsers": {
-                          "type": "array",
-                          "example": "{[userId, userId, ....]}"
-                        },
-                        "isLiked": {
-                          "type": "boolean",
-                          "example": "{true}"
-                        },
-                        "isBookmarked": {
-                          "type": "boolean",
-                          "example": "{true}"
-                        },
-                        "userNickname": {
-                          "type": "string",
-                          "example": "anna"
-                        },
-                        "avartarUrl": {
-                          "type": "string",
-                          "example": "xxx"
-                        }
-                      }
-                    }
-                  }
-                },
-                "400": {
-                  "description": "Bad Request",
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "message": {
-                        "type": "string",
-                        "example": "클라이언트 서버에러"
-                      }
-                    }
-                  }
-                },
-                "500": {
-                  "description": "Internal Server Error",
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "message": {
-                        "type": "string",
-                        "example": "내부서버에러"
-                      }
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Bad Request"
           }
         }
       }
+    },
+    "/users/withdrawal": {
+      "delete": {
+        "tags": [
+          "users"
+        ],
+        "description": "회원탈퇴",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/users/emailexist": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "description": "이메일 중복확인",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "abc@email.com"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/users/nicknameexist": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "description": "닉네임 중복확인",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nickname": {
+                  "example": "user1"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/users/edit": {
+      "put": {
+        "tags": [
+          "users"
+        ],
+        "description": "회원정보 수정",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nicknameNew": {
+                  "example": "운영자"
+                },
+                "passwordOld": {
+                  "example": "password001"
+                },
+                "passwordNew": {
+                  "example": "password002"
+                },
+                "confirmPasswordNew": {
+                  "example": "password002"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/posts": {
+      "get": {
+        "tags": [
+          "posts"
+        ],
+        "description": "게시글 조회",
+        "parameters": [
+          {
+            "name": "searchMode",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "posts"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "description": "게시글 작성",
+        "parameters": [
+          {
+            "name": "upfile",
+            "in": "formData",
+            "type": "file",
+            "description": "The file to upload."
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "example": "제목임"
+                },
+                "categorySpace": {
+                  "example": "categorySpace임"
+                },
+                "categoryInterest": {
+                  "example": "categoryInterest임"
+                },
+                "categoryStudyMate": {
+                  "example": "categorySpace임"
+                },
+                "imageContent": {
+                  "example": "imageContent임"
+                },
+                "textContent": {
+                  "example": "textContent임"
+                },
+                "youtubeUrl": {
+                  "example": "https://www.youtube.com/watch?v=5Q2Pc-e-8Qc"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/posts/{postId}": {
+      "put": {
+        "tags": [
+          "posts"
+        ],
+        "description": "게시글 수정",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "example": "제목 변경ㅋ"
+                },
+                "categorySpace": {
+                  "example": "categorySpace 변경ㅋ"
+                },
+                "categoryInterest": {
+                  "example": "categoryInterest 변경"
+                },
+                "categoryStudyMate": {
+                  "example": "categoryStudyMate 변경"
+                },
+                "textContent": {
+                  "example": "textContent 변경"
+                },
+                "youtubeUrl": {
+                  "example": "youtubeUrl 변경"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "505": {
+            "description": "HTTP Version Not Supported"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "posts"
+        ],
+        "description": "게시글 삭제",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/posts/{postId}/comments": {
+      "post": {
+        "tags": [
+          "comments"
+        ],
+        "description": "게시글 댓글 생성",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "textContent": {
+                  "example": "댓글임"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {}
+      },
+      "get": {
+        "tags": [
+          "comments"
+        ],
+        "description": "게시글 댓글 조회",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/posts/{postId}/comments/{commentId}": {
+      "delete": {
+        "tags": [
+          "comments"
+        ],
+        "description": "게시글 댓글 삭제",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "commentId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
     }
-  }
+  },
+  "definitions": {}
 }

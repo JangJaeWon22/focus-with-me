@@ -41,7 +41,7 @@ const commentList = {
                     userNickname : comment.User.nickname,
                     textContent : comment.textContent,
                     avatarUrl : comment.User.avatarUrl,
-                    date : comment.date,
+                    date : comment.date, //댓글 작성날짜
                     commentId : comment.commentId,
                     postId : comment.postId
                 })
