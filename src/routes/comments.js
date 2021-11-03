@@ -19,7 +19,7 @@ router.get("/posts/:postId/comments", cmtCtrl.commentList.commentSearch);
 // 댓글 삭제
 router.delete(
   "/posts/:postId/comments/:commentId",
-  auauthMiddlewareth,
+  authMiddleware,
   cmtCtrl.commentList.commentDel
 );
 
