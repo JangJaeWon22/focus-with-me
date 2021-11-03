@@ -153,6 +153,10 @@ module.exports = {
     }
   },
   ckUpload: (req, res) => {
+    const { user } = res.locals.user;
+    console.log("res.locals : ", res.locals);
+    console.log("user :", user);
+    console.log("res.locals.user : ", res.locals.user);
     const { path } = req.file;
     return res.status(200).send({ path });
   },
