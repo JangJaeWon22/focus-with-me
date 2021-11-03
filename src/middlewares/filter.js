@@ -1,5 +1,6 @@
-const { Op, sequelize, Sequelize } = require("../models");
+const { sequelize, Sequelize } = require("../models");
 const { Post, User, Like } = require("../models");
+const { Op } = require("sequelize");
 const filter = (req, res, next) => {
   const { searchMode } = req.query;
   searchMode === "main"
