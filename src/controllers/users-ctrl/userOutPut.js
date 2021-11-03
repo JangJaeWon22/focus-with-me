@@ -24,7 +24,7 @@ const userOutPut = {
       passport.authenticate("local", (passportError, user, info) => {
         // 인증이 실패했거나 유저 데이터가 없다면 에러 발생
         if (passportError || !user) {
-          res.status(400).json({ message: info.reason });
+          res.status(400).send({ message: "등록된 계정이 없습니다." });
           return;
         }
         // user데이터를 통해 로그인 진행
