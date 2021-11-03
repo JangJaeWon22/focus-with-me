@@ -44,12 +44,10 @@ module.exports = {
         await fs.rename(url, imageUrl);
       }
     });
-    console.log(imageList);
-    console.log(contentsEditor);
-    // 모든 temp 경로를 content로 바꾸기
     // const innerHtml = encodeURIComponent(
     // contentsEditor.replaceAll("temp", "content")
     // );
+    // 모든 temp 경로를 content로 바꾸기
     const innerHtml = contentsEditor.replace(/temp/g, "content");
     // const innerHtml = contentsEditor.replaceAll("temp", "content");
     const date = new Date();
@@ -72,30 +70,31 @@ module.exports = {
       return res.status(500).send({ message: "DB 저장에 실패했습니다." });
     }
   },
+  // 게시물 수정
   putPosts: async (req, res) => {
-    // 사용자 인증 미들웨어 사용 시
-    // const { userId } = req.locals.user;
+    const { userId } = req.locals.user;
     const { postId } = req.params;
     const { path } = req.file;
+    const body = JSON.parse(JSON.stringify(req.body));
     const {
       title,
-      categorySpace,
       categoryInterest,
+      categorySpace,
       categoryStudyMate,
-      textContent,
-      youtubeUrl,
-    } = req.body;
-
+      contentsEditor,
+    } = body;
     //postId로 해당 post 조회
-    //조회 실패하면 파일 다시 지워야 함.
     const post = await Post.findByPk(postId);
+    //조회 결과가 없으면 이미 업로드된 cover 파일 다시 지워야 함.
     if (!post) {
-      const result = await removeImage(path);
-      console.log(result);
+      await removeImage(path);
       return res
         .status(505)
         .send({ message: "해당 게시물이 존재하지 않습니다." });
     }
+
+    //조회 결과 게시물 주인이 현재 로그인한 사람 소유가 아니면 꺼져
+    // if(userId !==)
 
     //post 의 이미지 url 따라가서 삭제
     const removeUrl = post.imageCover;
