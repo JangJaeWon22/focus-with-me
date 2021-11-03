@@ -36,9 +36,7 @@
   "paths": {
     "/users/signup": {
       "post": {
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "description": "회원가입",
         "parameters": [
           {
@@ -78,9 +76,7 @@
     },
     "/users/login": {
       "post": {
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "description": "local로그인",
         "parameters": [
           {
@@ -112,9 +108,7 @@
     },
     "/users/withdrawal": {
       "delete": {
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "description": "회원탈퇴",
         "parameters": [],
         "responses": {
@@ -258,40 +252,40 @@
         "description": "게시글 작성",
         "parameters": [
           {
-            "name": "upfile",
+            "name": "imageCover",
             "in": "formData",
             "type": "file",
             "description": "The file to upload."
           },
           {
-            "name": "obj",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "title": {
-                  "example": "제목임"
-                },
-                "categorySpace": {
-                  "example": "categorySpace임"
-                },
-                "categoryInterest": {
-                  "example": "categoryInterest임"
-                },
-                "categoryStudyMate": {
-                  "example": "categorySpace임"
-                },
-                "imageContent": {
-                  "example": "imageContent임"
-                },
-                "textContent": {
-                  "example": "textContent임"
-                },
-                "youtubeUrl": {
-                  "example": "https://www.youtube.com/watch?v=5Q2Pc-e-8Qc"
-                }
-              }
-            }
+            "name": "title",
+            "in": "formData",
+            "type": "string",
+            "description": "title"
+          },
+          {
+            "name": "categorySpace",
+            "in": "formData",
+            "type": "string",
+            "description": "home"
+          },
+          {
+            "name": "categoryStudyMate",
+            "in": "formData",
+            "type": "string",
+            "description": "solo"
+          },
+          {
+            "name": "categoryInterest",
+            "in": "formData",
+            "type": "string",
+            "description": "dev"
+          },
+          {
+            "name": "contentsEditor",
+            "in": "formData",
+            "type": "string",
+            "description": "<p>안녕</p>"
           }
         ],
         "responses": {

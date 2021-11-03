@@ -9,7 +9,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         unique: true,
       },
-      postiId: {
+      postId: {
         allowNull: false,
         type: Sequelize.INTEGER,
       },
