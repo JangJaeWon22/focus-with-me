@@ -40,9 +40,6 @@ router.put(
   userUpdate.updateUser
 );
 
-// 회원정보조회
-router.get("/users/info", authMiddleware, userOutPut.getUser);
-
 // 회원탈퇴
 router.delete("/users/withdrawal", authMiddleware, userProcess.deleteUser);
 
