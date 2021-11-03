@@ -18,6 +18,7 @@ const commentList = {
                 message: "댓글 작성에 성공했습니다."
             });
         } catch (err) {
+            console.log(err);
             res.status(500).send({ message: "댓글 서버로부터 오류가 생겼습니다." });
         }
     },   
@@ -69,13 +70,13 @@ const commentList = {
             }); 
             
             //console.log(userId, postId, commentId, reqDelete.userId);
-            
-            if(reqDelete.userId === userId) { // 삭제요청이 들어오면
-                await Comment.destroy({ where: {postId, commentId} }) // "특정 포스트 -> 특정 댓글" 지운다
-                res.status(200).send({ message: "댓글이 삭제되었습니다." })
-            } else {
-                res.status(400).send({ message: "작성자가 아닙니다. "});
-            }
+
+                if(reqDelete.userId === userId) { // 삭제요청이 들어오면
+                    await Comment.destroy({ where: {postId, commentId} }) // "특정 포스트 -> 특정 댓글" 지운다
+                    res.status(200).send({ message: "댓글이 삭제되었습니다." })
+                } else {
+                    res.status(400).send({ message: "작성자가 아닙니다. "});
+                }
         } catch (err) {
             res.status(400).send({ message: "댓글 삭제에 문제가 생겼습니다! 관리자에게 문의해주세요." })
         }
