@@ -15,12 +15,12 @@ const postList = {
       });
 
       //console.log(postId, userId, date);
-      
+
       console.log(liked);
       // user가 좋아요를 안했을때
       if (!liked) {
         // 좋아요 안 눌렀을때,
-        const likes = await Like.create({
+        await Like.create({
           postId,
           userId,
           date,
@@ -40,7 +40,7 @@ const postList = {
         message: "좋아요 구현에 문제가 있습니다. 관리자에게 문의해주세요. ",
       });
     }
-  }, 
+  },
   // 게시물 좋아요 취소 기능
   removeLike: async (req, res) => {
     try {
@@ -52,7 +52,7 @@ const postList = {
       });
 
       //console.log("isNotLiked", isNotLiked);
-      
+
       if (notLiked) {
         await Like.destroy({ where: { postId, userId } });
         return res.status(200).send({
