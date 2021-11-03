@@ -2,27 +2,49 @@
   "swagger": "2.0",
   "info": {
     "title": "API",
-    "description": "Description",
+    "description": "ㅇㅔㅇㅣㅊㅣ ㅇㅏㅇㅣ",
     "version": "1.0.0"
   },
   "host": "localhost:8080",
   "basePath": "/api",
   "tags": [],
-  "schemes": ["http"],
-  "consumes": [],
-  "produces": [],
-  "paths": {
-    "/": {
-      "get": {
-        "tags": [],
-        "description": "",
-        "parameters": [],
-        "responses": {}
+  "schemes": [
+    "http"
+  ],
+  "components": {
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "schema": "bearer",
+        "bearerFormat": "JWT"
       }
-    },
+    }
+  },
+  "security": [
+    {
+      "Bearer": []
+    }
+  ],
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header",
+      "description": "token"
+    }
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
     "/users/signup": {
       "post": {
-        "tags": ["users"],
+        "tags": [
+          "users"
+        ],
         "description": "회원가입",
         "parameters": [
           {
@@ -49,16 +71,7 @@
         ],
         "responses": {
           "201": {
-            "description": "Created",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "성공이다 이자슥아"
-                }
-              }
-            }
+            "description": "Created"
           },
           "400": {
             "description": "Bad Request"
@@ -71,7 +84,9 @@
     },
     "/users/login": {
       "post": {
-        "tags": ["users"],
+        "tags": [
+          "users"
+        ],
         "description": "local로그인",
         "parameters": [
           {
@@ -103,7 +118,9 @@
     },
     "/users/withdrawal": {
       "delete": {
-        "tags": ["users"],
+        "tags": [
+          "users"
+        ],
         "description": "회원탈퇴",
         "parameters": [],
         "responses": {
@@ -121,8 +138,10 @@
     },
     "/users/emailexist": {
       "post": {
-        "tags": [],
-        "description": "",
+        "tags": [
+          "users"
+        ],
+        "description": "이메일 중복확인",
         "parameters": [
           {
             "name": "obj",
@@ -131,7 +150,7 @@
               "type": "object",
               "properties": {
                 "email": {
-                  "example": "any"
+                  "example": "abc@email.com"
                 }
               }
             }
@@ -152,8 +171,10 @@
     },
     "/users/nicknameexist": {
       "post": {
-        "tags": [],
-        "description": "",
+        "tags": [
+          "users"
+        ],
+        "description": "닉네임 중복확인",
         "parameters": [
           {
             "name": "obj",
@@ -162,7 +183,7 @@
               "type": "object",
               "properties": {
                 "nickname": {
-                  "example": "any"
+                  "example": "user1"
                 }
               }
             }
@@ -181,48 +202,12 @@
         }
       }
     },
-    "/user/kakaoIogin": {
-      "get": {
-        "tags": [],
-        "description": "",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/kakao": {
-      "get": {
-        "tags": [],
-        "description": "",
-        "parameters": [],
-        "responses": {}
-      }
-    },
-    "/kakao/callback": {
-      "get": {
-        "tags": [],
-        "description": "",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
     "/users/edit": {
       "put": {
-        "tags": [],
-        "description": "",
+        "tags": [
+          "users"
+        ],
+        "description": "회원정보 수정",
         "parameters": [
           {
             "name": "obj",
@@ -231,16 +216,16 @@
               "type": "object",
               "properties": {
                 "nicknameNew": {
-                  "example": "any"
+                  "example": "운영자"
                 },
                 "passwordOld": {
-                  "example": "any"
+                  "example": "password001"
                 },
                 "passwordNew": {
-                  "example": "any"
+                  "example": "password002"
                 },
                 "confirmPasswordNew": {
-                  "example": "any"
+                  "example": "password002"
                 }
               }
             }
@@ -264,8 +249,10 @@
     },
     "/posts": {
       "get": {
-        "tags": [],
-        "description": "",
+        "tags": [
+          "posts"
+        ],
+        "description": "게시글 조회",
         "parameters": [
           {
             "name": "searchMode",
@@ -280,9 +267,51 @@
         }
       },
       "post": {
-        "tags": [],
-        "description": "",
-        "parameters": [],
+        "tags": [
+          "posts"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "description": "게시글 작성",
+        "parameters": [
+          {
+            "name": "upfile",
+            "in": "formData",
+            "type": "file",
+            "description": "The file to upload."
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "example": "제목임"
+                },
+                "categorySpace": {
+                  "example": "categorySpace임"
+                },
+                "categoryInterest": {
+                  "example": "categoryInterest임"
+                },
+                "categoryStudyMate": {
+                  "example": "categorySpace임"
+                },
+                "imageContent": {
+                  "example": "imageContent임"
+                },
+                "textContent": {
+                  "example": "textContent임"
+                },
+                "youtubeUrl": {
+                  "example": "https://www.youtube.com/watch?v=5Q2Pc-e-8Qc"
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -292,8 +321,10 @@
     },
     "/posts/{postId}": {
       "put": {
-        "tags": [],
-        "description": "",
+        "tags": [
+          "posts"
+        ],
+        "description": "게시글 수정",
         "parameters": [
           {
             "name": "postId",
@@ -308,22 +339,22 @@
               "type": "object",
               "properties": {
                 "title": {
-                  "example": "any"
+                  "example": "제목 변경ㅋ"
                 },
                 "categorySpace": {
-                  "example": "any"
+                  "example": "categorySpace 변경ㅋ"
                 },
                 "categoryInterest": {
-                  "example": "any"
+                  "example": "categoryInterest 변경"
                 },
                 "categoryStudyMate": {
-                  "example": "any"
+                  "example": "categoryStudyMate 변경"
                 },
                 "textContent": {
-                  "example": "any"
+                  "example": "textContent 변경"
                 },
                 "youtubeUrl": {
-                  "example": "any"
+                  "example": "youtubeUrl 변경"
                 }
               }
             }
@@ -342,8 +373,10 @@
         }
       },
       "delete": {
-        "tags": [],
-        "description": "",
+        "tags": [
+          "posts"
+        ],
+        "description": "게시글 삭제",
         "parameters": [
           {
             "name": "postId",
@@ -364,23 +397,68 @@
     },
     "/posts/{postId}/comments": {
       "post": {
-        "tags": [],
-        "description": "",
-        "parameters": [],
+        "tags": [
+          "comments"
+        ],
+        "description": "게시글 댓글 생성",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "textContent": {
+                  "example": "댓글임"
+                }
+              }
+            }
+          }
+        ],
         "responses": {}
       },
       "get": {
-        "tags": [],
-        "description": "",
-        "parameters": [],
+        "tags": [
+          "comments"
+        ],
+        "description": "게시글 댓글 조회",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {}
       }
     },
     "/posts/{postId}/comments/{commentId}": {
       "delete": {
-        "tags": [],
-        "description": "",
-        "parameters": [],
+        "tags": [
+          "comments"
+        ],
+        "description": "게시글 댓글 삭제",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "commentId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {}
       }
     }
