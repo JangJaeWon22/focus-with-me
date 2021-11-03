@@ -28,7 +28,7 @@ const extractImageSrc = (html) => {
 
 const emptyTemp = async () => {
   const baseUrl = `${process.cwd()}/public/uploads/temp`;
-  await fs.rmdir(baseUrl, { recursive: true });
+  await fs.rm(baseUrl, { recursive: true });
   await fs.mkdir(baseUrl);
 };
 

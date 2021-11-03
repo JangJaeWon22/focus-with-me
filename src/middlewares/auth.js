@@ -5,6 +5,8 @@ dotenv.config();
 
 const authMiddleware = (req, res, next) => {
   const { authorization } = req.headers;
+  if (!authorization)
+    return res.status(200).send({ message: "로그인이 필요한 기능입니다." });
   const [tokenType, tokenValue] = authorization.split(" ");
   if (tokenType !== "Bearer") {
     return res.status(200).send({
