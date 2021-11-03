@@ -5,10 +5,13 @@
     "description": "ㅇㅔㅇㅣㅊㅣ ㅇㅏㅇㅣ",
     "version": "1.0.0"
   },
-  "host": "localhost:8080",
+  "host": "3.34.44.44:8080",
   "basePath": "/api",
   "tags": [],
-  "schemes": ["http"],
+  "schemes": [
+    "http",
+    "https"
+  ],
   "components": {
     "securitySchemes": {
       "Bearer": {
@@ -31,8 +34,12 @@
       "description": "token"
     }
   },
-  "consumes": ["application/json"],
-  "produces": ["application/json"],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
   "paths": {
     "/users/signup": {
       "post": {
@@ -126,7 +133,9 @@
     },
     "/users/emailexist": {
       "post": {
-        "tags": ["users"],
+        "tags": [
+          "users"
+        ],
         "description": "이메일 중복확인",
         "parameters": [
           {
@@ -157,7 +166,9 @@
     },
     "/users/nicknameexist": {
       "post": {
-        "tags": ["users"],
+        "tags": [
+          "users"
+        ],
         "description": "닉네임 중복확인",
         "parameters": [
           {
@@ -188,7 +199,9 @@
     },
     "/users/edit": {
       "put": {
-        "tags": ["users"],
+        "tags": [
+          "users"
+        ],
         "description": "회원정보 수정",
         "parameters": [
           {
@@ -231,7 +244,9 @@
     },
     "/posts": {
       "get": {
-        "tags": ["posts"],
+        "tags": [
+          "posts"
+        ],
         "description": "게시글 조회",
         "parameters": [
           {
@@ -247,8 +262,12 @@
         }
       },
       "post": {
-        "tags": ["posts"],
-        "consumes": ["multipart/form-data"],
+        "tags": [
+          "posts"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ],
         "description": "게시글 작성",
         "parameters": [
           {
@@ -297,7 +316,9 @@
     },
     "/posts/{postId}": {
       "put": {
-        "tags": ["posts"],
+        "tags": [
+          "posts"
+        ],
         "description": "게시글 수정",
         "parameters": [
           {
@@ -347,7 +368,9 @@
         }
       },
       "delete": {
-        "tags": ["posts"],
+        "tags": [
+          "posts"
+        ],
         "description": "게시글 삭제",
         "parameters": [
           {
@@ -369,7 +392,9 @@
     },
     "/posts/{postId}/comments": {
       "post": {
-        "tags": ["comments"],
+        "tags": [
+          "comments"
+        ],
         "description": "게시글 댓글 생성",
         "parameters": [
           {
@@ -394,7 +419,9 @@
         "responses": {}
       },
       "get": {
-        "tags": ["comments"],
+        "tags": [
+          "comments"
+        ],
         "description": "게시글 댓글 조회",
         "parameters": [
           {
@@ -409,7 +436,9 @@
     },
     "/posts/{postId}/comments/{commentId}": {
       "delete": {
-        "tags": ["comments"],
+        "tags": [
+          "comments"
+        ],
         "description": "게시글 댓글 삭제",
         "parameters": [
           {
@@ -426,6 +455,86 @@
           }
         ],
         "responses": {}
+      }
+    },
+    "/mypage/myposts": {
+      "get": {
+        "tags": [
+          "myInfo"
+        ],
+        "description": "마이페이지 내가 포스팅한 글 조회",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/mypage/myinfo": {
+      "get": {
+        "tags": [
+          "myInfo"
+        ],
+        "description": "마이페이지 내 정보 조회",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/bookmarks/{postId}": {
+      "post": {
+        "tags": [
+          "bookmark"
+        ],
+        "description": "북마크 추가",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "bookmark"
+        ],
+        "description": "북마크 삭제",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
       }
     }
   },

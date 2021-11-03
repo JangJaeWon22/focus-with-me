@@ -12,6 +12,8 @@ const postsRouter = require("./routes/posts");
 const likeRouter = require("./routes/postlike");
 const cmtRouter = require("./routes/comments");
 const followRouter = require("./routes/follow");
+const myInfoRouter = require("./routes/myInfo");
+const bookmarkRouter = require("./routes/bookmark");
 
 //swagger
 const swaggerUi = require("swagger-ui-express");
@@ -69,6 +71,8 @@ app.use("/api", userRouter);
 app.use("/api", postsRouter);
 app.use("/api", likeRouter);
 app.use("/api", followRouter);
+app.use("/api", myInfoRouter);
+app.use("/api", bookmarkRouter);
 
 // app.use(
 //   authMiddleware,
