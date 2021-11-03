@@ -35,11 +35,13 @@ const userProcess = {
         });
       } else {
         date = new Date();
+        const avatarUrl = "public/images/noAvatar";
         const encryptPassword = bcrypt.hashSync(password, 10);
         const user = await User.create({
           email,
           nickname,
           password: encryptPassword,
+          avatarUrl,
           date,
         });
         res.status(201).send({
