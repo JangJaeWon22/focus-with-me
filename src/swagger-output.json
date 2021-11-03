@@ -36,7 +36,9 @@
   "paths": {
     "/users/signup": {
       "post": {
-        "tags": ["users"],
+        "tags": [
+          "users"
+        ],
         "description": "회원가입",
         "parameters": [
           {
@@ -76,7 +78,9 @@
     },
     "/users/login": {
       "post": {
-        "tags": ["users"],
+        "tags": [
+          "users"
+        ],
         "description": "local로그인",
         "parameters": [
           {
@@ -108,7 +112,9 @@
     },
     "/users/withdrawal": {
       "delete": {
-        "tags": ["users"],
+        "tags": [
+          "users"
+        ],
         "description": "회원탈퇴",
         "parameters": [],
         "responses": {
