@@ -6,8 +6,9 @@ const {
   postPosts,
   putPosts,
   deletePosts,
+  ckUpload,
 } = require("../controllers/postsController");
-const { uploadCover } = require("../middlewares/upload");
+const { uploadCover, uploadTemp } = require("../middlewares/upload");
 const { filter, main } = require("../middlewares/filter");
 const authMiddleware = require("../middlewares/auth");
 
@@ -15,11 +16,16 @@ const authMiddleware = require("../middlewares/auth");
 postsRouter
   .route("/posts")
   .get(main, filter, getPosts)
-  .post(uploadCover.single("imageCover"), postPosts);
+  .post(authMiddleware, uploadCover.single("imageCover"), postPosts);
+
+postsRouter
+  .route("/posts/ckUpload")
+  .post(authMiddleware, uploadTemp.single("temp"), ckUpload);
+
 postsRouter
   .route("/posts/:postId")
-  .put(uploadCover.single("cover"), putPosts)
-  .delete(deletePosts)
+  .put(authMiddleware, uploadCover.single("cover"), putPosts)
+  .delete(authMiddleware, deletePosts)
   .get(getOnePost);
 
 module.exports = postsRouter;

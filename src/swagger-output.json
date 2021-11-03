@@ -8,9 +8,7 @@
   "host": "localhost:8080",
   "basePath": "/api",
   "tags": [],
-  "schemes": [
-    "http"
-  ],
+  "schemes": ["http"],
   "components": {
     "securitySchemes": {
       "Bearer": {
@@ -33,18 +31,12 @@
       "description": "token"
     }
   },
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
-  ],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
   "paths": {
     "/users/signup": {
       "post": {
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "description": "회원가입",
         "parameters": [
           {
@@ -84,9 +76,7 @@
     },
     "/users/login": {
       "post": {
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "description": "local로그인",
         "parameters": [
           {
@@ -118,9 +108,7 @@
     },
     "/users/withdrawal": {
       "delete": {
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "description": "회원탈퇴",
         "parameters": [],
         "responses": {
@@ -138,9 +126,7 @@
     },
     "/users/emailexist": {
       "post": {
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "description": "이메일 중복확인",
         "parameters": [
           {
@@ -171,9 +157,7 @@
     },
     "/users/nicknameexist": {
       "post": {
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "description": "닉네임 중복확인",
         "parameters": [
           {
@@ -204,9 +188,7 @@
     },
     "/users/edit": {
       "put": {
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "description": "회원정보 수정",
         "parameters": [
           {
@@ -249,9 +231,7 @@
     },
     "/posts": {
       "get": {
-        "tags": [
-          "posts"
-        ],
+        "tags": ["posts"],
         "description": "게시글 조회",
         "parameters": [
           {
@@ -267,12 +247,8 @@
         }
       },
       "post": {
-        "tags": [
-          "posts"
-        ],
-        "consumes": [
-          "multipart/form-data"
-        ],
+        "tags": ["posts"],
+        "consumes": ["multipart/form-data"],
         "description": "게시글 작성",
         "parameters": [
           {
@@ -321,9 +297,7 @@
     },
     "/posts/{postId}": {
       "put": {
-        "tags": [
-          "posts"
-        ],
+        "tags": ["posts"],
         "description": "게시글 수정",
         "parameters": [
           {
@@ -373,9 +347,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "posts"
-        ],
+        "tags": ["posts"],
         "description": "게시글 삭제",
         "parameters": [
           {
@@ -397,9 +369,7 @@
     },
     "/posts/{postId}/comments": {
       "post": {
-        "tags": [
-          "comments"
-        ],
+        "tags": ["comments"],
         "description": "게시글 댓글 생성",
         "parameters": [
           {
@@ -424,9 +394,7 @@
         "responses": {}
       },
       "get": {
-        "tags": [
-          "comments"
-        ],
+        "tags": ["comments"],
         "description": "게시글 댓글 조회",
         "parameters": [
           {
@@ -441,9 +409,7 @@
     },
     "/posts/{postId}/comments/{commentId}": {
       "delete": {
-        "tags": [
-          "comments"
-        ],
+        "tags": ["comments"],
         "description": "게시글 댓글 삭제",
         "parameters": [
           {
