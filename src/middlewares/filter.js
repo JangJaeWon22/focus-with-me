@@ -45,9 +45,20 @@ const main = (req, res, next) => {
         const posts = await sequelize.query(postQuery, {
           type: Sequelize.QueryTypes.SELECT,
         });
-
+        // const posts = await Post.findAll({
+        //   attributes: {
+        //     include: [[Sequelize.fn("COUNT", "Likes.postId"), "cnt"]],
+        //   },
+        //   include: [
+        //     {
+        //       model: Like,
+        //       attributes: [],
+        //       right: true,
+        //     },
+        //   ],
+        //   group: ["Post.postId"],
+        // });
         console.log(posts);
-        console.log("여기는 메인 미들웨어");
         req.posts = posts;
         req.queryResult = { message: "쿼리 결과 : 메인" };
         next();
