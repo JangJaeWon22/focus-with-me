@@ -17,8 +17,7 @@ module.exports = {
   // 게시물 생성
   postPosts: async (req, res) => {
     // 사용자 인증 미들웨어 사용할 경우
-    // const { userId } = req.locals.user;
-
+    const { userId } = res.locals.user;
     // 여기서 받는 파일은 cover image
     const { path } = req.file;
     //multipart 에서 json 형식으로 변환
@@ -55,7 +54,7 @@ module.exports = {
     // const innerHtml = contentsEditor.replaceAll("temp", "content");
     const date = new Date();
     const post = {
-      userId: 1,
+      userId,
       imageCover: path,
       title,
       categoryInterest,
@@ -152,5 +151,9 @@ module.exports = {
       console.log(error);
       return res.status(500).send({ message: "DB 조회에 실패했습니다." });
     }
+  },
+  ckUpload: (req, res) => {
+    const { path } = req.file;
+    return res.status(200).send({ path });
   },
 };

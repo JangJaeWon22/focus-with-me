@@ -18,7 +18,7 @@ const swaggerUi = require("swagger-ui-express");
 const swaggerFile = require("./swagger-output");
 
 // 테스트용
-const { uploadContents, uploadTemp } = require("./middlewares/upload");
+const authMiddleware = require("./middlewares/auth");
 
 sequelize
   .sync({ force: false })
@@ -70,10 +70,14 @@ app.use("/api", postsRouter);
 app.use("/api", likeRouter);
 app.use("/api", followRouter);
 
-app.use("/api/ckUpload", uploadTemp.single("temp"), async (req, res) => {
-  const { path } = req.file;
-  return res.status(200).send({ path });
-});
+// app.use(
+//   authMiddleware,
+//   uploadTemp.single("temp"),
+//   (req, res) => {
+//     const { path } = req.file;
+//     return res.status(200).send({ path });
+//   }
+// );
 
 //Error handler
 app.use(function (err, req, res, next) {
