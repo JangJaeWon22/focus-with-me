@@ -24,7 +24,7 @@ postsRouter
 
 postsRouter
   .route("/posts/:postId")
-  .put(authMiddleware, uploadCover.single("cover"), putPosts)
+  .put(authMiddleware, uploadCover.single("imageCover"), putPosts)
   .delete(authMiddleware, deletePosts)
   .get(getOnePost);
 
