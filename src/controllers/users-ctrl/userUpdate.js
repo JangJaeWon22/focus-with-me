@@ -15,6 +15,7 @@ const userUpdate = {
   updateUser: async (req, res) => {
     try {
       const { user } = res.locals;
+      const { file } = req;
       const { nicknameNew, passwordOld, passwordNew } = res.verifyBody;
       console.log(res.verifyBody);
       const existUser = await User.findOne({ where: { userId: user.userId } });
