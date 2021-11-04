@@ -208,7 +208,52 @@
         "tags": [
           "users"
         ],
-        "description": "회원정보 수정",
+        "description": "회원정보 비밀번호 수정",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nicknameNew": {
+                  "example": "운영자"
+                },
+                "passwordOld": {
+                  "example": "password001"
+                },
+                "passwordNew": {
+                  "example": "password002"
+                },
+                "confirmPasswordNew": {
+                  "example": "password002"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/users/profileEdit": {
+      "put": {
+        "tags": [
+          "users"
+        ],
+        "description": "회원정보 프로필 수정",
         "parameters": [
           {
             "name": "obj",
@@ -539,7 +584,7 @@
         }
       }
     },
-    "/mypage/myposts": {
+    "/mypage/myposts/{userId}": {
       "get": {
         "tags": [
           "myInfo"
@@ -556,7 +601,7 @@
         }
       }
     },
-    "/mypage/mybookmarks": {
+    "/mypage/mybookmarks/{userId}": {
       "get": {
         "tags": [
           "myInfo"
@@ -573,7 +618,7 @@
         }
       }
     },
-    "/mypage/myinfo": {
+    "/mypage/myinfo/{userId}": {
       "get": {
         "tags": [
           "myInfo"
@@ -624,6 +669,64 @@
             "in": "path",
             "required": true,
             "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/follows": {
+      "post": {
+        "tags": [
+          "following"
+        ],
+        "description": "팔로잉 기능",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nickname": {
+                  "example": "user2"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "following"
+        ],
+        "description": "팔로잉 기능",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nickname": {
+                  "example": "user2"
+                }
+              }
+            }
           }
         ],
         "responses": {

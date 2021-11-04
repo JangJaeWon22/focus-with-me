@@ -1,26 +1,21 @@
 const { User } = require("../../models");
-const { Op } = require("sequelize");
 
 const followProcess = {
   createFollow: async (req, res) => {
     try {
       const { user } = res.locals;
       const { nickname } = req.body;
-      const userInfo = await User.findOne({ where: { nickname } });
-      const existFollow = await userInfo.getFollowings({
-        where: { userId: user.userId },
-      });
-      console.log(existFollow);
+      const userInfo = await User.findOne({ where: { userId: user.userId } });
+      const tagetUser = await User.findOne({ where: { nickname } });
       // 사용자 있는지 체크
       if (userInfo) {
-        // 사용자가 자신을 팔로우를 하지못하게 하기 위해 비료
-        if (userInfo.userId !== user.userId) {
-          // 사용자가
-          if (!existFollow)
-            await userInfo.addFollowing(parseInt(user.userId, 10));
-          message = `${user.nickname}님이 ${userInfo.nickname}님을 팔로잉 했습니다.`;
+        if (tagetUser.userId !== user.userId) {
+          // 사용자가 자신을 팔로우를 하지못하게 하기 위해 비료
+          await user.addFollowing(parseInt(tagetUser.userId, 10));
+          message = `${user.nickname}님이 ${nickname}님을 팔로잉 했습니다.`;
+          console.log(message);
           res.status(200).send({
-            user,
+            isUser: "true",
             message,
           });
         } else {
@@ -44,18 +39,20 @@ const followProcess = {
     try {
       const { user } = res.locals;
       const { nickname } = req.body;
-      const userInfo = await User.findOne({ where: { nickname } });
+      const userInfo = await User.findOne({ where: { userId: user.userId } });
+      const tagetUser = await User.findOne({ where: { nickname } });
       if (userInfo) {
-        if (userInfo.userId !== user.userId) {
-          await userInfo.removeFollowings(parseInt(user.userId, 10));
-          message = `${user.nickname}님이 ${userInfo.nickname}님을 팔로잉 취소 했습니다.`;
+        if (tagetUser.userId !== user.userId) {
+          await user.removeFollowings(parseInt(tagetUser.userId, 10));
+          message = `${user.nickname}님이 ${nickname}님을 팔로잉 취소 했습니다.`;
+          console.log(message);
           res.status(200).send({
-            user,
+            isUser: "false",
             message,
           });
         } else {
           res.status(400).send({
-            message: "자기 자신을 following 할 수 없습니다.",
+            message: "자기 자신에게 following 취소를 할 수 없습니다.",
           });
         }
       } else {
