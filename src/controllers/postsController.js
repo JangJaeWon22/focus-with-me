@@ -1,4 +1,4 @@
-const { Post } = require("../models");
+const { Post, Bookmark } = require("../models");
 const { Op } = require("sequelize");
 const fs = require("fs/promises");
 const fsSync = require("fs");
@@ -158,11 +158,29 @@ module.exports = {
   },
   getOnePost: async (req, res) => {
     const { postId } = req.params;
+    let isBookmarked = false;
+    // 미들웨어 넘어와서, 로그인이 안된 사람이면 false
+    // 로그인 안된 상태면 res.locals.user = null
+    // 로그인 되어 있으면 res.locals.user = user
+    // let userId = null;
+    // if (res.locals.user) userId = res.locals.user.userId;
 
+    let userId = res.locals.user ? res.locals.user.userId : null;
+    console.log(userId);
     try {
       const post = await Post.findByPk(postId);
 
-      return res.status(200).send({ post });
+      // 사용자가 로그인 중이라면,
+      if (userId) {
+        const bookmarked = await Bookmark.findOne({
+          where: { postId, userId },
+        });
+        console.log(bookmarked);
+        // 해당 북마크 결과 있으면 true로 바꾸고
+        if (bookmarked) isBookmarked = true;
+      }
+
+      return res.status(200).send({ post, isBookmarked });
     } catch (error) {
       console.log(error);
       return res.status(500).send({ message: "DB 조회에 실패했습니다." });

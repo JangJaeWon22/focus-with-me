@@ -11,6 +11,7 @@ const {
 const { uploadCover, uploadTemp } = require("../middlewares/upload");
 const { filter, main } = require("../middlewares/filter");
 const authMiddleware = require("../middlewares/auth");
+const notAuth = require("../middlewares/notAuth");
 
 /* GET users listing. */
 postsRouter
@@ -26,6 +27,6 @@ postsRouter
   .route("/posts/:postId")
   .put(authMiddleware, uploadCover.single("imageCover"), putPosts)
   .delete(authMiddleware, deletePosts)
-  .get(getOnePost);
+  .get(notAuth, getOnePost);
 
 module.exports = postsRouter;
