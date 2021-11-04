@@ -30,15 +30,6 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
-      postId: {
-        type: DataTypes.INTEGER,
-      },
-      userId: {
-        type: DataTypes.INTEGER,
-      },
-      commentId: {
-        type: DataTypes.INTEGER,
-      },
       date: {
         type: DataTypes.DATE,
       },

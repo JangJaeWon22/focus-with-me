@@ -15,8 +15,8 @@ const myInfoOutPut = {
     try {
       const userInfo = res.userInfo;
       const { userId } = res.locals.user; // user 정보를 통으로 보내줌
-      const myPost = await Post.findAll({ where: { userId } });
-      res.status(200).send({ userInfo, myPost });
+      const myPosts = await Post.findAll({ where: { userId } });
+      res.status(200).send({ userInfo, myPosts });
     } catch (error) {
       console.error(error);
       res.status(400).send({
@@ -31,7 +31,7 @@ const myInfoOutPut = {
       // 로그인 인증 미들웨어에서 userId 가져옴
       const { userId } = res.locals.user;
       // 로그인 한 유저의 북마크 table의 postId를 가져와서 post 테이블에서 리스트를 뽑아서 옴
-      const posts = await Post.findAll({
+      const bookmarkedPosts = await Post.findAll({
         include: {
           model: Bookmark,
           // Bookmark table에서 userId가 로그인 한 유저꺼만 include 하기
@@ -39,7 +39,7 @@ const myInfoOutPut = {
         },
       });
 
-      res.status(200).send({ userInfo, posts });
+      res.status(200).send({ userInfo, bookmarkedPosts });
     } catch (error) {
       console.error(error);
       res.status(400).send({

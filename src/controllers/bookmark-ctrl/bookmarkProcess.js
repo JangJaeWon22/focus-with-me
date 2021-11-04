@@ -8,7 +8,7 @@ const bookmarkProcess = {
       const bookmark = await Bookmark.findOne({ where: { postId, userId } });
       const date = new Date();
       if (!bookmark) {
-        await Bookmark.create({
+        const bookmarkedPost = await Bookmark.create({
           postId,
           userId,
           bookmark,
@@ -16,6 +16,7 @@ const bookmarkProcess = {
         });
         res.status(200).send({
           isBookmarked: true,
+          bookmarkedPost,
           message: "북마크를 완료 했습니다.",
         });
       } else {

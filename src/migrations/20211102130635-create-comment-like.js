@@ -8,15 +8,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      postId: {
-        type: Sequelize.INTEGER,
-      },
-      userId: {
-        type: Sequelize.INTEGER,
-      },
-      commentId: {
-        type: Sequelize.INTEGER,
-      },
       date: {
         type: Sequelize.DATE,
       },
