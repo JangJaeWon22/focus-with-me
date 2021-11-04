@@ -6,6 +6,7 @@ const postingLikeCtrl = require("../controllers/likes-ctrl/postsLikeClick");
 // add middleware function
 const authMiddleware = require("../middlewares/auth");
 
+/* posts like functions */
 // 게시물 좋아요 추가
 router.post(
   "/posts/:postId/like",

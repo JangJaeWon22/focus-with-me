@@ -24,7 +24,7 @@ const postList = {
           postId,
           userId,
           date,
-        }); // 좋아요 생성 //값을 입력해주기
+        }); // 좋아요 생성 
         return res.status(200).send({
           isLiked: true,
           message: "게시물에 좋아요를 눌렀습니다. ",
@@ -47,23 +47,22 @@ const postList = {
       const { postId } = req.params;
       const { userId } = res.locals.user; // 미들웨어 연결
 
-      const notLiked = await Like.findOne({
+      const liked = await Like.findOne({
         where: { postId: postId, userId: userId },
       });
 
       //console.log("isNotLiked", isNotLiked);
-
-      if (notLiked) {
-        await Like.destroy({ where: { postId, userId } });
-        return res.status(200).send({
-          isLiked: false,
-          message: "게시물에 좋아요 취소를 눌렀습니다. ",
-        });
-      } else {
-        return res
-          .status(400)
-          .send({ message: "이미 좋아요를 취소하셨습니다." });
-      }
+        if (liked.userId === userId) {
+          await Like.destroy({ where: { postId, userId } });
+          return res.status(200).send({
+            isLiked: false,
+            message: "게시물에 좋아요 취소를 눌렀습니다. ",
+          });
+        } else {
+          return res
+            .status(400)
+            .send({ message: "이미 좋아요를 취소하셨습니다." });
+        }
     } catch (err) {
       console.log(err); // catch error 문 이렇게 확인
       return res.status(400).send({
