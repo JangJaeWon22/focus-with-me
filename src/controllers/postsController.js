@@ -161,6 +161,8 @@ module.exports = {
       return res.status(400).send({ message: "포스팅 삭제 실패" });
     }
   },
+
+  //상세 페이지
   getOnePost: async (req, res) => {
     const { postId } = req.params;
 
@@ -172,6 +174,7 @@ module.exports = {
       return res.status(500).send({ message: "DB 조회에 실패했습니다." });
     }
   },
+  // 업로드를 위한
   ckUpload: (req, res) => {
     const { user } = res.locals.user;
     console.log("res.locals : ", res.locals);
