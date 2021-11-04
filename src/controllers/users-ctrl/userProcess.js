@@ -60,8 +60,10 @@ const userProcess = {
   //회원탈퇴
   deleteUser: async (req, res) => {
     try {
-      const { user } = res.locals;
-      const existUser = await User.findOne({ where: { userId: user.userId } });
+      const { userId } = res.locals.user;
+      console.log(userId);
+      const existUser = await User.findOne({ where: { userId } });
+      console.log(existUser);
       if (existUser) {
         await User.destroy({ where: { userId: existUser.userId } });
         res.status(200).send({ message: "회원탈퇴가 완료되었습니다." });
@@ -69,6 +71,7 @@ const userProcess = {
         res.stauts(400).send({ message: "회원탈퇴에 실패했습니다." });
       }
     } catch (err) {
+      console.log(err);
       res.status(500).send({
         message: "알 수 없는 문제가 발생했습니다. 잠시 후 다시 시도해주세요.",
       });

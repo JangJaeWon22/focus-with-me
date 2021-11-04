@@ -9,14 +9,6 @@ module.exports = {
         type: Sequelize.INTEGER,
         unique: true,
       },
-      postId: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-      },
-      userId: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-      },
       date: {
         allowNull: false,
         type: Sequelize.DATE,

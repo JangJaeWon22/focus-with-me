@@ -10,14 +10,6 @@ module.exports = {
         type: Sequelize.INTEGER,
         unique: true,
       },
-      userId: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-      },
-      postId: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-      },
       textContent: {
         allowNull: false,
         type: Sequelize.STRING,

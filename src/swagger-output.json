@@ -5,7 +5,7 @@
     "description": "ㅇㅔㅇㅣㅊㅣ ㅇㅏㅇㅣ",
     "version": "1.0.0"
   },
-  "host": "3.34.44.44:8080",
+  "host": "127.0.0.1:8080",
   "basePath": "/api",
   "tags": [],
   "schemes": [
@@ -43,7 +43,9 @@
   "paths": {
     "/users/signup": {
       "post": {
-        "tags": ["users"],
+        "tags": [
+          "users"
+        ],
         "description": "회원가입",
         "parameters": [
           {
@@ -83,7 +85,9 @@
     },
     "/users/login": {
       "post": {
-        "tags": ["users"],
+        "tags": [
+          "users"
+        ],
         "description": "local로그인",
         "parameters": [
           {
@@ -115,7 +119,9 @@
     },
     "/users/withdrawal": {
       "delete": {
-        "tags": ["users"],
+        "tags": [
+          "users"
+        ],
         "description": "회원탈퇴",
         "parameters": [],
         "responses": {

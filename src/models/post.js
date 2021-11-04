@@ -58,10 +58,6 @@ module.exports = (sequelize, DataTypes) => {
       contentEditor: {
         type: DataTypes.TEXT,
       },
-      userId: {
-        allowNull: false,
-        type: DataTypes.INTEGER,
-      },
       date: {
         allowNull: false,
         type: DataTypes.DATE,
