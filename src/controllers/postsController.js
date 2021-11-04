@@ -28,10 +28,10 @@ module.exports = {
       categorySpace,
       categoryStudyMate,
       categoryInterest,
-      contentsEditor,
+      contentEditor,
     } = body;
     // image list 추출
-    const imageList = extractImageSrc(contentsEditor);
+    const imageList = extractImageSrc(contentEditor);
     // DB 저장 시에도 imageUrl을 사용하기 위해 let 선언
     let imageUrl = "";
     console.log(imageList);
@@ -47,7 +47,7 @@ module.exports = {
     });
     // const innerHtml = encodeURIComponent(
     // 모든 temp 경로를 content로 바꾸기
-    const innerHtml = contentsEditor.replace(/temp/g, "content");
+    const innerHtml = contentEditor.replace(/temp/g, "content");
     // const innerHtml = contentsEditor.replaceAll("temp", "content");
     const date = new Date();
     const post = {
@@ -72,8 +72,9 @@ module.exports = {
 
   // 게시물 수정
   putPosts: async (req, res) => {
-    const { userId } = req.locals.user;
+    const { userId } = res.locals.user;
     const { postId } = req.params;
+    //이건 cover 이미지
     const { path } = req.file;
     const body = JSON.parse(JSON.stringify(req.body));
     const {
@@ -81,75 +82,74 @@ module.exports = {
       categoryInterest,
       categorySpace,
       categoryStudyMate,
-      contentsEditor,
+      contentEditor,
     } = body;
-    //postId로 해당 post 조회
-    const post = await Post.findByPk(postId);
-    //조회 결과가 없으면 이미 업로드된 cover 파일 다시 지워야 함.
-    if (!post) {
-      await removeImage(path);
-      return res
-        .status(505)
-        .send({ message: "해당 게시물이 존재하지 않습니다." });
-    }
 
-    //조회 결과 게시물 주인이 현재 로그인한 사람 소유가 아니면 꺼져
-    if (userId !== post.userId)
-      return res
-        .status(401)
-        .send({ message: "본인의 게시물만 수정할 수 있습니다." });
-
-    //post 의 이미지 url 따라가서 삭제
-    await removeImage(post.imageCover);
-
-    //기존 이미지 content 삭제
-    const imageList = extractImageSrc(post.contentsEditor);
-    if (imageList.length !== 0) {
-      imageList.forEach(async (src) => {
-        await removeImage(src);
-      });
-    }
-
-    // try {
-    //   await fs.unlink(removeUrl);
-    // } catch (error) {
-    //   console.log(error);
-    //   return res.status(500).send({ message: "기존 이미지 삭제 실패" });
-    // }
+    //데이터 바꾸기
     // imageCover 업데이트 후 DB 다시 저장
     try {
+      //postId로 해당 post 조회
+      const post = await Post.findByPk(postId);
+
+      //조회 결과가 없으면 이미 업로드된 cover 파일 다시 지워야 함.
+      if (!post) {
+        await removeImage(path);
+        return res
+          .status(505)
+          .send({ message: "해당 게시물이 존재하지 않습니다." });
+      }
+
+      //조회 결과 게시물 주인이 현재 로그인한 사람 소유가 아니면 꺼져
+      if (userId !== post.userId)
+        return res
+          .status(401)
+          .send({ message: "본인의 게시물만 수정할 수 있습니다." });
+
+      // 기존 이미지 삭제하는 부분
+      //post 의 이미지 url 따라가서 삭제
+      await removeImage(post.imageCover);
+      //기존 이미지 content 삭제
+      const imageList = extractImageSrc(post.contentsEditor);
+
+      //새로 올라온 cover 이미지
       post.imageCover = path;
       post.title = title;
       post.categorySpace = categorySpace;
       post.categoryInterest = categoryInterest;
       post.categoryStudyMate = categoryStudyMate;
-      post.textContent = textContent;
-      post.youtubeUrl = youtubeUrl;
+      post.contentEditor = contentEditor;
       await post.save();
-      await removeImage(removeUrl);
-      return res.status(200).send({ message: "게시물 수정 성공" });
+
+      res.status(200).send({ message: "게시물 수정 성공" });
+      //성공하면 기존 이미지들 삭제 한 뒤에 return
+      if (imageList.length !== 0) {
+        imageList.forEach(async (src) => {
+          await removeImage(src);
+        });
+      }
+      return;
     } catch (error) {
       console.log(error);
+      // 새로 넣으려던 데이터는 지운다. -> 원상복구 시켜야 함.
+      // ROLLBACK : 기존데이터를 다시 넣고 저장.
+      // 원상복구 해야할 요소 : 파일, DB
+      // 기존 데이터를 어딘가에 백업해야할 듯.
       return res.status(500).send({ message: "DB 업데이트 실패" });
     }
   },
-  //게시물 삭ㅈ[ ]
+  //게시물 삭제
   deletePosts: async (req, res) => {
     const { postId } = req.params;
     try {
       //이미지도 지워야겠네??
       const post = await Post.findByPk(postId);
-      const imgList = extractImageSrc(post.contentsEditor);
+      const imgList = extractImageSrc(post.contentEditor);
       imgList.forEach(async (src) => {
         await removeImage(src);
       });
       await removeImage(post.imageCover);
       await post.destroy();
-      // await Post.destroy({
-      //   where: {
-      //     postId,
-      //   },
-      // });
+
       return res.status(200).send({ message: "포스팅 삭제 성공" });
     } catch (error) {
       console.log(error);
