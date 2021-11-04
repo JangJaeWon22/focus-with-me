@@ -1,7 +1,7 @@
 const { User } = require("../../models");
 const bcrypt = require("bcrypt");
 const multer = require("multer");
-const { removeImage } = require("../../library/removeImage");
+const { removeImage } = require("../../library/controlImage");
 const fs = require("fs");
 //이미지 저장 폴더 생성
 try {

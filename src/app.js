@@ -1,7 +1,7 @@
 const app = require("./server");
 const dotenv = require("dotenv");
 const schedule = require("node-schedule");
-const { emptyTemp } = require("./library/removeImage");
+const { emptyTemp } = require("./library/controlImage");
 
 dotenv.config();
 const port = process.env.EXPRESS_PORT;
