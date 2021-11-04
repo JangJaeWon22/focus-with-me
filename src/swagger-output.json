@@ -5,7 +5,7 @@
     "description": "ㅇㅔㅇㅣㅊㅣ ㅇㅏㅇㅣ",
     "version": "1.0.0"
   },
-  "host": "127.0.0.1:8080",
+  "host": "3.34.44.44:8080",
   "basePath": "/api",
   "tags": [],
   "schemes": [
@@ -469,6 +469,23 @@
           "myInfo"
         ],
         "description": "마이페이지 내가 포스팅한 글 조회",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/mypage/mybookmarks": {
+      "get": {
+        "tags": [
+          "myInfo"
+        ],
+        "description": "마이페이지 내가 북마크한 글 조회",
         "parameters": [],
         "responses": {
           "200": {
