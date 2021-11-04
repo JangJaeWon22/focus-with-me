@@ -11,16 +11,16 @@ const authMiddleware = require("../middlewares/auth");
 router.post(
   "/posts/:postId/comments",
   authMiddleware,
-  cmtCtrl.commentList.commentUser
+  cmtCtrl.comments.commentUser
 );
 // 댓글 조회
-router.get("/posts/:postId/comments", cmtCtrl.commentList.commentSearch);
+router.get("/posts/:postId/comments", cmtCtrl.comments.commentSearch);
 
 // 댓글 삭제
 router.delete(
   "/posts/:postId/comments/:commentId",
   authMiddleware,
-  cmtCtrl.commentList.commentDel
+  cmtCtrl.comments.commentDel
 );
 
 module.exports = router;

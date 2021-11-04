@@ -1,7 +1,7 @@
 const { Comment } = require("../../models");
 const { User } = require("../../models"); // 댓글조회 때 필요함
 
-const commentList = {
+const comments = {
     // 댓글 생성
     commentUser: async (req, res) => {
         try {
@@ -84,4 +84,4 @@ const commentList = {
 }
 
 
-module.exports = {commentList};
+module.exports = {comments};
