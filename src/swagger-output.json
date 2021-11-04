@@ -8,10 +8,7 @@
   "host": "3.34.44.44:8080",
   "basePath": "/api",
   "tags": [],
-  "schemes": [
-    "http",
-    "https"
-  ],
+  "schemes": ["http", "https"],
   "components": {
     "securitySchemes": {
       "Bearer": {
@@ -34,18 +31,12 @@
       "description": "token"
     }
   },
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
-  ],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
   "paths": {
     "/users/signup": {
       "post": {
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "description": "회원가입",
         "parameters": [
           {
@@ -85,9 +76,7 @@
     },
     "/users/login": {
       "post": {
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "description": "local로그인",
         "parameters": [
           {
@@ -119,9 +108,7 @@
     },
     "/users/withdrawal": {
       "delete": {
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "description": "회원탈퇴",
         "parameters": [],
         "responses": {
@@ -139,9 +126,7 @@
     },
     "/users/emailexist": {
       "post": {
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "description": "이메일 중복확인",
         "parameters": [
           {
@@ -172,9 +157,7 @@
     },
     "/users/nicknameexist": {
       "post": {
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "description": "닉네임 중복확인",
         "parameters": [
           {
@@ -205,9 +188,7 @@
     },
     "/users/edit": {
       "put": {
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "description": "회원정보 수정",
         "parameters": [
           {
@@ -250,9 +231,7 @@
     },
     "/posts": {
       "get": {
-        "tags": [
-          "posts"
-        ],
+        "tags": ["posts"],
         "description": "게시글 조회",
         "parameters": [
           {
@@ -268,12 +247,8 @@
         }
       },
       "post": {
-        "tags": [
-          "posts"
-        ],
-        "consumes": [
-          "multipart/form-data"
-        ],
+        "tags": ["posts"],
+        "consumes": ["multipart/form-data"],
         "description": "게시글 작성",
         "parameters": [
           {
@@ -307,7 +282,7 @@
             "description": "dev"
           },
           {
-            "name": "contentsEditor",
+            "name": "contentEditor",
             "in": "formData",
             "type": "string",
             "description": "<p>안녕</p>"
@@ -322,9 +297,7 @@
     },
     "/posts/{postId}": {
       "put": {
-        "tags": [
-          "posts"
-        ],
+        "tags": ["posts"],
         "description": "게시글 수정",
         "parameters": [
           {
@@ -334,31 +307,40 @@
             "type": "string"
           },
           {
-            "name": "obj",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "title": {
-                  "example": "제목 변경ㅋ"
-                },
-                "categorySpace": {
-                  "example": "categorySpace 변경ㅋ"
-                },
-                "categoryInterest": {
-                  "example": "categoryInterest 변경"
-                },
-                "categoryStudyMate": {
-                  "example": "categoryStudyMate 변경"
-                },
-                "textContent": {
-                  "example": "textContent 변경"
-                },
-                "youtubeUrl": {
-                  "example": "youtubeUrl 변경"
-                }
-              }
-            }
+            "name": "imageCover",
+            "in": "formData",
+            "type": "file",
+            "description": "The file to upload."
+          },
+          {
+            "name": "title",
+            "in": "formData",
+            "type": "string",
+            "description": "title"
+          },
+          {
+            "name": "categorySpace",
+            "in": "formData",
+            "type": "string",
+            "description": "home"
+          },
+          {
+            "name": "categoryStudyMate",
+            "in": "formData",
+            "type": "string",
+            "description": "solo"
+          },
+          {
+            "name": "categoryInterest",
+            "in": "formData",
+            "type": "string",
+            "description": "dev"
+          },
+          {
+            "name": "contentEditor",
+            "in": "formData",
+            "type": "string",
+            "description": "<p>안녕</p>"
           }
         ],
         "responses": {
@@ -374,9 +356,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "posts"
-        ],
+        "tags": ["posts"],
         "description": "게시글 삭제",
         "parameters": [
           {
@@ -398,9 +378,7 @@
     },
     "/posts/{postId}/comments": {
       "post": {
-        "tags": [
-          "comments"
-        ],
+        "tags": ["comments"],
         "description": "게시글 댓글 생성",
         "parameters": [
           {
@@ -425,9 +403,7 @@
         "responses": {}
       },
       "get": {
-        "tags": [
-          "comments"
-        ],
+        "tags": ["comments"],
         "description": "게시글 댓글 조회",
         "parameters": [
           {
@@ -442,9 +418,7 @@
     },
     "/posts/{postId}/comments/{commentId}": {
       "delete": {
-        "tags": [
-          "comments"
-        ],
+        "tags": ["comments"],
         "description": "게시글 댓글 삭제",
         "parameters": [
           {
@@ -465,9 +439,7 @@
     },
     "/mypage/myposts": {
       "get": {
-        "tags": [
-          "myInfo"
-        ],
+        "tags": ["myInfo"],
         "description": "마이페이지 내가 포스팅한 글 조회",
         "parameters": [],
         "responses": {
@@ -499,9 +471,7 @@
     },
     "/mypage/myinfo": {
       "get": {
-        "tags": [
-          "myInfo"
-        ],
+        "tags": ["myInfo"],
         "description": "마이페이지 내 정보 조회",
         "parameters": [],
         "responses": {
@@ -516,9 +486,7 @@
     },
     "/bookmarks/{postId}": {
       "post": {
-        "tags": [
-          "bookmark"
-        ],
+        "tags": ["bookmark"],
         "description": "북마크 추가",
         "parameters": [
           {
@@ -538,9 +506,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "bookmark"
-        ],
+        "tags": ["bookmark"],
         "description": "북마크 삭제",
         "parameters": [
           {
