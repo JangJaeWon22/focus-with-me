@@ -14,4 +14,11 @@ router.get(
   myInfoOutPut.getMyPost
 );
 
+router.get(
+  "/mypage/mybookmarks",
+  authMiddleware,
+  GetMyInfo,
+  myInfoOutPut.getMyBookmark
+);
+
 module.exports = router;

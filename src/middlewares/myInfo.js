@@ -14,7 +14,6 @@ const GetMyInfo = async (req, res, next) => {
     const userInfo = await sequelize.query(userQuery, {
       type: sequelize.QueryTypes.SELECT,
     });
-    console.log(userInfo);
     res.userInfo = userInfo;
     next();
   } catch (error) {
