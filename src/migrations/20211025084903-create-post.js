@@ -28,10 +28,6 @@ module.exports = {
       contentEditor: {
         type: Sequelize.TEXT,
       },
-      userId: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-      },
       date: {
         allowNull: false,
         type: Sequelize.DATE,

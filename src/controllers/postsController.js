@@ -2,10 +2,11 @@ const { Post } = require("../models");
 const { Op } = require("sequelize");
 const fs = require("fs/promises");
 const fsSync = require("fs");
-const { removeImage, extractImageSrc } = require("../library/removeImage");
+const { removeImage, extractImageSrc } = require("../library/controlImage");
 /* option + shift + a */
 
 module.exports = {
+  // 게시물 전체 조회
   getPosts: async (req, res) => {
     //조회는 미들웨어에서 처리하고, 여기는 던지는 역할만 하기
     const posts = req.posts;
@@ -44,12 +45,8 @@ module.exports = {
         await fs.rename(url, imageUrl);
       }
     });
-    console.log(imageList);
-    console.log(contentsEditor);
-    // 모든 temp 경로를 content로 바꾸기
     // const innerHtml = encodeURIComponent(
-    // contentsEditor.replaceAll("temp", "content")
-    // );
+    // 모든 temp 경로를 content로 바꾸기
     const innerHtml = contentsEditor.replace(/temp/g, "content");
     // const innerHtml = contentsEditor.replaceAll("temp", "content");
     const date = new Date();
@@ -72,33 +69,47 @@ module.exports = {
       return res.status(500).send({ message: "DB 저장에 실패했습니다." });
     }
   },
+
+  // 게시물 수정
   putPosts: async (req, res) => {
-    // 사용자 인증 미들웨어 사용 시
-    // const { userId } = req.locals.user;
+    const { userId } = req.locals.user;
     const { postId } = req.params;
     const { path } = req.file;
+    const body = JSON.parse(JSON.stringify(req.body));
     const {
       title,
-      categorySpace,
       categoryInterest,
+      categorySpace,
       categoryStudyMate,
-      textContent,
-      youtubeUrl,
-    } = req.body;
-
+      contentsEditor,
+    } = body;
     //postId로 해당 post 조회
-    //조회 실패하면 파일 다시 지워야 함.
     const post = await Post.findByPk(postId);
+    //조회 결과가 없으면 이미 업로드된 cover 파일 다시 지워야 함.
     if (!post) {
-      const result = await removeImage(path);
-      console.log(result);
+      await removeImage(path);
       return res
         .status(505)
         .send({ message: "해당 게시물이 존재하지 않습니다." });
     }
 
+    //조회 결과 게시물 주인이 현재 로그인한 사람 소유가 아니면 꺼져
+    if (userId !== post.userId)
+      return res
+        .status(401)
+        .send({ message: "본인의 게시물만 수정할 수 있습니다." });
+
     //post 의 이미지 url 따라가서 삭제
-    const removeUrl = post.imageCover;
+    await removeImage(post.imageCover);
+
+    //기존 이미지 content 삭제
+    const imageList = extractImageSrc(post.contentsEditor);
+    if (imageList.length !== 0) {
+      imageList.forEach(async (src) => {
+        await removeImage(src);
+      });
+    }
+
     // try {
     //   await fs.unlink(removeUrl);
     // } catch (error) {
@@ -122,11 +133,16 @@ module.exports = {
       return res.status(500).send({ message: "DB 업데이트 실패" });
     }
   },
+  //게시물 삭ㅈ[ ]
   deletePosts: async (req, res) => {
     const { postId } = req.params;
     try {
       //이미지도 지워야겠네??
       const post = await Post.findByPk(postId);
+      const imgList = extractImageSrc(post.contentsEditor);
+      imgList.forEach(async (src) => {
+        await removeImage(src);
+      });
       await removeImage(post.imageCover);
       await post.destroy();
       // await Post.destroy({
@@ -153,6 +169,10 @@ module.exports = {
     }
   },
   ckUpload: (req, res) => {
+    const { user } = res.locals.user;
+    console.log("res.locals : ", res.locals);
+    console.log("user :", user);
+    console.log("res.locals.user : ", res.locals.user);
     const { path } = req.file;
     return res.status(200).send({ path });
   },

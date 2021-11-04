@@ -16,6 +16,8 @@ const endpointsFiles = [
   "./routes/posts.js",
   "./routes/postlike.js",
   "./routes/comments.js",
+  "./routes/bookmark.js",
+  "./routes/myinfo.js",
 ];
 
 /* NOTE: if you use the express Router, you must pass in the 
