@@ -11,7 +11,7 @@ const comments = {
 
       const user = await User.findByPk(userId);
       const userNick = user.nickname;
-      console.log(userNick);
+
       const date = new Date();
       const comment = await Comment.create({
         userId,
