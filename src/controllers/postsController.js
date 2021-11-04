@@ -140,9 +140,14 @@ module.exports = {
   //게시물 삭제
   deletePosts: async (req, res) => {
     const { postId } = req.params;
+    const { userId } = res.locals.user;
+
     try {
       //이미지도 지워야겠네??
       const post = await Post.findByPk(postId);
+      if (userId !== post.userId)
+        return res.status(400).send({ message: "주인 아님" });
+
       const imgList = extractImageSrc(post.contentEditor);
       imgList.forEach(async (src) => {
         await removeImage(src);
@@ -161,7 +166,6 @@ module.exports = {
 
     try {
       const post = await Post.findByPk(postId);
-
       return res.status(200).send({ post });
     } catch (error) {
       console.log(error);
