@@ -15,7 +15,9 @@ module.exports = {
       .status(200)
       .send({ message: "posts 조회 성공", posts, queryResult });
   },
-  // 게시물 생성
+  /* 
+    게시물 생성
+  */
   postPosts: async (req, res) => {
     // 사용자 인증 미들웨어 사용할 경우
     const { userId } = res.locals.user;
@@ -47,9 +49,10 @@ module.exports = {
       }
     });
     const encodedTitle = encodeURIComponent(title);
-
     // 모든 temp 경로를 content로 바꾸기
     const innerHtml = contentEditor.replace(/temp/g, "content");
+    const encodedHTML = encodeURIComponent(innerHtml);
+
     // const innerHtml = contentsEditor.replaceAll("temp", "content");
     const date = new Date();
     const post = {
@@ -59,7 +62,7 @@ module.exports = {
       categoryInterest,
       categorySpace,
       categoryStudyMate,
-      contentEditor: innerHtml,
+      contentEditor: encodedHTML,
       date,
     };
     try {
@@ -112,11 +115,11 @@ module.exports = {
 
       //새로 올라온 데이터가 있을 때만 바꾸기
       if (path) post.imageCover = path;
-      if (title) post.title = title;
+      if (title) post.title = encodeURIComponent(title);
       if (categorySpace) post.categorySpace = categorySpace;
       if (categoryInterest) post.categoryInterest = categoryInterest;
       if (categoryStudyMate) post.categoryStudyMate = categoryStudyMate;
-      if (contentEditor) post.contentEditor = contentEditor;
+      if (contentEditor) post.contentEditor = encodeURIComponent(contentEditor);
       await post.save();
 
       res.status(200).send({ message: "게시물 수정 성공" });
