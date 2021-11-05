@@ -3,14 +3,13 @@ const { User, Follow } = require("../../models");
 const followOutPut = {
   getFollowing: async (req, res) => {
     try {
-      const { userId } = res.locals.user;
-      const user = res.locals.user;
+      const { userId } = req.params;
       const userInfo = await User.findOne({ where: { userId } });
       const aaa = await userInfo.getFollowings();
       const bbb = await userInfo.getFollowers();
       console.log(aaa);
       console.log("bbb : ", bbb);
-      res.status(200).send({ aaa, bbb, user });
+      res.status(200).send({ aaa, bbb });
     } catch (error) {
       console.error(error);
       res.status(400).send({

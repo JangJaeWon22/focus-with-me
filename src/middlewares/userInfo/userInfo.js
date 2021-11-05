@@ -1,9 +1,10 @@
-const { User, Post, sequelize } = require("../models");
+const { User, Post, sequelize } = require("../../models");
 
 //유저 정보 가공(작성한 게시글 갯수 카운트)
-const GetMyInfo = async (req, res, next) => {
+const GetUserInfo = async (req, res, next) => {
   try {
-    const { userId } = res.locals.user;
+    // const { userId } = req.body === undefined ? res.locals.user : req.body;
+    const { userId } = req.params;
     const userQuery = `
     SELECT Users.userId,Users.email,Users.nickname,Users.avatarUrl,Users.date, COUNT(Posts.userId) AS postCnt
     FROM Users
@@ -24,4 +25,4 @@ const GetMyInfo = async (req, res, next) => {
   }
 };
 
-module.exports = GetMyInfo;
+module.exports = GetUserInfo;
