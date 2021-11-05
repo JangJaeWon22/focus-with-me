@@ -587,10 +587,17 @@
     "/mypage/myposts/{userId}": {
       "get": {
         "tags": [
-          "myInfo"
+          "userInfo"
         ],
-        "description": "마이페이지 내가 포스팅한 글 조회",
-        "parameters": [],
+        "description": "마이페이지 userId가 포스팅한 글 조회",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -604,10 +611,17 @@
     "/mypage/mybookmarks/{userId}": {
       "get": {
         "tags": [
-          "myInfo"
+          "userInfo"
         ],
-        "description": "마이페이지 내가 북마크한 글 조회",
-        "parameters": [],
+        "description": "마이페이지 userId가 북마크한 글 조회",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -621,10 +635,17 @@
     "/mypage/myinfo/{userId}": {
       "get": {
         "tags": [
-          "myInfo"
+          "userInfo"
         ],
-        "description": "마이페이지 내 정보 조회",
-        "parameters": [],
+        "description": "마이페이지 user 정보 조회",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
