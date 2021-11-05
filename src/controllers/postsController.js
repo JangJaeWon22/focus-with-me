@@ -46,8 +46,6 @@ module.exports = {
         await fs.rename(url, imageUrl);
       }
     });
-    // const innerHtml = encodeURIComponent(
-
     const encodedTitle = encodeURIComponent(title);
 
     // 모든 temp 경로를 content로 바꾸기
@@ -79,9 +77,8 @@ module.exports = {
     const { userId } = res.locals.user;
     console.log(res.locals.user);
     const { postId } = req.params;
-    //이건 cover 이미지
+    //파일이 없을 경우를 대비한 예외처리
     const path = req.file ? req.file.path : "";
-    // const { path } = req.file;
     const body = JSON.parse(JSON.stringify(req.body));
     const {
       title,
@@ -90,13 +87,11 @@ module.exports = {
       categoryStudyMate,
       contentEditor,
     } = body;
-
     //데이터 바꾸기
     // imageCover 업데이트 후 DB 다시 저장
     try {
       //postId로 해당 post 조회
       const post = await Post.findByPk(postId);
-
       //조회 결과가 없으면 이미 업로드된 cover 파일 다시 지워야 함.
       if (!post) {
         await removeImage(path);
@@ -104,13 +99,11 @@ module.exports = {
           .status(505)
           .send({ message: "해당 게시물이 존재하지 않습니다." });
       }
-
       //조회 결과 게시물 주인이 현재 로그인한 사람 소유가 아니면 꺼져
       if (userId !== post.userId)
         return res
           .status(401)
           .send({ message: "본인의 게시물만 수정할 수 있습니다." });
-
       // 기존 이미지 삭제하는 부분
       //post 의 이미지 url 따라가서 삭제
       await removeImage(post.imageCover);
@@ -176,7 +169,6 @@ module.exports = {
     let isFollowing = false;
 
     let userId = res.locals.user ? res.locals.user.userId : null;
-    console.log(userId);
     try {
       const post = await Post.findOne({
         where: { postId },
@@ -207,9 +199,7 @@ module.exports = {
         WHERE Follow.followingId=${targetId} AND Follow.followerId=${userId};`,
           { type: sequelize.QueryTypes.SELECT }
         );
-        console.log(following);
         if (following.length !== 0) isFollowing = true;
-        //현재 로그인한 사람  = userId;
       }
 
       return res.status(200).send({ post, isBookmarked, isLiked, isFollowing });
