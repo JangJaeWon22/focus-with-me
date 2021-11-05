@@ -19,7 +19,6 @@ const filter = (req, res, next) => {
           where: {
             [Op.and]: where, // assign the "where" array here
           },
-          limit: 10,
           include: {
             model: Like,
           },
