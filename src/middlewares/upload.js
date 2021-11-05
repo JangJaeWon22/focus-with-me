@@ -20,11 +20,11 @@ module.exports = {
     dest: "public/uploads/cover",
     limits: { fileSize: 1000000 },
     // 파일이 없을 경우 예외처리 필요.
-    onError: function (err, next) {
-      console.log("error", err);
-      console.log("여기는 multer 에러 처리");
-      next();
-    },
+    // onError: function (err, next) {
+    //   console.log("error", err);
+    //   console.log("여기는 multer 에러 처리");
+    //   next();
+    // },
   }),
   uploadContents: multer({
     dest: "public/uploads/content",

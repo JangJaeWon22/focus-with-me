@@ -74,9 +74,11 @@ module.exports = {
   // 게시물 수정
   putPosts: async (req, res) => {
     const { userId } = res.locals.user;
+    console.log(res.locals.user);
     const { postId } = req.params;
     //이건 cover 이미지
-    const { path } = req.file;
+    const path = req.file ? req.file.path : "";
+    // const { path } = req.file;
     const body = JSON.parse(JSON.stringify(req.body));
     const {
       title,
