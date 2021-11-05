@@ -59,6 +59,10 @@ app.use(
     resave: false,
     saveUninitialized: false, //초기화되지 않은채 스토어에 저장되는 세션
     secret: "secret",
+    cookie: {
+      httpOnly: true,
+      secure: false,
+    },
   })
 );
 app.use(passport.initialize());
