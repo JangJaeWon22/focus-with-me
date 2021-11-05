@@ -754,21 +754,15 @@
     "/followings/{userId}": {
       "post": {
         "tags": [
-          "following users"
+          "followers/followings List"
         ],
         "description": "팔로잉 유저 목록",
         "parameters": [
           {
-            "name": "obj",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "userId": {
-                  "example": "2"
-                }
-              }
-            }
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
@@ -784,21 +778,15 @@
     "/followers/{userId}": {
       "post": {
         "tags": [
-          "follower user"
+          "followers/followings List"
         ],
         "description": "팔로워 유저 목록 보기",
         "parameters": [
           {
-            "name": "obj",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "userId": {
-                  "example": "2"
-                }
-              }
-            }
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
