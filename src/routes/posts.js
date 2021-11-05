@@ -8,7 +8,11 @@ const {
   deletePosts,
   ckUpload,
 } = require("../controllers/postsController");
-const { uploadCover, uploadTemp } = require("../middlewares/upload");
+const {
+  uploadCover,
+  uploadTemp,
+  uploadTest,
+} = require("../middlewares/upload");
 const { filter, main } = require("../middlewares/filter");
 const authMiddleware = require("../middlewares/auth");
 const notAuth = require("../middlewares/notAuth");
@@ -22,6 +26,14 @@ postsRouter
 postsRouter
   .route("/posts/ckUpload")
   .post(authMiddleware, uploadTemp.single("temp"), ckUpload);
+
+postsRouter
+  .route("/posts/test")
+  .post(uploadTest.single("test"), async (req, res) => {
+    const { path } = req.file;
+    console.log(path);
+    return res.status(200).send({ message: "여기는 성공" });
+  });
 
 postsRouter
   .route("/posts/:postId")

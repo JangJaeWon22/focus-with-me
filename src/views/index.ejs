@@ -22,25 +22,13 @@
   </h1>
   <p>Welcome to <%= title %>
   </p>
-  <!-- <form action="/api/posts" method="post" enctype="multipart/form-data">
-    <input type="file" class="form-control-file" name="cover" id="cover">
-    <input type="submit" value="Get me the stats!" class="btn btn-default">
-  </form> -->
-  <!-- // 3. CKEditor5를 생성할 textarea 지정 -->
   <div>
-    <textarea name="content" id="editor">
-    </textarea>
-    <button type="submit" id="submitBtn">SUBMIT!</button>
+    <form action="/api/posts" method="post" enctype="multipart/form-data">
+      <input type="file" class="form-control-file" name="cover" id="cover">
+      <input type="submit" value="Get me the stats!" class="btn btn-default">
+    </form>
   </div>
 
 </body>
-<script>
-  ClassicEditor
-    .create(document.querySelector('#editor'))
-    .catch(error => {
-      console.error(error);
-    });
-
-</script>
 
 </html>
