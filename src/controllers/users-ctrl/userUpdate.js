@@ -17,40 +17,52 @@ const userUpdate = {
     try {
       const { user } = res.locals;
       const { file } = req;
-      const { nicknameNew } = res.verifyBody;
-      // let nicknameNew =
-      //req.body.nicknameNew === "" ? user.nickname : req.body.nicknameNew;
-      const existUser = await User.findOne({
-        where: { nickname: nicknameNew },
-      });
-      //변경할 file이 있을 때
-      if (file) {
-        await removeImage(existUser.avatarUrl);
-        avatarUrl = file.path;
-      } else {
-        avatarUrl = "public/avatar/noAvatar";
-      }
 
-      // 닉네임 중복 검사
-      if (!existUser) {
-        await User.update(
-          {
-            nickname: nicknameNew,
-            avatarUrl,
-          },
-          { where: { userId: user.userId } }
-        );
-        res.status(200).send({
-          message: "프로필사진 업데이트를 완료 했습니다.",
+      // 닉네임입력란이 공백일 경우 대비
+      if (res.verifyBody) {
+        const { nicknameNew } = res.verifyBody;
+        const existUser = await User.findOne({
+          where: { userId: user.userId },
         });
+        //변경할 file이 있을 때
+        if (file) {
+          await removeImage(existUser.avatarUrl);
+          avatarUrl = file.path;
+        } else {
+          avatarUrl = "public/images/noAvatar";
+        }
+
+        // 받은 닉네임의 값이 변경이 된 지 안된지 검증
+        if (nicknameNew === user.nickname) {
+          await User.update({ avatarUrl }, { where: { userId: user.userId } });
+          res
+            .status(200)
+            .send({ message: "회원 정보 수정이 완료 되었습니다." });
+        } else {
+          // 변경할 닉네임 중복 검사
+          existNick = await User.findOne({ where: { nickname: nicknameNew } });
+          if (existNick) {
+            console.log(nicknameNew, user.nickname);
+            return res.status(400).send({ message: "중복된 닉네임입니다." });
+          } else {
+            await User.update(
+              {
+                nickname: nicknameNew,
+                avatarUrl,
+              },
+              { where: { userId: user.userId } }
+            );
+            return res
+              .status(200)
+              .send({ message: "회원 정보 수정이 완료 되었습니다." });
+          }
+        }
       } else {
-        res.status(400).send({
-          message: "이미 사용중인 닉네임 입니다",
-        });
+        return res.status(400).send({ message: "닉네임을 입력해주세요." });
       }
     } catch (err) {
       console.log(err);
-      res.status(500).send({
+      return res.status(500).send({
         message: "알 수 없는 문제가 발생했습니다. 잠시 후 다시 시도해주세요.",
       });
     }

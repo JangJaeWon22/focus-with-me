@@ -37,9 +37,8 @@ const verifyJoi = {
 
     try {
       // 사용자 인증 미들웨어에서 값 들고 옴
-      const { user } = res.locals;
-      // 바꿀 닉네임이 없을 경우 검증
       if (req.body.nicknameNew) {
+        const { nicknameNew } = req.body;
         const verifyBody = await joiSchema.validateAsync({ nicknameNew });
         res.verifyBody = verifyBody;
         next();

@@ -32,13 +32,13 @@ router.get(
 );
 
 // 회원 정보 수정
-// router.put(
-//   "/users/profileEdit",
-//   authMiddleware,
-//   uploadAvatar.single("file"),
-//   verifyJoi.updateUserProfile,
-//   userUpdate.updateUserProfile
-// );
+router.put(
+  "/users/profileEdit",
+  authMiddleware,
+  uploadAvatar.single("file"),
+  verifyJoi.updateUserProfile,
+  userUpdate.updateUserProfile
+);
 
 // 회원탈퇴
 router.delete("/users/withdrawal", authMiddleware, userProcess.deleteUser);
