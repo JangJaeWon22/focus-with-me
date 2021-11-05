@@ -20,7 +20,8 @@ module.exports = {
     // 사용자 인증 미들웨어 사용할 경우
     const { userId } = res.locals.user;
     // 여기서 받는 파일은 cover image
-    const { path } = req.file;
+    const path = req.file ? req.file.path : "";
+    // const { path } = req.file;
     //multipart 에서 json 형식으로 변환
     const body = JSON.parse(JSON.stringify(req.body));
     const {
@@ -38,7 +39,7 @@ module.exports = {
     //image 리스트에 대해서 for 문을 돌려서 temp 폴더 확인
     imageList.forEach(async (url) => {
       const isExist = fsSync.existsSync(url);
-      //파일이 존재하면, 파일 옮기기, img src 바꾸기
+      //파일이 존재하면, 파일 옮기기, img src 바꾸기
       if (isExist) {
         const fileName = url.split("/")[url.split("/").length - 1];
         imageUrl = `public/uploads/content/${fileName}`;
@@ -73,9 +74,11 @@ module.exports = {
   // 게시물 수정
   putPosts: async (req, res) => {
     const { userId } = res.locals.user;
+    console.log(res.locals.user);
     const { postId } = req.params;
     //이건 cover 이미지
-    const { path } = req.file;
+    const path = req.file ? req.file.path : "";
+    // const { path } = req.file;
     const body = JSON.parse(JSON.stringify(req.body));
     const {
       title,
@@ -111,13 +114,13 @@ module.exports = {
       //기존 이미지 content 삭제
       const imageList = extractImageSrc(post.contentsEditor);
 
-      //새로 올라온 cover 이미지
-      post.imageCover = path;
-      post.title = title;
-      post.categorySpace = categorySpace;
-      post.categoryInterest = categoryInterest;
-      post.categoryStudyMate = categoryStudyMate;
-      post.contentEditor = contentEditor;
+      //새로 올라온 데이터가 있을 때만 바꾸기
+      if (path) post.imageCover = path;
+      if (title) post.title = title;
+      if (categorySpace) post.categorySpace = categorySpace;
+      if (categoryInterest) post.categoryInterest = categoryInterest;
+      if (categoryStudyMate) post.categoryStudyMate = categoryStudyMate;
+      if (contentEditor) post.contentEditor = contentEditor;
       await post.save();
 
       res.status(200).send({ message: "게시물 수정 성공" });
@@ -140,9 +143,14 @@ module.exports = {
   //게시물 삭제
   deletePosts: async (req, res) => {
     const { postId } = req.params;
+    const { userId } = res.locals.user;
+
     try {
       //이미지도 지워야겠네??
       const post = await Post.findByPk(postId);
+      if (userId !== post.userId)
+        return res.status(400).send({ message: "주인 아님" });
+
       const imgList = extractImageSrc(post.contentEditor);
       imgList.forEach(async (src) => {
         await removeImage(src);
@@ -156,6 +164,8 @@ module.exports = {
       return res.status(400).send({ message: "포스팅 삭제 실패" });
     }
   },
+
+  //상세 페이지
   getOnePost: async (req, res) => {
     const { postId } = req.params;
     let isBookmarked = false;
@@ -186,6 +196,7 @@ module.exports = {
       return res.status(500).send({ message: "DB 조회에 실패했습니다." });
     }
   },
+  // 업로드를 위한
   ckUpload: (req, res) => {
     const { user } = res.locals.user;
     console.log("res.locals : ", res.locals);
