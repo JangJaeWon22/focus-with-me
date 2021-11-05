@@ -3,7 +3,7 @@
   "info": {
     "title": "API",
     "description": "ㅇㅔㅇㅣㅊㅣ ㅇㅏㅇㅣ",
-    "version": "1.0.0"
+    "version": "3.0.0"
   },
   "host": "3.34.44.44:8080",
   "basePath": "/api",
