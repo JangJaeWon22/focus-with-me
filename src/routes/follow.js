@@ -12,9 +12,9 @@ router.post("/follows", authMiddleware, followProcess.createFollow);
 router.delete("/follows", authMiddleware, followProcess.deleteFollow);
 
 // 팔로윙 중인 계정 보기
-router.get("/followings", authMiddleware, followOutPut.getFollowing);
+router.get("/followings", authMiddleware, followMW, followOutPut.getFollowing);
 
 // 나를 팔로워하는 계정 보기
-router.get("/followers", authMiddleware, followOutPut.getFollower);
+router.get("/followers", authMiddleware, followMW, followOutPut.getFollower);
 
 module.exports = router;

@@ -39,11 +39,13 @@ const followProcess = {
     try {
       const { user } = res.locals;
       const { nickname } = req.body;
-      const userInfo = await User.findOne({ where: { userId: user.userId } });
       const tagetUser = await User.findOne({ where: { nickname } });
+      const userInfo = await User.findOne({
+        where: { userId: tagetUser.userId },
+      });
       if (userInfo) {
         if (tagetUser.userId !== user.userId) {
-          await user.removeFollowings(parseInt(tagetUser.userId, 10));
+          await user.removeFollower(parseInt(user.userId, 10));
           message = `${user.nickname}님이 ${nickname}님을 팔로잉 취소 했습니다.`;
           console.log(message);
           res.status(200).send({
