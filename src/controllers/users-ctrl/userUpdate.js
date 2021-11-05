@@ -70,17 +70,8 @@ const userUpdate = {
   updateUserPw: async (req, res) => {
     try {
       const { user } = res.locals;
-      const { file } = req;
-      const { nicknameNew, passwordOld, passwordNew } = res.verifyBody;
-      console.log(res.verifyBody);
+      const { passwordOld, passwordNew } = res.verifyBody;
       const existUser = await User.findOne({ where: { userId: user.userId } });
-      //변경할 file이 있을 때 (+계정에 프로필 사진이 등록이 되어 있을 때를 해야될지 고민)
-      if (file) {
-        await removeImage(existUser.avatarUrl);
-      } else {
-        //프로필 사진을 변경 안할때
-        file = existUser;
-      }
 
       //등록된 유저가 있는지 다시 한번 조회
       if (existUser) {
@@ -89,9 +80,7 @@ const userUpdate = {
           const encryptPassword = bcrypt.hashSync(passwordNew, 10);
           await User.update(
             {
-              nickname: nicknameNew,
               password: encryptPassword,
-              avatarUrl: file.path,
             },
             { where: { userId: user.userId } }
           );

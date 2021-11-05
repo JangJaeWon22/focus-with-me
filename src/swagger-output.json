@@ -750,6 +750,66 @@
           }
         }
       }
+    },
+    "/followings/{userId}": {
+      "post": {
+        "tags": [
+          "following users"
+        ],
+        "description": "팔로잉 유저 목록",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "userId": {
+                  "example": "2"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/followers/{userId}": {
+      "post": {
+        "tags": [
+          "follower user"
+        ],
+        "description": "팔로워 유저 목록 보기",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "userId": {
+                  "example": "2"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
     }
   },
   "definitions": {}
