@@ -603,7 +603,9 @@
     },
     "/mypage/mybookmarks/{userId}": {
       "get": {
-        "tags": ["myInfo"],
+        "tags": [
+          "myInfo"
+        ],
         "description": "마이페이지 내가 북마크한 글 조회",
         "parameters": [],
         "responses": {
@@ -692,8 +694,8 @@
             "schema": {
               "type": "object",
               "properties": {
-                "nickname": {
-                  "example": "user2"
+                "userId": {
+                  "example": "2"
                 }
               }
             }
@@ -720,8 +722,8 @@
             "schema": {
               "type": "object",
               "properties": {
-                "nickname": {
-                  "example": "user2"
+                "userId": {
+                  "example": "2"
                 }
               }
             }

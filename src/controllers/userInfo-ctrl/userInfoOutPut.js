@@ -1,8 +1,6 @@
 const { Post, Bookmark } = require("../../models");
-const { Op } = require("sequelize");
-const router = require("../../routes/follow");
 
-const myInfoOutPut = {
+const userInfoOutPut = {
   getUser: async (req, res) => {
     try {
       const userInfo = res.userInfo;
@@ -10,6 +8,8 @@ const myInfoOutPut = {
         userInfo,
         followerCount,
         followingsCount,
+        followingIdList,
+        followerIdList,
         message: "회원 정보 조회를 했습니다.",
       });
     } catch (error) {
@@ -17,7 +17,7 @@ const myInfoOutPut = {
       res.status(400).send({ message: "회원 정보 조회에 실패 했습니다." });
     }
   },
-  getMyPost: async (req, res) => {
+  getUserPost: async (req, res) => {
     try {
       const { userId } = res.locals.user; // user 정보를 통으로 보내줌
       const myPosts = await Post.findAll({ where: { userId } });
@@ -29,7 +29,7 @@ const myInfoOutPut = {
       });
     }
   },
-  getMyBookmark: async (req, res) => {
+  getUserBookmark: async (req, res) => {
     try {
       // 로그인 인증 미들웨어에서 userId 가져옴
       const { userId } = res.locals.user;
@@ -51,4 +51,4 @@ const myInfoOutPut = {
     }
   },
 };
-module.exports = { myInfoOutPut };
+module.exports = { userInfoOutPut };
