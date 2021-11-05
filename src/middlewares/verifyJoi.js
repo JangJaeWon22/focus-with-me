@@ -30,7 +30,31 @@ const verifyJoi = {
   },
 
   //회원정보 수정 시 joi 검증 실행
-  updateUser: async (req, res, next) => {
+  updateUserProfile: async (req, res, next) => {
+    const joiSchema = Joi.object({
+      nicknameNew: Joi.string().min(1).max(20),
+    });
+
+    try {
+      // 사용자 인증 미들웨어에서 값 들고 옴
+      const { user } = res.locals;
+      // 바꿀 닉네임이 없을 경우 검증
+      if (req.body.nicknameNew) {
+        const verifyBody = await joiSchema.validateAsync({ nicknameNew });
+        res.verifyBody = verifyBody;
+        next();
+      } else {
+        next();
+      }
+    } catch (err) {
+      console.log(err);
+      return res.status(400).send({
+        message: "닉네임의 형식이 올바르지 않습니다.",
+      });
+    }
+  },
+
+  updateUserPw: async (req, res, next) => {
     const joiSchema = Joi.object({
       nicknameNew: Joi.string().min(1).max(20),
       passwordOld: Joi.string()

@@ -15,7 +15,7 @@ const followProcess = {
           message = `${user.nickname}님이 ${tagetUser.nickname}님을 팔로잉 했습니다.`;
           console.log(message);
           res.status(200).send({
-            isUser: "true",
+            isUser: true,
             message,
           });
         } else {
@@ -48,7 +48,7 @@ const followProcess = {
           await userInfo.removeFollowing(parseInt(userId, 10));
           message = `${user.nickname}님이 ${tagetUser.nickname}님을 팔로잉 취소 했습니다.`;
           res.status(200).send({
-            isUser: "false",
+            isUser: false,
             message,
           });
         } else {

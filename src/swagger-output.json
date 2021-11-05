@@ -206,7 +206,7 @@
     "/users/edit": {
       "put": {
         "tags": [
-          "users"
+          "users edit"
         ],
         "description": "회원정보 비밀번호 수정",
         "parameters": [
@@ -251,30 +251,24 @@
     "/users/profileEdit": {
       "put": {
         "tags": [
-          "users"
+          "users edit"
+        ],
+        "consumes": [
+          "multipart/form-data"
         ],
         "description": "회원정보 프로필 수정",
         "parameters": [
           {
-            "name": "obj",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "nicknameNew": {
-                  "example": "운영자"
-                },
-                "passwordOld": {
-                  "example": "password001"
-                },
-                "passwordNew": {
-                  "example": "password002"
-                },
-                "confirmPasswordNew": {
-                  "example": "password002"
-                }
-              }
-            }
+            "name": "avatarUrl",
+            "in": "formData",
+            "type": "file",
+            "description": "The file to upload."
+          },
+          {
+            "name": "nicknameNew",
+            "in": "formData",
+            "type": "string",
+            "description": "nicknameNew"
           }
         ],
         "responses": {
