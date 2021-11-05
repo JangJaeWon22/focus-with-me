@@ -15,10 +15,11 @@ const extractImageSrc = (html) => {
     const srcs = html.match(regexp);
     const imageList = [];
 
-    srcs.forEach((src) => {
-      const imageUrl = "public" + src.split("public")[1].slice(0, -2);
-      imageList.push(imageUrl);
-    });
+    if (srcs)
+      srcs.forEach((src) => {
+        const imageUrl = "public" + src.split("public")[1].slice(0, -2);
+        imageList.push(imageUrl);
+      });
     return imageList;
   } catch (error) {
     console.log(error);

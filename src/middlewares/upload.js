@@ -34,8 +34,4 @@ module.exports = {
     dest: "public/uploads/temp",
     limits: { fileSize: 1000000 },
   }),
-  uploadTest: multer({
-    dest: "public/uploads/test",
-    limits: { fileSize: 1000000 },
-  }),
 };

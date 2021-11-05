@@ -22,8 +22,7 @@ module.exports = {
     // 사용자 인증 미들웨어 사용할 경우
     const { userId } = res.locals.user;
     // 여기서 받는 파일은 cover image
-    const path = req.file ? req.file.path : "";
-    // const { path } = req.file;
+    const { path } = { path: "" } || req.file;
     //multipart 에서 json 형식으로 변환
     const body = JSON.parse(JSON.stringify(req.body));
     const {
@@ -37,7 +36,6 @@ module.exports = {
     const imageList = extractImageSrc(contentEditor);
     // DB 저장 시에도 imageUrl을 사용하기 위해 let 선언
     let imageUrl = "";
-    console.log(imageList);
     //image 리스트에 대해서 for 문을 돌려서 temp 폴더 확인
     imageList.forEach(async (url) => {
       const isExist = fsSync.existsSync(url);
@@ -48,9 +46,10 @@ module.exports = {
         await fs.rename(url, imageUrl);
       }
     });
-    const encodedTitle = encodeURIComponent(title);
     // 모든 temp 경로를 content로 바꾸기
     const innerHtml = contentEditor.replace(/temp/g, "content");
+    // 인코딩 해서 저장
+    const encodedTitle = encodeURIComponent(title);
     const encodedHTML = encodeURIComponent(innerHtml);
 
     // const innerHtml = contentsEditor.replaceAll("temp", "content");
@@ -81,7 +80,7 @@ module.exports = {
     console.log(res.locals.user);
     const { postId } = req.params;
     //파일이 없을 경우를 대비한 예외처리
-    const path = req.file ? req.file.path : "";
+    const { path } = { path: "" } || req.file;
     const body = JSON.parse(JSON.stringify(req.body));
     const {
       title,
