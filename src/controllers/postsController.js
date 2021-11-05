@@ -47,6 +47,9 @@ module.exports = {
       }
     });
     // const innerHtml = encodeURIComponent(
+
+    const encodedTitle = encodeURIComponent(title);
+
     // 모든 temp 경로를 content로 바꾸기
     const innerHtml = contentEditor.replace(/temp/g, "content");
     // const innerHtml = contentsEditor.replaceAll("temp", "content");
@@ -54,7 +57,7 @@ module.exports = {
     const post = {
       userId,
       imageCover: path,
-      title,
+      title: encodedTitle,
       categoryInterest,
       categorySpace,
       categoryStudyMate,
