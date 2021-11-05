@@ -1,3 +1,4 @@
+const fsSync = require("fs");
 const fs = require("fs/promises");
 const removeImage = async (path) => {
   try {
@@ -33,4 +34,18 @@ const emptyTemp = async () => {
   await fs.mkdir(baseUrl);
 };
 
-module.exports = { removeImage, extractImageSrc, emptyTemp };
+const moveImages = async (imageList) => {
+  if (imageList.length !== 0)
+    imageList.forEach(async (url) => {
+      const isExist = fsSync.existsSync(url);
+      // 각 src에 대해, temp 에 해당 파일이 있으면
+      if (isExist) {
+        // 파일 이름 추출
+        const fileName = url.split("/")[url.split("/").length - 1];
+        // 다시 저장할 경로 지정 temp -> content
+        await fs.rename(url, `public/uploads/content/${fileName}`);
+      }
+    });
+};
+
+module.exports = { removeImage, extractImageSrc, emptyTemp, moveImages };

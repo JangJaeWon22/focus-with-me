@@ -2,7 +2,11 @@ const { Post, Bookmark, Like, User, sequelize } = require("../models");
 const { Op } = require("sequelize");
 const fs = require("fs/promises");
 const fsSync = require("fs");
-const { removeImage, extractImageSrc } = require("../library/controlImage");
+const {
+  removeImage,
+  extractImageSrc,
+  moveImages,
+} = require("../library/controlImage");
 /* option + shift + a */
 
 module.exports = {
@@ -34,18 +38,20 @@ module.exports = {
     } = body;
     // image list 추출
     const imageList = extractImageSrc(contentEditor);
-    // DB 저장 시에도 imageUrl을 사용하기 위해 let 선언
-    let imageUrl = "";
-    //image 리스트에 대해서 for 문을 돌려서 temp 폴더 확인
-    imageList.forEach(async (url) => {
-      const isExist = fsSync.existsSync(url);
-      //파일이 존재하면, 파일 옮기기, img src 바꾸기
-      if (isExist) {
-        const fileName = url.split("/")[url.split("/").length - 1];
-        imageUrl = `public/uploads/content/${fileName}`;
-        await fs.rename(url, imageUrl);
-      }
-    });
+    // // DB 저장 시에도 imageUrl을 사용하기 위해 let 선언
+    // let imageUrl = "";
+    // //image 리스트에 대해서 for 문을 돌려서 temp 폴더 확인
+    // imageList.forEach(async (url) => {
+    //   const isExist = fsSync.existsSync(url);
+    //   //파일이 존재하면, 파일 옮기기, img src 바꾸기
+    //   if (isExist) {
+    //     const fileName = url.split("/")[url.split("/").length - 1];
+    //     imageUrl = `public/uploads/content/${fileName}`;
+    //     await fs.rename(url, imageUrl);
+    //   }
+    // });
+
+    await moveImages;
     // 모든 temp 경로를 content로 바꾸기
     const innerHtml = contentEditor.replace(/temp/g, "content");
     // 인코딩 해서 저장
