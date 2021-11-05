@@ -1,4 +1,4 @@
-const { User } = require("../../models");
+const { User, Follow } = require("../../models");
 
 const followOutPut = {
   getFollowing: async (req, res) => {

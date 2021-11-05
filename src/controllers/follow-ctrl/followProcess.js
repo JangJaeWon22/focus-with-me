@@ -11,7 +11,7 @@ const followProcess = {
       if (userInfo) {
         if (tagetUser.userId !== user.userId) {
           // 사용자가 자신을 팔로우를 하지못하게 하기 위해 비료
-          await user.addFollowing(parseInt(tagetUser.userId, 10));
+          await userInfo.addFollowing(parseInt(tagetUser.userId, 10));
           message = `${user.nickname}님이 ${nickname}님을 팔로잉 했습니다.`;
           console.log(message);
           res.status(200).send({
@@ -39,13 +39,13 @@ const followProcess = {
     try {
       const { user } = res.locals;
       const { nickname } = req.body;
+      const userInfo = await User.findOne({ where: { userId: user.userId } });
       const tagetUser = await User.findOne({ where: { nickname } });
-      const userInfo = await User.findOne({
-        where: { userId: tagetUser.userId },
-      });
+      // 사용자 있는지 체크
       if (userInfo) {
         if (tagetUser.userId !== user.userId) {
-          await user.removeFollower(parseInt(user.userId, 10));
+          // 사용자가 자신을 팔로우를 하지못하게 하기 위해 비료
+          await userInfo.removeFollowings(parseInt(tagetUser.userId, 10));
           message = `${user.nickname}님이 ${nickname}님을 팔로잉 취소 했습니다.`;
           console.log(message);
           res.status(200).send({
