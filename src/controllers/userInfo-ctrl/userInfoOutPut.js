@@ -8,8 +8,6 @@ const userInfoOutPut = {
         userInfo,
         followerCount,
         followingsCount,
-        followingIdList,
-        followerIdList,
         message: "회원 정보 조회를 했습니다.",
       });
     } catch (error) {
