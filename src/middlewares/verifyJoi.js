@@ -31,6 +31,7 @@ const verifyJoi = {
 
   //회원정보 수정 시 joi 검증 실행
   updateUserProfile: async (req, res, next) => {
+    console.log("조이 검증 미들웨어 입장");
     const joiSchema = Joi.object({
       nicknameNew: Joi.string().min(1).max(20),
     });

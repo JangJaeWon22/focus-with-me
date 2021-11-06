@@ -14,8 +14,9 @@ module.exports = {
         cb(null, Date.now() + ext);
       }, */
     }),
-    limits: { fileSize: 5 * 1024 * 1024 },
+    limits: { fileSize: 1000000 },
   }),
+
   uploadCover: multer({
     dest: "public/uploads/cover",
     limits: { fileSize: 1000000 },

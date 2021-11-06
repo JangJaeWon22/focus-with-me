@@ -15,15 +15,18 @@ try {
 const userUpdate = {
   updateUserProfile: async (req, res) => {
     try {
+      console.log("업데이트 라우터 입장");
       const { user } = res.locals;
       const { file } = req;
 
+      console.log("1");
       // 닉네임입력란이 공백일 경우 대비
       if (res.verifyBody) {
         const { nicknameNew } = res.verifyBody;
         const existUser = await User.findOne({
           where: { userId: user.userId },
         });
+        console.log("2");
         //변경할 file이 있을 때
         if (file) {
           await removeImage(existUser.avatarUrl);
