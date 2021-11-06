@@ -8,11 +8,7 @@ const {
   deletePosts,
   ckUpload,
 } = require("../controllers/postsController");
-const {
-  uploadCover,
-  uploadTemp,
-  uploadTest,
-} = require("../middlewares/upload");
+const { uploadCover, uploadTemp } = require("../middlewares/upload");
 const { filter, main } = require("../middlewares/filter");
 const authMiddleware = require("../middlewares/auth");
 const notAuth = require("../middlewares/notAuth");
