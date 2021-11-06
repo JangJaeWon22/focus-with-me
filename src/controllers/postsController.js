@@ -1,7 +1,5 @@
 const { Post, Bookmark, Like, User, sequelize } = require("../models");
 const { Op } = require("sequelize");
-const fs = require("fs/promises");
-const fsSync = require("fs");
 const {
   removeImage,
   extractImageSrc,
@@ -15,11 +13,10 @@ module.exports = {
   */
   getPosts: async (req, res) => {
     //조회는 미들웨어에서 처리하고, 여기는 던지는 역할만 하기
-    const posts = req.posts;
-    const { queryResult } = req;
+    const { randPosts, posts, queryResult } = req;
     return res
       .status(200)
-      .send({ message: "posts 조회 성공", posts, queryResult });
+      .send({ message: "posts 조회 성공", posts, randPosts, queryResult });
   },
   /* 
     게시물 생성
@@ -160,7 +157,7 @@ module.exports = {
   },
   /* 
     특정 게시물 조회
-   */
+  */
   getOnePost: async (req, res) => {
     const { postId } = req.params;
     const { userId } = { userId: null } || res.locals.user;
@@ -208,7 +205,7 @@ module.exports = {
   },
   /* 
     ckEditor 본문 이미지 업로드
-   */
+  */
   ckUpload: (req, res) => {
     const { user } = res.locals.user;
     console.log("res.locals : ", res.locals);

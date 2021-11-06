@@ -6,6 +6,10 @@ const filter = (req, res, next) => {
   searchMode === "main"
     ? next()
     : (async () => {
+        /* 
+        적용되어야 할 것
+        무한 스크롤 || 페이지네이션
+      */
         const { categorySpace, categoryInterest, categoryStudyMate } =
           req.query;
 
@@ -33,33 +37,27 @@ const main = (req, res, next) => {
   searchMode === "filter"
     ? next()
     : (async () => {
-        // 여기서 해야 할 일
-        // 전체 게시물을 좋아요와 join 뒤에 좋아요 순으로 정렬, limit 10개만
+        // 좋아요 내림차순 10개
         const postQuery = `
-        SELECT Posts.*, COUNT(Likes.postId) AS cnt
+        SELECT Posts.*, COUNT(Likes.postId) AS likeCnt
         FROM Posts
         JOIN Likes On Posts.postId = Likes.postId
         GROUP BY Posts.postId
-        ORDER BY cnt DESC;`;
+        ORDER BY likeCnt DESC
+        LIMIT 10;`;
 
         const posts = await sequelize.query(postQuery, {
           type: Sequelize.QueryTypes.SELECT,
         });
-        // const posts = await Post.findAll({
-        //   attributes: {
-        //     include: [[Sequelize.fn("COUNT", "Likes.postId"), "cnt"]],
-        //   },
-        //   include: [
-        //     {
-        //       model: Like,
-        //       attributes: [],
-        //       right: true,
-        //     },
-        //   ],
-        //   group: ["Post.postId"],
-        // });
-        console.log(posts);
+
+        // 랜덤 게시물 10개 조회
+        const randPosts = await Post.findAll({
+          order: [Sequelize.fn("RAND")],
+          limit: 10,
+        });
+
         req.posts = posts;
+        req.randPosts = randPosts;
         req.queryResult = { message: "쿼리 결과 : 메인" };
         next();
       })();
