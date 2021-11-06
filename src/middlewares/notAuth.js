@@ -7,7 +7,7 @@ dotenv.config();
 const notAuth = (req, res, next) => {
   console.log("로그인 인증 미들웨어 입장");
   const { authorization } = req.headers;
-  if (authorization === "Bearer undefined") {
+  if (authorization === "Bearer undefined" || !authorization) {
     res.locals.user = null;
     console.log("ㅂㅇ");
     next();
