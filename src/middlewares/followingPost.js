@@ -14,7 +14,7 @@ const followingPostMW = async (req, res, next) => {
       res.followPost = followPost;
       next();
     } else {
-      userPost = [];
+      res.followPost = [];
       next();
     }
   } catch (error) {
