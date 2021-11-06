@@ -256,7 +256,7 @@
         "description": "회원정보 프로필 수정",
         "parameters": [
           {
-            "name": "avatarUrl",
+            "name": "file",
             "in": "formData",
             "type": "file",
             "description": "The file to upload."
@@ -752,7 +752,7 @@
       }
     },
     "/followings/{userId}": {
-      "post": {
+      "get": {
         "tags": [
           "followers/followings List"
         ],
@@ -776,7 +776,7 @@
       }
     },
     "/followers/{userId}": {
-      "post": {
+      "get": {
         "tags": [
           "followers/followings List"
         ],

@@ -10,10 +10,11 @@ module.exports = {
   getPosts: async (req, res) => {
     //조회는 미들웨어에서 처리하고, 여기는 던지는 역할만 하기
     const posts = req.posts;
+    const followPost = res.followPost;
     const { queryResult } = req;
     return res
       .status(200)
-      .send({ message: "posts 조회 성공", posts, queryResult });
+      .send({ followPost, message: "posts 조회 성공", posts, queryResult });
   },
   /* 
     게시물 생성
@@ -204,7 +205,6 @@ module.exports = {
         );
         if (following.length !== 0) isFollowing = true;
       }
-
       return res.status(200).send({ post, isBookmarked, isLiked, isFollowing });
     } catch (error) {
       console.log(error);

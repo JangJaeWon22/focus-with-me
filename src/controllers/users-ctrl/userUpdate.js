@@ -35,9 +35,12 @@ const userUpdate = {
         // 받은 닉네임의 값이 변경이 된 지 안된지 검증
         if (nicknameNew === user.nickname) {
           await User.update({ avatarUrl }, { where: { userId: user.userId } });
+          const profile = await User.findOne({
+            where: { userId: user.userId },
+          });
           res
             .status(200)
-            .send({ message: "회원 정보 수정이 완료 되었습니다." });
+            .send({ profile, message: "회원 정보 수정이 완료 되었습니다." });
         } else {
           // 변경할 닉네임 중복 검사
           existNick = await User.findOne({ where: { nickname: nicknameNew } });
@@ -52,9 +55,12 @@ const userUpdate = {
               },
               { where: { userId: user.userId } }
             );
+            const profile = await User.findOne({
+              where: { userId: user.userId },
+            });
             return res
               .status(200)
-              .send({ message: "회원 정보 수정이 완료 되었습니다." });
+              .send({ profile, message: "회원 정보 수정이 완료 되었습니다." });
           }
         }
       } else {
@@ -84,7 +90,12 @@ const userUpdate = {
             },
             { where: { userId: user.userId } }
           );
-          res.status(201).send({ message: "회원정보 수정이 완료되었습니다." });
+          const profile = await User.findOne({
+            where: { userId: user.userId },
+          });
+          res
+            .status(201)
+            .send({ profile, message: "회원정보 수정이 완료되었습니다." });
         } else {
           res.status(400).send({
             message: "입력하신 현재의 비밀번호가 일치하지 않습니다.",

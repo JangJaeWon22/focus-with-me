@@ -16,11 +16,12 @@ const {
 const { filter, main } = require("../middlewares/filter");
 const authMiddleware = require("../middlewares/auth");
 const notAuth = require("../middlewares/notAuth");
+const followingPostMW = require("../middlewares/followingPost");
 
 /* GET users listing. */
 postsRouter
   .route("/posts")
-  .get(main, filter, getPosts)
+  .get(notAuth, main, filter, followingPostMW, getPosts)
   .post(authMiddleware, uploadCover.single("imageCover"), postPosts);
 
 postsRouter
