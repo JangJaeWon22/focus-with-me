@@ -7,12 +7,12 @@ dotenv.config();
 const notAuth = (req, res, next) => {
   console.log("로그인 인증 미들웨어 입장");
   const { authorization } = req.headers;
-  const [tokenType, tokenValue] = authorization.split(" ");
-  if (tokenValue === "undefined") {
+  if (authorization === "Bearer undefined") {
     res.locals.user = null;
     console.log("ㅂㅇ");
     next();
   } else {
+    const [tokenType, tokenValue] = authorization.split(" ");
     if (tokenType !== "Bearer") {
       return res.status(200).send({
         message: "로그인이 필요한 기능입니다.",
