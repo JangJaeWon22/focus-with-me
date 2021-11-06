@@ -19,10 +19,10 @@ router.post(
     cmtslikeCtrl.commentsLikeFunc.likeExist
 );
 // 댓글 좋아요 취소
-// router.delete(
-//     "/posts/:postId/comments/:commentId/like",
-//     authMiddleware,
-//     cmtslikeCtrl.commentsLikeFunc.notLikeExist
-// );
+router.delete(
+    "/posts/:postId/comments/:commentId/like",
+    authMiddleware,
+    cmtslikeCtrl.commentsLikeFunc.notLikeExist
+);
 
 module.exports = router;

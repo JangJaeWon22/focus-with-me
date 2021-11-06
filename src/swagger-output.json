@@ -679,6 +679,70 @@
         }
       }
     },
+    "/posts/{postId}/comments/{commentId}/like": {
+      "post": {
+        "tags": [
+          "CommentsLike"
+        ],
+        "description": "댓글 좋아요 추가",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "commentId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Http Server error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "CommentsLike-not"
+        ],
+        "description": "댓글 좋아요 취소",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "commentId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Http Server error"
+          }
+        }
+      }
+    },
     "/follows": {
       "post": {
         "tags": [
