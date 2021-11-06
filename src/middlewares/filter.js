@@ -56,6 +56,8 @@ const main = (req, res, next) => {
           limit: 10,
         });
 
+        // 만약 로그인이 되었을 경우, 팔로우하는 유저의 게시물 10개, 날짜 내림차순
+
         req.posts = posts;
         req.randPosts = randPosts;
         req.queryResult = { message: "쿼리 결과 : 메인" };

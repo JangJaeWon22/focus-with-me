@@ -31,13 +31,21 @@ router.get(
   userOutPut.kakaoCallback
 );
 
-// 회원 정보 수정
+// 회원 정보 수정 => 프로필 사진, 닉네임
 router.put(
   "/users/profileEdit",
   authMiddleware,
   uploadAvatar.single("file"),
   verifyJoi.updateUserProfile,
   userUpdate.updateUserProfile
+);
+
+// 회원 정보 수정 => 비밀번호
+router.put(
+  "/users/edit",
+  authMiddleware,
+  verifyJoi.updateUserPw,
+  userUpdate.updateUserPw
 );
 
 // 회원탈퇴

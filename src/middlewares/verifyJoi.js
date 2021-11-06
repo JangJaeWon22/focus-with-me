@@ -31,6 +31,7 @@ const verifyJoi = {
 
   //회원정보 수정 시 joi 검증 실행
   updateUserProfile: async (req, res, next) => {
+    console.log("조이 검증 미들웨어 입장");
     const joiSchema = Joi.object({
       nicknameNew: Joi.string().min(1).max(20),
     });
@@ -55,7 +56,6 @@ const verifyJoi = {
 
   updateUserPw: async (req, res, next) => {
     const joiSchema = Joi.object({
-      nicknameNew: Joi.string().min(1).max(20),
       passwordOld: Joi.string()
         .min(6)
         .pattern(new RegExp("^[a-zA-Z0-9]{3,30}$")),
@@ -64,26 +64,20 @@ const verifyJoi = {
         .pattern(new RegExp("^[a-zA-Z0-9]{3,30}$")),
       confirmPasswordNew: Joi.ref("passwordNew"),
     });
-    let { nicknameNew, passwordOld, passwordNew, confirmPasswordNew } =
-      req.body;
+    const { passwordOld, passwordNew, confirmPasswordNew } = req.body;
     try {
-      //변경할 비밀번호끼리 값 비교
-      if (passwordNew === confirmPasswordNew) {
-        ///비밀번호 변경을 하지 않을 경우 빈값으로 넘겨받아야됨
-        if (!passwordNew || !confirmPasswordNew) {
-          passwordNew = passwordOld;
-          confirmPasswordNew = passwordOld;
-          const verifyBody = await joiSchema.validateAsync({
-            nicknameNew,
-            passwordOld,
-            passwordNew,
-            confirmPasswordNew,
+      ///비밀번호 변경을 하지 않을 경우 빈값으로 넘겨받아야됨
+      if (!passwordNew || !confirmPasswordNew) {
+        return res.status(400).send({
+          message: "변경할 비밀번호 또는 비밀번호 확인란을 확인 해주세요.",
+        });
+      } else {
+        if (passwordNew !== confirmPasswordNew) {
+          return res.status(400).send({
+            message: "변경할 비밀번호와 비밀번호 확인란이 일치하지 않습니다.",
           });
-          res.verifyBody = verifyBody;
-          next();
         } else {
           const verifyBody = await joiSchema.validateAsync({
-            nicknameNew,
             passwordOld,
             passwordNew,
             confirmPasswordNew,
@@ -91,16 +85,11 @@ const verifyJoi = {
           res.verifyBody = verifyBody;
           next();
         }
-      } else {
-        return res.status(400).send({
-          message:
-            "변경할 비밀번호가 서로 일치하지 않습니다. 다시 한번 확인해주세요",
-        });
       }
     } catch (err) {
       console.log(err);
       return res.status(400).send({
-        message: "아이디와 비밀번호의 형식이 올바르지 않습니다.",
+        message: "입력하신 비밀번호의 형식이 올바르지 않습니다.",
       });
     }
   },

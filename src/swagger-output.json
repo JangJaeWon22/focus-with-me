@@ -216,9 +216,6 @@
             "schema": {
               "type": "object",
               "properties": {
-                "nicknameNew": {
-                  "example": "운영자"
-                },
                 "passwordOld": {
                   "example": "password001"
                 },
@@ -259,7 +256,7 @@
         "description": "회원정보 프로필 수정",
         "parameters": [
           {
-            "name": "avatarUrl",
+            "name": "file",
             "in": "formData",
             "type": "file",
             "description": "The file to upload."
@@ -742,6 +739,54 @@
                 }
               }
             }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/followings/{userId}": {
+      "get": {
+        "tags": [
+          "followers/followings List"
+        ],
+        "description": "팔로잉 유저 목록",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/followers/{userId}": {
+      "get": {
+        "tags": [
+          "followers/followings List"
+        ],
+        "description": "팔로워 유저 목록 보기",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {

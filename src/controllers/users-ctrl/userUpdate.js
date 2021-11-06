@@ -15,15 +15,18 @@ try {
 const userUpdate = {
   updateUserProfile: async (req, res) => {
     try {
+      console.log("업데이트 라우터 입장");
       const { user } = res.locals;
       const { file } = req;
 
+      console.log("1");
       // 닉네임입력란이 공백일 경우 대비
       if (res.verifyBody) {
         const { nicknameNew } = res.verifyBody;
         const existUser = await User.findOne({
           where: { userId: user.userId },
         });
+        console.log("2");
         //변경할 file이 있을 때
         if (file) {
           await removeImage(existUser.avatarUrl);
@@ -35,9 +38,12 @@ const userUpdate = {
         // 받은 닉네임의 값이 변경이 된 지 안된지 검증
         if (nicknameNew === user.nickname) {
           await User.update({ avatarUrl }, { where: { userId: user.userId } });
+          const profile = await User.findOne({
+            where: { userId: user.userId },
+          });
           res
             .status(200)
-            .send({ message: "회원 정보 수정이 완료 되었습니다." });
+            .send({ profile, message: "회원 정보 수정이 완료 되었습니다." });
         } else {
           // 변경할 닉네임 중복 검사
           existNick = await User.findOne({ where: { nickname: nicknameNew } });
@@ -52,9 +58,12 @@ const userUpdate = {
               },
               { where: { userId: user.userId } }
             );
+            const profile = await User.findOne({
+              where: { userId: user.userId },
+            });
             return res
               .status(200)
-              .send({ message: "회원 정보 수정이 완료 되었습니다." });
+              .send({ profile, message: "회원 정보 수정이 완료 되었습니다." });
           }
         }
       } else {
@@ -70,17 +79,8 @@ const userUpdate = {
   updateUserPw: async (req, res) => {
     try {
       const { user } = res.locals;
-      const { file } = req;
-      const { nicknameNew, passwordOld, passwordNew } = res.verifyBody;
-      console.log(res.verifyBody);
+      const { passwordOld, passwordNew } = res.verifyBody;
       const existUser = await User.findOne({ where: { userId: user.userId } });
-      //변경할 file이 있을 때 (+계정에 프로필 사진이 등록이 되어 있을 때를 해야될지 고민)
-      if (file) {
-        await removeImage(existUser.avatarUrl);
-      } else {
-        //프로필 사진을 변경 안할때
-        file = existUser;
-      }
 
       //등록된 유저가 있는지 다시 한번 조회
       if (existUser) {
@@ -89,13 +89,16 @@ const userUpdate = {
           const encryptPassword = bcrypt.hashSync(passwordNew, 10);
           await User.update(
             {
-              nickname: nicknameNew,
               password: encryptPassword,
-              avatarUrl: file.path,
             },
             { where: { userId: user.userId } }
           );
-          res.status(201).send({ message: "회원정보 수정이 완료되었습니다." });
+          const profile = await User.findOne({
+            where: { userId: user.userId },
+          });
+          res
+            .status(201)
+            .send({ profile, message: "회원정보 수정이 완료되었습니다." });
         } else {
           res.status(400).send({
             message: "입력하신 현재의 비밀번호가 일치하지 않습니다.",
