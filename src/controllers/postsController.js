@@ -15,15 +15,13 @@ module.exports = {
     //조회는 미들웨어에서 처리하고, 여기는 던지는 역할만 하기
     const { randPosts, posts, queryResult } = req;
     const followPost = res.followPost;
-    return res
-      .status(200)
-      .send({
-        followPost,
-        message: "posts 조회 성공",
-        posts,
-        randPosts,
-        queryResult,
-      });
+    return res.status(200).send({
+      followPost,
+      message: "posts 조회 성공",
+      posts,
+      randPosts,
+      queryResult,
+    });
   },
   /* 
     게시물 생성
@@ -167,7 +165,10 @@ module.exports = {
   */
   getOnePost: async (req, res) => {
     const { postId } = req.params;
-    const { userId } = { userId: null } || res.locals.user;
+    console.log(req.user);
+    const userId = req.user.userId ? req.user.userId : undefined;
+    console.log(userId);
+    console.log("userId", userId);
 
     // FE 뷰에 활용하기 위한 데이터
     let isBookmarked = false;

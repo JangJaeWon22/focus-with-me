@@ -19,15 +19,19 @@ const userOutPut = {
     }
   },
 
-  authUser: async (req, res) => {
+  authUser: async (req, res, next) => {
     // local 로그인
     try {
       // 아까 local로 등록한 인증과정 실행
       passport.authenticate("local", (passportError, user, info) => {
         console.log(user);
         // 인증이 실패했거나 유저 데이터가 없다면 에러 발생
-        if (passportError || !user) {
-          res.status(400).send({ message: "등록된 계정이 없습니다." });
+        if (passportError) {
+          console.error("passportError:", passportError);
+          return res.send({ message: "ggg" });
+        }
+        if (!user) {
+          res.status(400).send({ message: info.message });
           return;
         }
         // user데이터를 통해 로그인 진행
@@ -45,7 +49,7 @@ const userOutPut = {
             .status(201)
             .send({ token, user, message: "로그인에 성공하셨습니다." });
         });
-      })(req, res);
+      })(req, res, next);
     } catch (error) {
       console.error(error);
       next(error);

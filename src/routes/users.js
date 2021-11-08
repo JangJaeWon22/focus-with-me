@@ -21,12 +21,28 @@ router.post("/users/nicknameexist", userExist.existNickname);
 // 로그인
 router.post("/users/login", userOutPut.authUser);
 
+// router.post(
+//   "/users/auth",
+//   passport.authenticate("local"),
+//   // passport.authenticate("jwt", { session: false }),
+//   async (req, res, next) => {
+//     try {
+//       const user = req.user;
+//       const aaa = "12312312";
+//       res.json({ aaa, user, result: true });
+//     } catch (error) {
+//       console.error(error);
+//       next(error);
+//     }
+//   }
+// );
+
 // 카카오 로그인 기능
 router.get("/kakao", passport.authenticate("kakao"));
 
 // 카카오 로그인 콜백(카카오에서 콜백 받는 동시에, 프론트와 통신)
 router.get(
-  "/kakao/callback",
+  "/kakao/callback", // code = "sdafasdf" 받음
   passport.authenticate("kakao"),
   userOutPut.kakaoCallback
 );

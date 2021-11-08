@@ -13,6 +13,8 @@ const { filter, main } = require("../middlewares/filter");
 const authMiddleware = require("../middlewares/auth");
 const notAuth = require("../middlewares/notAuth");
 const followingPostMW = require("../middlewares/followingPost");
+const passport = require("passport");
+const { existLoggedIn } = require("../middlewares/passport-auth");
 
 /* GET users listing. */
 postsRouter
@@ -28,6 +30,7 @@ postsRouter
   .route("/posts/:postId")
   .put(authMiddleware, uploadCover.single("imageCover"), putPosts)
   .delete(authMiddleware, deletePosts)
-  .get(notAuth, getOnePost);
+  .get(passport.authenticate("jwt", { session: false }), getOnePost);
+// .get(existLoggedIn, getOnePost);
 
 module.exports = postsRouter;
