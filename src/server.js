@@ -12,7 +12,7 @@ const postsRouter = require("./routes/posts");
 const likeRouter = require("./routes/postlike");
 const cmtRouter = require("./routes/comments");
 const followRouter = require("./routes/follow");
-const myInfoRouter = require("./routes/myInfo");
+const userInfoRouter = require("./routes/userInfo");
 const bookmarkRouter = require("./routes/bookmark");
 const likeCommentRouter = require("./routes/commentslike");
 
@@ -76,7 +76,7 @@ app.use("/api", userRouter);
 app.use("/api", postsRouter);
 app.use("/api", likeRouter);
 app.use("/api", followRouter);
-app.use("/api", myInfoRouter);
+app.use("/api", userInfoRouter);
 app.use("/api", bookmarkRouter);
 app.use("/api", likeCommentRouter);
 

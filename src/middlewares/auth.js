@@ -35,7 +35,7 @@ const authMiddleware = (req, res, next) => {
       ],
     }).then((user) => {
       res.locals.user = user;
-      console.log(user);
+      console.log("로그인 인증 확인함 나갈께요");
       next();
     });
   } catch (error) {
