@@ -16,13 +16,13 @@ const { route } = require("./comments");
 router.post(
     "/posts/:postId/comments/:commentId/like",
     authMiddleware,
-    cmtslikeCtrl.commentsLike.__
+    cmtslikeCtrl.commentsLikeFunc.likeExist
 );
 // 댓글 좋아요 취소
 router.delete(
     "/posts/:postId/comments/:commentId/like",
     authMiddleware,
-    cmtslikeCtrl.commentsLike.__
+    cmtslikeCtrl.commentsLikeFunc.notLikeExist
 );
 
 module.exports = router;
