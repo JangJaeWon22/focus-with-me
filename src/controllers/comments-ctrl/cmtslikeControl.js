@@ -26,6 +26,7 @@ const commentsLikeFunc = {
         // 댓글 카운터 수정 기능
         await CommentLike.update({ likeCount }, { where: {commentId:commentId}});
 
+        // 댓글 상태 메세지 기능
         return res.status(200).send({
           isLiked: true,
           likeCount,
@@ -50,16 +51,20 @@ const commentsLikeFunc = {
       });
 
       
-      // 좋아요를 한 적이 있는지 확인
+      // 댓글 좋아요 있는지 확인한 상태에서 algorithm 시작
+      // 댓글 좋아요 있으면 delete 요청
       if (likeCmt) {  
         await CommentLike.destroy(
             { where: { postId, commentId, userId } }
         );
+
+        // 댓글 카운더 기능
         const likeCount = await CommentLike.count({
           where: { commentId, postId, userId },
         });
         await CommentLike.update({ likeCount }, { where: {commentId:commentId}});
       
+        // 댓글 상태 메세지 기능
         return res.status(200).send({
           isLiked: false,
           likeCount,
@@ -75,5 +80,5 @@ const commentsLikeFunc = {
   },
 }
 
-
+// 댓글 라우터 연결
 module.exports = { commentsLikeFunc }
