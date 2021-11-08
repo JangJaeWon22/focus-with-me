@@ -24,12 +24,14 @@ const filter = (req, res, next) => {
           where: {
             [Op.and]: where, // assign the "where" array here
           },
-          include: {
-            model: Like,
-          },
-          include: {
-            model: Bookmark,
-          },
+          include: [
+            {
+              model: Like,
+            },
+            {
+              model: Bookmark,
+            },
+          ],
         });
 
         req.posts = posts;
