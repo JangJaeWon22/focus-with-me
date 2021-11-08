@@ -166,9 +166,9 @@ module.exports = {
   getOnePost: async (req, res) => {
     const { postId } = req.params;
     console.log(req.user);
-    const userId = req.user.userId ? req.user.userId : undefined;
-    console.log(userId);
+    // const userId = req.user.userId ? req.user.userId : undefined;
     console.log("userId", userId);
+    // console.log("userId", userId);
 
     // FE 뷰에 활용하기 위한 데이터
     let isBookmarked = false;

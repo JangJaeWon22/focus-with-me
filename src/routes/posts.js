@@ -14,7 +14,7 @@ const authMiddleware = require("../middlewares/auth");
 const notAuth = require("../middlewares/notAuth");
 const followingPostMW = require("../middlewares/followingPost");
 const passport = require("passport");
-const { existLoggedIn } = require("../middlewares/passport-auth");
+const { isLoggedIn, existLoggedIn } = require("../middlewares/passport-auth");
 
 /* GET users listing. */
 postsRouter
@@ -30,7 +30,7 @@ postsRouter
   .route("/posts/:postId")
   .put(authMiddleware, uploadCover.single("imageCover"), putPosts)
   .delete(authMiddleware, deletePosts)
-  .get(passport.authenticate("jwt", { session: false }), getOnePost);
-// .get(existLoggedIn, getOnePost);
+  // .get(passport.authenticate("jwt", { session: false }), getOnePost);
+  .get(isLoggedIn, getOnePost);
 
 module.exports = postsRouter;
