@@ -42,7 +42,8 @@ const userOutPut = {
           //회원정보 암호화
           const token = Jwt.sign(
             { userId: user.userId },
-            process.env.TOKEN_KEY
+            process.env.TOKEN_KEY,
+            { expiresIn: "1d" }
           );
           res
             .status(201)
