@@ -713,7 +713,7 @@
       },
       "delete": {
         "tags": [
-          "CommentsLike-not"
+          "CommentsLike"
         ],
         "description": "댓글 좋아요 취소",
         "parameters": [
