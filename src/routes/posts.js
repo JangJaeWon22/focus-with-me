@@ -14,26 +14,22 @@ const authMiddleware = require("../middlewares/auth");
 const notAuth = require("../middlewares/notAuth");
 const followingPostMW = require("../middlewares/followingPost");
 const passport = require("passport");
-const {
-  logInOnly,
-  logInBoth,
-  logInNot,
-} = require("../middlewares/passport-auth");
+const { logInOnly, logInBoth } = require("../middlewares/passport-auth");
 
 /* GET users listing. */
 postsRouter
   .route("/posts")
-  .get(notAuth, main, filter, followingPostMW, getPosts)
-  .post(authMiddleware, uploadCover.single("imageCover"), postPosts);
+  .get(logInBoth, main, filter, followingPostMW, getPosts)
+  .post(logInOnly, uploadCover.single("imageCover"), postPosts);
 
 postsRouter
   .route("/posts/ckUpload")
-  .post(authMiddleware, uploadTemp.single("temp"), ckUpload);
+  .post(logInOnly, uploadTemp.single("temp"), ckUpload);
 
 postsRouter
   .route("/posts/:postId")
-  .put(authMiddleware, uploadCover.single("imageCover"), putPosts)
-  .delete(authMiddleware, deletePosts)
-  .get(logInBoth, getOnePost);
+  .put(logInOnly, uploadCover.single("imageCover"), putPosts)
+  .delete(logInOnly, deletePosts)
+  .get(logInOnly, getOnePost);
 
 module.exports = postsRouter;

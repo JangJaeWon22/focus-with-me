@@ -11,7 +11,7 @@ exports.logInOnly = (req, res, next) => {
         return res.send({ message: passportError });
       }
       if (!user) {
-        return res.status(401).send({ message: info });
+        return res.status(401).send({ message: info.message });
       }
       res.locals.user = user;
       next();

@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-
 // add controller function
 const postingLikeCtrl = require("../controllers/likes-ctrl/postsLikeClick");
 // add middleware function
