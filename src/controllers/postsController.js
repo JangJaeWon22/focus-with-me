@@ -165,10 +165,9 @@ module.exports = {
   */
   getOnePost: async (req, res) => {
     const { postId } = req.params;
-    console.log(req.user);
-    const userId = req.user.userId ? req.user.userId : undefined;
-    console.log(userId);
-    console.log("userId", userId);
+    // const userId = req.user ? req.user.userId : undefined;
+    const { userId } = res.locals.user ? res.locals.user : { userId: null };
+    console.log("여기는 getOnePost 콜백 부분, userId : ", userId);
 
     // FE 뷰에 활용하기 위한 데이터
     let isBookmarked = false;
@@ -189,7 +188,6 @@ module.exports = {
           where: { postId, userId },
         });
         if (bookmarked) isBookmarked = true;
-
         const liked = await Like.findOne({
           where: { postId, userId },
         });
