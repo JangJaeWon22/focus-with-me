@@ -80,12 +80,11 @@ const filter = async (req, res, next) => {
       where: {
         [Op.and]: where, // assign the "where" array here
       },
-      attributes: {
-        include: [
-          [Sequelize.fn("COUNT", Sequelize.col("Likes.postId")), "likeCnt"],
-          [Sequelize.fn("COUNT", Sequelize.col("Bookmarks.postId")), "bookCnt"],
-        ],
-      },
+      attributes: [
+        "Post.*",
+        [Sequelize.literal("COUNT(DISTINCT Likes.likeId)"), "likeCnt"],
+        [Sequelize.literal("COUNT(DISTINCT Bookmarks.bookmarkId)"), "bookCnt"],
+      ],
       include: [
         {
           model: Like,
@@ -96,7 +95,8 @@ const filter = async (req, res, next) => {
           attributes: [],
         },
       ],
-      group: ["Post.postId"],
+      raw: true,
+      group: ["postId"],
     });
     req.posts = posts;
     next();
