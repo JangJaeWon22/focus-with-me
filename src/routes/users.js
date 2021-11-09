@@ -6,7 +6,6 @@ const { userExist } = require("../controllers/users-ctrl/userExist");
 const { userUpdate } = require("../controllers/users-ctrl/userUpdate");
 const { uploadAvatar } = require("../middlewares/upload");
 const { verifyJoi } = require("../middlewares/verifyJoi");
-const authMiddleware = require("../middlewares/auth");
 const passport = require("passport");
 const { logInOnly, logInNot } = require("../middlewares/passport-auth");
 
@@ -37,6 +36,9 @@ router.get(
   passport.authenticate("kakao"),
   userOutPut.kakaoCallback
 );
+
+//회원 정보 수정 페이지 - 회원 본인 정보 조회
+router.post("/mypage/myInfo", logInOnly, userUpdate.updateUserInfo);
 
 // 회원 정보 수정 => 프로필 사진, 닉네임
 router.put(
