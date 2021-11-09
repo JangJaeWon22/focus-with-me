@@ -12,7 +12,21 @@ const JWTConfig = {
 const JWTVerify = async (jwtPayload, done) => {
   try {
     // payload의 id값으로 유저의 데이터 조회
-    const user = await User.findOne({ where: { userId: jwtPayload.userId } });
+    const user = await User.findOne({
+      where: { userId: jwtPayload.userId },
+      include: [
+        {
+          model: User,
+          attributes: ["userId", "nickname"],
+          as: "Followers",
+        },
+        {
+          model: User,
+          attributes: ["userId", "nickname"],
+          as: "Followings",
+        },
+      ],
+    });
     // 유저 데이터가 있다면 유저 데이터 객체 전송
     if (user) {
       done(null, user);
