@@ -79,21 +79,6 @@ const filter = async (req, res, next) => {
       where: {
         [Op.and]: where, // assign the "where" array here
       },
-      attributes: ["Post.*"],
-      include: [
-        {
-          model: Like,
-        },
-        {
-          model: Bookmark,
-        },
-      ],
-    });
-
-    const testPost = await Post.findAll({
-      where: {
-        [Op.and]: where, // assign the "where" array here
-      },
       attributes: {
         include: [
           [Sequelize.fn("COUNT", Sequelize.col("Likes.postId")), "likeCnt"],
@@ -113,7 +98,6 @@ const filter = async (req, res, next) => {
       group: ["Post.postId"],
     });
     req.posts = posts;
-    req.testPost = testPost;
     next();
   }
 };

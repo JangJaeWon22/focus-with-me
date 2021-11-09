@@ -13,14 +13,13 @@ module.exports = {
   */
   getPosts: async (req, res) => {
     //조회는 미들웨어에서 처리하고, 여기는 던지는 역할만 하기
-    const { randPosts, posts, testPost } = req;
+    const { randPosts, posts } = req;
     const followPost = res.followPost;
     return res.status(200).send({
       message: "posts 조회 성공",
       posts,
       randPosts,
       followPost,
-      testPost,
     });
   },
   /* 
