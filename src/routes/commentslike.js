@@ -10,8 +10,10 @@ const cmtslikeCtrl = require("../controllers/comments-ctrl/cmtslikeControl");
 const authMiddleware = require("../middlewares/auth");
 const { route } = require("./comments");
 
+
 /* comments like functions */
 // Create the method of commentslike (function) 
+
 // 댓글 좋아요 추가
 router.post(
     "/posts/:postId/comments/:commentId/like",

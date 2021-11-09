@@ -6,7 +6,7 @@ const commentsLikeFunc = {
     try {
       const { postId, commentId } = req.params; // params에 postId, commentId 객체
       const { userId } = res.locals.user; // 미들웨어 연결에 필요
-      // console.log(userId)
+      
       // user가 이미 좋아요를 했는지 확인 
       const likeCmt = await CommentLike.findOne({
         where: { postId, commentId, userId },
