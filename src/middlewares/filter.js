@@ -80,15 +80,21 @@ const filter = async (req, res, next) => {
       where: {
         [Op.and]: where, // assign the "where" array here
       },
-      attributes: {
-        include: [
-          [Sequelize.literal("COUNT(DISTINCT Likes.likeId)"), "likeCnt"],
-          [
-            Sequelize.literal("COUNT(DISTINCT Bookmarks.bookmarkId)"),
-            "bookCnt",
-          ],
-        ],
-      },
+      // 이렇게도 사용 가능
+      // attributes: {
+      //   include: [
+      //     [Sequelize.literal("COUNT(DISTINCT Likes.likeId)"), "likeCnt"],
+      //     [
+      //       Sequelize.literal("COUNT(DISTINCT Bookmarks.bookmarkId)"),
+      //       "bookCnt",
+      //     ],
+      //   ],
+      // },
+      attributes: [
+        "Post.*",
+        [Sequelize.literal("COUNT(DISTINCT Likes.likeId)"), "likeCnt"],
+        [Sequelize.literal("COUNT(DISTINCT Bookmarks.bookmarkId)"), "bookCnt"],
+      ],
       include: [
         {
           model: Like,
@@ -99,10 +105,11 @@ const filter = async (req, res, next) => {
           attributes: [],
         },
       ],
-      group: ["Post.postId"],
+      raw: true,
+      group: ["postId"],
     });
 
-    // sequelize equivalent SQL
+    // sequelize equivalent SQL 이렇게도 사용 가능
     `use focus;
     SELECT Post.postId, Post.imageCover, Post.title, Post.categorySpace, Post.categoryStudyMate, Post.categoryInterest, Post.contentEditor, Post.date, Post.userId, 
     COUNT(DISTINCT Likes.likeId) AS likeCnt, 

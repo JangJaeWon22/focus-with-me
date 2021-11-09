@@ -11,7 +11,7 @@ try {
   console.log("uploads 폴더가 없어 uploads 폴더를 생성합니다.");
   fs.mkdirSync("public/uploads/avatar");
 }
-
+// 프로필 수정 페이지 접근 시 회원 정보 먼저 조회
 const userUpdate = {
   updateUserInfo: async (req, res) => {
     try {
@@ -51,7 +51,7 @@ const userUpdate = {
         });
         console.log("2");
         //변경할 file이 있을 때
-        if (file) {
+        if (file && existUser.avatarUrl !== "public/images/noAvatar") {
           await removeImage(existUser.avatarUrl);
           avatarUrl = file.path;
         } else {
