@@ -24,7 +24,6 @@ const userOutPut = {
     try {
       // 아까 local로 등록한 인증과정 실행
       passport.authenticate("local", (passportError, user, info) => {
-        console.log(user);
         // 인증이 실패했거나 유저 데이터가 없다면 에러 발생
         if (passportError) {
           console.error("passportError:", passportError);
@@ -43,7 +42,8 @@ const userOutPut = {
           //회원정보 암호화
           const token = Jwt.sign(
             { userId: user.userId },
-            process.env.TOKEN_KEY
+            process.env.TOKEN_KEY,
+            { expiresIn: "1d" }
           );
           res
             .status(201)

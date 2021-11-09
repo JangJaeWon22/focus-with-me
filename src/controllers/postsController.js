@@ -31,7 +31,7 @@ module.exports = {
     const { userId } = res.locals.user;
     // 여기서 받는 파일은 cover image
     // const { path } = { path: "" } || req.file;
-    const path = req.file ? req.file.path : "";
+    const path = req.file.path ? req.file.path : "";
     //multipart 에서 json 형식으로 변환
     const body = JSON.parse(JSON.stringify(req.body));
     const {
@@ -80,7 +80,7 @@ module.exports = {
     console.log(res.locals.user);
     const { postId } = req.params;
     //파일이 없을 경우를 대비한 예외처리
-    // const { path } = { path: "" } || req.file;
+    const path = req.file.path ? req.file.path : "";
     const body = JSON.parse(JSON.stringify(req.body));
     const {
       title,
