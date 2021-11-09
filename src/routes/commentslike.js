@@ -8,7 +8,7 @@ const router = express.Router();
 const cmtslikeCtrl = require("../controllers/comments-ctrl/cmtslikeControl");
 // Insert middleware function
 const authMiddleware = require("../middlewares/auth");
-const { route } = require("./comments");
+
 
 
 /* comments like functions */
