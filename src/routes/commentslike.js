@@ -7,24 +7,22 @@ const router = express.Router();
 // Insert controller function
 const cmtslikeCtrl = require("../controllers/comments-ctrl/cmtslikeControl");
 // Insert middleware function
-const authMiddleware = require("../middlewares/auth");
-const { route } = require("./comments");
-
+const { logInOnly } = require("../middlewares/passport-auth");
 
 /* comments like functions */
-// Create the method of commentslike (function) 
+// Create the method of commentslike (function)
 
 // 댓글 좋아요 추가
 router.post(
-    "/posts/:postId/comments/:commentId/like",
-    authMiddleware,
-    cmtslikeCtrl.commentsLikeFunc.likeExist
+  "/posts/:postId/comments/:commentId/like",
+  logInOnly,
+  cmtslikeCtrl.commentsLikeFunc.likeExist
 );
 // 댓글 좋아요 취소
 router.delete(
-    "/posts/:postId/comments/:commentId/like",
-    authMiddleware,
-    cmtslikeCtrl.commentsLikeFunc.notLikeExist
+  "/posts/:postId/comments/:commentId/like",
+  logInOnly,
+  cmtslikeCtrl.commentsLikeFunc.notLikeExist
 );
 
 module.exports = router;

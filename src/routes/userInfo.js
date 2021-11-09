@@ -1,12 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const authMiddleware = require("../middlewares/auth");
 const {
   userInfoOutPut,
 } = require("../controllers/userInfo-ctrl/userInfoOutPut");
 const GetUserInfo = require("../middlewares/userInfo/userInfo");
 const followMW = require("../middlewares/userInfo/userFollow");
-const { logInOnly, logInBoth } = require("../middlewares/passport-auth");
+const { logInBoth } = require("../middlewares/passport-auth");
 
 // 회원 정보 페이지 - 회원정보조회 -- 메인 셋팅
 router.get(

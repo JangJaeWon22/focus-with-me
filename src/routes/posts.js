@@ -10,10 +10,7 @@ const {
 } = require("../controllers/postsController");
 const { uploadCover, uploadTemp } = require("../middlewares/upload");
 const { filter, main } = require("../middlewares/filter");
-const authMiddleware = require("../middlewares/auth");
-const notAuth = require("../middlewares/notAuth");
 const followingPostMW = require("../middlewares/followingPost");
-const passport = require("passport");
 const { logInOnly, logInBoth } = require("../middlewares/passport-auth");
 
 /* GET users listing. */

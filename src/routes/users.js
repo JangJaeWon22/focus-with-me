@@ -6,7 +6,6 @@ const { userExist } = require("../controllers/users-ctrl/userExist");
 const { userUpdate } = require("../controllers/users-ctrl/userUpdate");
 const { uploadAvatar } = require("../middlewares/upload");
 const { verifyJoi } = require("../middlewares/verifyJoi");
-const authMiddleware = require("../middlewares/auth");
 const passport = require("passport");
 const { logInOnly, logInNot } = require("../middlewares/passport-auth");
 
