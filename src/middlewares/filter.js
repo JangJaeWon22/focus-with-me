@@ -44,6 +44,8 @@ const main = (req, res, next) => {
   searchMode === "filter"
     ? next()
     : (async () => {
+        //여기에 유저 정보 보여주기
+
         // 좋아요 내림차순 10개
         const postQuery = `
         SELECT Posts.*, COUNT(Likes.postId) AS likeCnt
