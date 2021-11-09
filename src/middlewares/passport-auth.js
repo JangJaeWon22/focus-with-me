@@ -52,6 +52,7 @@ exports.logInNot = (req, res, next) => {
         console.error("passportError:", passportError);
         return res.send({ message: passportError });
       }
+
       // 유저 데이터 없을 경우
       if (!user) {
         return next();
@@ -59,7 +60,9 @@ exports.logInNot = (req, res, next) => {
         const message = encodeURIComponent(
           "로그인 한 유저는 사용 할 수 없는 기능입니다."
         );
-        res.redirect(`/?error=${message}`);
+        res.redirect(
+          `http://studywithme.s3-website.ap-northeast-2.amazonaws.com/?error=${message}`
+        );
       }
     })(req, res, next);
   } catch (error) {

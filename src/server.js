@@ -80,15 +80,6 @@ app.use("/api", userInfoRouter);
 app.use("/api", bookmarkRouter);
 app.use("/api", likeCommentRouter);
 
-// app.use(
-//   authMiddleware,
-//   uploadTemp.single("temp"),
-//   (req, res) => {
-//     const { path } = req.file;
-//     return res.status(200).send({ path });
-//   }
-// );
-
 //Error handler
 app.use(function (err, req, res, next) {
   res.locals.message = err.message;
