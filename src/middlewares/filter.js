@@ -62,6 +62,7 @@ const filter = async (req, res, next) => {
     next();
   } else {
     /* 
+      --------------------------- 필터 페이지 -----------------------------------
       적용되어야 할 것
       무한 스크롤 || 페이지네이션
       좋아요 개수, 북마크 개수.
@@ -79,6 +80,7 @@ const filter = async (req, res, next) => {
       where: {
         [Op.and]: where, // assign the "where" array here
       },
+      attributes: [[sequelize.fn("COUNT", "postId"), "BookmarkCount"]],
       include: [
         {
           model: Like,
