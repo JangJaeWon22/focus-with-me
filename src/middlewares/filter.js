@@ -1,5 +1,5 @@
 const { sequelize, Sequelize } = require("../models");
-const { Post, User, Like } = require("../models");
+const { Post, User, Like, Bookmark } = require("../models");
 const { Op } = require("sequelize");
 const filter = (req, res, next) => {
   const { searchMode } = req.query;
@@ -9,7 +9,8 @@ const filter = (req, res, next) => {
         /* 
         적용되어야 할 것
         무한 스크롤 || 페이지네이션
-      */
+        좋아요 개수, 북마크 개수.
+        */
         const { categorySpace, categoryInterest, categoryStudyMate } =
           req.query;
 
@@ -23,10 +24,16 @@ const filter = (req, res, next) => {
           where: {
             [Op.and]: where, // assign the "where" array here
           },
-          include: {
-            model: Like,
-          },
+          include: [
+            {
+              model: Like,
+            },
+            {
+              model: Bookmark,
+            },
+          ],
         });
+
         req.posts = posts;
         next();
       })();
