@@ -4,6 +4,7 @@
 */uploads
 */images
 src/public/images
+src/public/test
 src/public/uploads/
 test.js
 # Logs
