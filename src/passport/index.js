@@ -2,6 +2,7 @@ const passport = require("passport");
 const local = require("./localStrategy");
 const kakao = require("./kakaoStrategy");
 const { User } = require("../models");
+const jwt = require("./jwt");
 
 module.exports = () => {
   console.log("passportconfig() 실행!");
@@ -33,4 +34,5 @@ module.exports = () => {
 
   local();
   kakao();
+  jwt();
 };

@@ -2,7 +2,10 @@ const { Post } = require("../models");
 
 const followingPostMW = async (req, res, next) => {
   try {
+    console.log(res.locals);
     if (res.locals) {
+      console.log("-----");
+      console.log(res.locals);
       const followingIdList = res.locals.user
         ? res.locals.user.Followings.map((f) => f.userId)
         : [];
