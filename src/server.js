@@ -21,7 +21,7 @@ const swaggerUi = require("swagger-ui-express");
 const swaggerFile = require("./swagger-output");
 
 // 테스트용
-const authMiddleware = require("./middlewares/auth");
+// const authMiddleware = require("./middlewares/auth");
 
 sequelize
   .sync({ force: false })

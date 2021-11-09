@@ -13,14 +13,13 @@ module.exports = {
   */
   getPosts: async (req, res) => {
     //조회는 미들웨어에서 처리하고, 여기는 던지는 역할만 하기
-    const { randPosts, posts, queryResult } = req;
+    const { randPosts, posts } = req;
     const followPost = res.followPost;
     return res.status(200).send({
-      followPost,
       message: "posts 조회 성공",
       posts,
       randPosts,
-      queryResult,
+      followPost,
     });
   },
   /* 
@@ -49,7 +48,7 @@ module.exports = {
     // 모든 temp 경로를 content로 바꾸기
     const innerHtml = contentEditor.replace(/temp/g, "content");
     console.log(innerHtml);
-    // 인코딩 해서 저장
+    // 인코딩 해서 저장, why? 이모티콘
     const encodedTitle = encodeURIComponent(title);
     const encodedHTML = encodeURIComponent(innerHtml);
     const date = new Date();
@@ -77,7 +76,6 @@ module.exports = {
   */
   putPosts: async (req, res) => {
     const { userId } = res.locals.user;
-    console.log(res.locals.user);
     const { postId } = req.params;
     //파일이 없을 경우를 대비한 예외처리
     const path = req.file.path ? req.file.path : "";
@@ -89,11 +87,12 @@ module.exports = {
       categoryStudyMate,
       contentEditor,
     } = body;
-    //데이터 바꾸기
-    // imageCover 업데이트 후 DB 다시 저장
+
+    const post = await Post.findByPk(postId);
+    const backup = post;
+
     try {
-      //postId로 해당 post 조회
-      const post = await Post.findByPk(postId);
+      // throw "error occurs!!!!!!!!!";
       //조회 결과가 없으면 이미 업로드된 cover 파일 다시 지워야 함.
       if (!post) {
         await removeImage(path);
@@ -110,8 +109,8 @@ module.exports = {
       //post 의 이미지 url 따라가서 삭제
       await removeImage(post.imageCover);
       //기존 이미지 content 삭제
-      const imageList = extractImageSrc(post.contentsEditor);
-
+      const decodedHtml = decodeURIComponent(post.contentEditor);
+      const imageList = extractImageSrc(decodedHtml);
       //새로 올라온 데이터가 있을 때만 바꾸기
       if (path) post.imageCover = path;
       if (title) post.title = encodeURIComponent(title);
@@ -135,6 +134,9 @@ module.exports = {
       // ROLLBACK : 기존데이터를 다시 넣고 저장.
       // 원상복구 해야할 요소 : 파일, DB
       // 기존 데이터를 어딘가에 백업해야할 듯.
+      await post.update(backup);
+      await post.save();
+      await removeImage(path);
       return res.status(500).send({ message: "DB 업데이트 실패" });
     }
   },
@@ -151,11 +153,13 @@ module.exports = {
       if (userId !== post.userId)
         return res.status(403).send({ message: "주인 아님" });
       // 게시물 삭제 전, 이미지 src 추출하고 삭제
-      const imgList = extractImageSrc(post.contentEditor);
+      const decodedHtml = decodeURIComponent(post.contentEditor);
+      const imgList = extractImageSrc(decodedHtml);
       imgList.forEach(async (src) => {
         await removeImage(src);
       });
       await removeImage(post.imageCover);
+      // cascade???? 관계 맺을 때 옵션 주기
       await post.destroy();
       return res.status(200).send({ message: "포스팅 삭제 성공" });
     } catch (error) {
@@ -169,9 +173,8 @@ module.exports = {
   getOnePost: async (req, res) => {
     const { postId } = req.params;
     // const userId = req.user ? req.user.userId : undefined;
+    // 예외처리
     const { userId } = res.locals.user ? res.locals.user : { userId: null };
-    console.log("여기는 getOnePost 콜백 부분, userId : ", userId);
-
     // FE 뷰에 활용하기 위한 데이터
     let isBookmarked = false;
     let isLiked = false;

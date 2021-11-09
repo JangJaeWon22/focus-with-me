@@ -31,6 +31,7 @@ const extractImageSrc = (html) => {
 
 const emptyTemp = async () => {
   const baseUrl = `${process.cwd()}/public/uploads/temp`;
+  //recursive : 폴더 내에 파일이 있어도 삭제 가능하도록 함
   await fs.rm(baseUrl, { recursive: true });
   await fs.mkdir(baseUrl);
 };
@@ -38,6 +39,7 @@ const emptyTemp = async () => {
 const moveImages = async (imageList) => {
   if (imageList.length !== 0)
     imageList.forEach(async (url) => {
+      // 임시 폴더에 실제 파일이 있냐?
       const isExist = fsSync.existsSync(url);
       // 각 src에 대해, temp 에 해당 파일이 있으면
       if (isExist) {
