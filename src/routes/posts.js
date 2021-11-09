@@ -27,6 +27,6 @@ postsRouter
   .route("/posts/:postId")
   .put(logInOnly, uploadCover.single("imageCover"), putPosts)
   .delete(logInOnly, deletePosts)
-  .get(logInOnly, getOnePost);
+  .get(logInBoth, getOnePost);
 
 module.exports = postsRouter;
