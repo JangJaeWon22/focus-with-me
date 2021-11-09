@@ -21,7 +21,7 @@ const swaggerUi = require("swagger-ui-express");
 const swaggerFile = require("./swagger-output");
 
 // 테스트용
-const authMiddleware = require("./middlewares/auth");
+// const authMiddleware = require("./middlewares/auth");
 
 sequelize
   .sync({ force: false })
@@ -79,15 +79,6 @@ app.use("/api", followRouter);
 app.use("/api", userInfoRouter);
 app.use("/api", bookmarkRouter);
 app.use("/api", likeCommentRouter);
-
-// app.use(
-//   authMiddleware,
-//   uploadTemp.single("temp"),
-//   (req, res) => {
-//     const { path } = req.file;
-//     return res.status(200).send({ path });
-//   }
-// );
 
 //Error handler
 app.use(function (err, req, res, next) {

@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const authMiddleware = require("../middlewares/auth");
 const {
   userInfoOutPut,
 } = require("../controllers/userInfo-ctrl/userInfoOutPut");
