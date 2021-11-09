@@ -79,16 +79,24 @@ const filter = async (req, res, next) => {
       where: {
         [Op.and]: where, // assign the "where" array here
       },
+      attributes: {
+        include: [
+          [Sequelize.fn("COUNT", Sequelize.col("Likes.postId")), "likeCnt"],
+          [Sequelize.fn("COUNT", Sequelize.col("Bookmarks.postId")), "bookCnt"],
+        ],
+      },
       include: [
         {
           model: Like,
+          attributes: [],
         },
         {
           model: Bookmark,
+          attributes: [],
         },
       ],
+      group: ["Post.postId"],
     });
-
     req.posts = posts;
     next();
   }
