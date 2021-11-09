@@ -24,32 +24,31 @@ const filter = async (req, res, next) => {
 
     // 랜덤 게시물 10개 조회
     const randPosts = await Post.findAll({
-      // attributes: ["User.nickname", "User.avatarUrl"],
+      attributes: ["Post.*", "User.nickname", "User.avatarUrl"],
       include: {
         model: User,
-        attributes: ["nickname", "avatarUrl"],
-        // as: ["nickname", "avatarUrl"],
-        separate: true,
+        attributes: [],
       },
+      raw: true,
       order: [Sequelize.fn("RAND")],
       limit: 10,
     });
 
     // 로그인 했으면, 팔로잉 보여주기
     if (res.locals) {
-      console.log("-----");
-      console.log(res.locals);
       const followingIdList = res.locals.user
         ? res.locals.user.Followings.map((f) => f.userId)
         : [];
       const followPost = await Post.findAll({
         where: { userId: followingIdList },
-        limit: 5,
-        order: [["date", "DESC"]],
+        attributes: ["Post.*", "User.nickname", "User.avatarUrl"],
         include: {
           model: User,
-          attributes: ["nickname", "avatarUrl"],
+          attributes: [],
         },
+        raw: true,
+        limit: 5,
+        order: [["date", "DESC"]],
       });
       res.followPost = followPost;
     } else {
