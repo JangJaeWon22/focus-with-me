@@ -82,8 +82,11 @@ const filter = async (req, res, next) => {
       },
       attributes: {
         include: [
-          [Sequelize.fn("COUNT", Sequelize.col("Likes.postId")), "likeCnt"],
-          [Sequelize.fn("COUNT", Sequelize.col("Bookmarks.postId")), "bookCnt"],
+          [Sequelize.literal("COUNT(DISTINCT Likes.likeId)"), "likeCnt"],
+          [
+            Sequelize.literal("COUNT(DISTINCT Bookmarks.bookmarkId)"),
+            "bookCnt",
+          ],
         ],
       },
       include: [
@@ -98,6 +101,17 @@ const filter = async (req, res, next) => {
       ],
       group: ["Post.postId"],
     });
+
+    // sequelize equivalent SQL
+    `use focus;
+    SELECT Post.postId, Post.imageCover, Post.title, Post.categorySpace, Post.categoryStudyMate, Post.categoryInterest, Post.contentEditor, Post.date, Post.userId, 
+    COUNT(DISTINCT Likes.likeId) AS likeCnt, 
+    COUNT(DISTINCT Bookmarks.bookmarkId) AS bookCnt
+    FROM Posts AS Post 
+    LEFT OUTER JOIN Likes AS Likes ON Post.postId = Likes.postId 
+    LEFT OUTER JOIN Bookmarks AS Bookmarks ON Post.postId = Bookmarks.postId 
+    GROUP BY Post.postId;`;
+
     req.posts = posts;
     next();
   }
