@@ -5,8 +5,10 @@ const postList = {
   // 빈하트일때 좋아요 검사
   addLike: async (req, res) => {
     try {
+      // postId 변수에서 req.params에 있는 값을 불러와 할당한다(구조분해할당) 
       const { postId } = req.params;
-      const { userId } = res.locals.user; // 미들웨어 연결했을 때 사용할 수 있는 변수
+      // res.locals.user 는 미들웨어인 loginOnly에서 값을 가져와 userId에 할당한다
+      const { userId } = res.locals.user; 
       const date = new Date();
 
       // isLiked는 기존에 userId에 해당하는 user가 좋아요를 한 적이 있는지 체크 하기 위해 db에서 검색
@@ -34,7 +36,9 @@ const postList = {
         });
       } else {
         // user가 좋아요를 이미 누른 상태에서 한번 더 눌렀을 경우
-        return res.status(400).send({ message: "좋아요를 이미 누르셨습니다." }); // 알림창
+        return res.status(400).send({ 
+          message: "좋아요를 이미 누르셨습니다." 
+        }); // 알림창
       }
     } catch (err) {
       console.log(err);
@@ -47,7 +51,7 @@ const postList = {
   removeLike: async (req, res) => {
     try {
       const { postId } = req.params;
-      const { userId } = res.locals.user; // 미들웨어 연결했을 때 사용할 수 있는 변수
+      const { userId } = res.locals.user; 
 
       const liked = await Like.findOne({
         where: { postId, userId },
@@ -60,7 +64,9 @@ const postList = {
           message: "좋아요 취소를 했습니다.",
         });
       } else {
-        return res.status(400).send({ message: "이미 좋아요를 취소하셨습니다." });
+        return res.status(400).send({ 
+          message: "이미 좋아요를 취소하셨습니다.", 
+        });
       }
     } catch (err) {
       console.log(err); // catch error 문 이렇게 확인
