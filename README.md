@@ -6,6 +6,8 @@
 
 ### 기술 스택
 
+<img src="https://img.shields.io/badge/passport-#34E27A?style=for-the-badge&logo=passport&logoColor=white">
+
 ### 기술서
 
 - [passport(local,kakao,jwt)](./doc/passport.md)
