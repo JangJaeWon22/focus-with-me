@@ -9,12 +9,12 @@ const passportConfig = require("./passport");
 const session = require("express-session");
 const userRouter = require("./routes/users");
 const postsRouter = require("./routes/posts");
-const likeRouter = require("./routes/postlike");
+const likeRouter = require("./routes/postsLike");
 const cmtRouter = require("./routes/comments");
 const followRouter = require("./routes/follow");
 const userInfoRouter = require("./routes/userInfo");
 const bookmarkRouter = require("./routes/bookmark");
-const likeCommentRouter = require("./routes/commentslike");
+const likeCommentRouter = require("./routes/commentsLike");
 
 //swagger
 const swaggerUi = require("swagger-ui-express");
