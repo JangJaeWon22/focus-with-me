@@ -6,7 +6,7 @@
 
 ### 기술 스택
 
-<img src="https://img.shields.io/badge/passport-#34E27A?style=for-the-badge&logo=passport&logoColor=white">
+<img src="https://img.shields.io/badge/passport-0.5.0-34E27A?style=for-the-badge&logo=Passport&logoColor=white">
 
 ### 기술서
 
