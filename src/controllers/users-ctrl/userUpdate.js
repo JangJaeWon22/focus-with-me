@@ -1,6 +1,5 @@
 const { User } = require("../../models");
 const bcrypt = require("bcrypt");
-const multer = require("multer");
 const path = require("path");
 const { removeImage } = require("../../library/controlImage");
 const fs = require("fs");
@@ -49,10 +48,14 @@ const userUpdate = {
         const existUser = await User.findOne({
           where: { userId: user.userId },
         });
-        console.log("2");
+        let avatarUrl = "";
+
         //변경할 file이 있을 때
-        if (file && existUser.avatarUrl !== "public/images/noAvatar") {
-          await removeImage(existUser.avatarUrl);
+        // noAvatar 상태면, 파일 지우면 안됨
+        if (file) {
+          if (existUser.avatarUrl !== "public/images/noAvatar") {
+            await removeImage(existUser.avatarUrl);
+          }
           avatarUrl = file.path;
         } else {
           avatarUrl = "public/images/noAvatar";

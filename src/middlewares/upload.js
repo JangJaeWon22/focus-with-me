@@ -14,12 +14,11 @@ module.exports = {
         cb(null, Date.now() + ext);
       }, */
     }),
-    limits: { fileSize: 1000000 },
+    limits: { fileSize: 10000000 },
   }),
-
   uploadCover: multer({
     dest: "public/uploads/cover",
-    limits: { fileSize: 1000000 },
+    limits: { fileSize: 10000000 },
     // 파일이 없을 경우 예외처리 필요.
     // onError: function (err, next) {
     //   console.log("error", err);
@@ -29,7 +28,7 @@ module.exports = {
   }),
   uploadContents: multer({
     dest: "public/uploads/content",
-    limits: { fileSize: 1000000 },
+    limits: { fileSize: 10000000 },
   }),
   uploadTemp: multer({
     dest: "public/uploads/temp",
