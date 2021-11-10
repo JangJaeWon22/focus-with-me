@@ -77,8 +77,8 @@ module.exports = {
   putPosts: async (req, res) => {
     const { userId } = res.locals.user;
     const { postId } = req.params;
-    //파일이 없을 경우를 대비한 예외처리
-    const path = req.file.path ? req.file.path : "";
+    // imageCover 파일이 없을 경우를 대비한 예외처리
+    const path = req.file ? req.file.path : null;
     const body = JSON.parse(JSON.stringify(req.body));
     const {
       title,
@@ -107,12 +107,15 @@ module.exports = {
           .send({ message: "본인의 게시물만 수정할 수 있습니다." });
       // 기존 이미지 삭제하는 부분
       //post 의 이미지 url 따라가서 삭제
-      await removeImage(post.imageCover);
       //기존 이미지 content 삭제
       const decodedHtml = decodeURIComponent(post.contentEditor);
       const imageList = extractImageSrc(decodedHtml);
       //새로 올라온 데이터가 있을 때만 바꾸기
-      if (path) post.imageCover = path;
+      // 새로 올라온 파일이 있으면 -> imageCover path를 바꾸고, 기존 이미지 삭제
+      if (path) {
+        await removeImage(post.imageCover);
+        post.imageCover = path;
+      }
       if (title) post.title = encodeURIComponent(title);
       if (categorySpace) post.categorySpace = categorySpace;
       if (categoryInterest) post.categoryInterest = categoryInterest;
@@ -179,7 +182,8 @@ module.exports = {
     let isBookmarked = false;
     let isLiked = false;
     let isFollowing = false;
-
+    let currentNick = "";
+    let currentAvatar = "";
     try {
       const post = await Post.findOne({
         where: { postId },
@@ -190,6 +194,10 @@ module.exports = {
       });
       // 사용자가 로그인 중이라면,
       if (userId) {
+        const user = await User.findByPk(userId);
+        currentNick = user.nickname;
+        currentAvatar = user.avatarUrl;
+
         const bookmarked = await Bookmark.findOne({
           where: { postId, userId },
         });
@@ -209,7 +217,14 @@ module.exports = {
         );
         if (following.length !== 0) isFollowing = true;
       }
-      return res.status(200).send({ post, isBookmarked, isLiked, isFollowing });
+      return res.status(200).send({
+        post,
+        isBookmarked,
+        isLiked,
+        isFollowing,
+        currentNick,
+        currentAvatar,
+      });
     } catch (error) {
       console.log(error);
       return res.status(500).send({ message: "DB 조회에 실패했습니다." });

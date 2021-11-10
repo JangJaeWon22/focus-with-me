@@ -40,7 +40,7 @@ const userUpdate = {
       console.log("업데이트 라우터 입장");
       const { user } = res.locals;
       const { file } = req;
-
+      let avatarUrl = "";
       console.log("1");
       // 닉네임입력란이 공백일 경우 대비
       if (res.verifyBody) {
@@ -48,7 +48,6 @@ const userUpdate = {
         const existUser = await User.findOne({
           where: { userId: user.userId },
         });
-        let avatarUrl = "";
 
         //변경할 file이 있을 때
         // noAvatar 상태면, 파일 지우면 안됨
