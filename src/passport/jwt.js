@@ -33,7 +33,7 @@ const JWTVerify = async (jwtPayload, done) => {
       return;
     }
     // 유저 데이터가 없을 경우 에러 표시
-    done(null, false, { aaa: "올바르지 않은 인증정보 입니다." });
+    done(null, false, { message: "올바르지 않은 인증정보 입니다." });
     return;
   } catch (error) {
     done(error);

@@ -22,13 +22,14 @@ const userOutPut = {
   authUser: async (req, res, next) => {
     // local 로그인
     try {
-      // 아까 local로 등록한 인증과정 실행
+      // passport/index.js로 실행 됨
       passport.authenticate("local", (passportError, user, info) => {
         // 인증이 실패했거나 유저 데이터가 없다면 에러 발생
         if (passportError) {
           console.error("passportError:", passportError);
-          return res.send({ message: "ggg" });
+          return res.send({ message: passportError });
         }
+        // user를 조회하지 못할 경우
         if (!user) {
           res.status(400).send({ message: info.message });
           return;

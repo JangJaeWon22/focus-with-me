@@ -55,20 +55,23 @@ app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 //passport
 passportConfig();
-app.use(
-  session({
-    resave: false,
-    saveUninitialized: false, //초기화되지 않은채 스토어에 저장되는 세션
-    secret: "secret",
-    cookie: {
-      httpOnly: true,
-      secure: false,
-    },
-  })
-);
+// app.use(
+//   session({
+//     // false, 변경사항도 없는 session이 매번 다시 저장되는 걸 막아 작동 효율을 높임
+//     resave: false,
+//     // saveUninitialized: true => uninitialized 상태의 session을 강제로 저장,
+//     // false => empty session obj가 쌓이는 걸 방지해 서버 스토리지를 아낄 수 있습니다.
+//     saveUninitialized: false,
+//     secret: "secret",
+//     // 세션 쿠키 설정 (세션 관리 시 클라이언트에 보내는 쿠키)
+//     cookie: {
+//       httpOnly: true,
+//       secure: false,
+//     },
+//   })
+// );
 app.use(passport.initialize());
-app.use(passport.session());
-// passport index 실행
+// app.use(passport.session());
 
 //routing
 app.use("/api", cmtRouter);
