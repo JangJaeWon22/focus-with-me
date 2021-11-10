@@ -30,12 +30,12 @@ const commentsLikeFunc = {
           likeCount,
           message: "댓글에 좋아요를 눌렀습니다.",
         })
-      } else{
+      } else {
         return res.status(400).send({ message: "좋아요를 이미 눌렀어요."});
       }
     } catch (err) {
       console.log(err);
-      res.status(500).send({ message: "댓글 좋아요 기능에 문제가 생겼습니다."})
+      return res.status(500).send({ message: "댓글 좋아요 기능에 문제가 생겼습니다."})
     }
   },
   // 댓글 좋아요 취소 생성
