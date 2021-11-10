@@ -10,8 +10,9 @@ const postList = {
       const date = new Date();
 
       // isLiked는 기존에 userId에 해당하는 user가 좋아요를 한 적이 있는지 체크 하기 위해 db에서 검색
-      // sql Query clause : SELECT * FROM post WHERE postId = postId AND userId = userId;
+      // SQL Query clause : SELECT * FROM post WHERE postId = postId AND userId = userId;
       
+      // Equal to :
       // const liked = await Like.findOne({
       //  where: { postId: postId, userId: userId },
       // });
@@ -20,9 +21,8 @@ const postList = {
         where: { postId, userId },
       });
 
-      // user가 좋아요를 안했을때
+      // user가 좋아요를 누르기 전 일때
       if (!liked) {
-        // 좋아요 안 눌렀을때,
         await Like.create({
           postId,
           userId,
@@ -34,7 +34,7 @@ const postList = {
         });
       } else {
         // user가 좋아요를 이미 누른 상태에서 한번 더 눌렀을 경우
-        return res.status(400).send({ message: "좋아요를 이미 누르셨습니다." }); //알림창
+        return res.status(400).send({ message: "좋아요를 이미 누르셨습니다." }); // 알림창
       }
     } catch (err) {
       console.log(err);

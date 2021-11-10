@@ -5,7 +5,7 @@ const commentsLikeFunc = {
   likeExist: async (req, res) => {
     try {
       const { postId, commentId } = req.params; // params에 postId, commentId 객체
-      const { userId } = res.locals.user; // 미들웨어 연결에 필요
+      const { userId } = res.locals.user; // 미들웨어 연결했을 때 사용할 수 있는 변수
       
       // user가 이미 좋아요를 했는지 확인 
       const likeCmt = await CommentLike.findOne({
@@ -23,9 +23,7 @@ const commentsLikeFunc = {
         const likeCount = await CommentLike.count({
           where: { commentId, postId },
         });
-        // 댓글 카운터 수정 기능
-        await CommentLike.update({ likeCount }, { where: {commentId:commentId}});
-
+        
         // 댓글 상태 메세지 기능
         return res.status(200).send({
           isLiked: true,
@@ -37,7 +35,7 @@ const commentsLikeFunc = {
       }
     } catch (err) {
       console.log(err);
-      res.status(400).send({ message: "댓글 좋아요에 문제가 생겼습니다."})
+      res.status(500).send({ message: "댓글 좋아요 기능에 문제가 생겼습니다."})
     }
   },
   // 댓글 좋아요 취소 생성
