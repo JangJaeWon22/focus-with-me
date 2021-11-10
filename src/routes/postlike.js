@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 // add controller function
-const postingLikeCtrl = require("../controllers/likes-ctrl/postsLikeClick");
+const postingLikeCtrl = require("../controllers/likes-ctrl/postsLikeControl");
 // add middleware function
 const { logInOnly } = require("../middlewares/passport-auth");
 

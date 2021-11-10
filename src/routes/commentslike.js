@@ -5,7 +5,7 @@ const express = require("express");
 // Insert router
 const router = express.Router();
 // Insert controller function
-const cmtslikeCtrl = require("../controllers/comments-ctrl/cmtslikeControl");
+const cmtslikeCtrl = require("../controllers/likes-ctrl/cmtslikeControl");
 // Insert middleware function
 const { logInOnly } = require("../middlewares/passport-auth");
 
