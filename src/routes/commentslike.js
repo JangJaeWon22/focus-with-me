@@ -1,5 +1,3 @@
-// 댓글 좋아요 기능 구현
-
 // Insert express
 const express = require("express");
 // Insert router
@@ -8,9 +6,6 @@ const router = express.Router();
 const cmtslikeCtrl = require("../controllers/likes-ctrl/cmtsLikeControl");
 // Insert middleware function but available only when logged in
 const { logInOnly } = require("../middlewares/passport-auth");
-
-/* comments like functions */
-// Create the method of commentslike (function)
 
 // 댓글 좋아요 추가
 router.post(
