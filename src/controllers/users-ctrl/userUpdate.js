@@ -1,6 +1,5 @@
 const { User } = require("../../models");
 const bcrypt = require("bcrypt");
-const multer = require("multer");
 const path = require("path");
 const { removeImage } = require("../../library/controlImage");
 const fs = require("fs");
@@ -41,22 +40,26 @@ const userUpdate = {
       console.log("업데이트 라우터 입장");
       const { user } = res.locals;
       const { file } = req;
-
-      console.log("1");
+      let avatarUrl = "";
       // 닉네임입력란이 공백일 경우 대비
       if (res.verifyBody) {
         const { nicknameNew } = res.verifyBody;
         const existUser = await User.findOne({
           where: { userId: user.userId },
         });
-        console.log("2");
         //변경할 file이 있을 때
-        if (file && existUser.avatarUrl !== "public/images/noAvatar") {
-          await removeImage(existUser.avatarUrl);
+        // noAvatar 상태면, 파일 지우면 안됨
+        if (file) {
+          if (existUser.avatarUrl !== "public/images/noAvatar") {
+            await removeImage(existUser.avatarUrl);
+          }
           avatarUrl = file.path;
-        } else {
-          avatarUrl = "public/images/noAvatar";
         }
+        // else {
+        //   avatarUrl = "public/images/noAvatar";
+        // }
+        // 기본 이미지로 돌아가려면??
+        // 뷰에서 기본 이미지로 돌아가기 버튼??
 
         // 받은 닉네임의 값이 변경이 된 지 안된지 검증
         if (nicknameNew === user.nickname) {

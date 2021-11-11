@@ -14,37 +14,17 @@
   <!-- <script src="static/js/requireJS.js"></script> -->
   <!-- External JavaScript -->
   <!-- <script src="static/js/index.js" defer></script> -->
+  <style>
+    .test {
+      opacity: 1;
+      width: 100%;
+      filter: invert(10%) sepia(50%) saturate(0%) hue-rotate(10000deg) brightness(100%) contrast(100%);
+    }
+  </style>
 </head>
 
 <body>
-  <h1>
-    <%= title %>
-  </h1>
-  <p>Welcome to <%= title %>
-  </p>
-  <div>
-    <form action="/api/posts/test" method="post" enctype="multipart/form-data">
-      <input type="file" class="form-control-file" name="test" id="cover">
-      <input type="submit" value="Get me the stats!" class="btn btn-default">
-    </form>
-  </div>
-
-  <p>
-    테스트 html입니다
-    <table>
-      <tr>
-        <td>하하</td>
-        <td>호호</td>
-      </tr>
-      <tr>
-        <td>1</td>
-        <td>2</td>
-      </tr>
-    </table>
-    <img src="3.34.44.44/public/uploads/cover/23423532" alt="">
-    <img src="3.34.44.44/public/uploads/cover/2dfg453hgthg" alt="">
-    <img src="3.34.44.44/public/uploads/cover/f9sdfjsi" alt="">
-  </p>
+  <img src="public/images/user.svg" alt="" class="test">
 </body>
 
 </html>
