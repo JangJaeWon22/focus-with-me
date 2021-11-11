@@ -60,39 +60,23 @@ const userInfoOutPut = {
           });
           // 북마크 했으면 true
           if (bookmarked) isBookmarked = true;
-          // 배열에 삽입
-          myPosts.push({
-            postId: postList.postId,
-            imageCover: postList.imageCover,
-            title: postList.title,
-            categorySpace: postList.categorySpace,
-            categoryStudyMate: postList.categoryStudyMate,
-            categoryInterest: postList.categoryInterest,
-            contentEditor: postList.contentEditor,
-            date: postList.date,
-            userId: postList.userId,
-            likeCnt: postList.likeCnt,
-            bookCnt: postList.bookCnt,
-            isLiked,
-            isBookmarked,
-          });
-        } else {
-          myPosts.push({
-            postId: postList.postId,
-            imageCover: postList.imageCover,
-            title: postList.title,
-            categorySpace: postList.categorySpace,
-            categoryStudyMate: postList.categoryStudyMate,
-            categoryInterest: postList.categoryInterest,
-            contentEditor: postList.contentEditor,
-            date: postList.date,
-            userId: postList.userId,
-            likeCnt: postList.likeCnt,
-            bookCnt: postList.bookCnt,
-            isLiked,
-            isBookmarked,
-          });
         }
+        // 배열에 삽입
+        myPosts.push({
+          postId: postList.postId,
+          imageCover: postList.imageCover,
+          title: postList.title,
+          categorySpace: postList.categorySpace,
+          categoryStudyMate: postList.categoryStudyMate,
+          categoryInterest: postList.categoryInterest,
+          contentEditor: postList.contentEditor,
+          date: postList.date,
+          userId: postList.userId,
+          likeCnt: postList.likeCnt,
+          bookCnt: postList.bookCnt,
+          isLiked,
+          isBookmarked,
+        });
       }
 
       res.status(200).send({ myPosts });
@@ -185,39 +169,23 @@ const userInfoOutPut = {
           });
           // 북마크 했으면 true
           if (bookmarked) isBookmarked = true;
-          // 배열에 삽입
-          bookmarkedPosts.push({
-            postId: myBookList.postId,
-            imageCover: myBookList.imageCover,
-            title: myBookList.title,
-            categorySpace: myBookList.categorySpace,
-            categoryStudyMate: myBookList.categoryStudyMate,
-            categoryInterest: myBookList.categoryInterest,
-            contentEditor: myBookList.contentEditor,
-            date: myBookList.date,
-            userId: myBookList.userId,
-            likeCnt: myBookList.likeCnt,
-            bookCnt: myBookList.bookCnt,
-            isLiked,
-            isBookmarked,
-          });
-        } else {
-          bookmarkedPosts.push({
-            postId: myBookList.postId,
-            imageCover: myBookList.imageCover,
-            title: myBookList.title,
-            categorySpace: myBookList.categorySpace,
-            categoryStudyMate: myBookList.categoryStudyMate,
-            categoryInterest: myBookList.categoryInterest,
-            contentEditor: myBookList.contentEditor,
-            date: myBookList.date,
-            userId: myBookList.userId,
-            likeCnt: myBookList.likeCnt,
-            bookCnt: myBookList.bookCnt,
-            isLiked,
-            isBookmarked,
-          });
         }
+        // 배열에 삽입
+        bookmarkedPosts.push({
+          postId: myBookList.postId,
+          imageCover: myBookList.imageCover,
+          title: myBookList.title,
+          categorySpace: myBookList.categorySpace,
+          categoryStudyMate: myBookList.categoryStudyMate,
+          categoryInterest: myBookList.categoryInterest,
+          contentEditor: myBookList.contentEditor,
+          date: myBookList.date,
+          userId: myBookList.userId,
+          likeCnt: myBookList.likeCnt,
+          bookCnt: myBookList.bookCnt,
+          isLiked,
+          isBookmarked,
+        });
       }
 
       res.status(200).send({ bookmarkedPosts });
