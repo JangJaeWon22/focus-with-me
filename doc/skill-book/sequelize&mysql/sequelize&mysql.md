@@ -151,3 +151,45 @@ module.exports = (sequelize, DataTypes) => {
   ```jsx
   npx sequelize db:create
   ```
+
+### Sequelize ORM examples
+
+#### 이게 뭐하는 거였지?
+
+- Post 모델이 기준 테이블
+- Post.postId 에 해당하는 Like 테이블의 갯수(COUNT), Bookmark 테이블의 갯수(COUNT)를 별칭 likeCnt, bookCnt로 보여줌
+
+```jsx
+const posts = await Post.findAll({
+  where: {
+    [Op.and]: where, // assign the "where" array here
+  },
+  // 이렇게도 사용 가능
+  // attributes: {
+  //   include: [
+  //     [Sequelize.literal("COUNT(DISTINCT Likes.likeId)"), "likeCnt"],
+  //     [
+  //       Sequelize.literal("COUNT(DISTINCT Bookmarks.bookmarkId)"),
+  //       "bookCnt",
+  //     ],
+  //   ],
+  // },
+  attributes: [
+    "Post.*",
+    [Sequelize.literal("COUNT(DISTINCT Likes.likeId)"), "likeCnt"],
+    [Sequelize.literal("COUNT(DISTINCT Bookmarks.bookmarkId)"), "bookCnt"],
+  ],
+  include: [
+    {
+      model: Like,
+      attributes: [],
+    },
+    {
+      model: Bookmark,
+      attributes: [],
+    },
+  ],
+  raw: true,
+  group: ["postId"],
+});
+```

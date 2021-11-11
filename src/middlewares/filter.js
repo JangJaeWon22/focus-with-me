@@ -72,7 +72,7 @@ const filter = async (req, res, next) => {
     let { page } = req.query;
     // 페이지네이션에 필요한 것 : page query string, total number of posts, total page
     if (!page) page = 1;
-    const postPerPage = 2;
+    const postPerPage = 9;
     const totalCnt = await Post.count();
     const totalPage = Math.ceil(totalCnt / postPerPage);
     const offset = (page - 1) * postPerPage;
