@@ -147,25 +147,30 @@ const comments = {
       const { postId, commentId } = req.params;
       // res.locals.user 는 미들웨어인 loginOnly에서 값을 가져와 userId에 할당한다
       const { userId } = res.locals.user;
-      // Comment 테이블에서 데이터 하나만 가져온다.
+      // Comment 의 첫번째 요소만 보기 위해 데이터를 가져온다
       const reqDelete = await Comment.findOne({
-        // 어디에서 postId 라는 컬럼에서 postId로, id 라는 컬럼에서 commentId로
         // where 옵션으로 나열함으로써, 기본적으로 and 옵션과 같다
+        // postId 라는 컬럼에서 postId로, commentId 라는 컬럼에서 commentId로 가져온다
         where: { postId, commentId },
       });
       
+      // 삭제할 요청의 아이디가 해당 유저의 아이디가 같다면
       if (reqDelete.userId === userId) {
-        // "특정 포스트 -> 특정 댓글" 지운다
+        // 특정 포스트에 해당하는 특정 댓글을 지운다
+        // 특정 포스트 -> 특정 댓글
         await reqDelete.destroy();
+        // 댓글이 삭제되는 메세지를 제대로 보내졌을 경우
         return res.status(200).send({
           message: "댓글이 삭제되었습니다.",
         });
+        // 삭제할 댓글이 해당 유저의 아이디가 일치하지 않을 경우
       } else {
         return res.status(400).send({
           message: "작성자가 아닙니다.",
         });
       }
     } catch (err) {
+      // 댓글 기능이 제대로 작동하지 않을 경우
       return res.status(500).send({
         message: "댓글 삭제에 문제가 생겼습니다! 관리자에게 문의해주세요.",
       });
