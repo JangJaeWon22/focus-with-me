@@ -2,6 +2,10 @@
 
 ## 프로젝트 개요
 
+## 프론트엔드 주소
+
+https://github.com/erionRK621/studyWithMe
+
 ## 사용 기술 스택
 
 ### 기술 스택
@@ -13,8 +17,12 @@
 
 ### 기술서
 
-- [passport(local,kakao,jwt)](./doc/passport.md)
-- [ckEditor5](./doc/ckeditor.md)
-- [Sequelize&MySQL](./doc/sequelize&mysql/sequelize&mysql.md)
+- [passport(local,kakao,jwt)](./doc/skill-book/passport.md)
+- [ckEditor5](./doc/skill-book/ckeditor.md)
+- [Sequelize&MySQL](./doc/skill-book/sequelize&mysql/sequelize&mysql.md)
 
 ## 문제점과 해결 방법
+
+### refactoring-history
+
+- [Daily-refactoring-history](./doc/refactoring-history)

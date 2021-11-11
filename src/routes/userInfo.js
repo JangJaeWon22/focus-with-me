@@ -3,7 +3,7 @@ const router = express.Router();
 const {
   userInfoOutPut,
 } = require("../controllers/userInfo-ctrl/userInfoOutPut");
-const GetUserInfo = require("../middlewares/userInfo/userInfo");
+const getUserInfo = require("../middlewares/userInfo/userInfo");
 const followMW = require("../middlewares/userInfo/userFollow");
 const { logInBoth } = require("../middlewares/passport-auth");
 
@@ -12,7 +12,7 @@ router.get(
   "/mypage/myInfo/:userId",
   logInBoth,
   followMW,
-  GetUserInfo,
+  getUserInfo,
   userInfoOutPut.getUser
 );
 
