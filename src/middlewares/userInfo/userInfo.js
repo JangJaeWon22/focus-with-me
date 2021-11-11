@@ -6,7 +6,7 @@ const GetUserInfo = async (req, res, next) => {
     // const { userId } = req.body === undefined ? res.locals.user : req.body;
     const { userId } = req.params;
     const userQuery = `
-    SELECT Users.userId,Users.email,Users.nickname,Users.avatarUrl,Users.date, COUNT(Posts.userId) AS postCnt
+    SELECT Users.userId,Users.email,Users.nickname,Users.avatarUrl,Users.date,Users.provider, COUNT(Posts.userId) AS postCnt
     FROM Users
     LEFT OUTER JOIN Posts On Users.userId = Posts.userId
     WHERE Users.userId = ${userId}
