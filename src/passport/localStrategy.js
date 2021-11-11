@@ -14,7 +14,7 @@ const passportVerify = async (email, password, done) => {
       return;
     }
     // 검색된 유저 데이터가 있다면 유저 해쉬된 비밀번호 비교
-    const compareResult = await bcrypt.compare(password, user.password);
+    const compareResult = bcrypt.compareSync(password, user.password);
 
     // 해쉬된 비밀번호가 같다면 유저 데이터 객체 전송
     if (compareResult) {
