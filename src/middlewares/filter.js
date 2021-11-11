@@ -74,6 +74,7 @@ const filter = async (req, res, next) => {
     const { categorySpace, categoryInterest, categoryStudyMate, page } =
       req.query;
     // 페이지네이션에 필요한 것 : page query string, total number of posts, total page
+    const postPerPage = 5;
     const totalCnt = await Post.count();
     const totalPage = Math.ceil(totalCnt / limit);
 
@@ -128,6 +129,7 @@ const filter = async (req, res, next) => {
     GROUP BY Post.postId;`;
 
     const arr = [];
+    //forEach는 await 안 기다려줘서 기대한 대로 안됨
     for (const post of posts) {
       // 초기값은 false로 두고, 토큰이 없으면 false를 push
       let isLiked = false;
