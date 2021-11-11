@@ -7,6 +7,7 @@
 ### 기술 스택
 
 <img src="https://img.shields.io/badge/passport-0.5.0-34E27A?style=for-the-badge&logo=Passport&logoColor=white">
+<img src="https://img.shields.io/badge/sequelize-6.8.0-52B0E7?style=for-the-badge&logo=Sequelize&logoColor=white">
 
 <img src="https://img.shields.io/badge/Swagger-4.1.6-85EA2D?style=for-the-badge&logo=Swagger&logoColor=green">
 
