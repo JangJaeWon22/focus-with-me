@@ -2,7 +2,7 @@ const { Comment, User, CommentLike } = require("../../models");
 const { Sequelize } = require("../../models");
 
 const comments = {
-  // 댓글 생성
+  // 댓글 생성을 비동기식 방식으로 처리한다
   commentCreate: async (req, res) => {
     try {
       // const { textContent : 성공 } = { textContent : 성공 }
@@ -12,17 +12,23 @@ const comments = {
       const { postId } = req.params;
       const { userId } = res.locals.user;
 
+      // user 변수에서 findByPk 를 통해 식별된 값을 가져온다
       const user = await User.findByPk(userId);
+      // userNick 변수에서 사용자의 nickname을 선언한다
       const userNick = user.nickname;
+      // avatarUrl 변수에서 사용자의 avatarUrl을 선언한다
       const avatarUrl = user.avatarUrl;
-
+      // 날짜를 선언한다
       const date = new Date();
+      // comment model에서 생성해주기 위해 create를 사용한다
+      // comment 라는 변수에 저장하고자 하는 값을 넣어준다
       const comment = await Comment.create({
         userId,
         postId,
         date,
         textContent,
       });
+      // 성공 했을 경우, 다음과 같은 값을 보내준다
       return res.status(201).send({
         userNick,
         comment,
@@ -30,6 +36,7 @@ const comments = {
         message: "댓글 작성에 성공했습니다.",
       });
     } catch (err) {
+      // 에러 발생 했을 경우, console.log를 찍어준다
       console.log(err);
       return res.status(500).send({
         message: "댓글 서버로부터 오류가 생겼습니다.",
