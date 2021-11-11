@@ -145,7 +145,7 @@ module.exports = (sequelize, DataTypes) => {
 >
 > 다른 모든 테이블 user 테이블과 관계 형성함.
 >
-> [src/models](./src/models)
+> [src/models](https://github.com/JangJaeWon22/focus-with-me/tree/main/src)
 
 - db생성
   ```jsx
