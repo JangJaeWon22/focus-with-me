@@ -60,7 +60,7 @@ router.put(
   userUpdate.updateUserPw
 );
 
-// 회원탈퇴
+// 회원탈퇴 -- 익일 마무리?
 router.delete("/users/withdrawal", logInOnly, userProcess.deleteUser);
 
 module.exports = router;
