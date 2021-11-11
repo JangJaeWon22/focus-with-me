@@ -19,58 +19,52 @@ const userUpdate = {
       const { file } = req;
       let avatarUrl = "";
       // 닉네임입력란이 공백일 경우 대비
-      if (res.verifyBody) {
-        const { nicknameNew } = res.verifyBody;
-        const existUser = await User.findOne({
-          where: { userId: user.userId },
-        });
-        //변경할 file이 있을 때
-        // noAvatar 상태면, 파일 지우면 안됨
-        if (file) {
-          if (existUser.avatarUrl !== "public/images/noAvatar") {
-            await removeImage(existUser.avatarUrl);
-          }
-          avatarUrl = file.path;
-        }
-        // else {
-        //   avatarUrl = "public/images/noAvatar";
-        // }
-        // 기본 이미지로 돌아가려면??
-        // 뷰에서 기본 이미지로 돌아가기 버튼??
 
-        // 받은 닉네임의 값이 변경이 된 지 안된지 검증
-        if (nicknameNew === user.nickname) {
-          await User.update({ avatarUrl }, { where: { userId: user.userId } });
-          const profile = await User.findOne({
-            where: { userId: user.userId },
-          });
-          res
-            .status(200)
-            .send({ profile, message: "회원 정보 수정이 완료 되었습니다." });
-        } else {
-          // 변경할 닉네임 중복 검사
-          existNick = await User.findOne({ where: { nickname: nicknameNew } });
-          if (existNick) {
-            console.log(nicknameNew, user.nickname);
-            return res.status(400).send({ message: "중복된 닉네임입니다." });
-          } else {
-            await User.update(
-              {
-                nickname: nicknameNew,
-                avatarUrl,
-              },
-              { where: { userId: user.userId } }
-            );
-            const profile = await User.findOne({
-              where: { userId: user.userId },
-            });
-            return res
-              .status(200)
-              .send({ profile, message: "회원 정보 수정이 완료 되었습니다." });
-          }
+      const { nicknameNew } = res.verifyBody;
+
+      //변경할 file이 있을 때
+      // noAvatar 상태면, 파일 지우면 안됨
+      // 파일이 없으면 유지
+      if (file) {
+        if (user.avatarUrl !== "public/images/noAvatar") {
+          await removeImage(user.avatarUrl);
         }
+        avatarUrl = file.path;
       } else {
-        return res.status(400).send({ message: "닉네임을 입력해주세요." });
+        avatarUrl = user.avatarUrl;
+      }
+      // 기본 이미지로 돌아가려면??
+      // 뷰에서 기본 이미지로 돌아가기 버튼??
+
+      // 변경할 닉네임 중복 검사
+      existNick = await User.findOne({ where: { nickname: nicknameNew } });
+
+      if (!existNick) {
+        // 중복 되는 내용이 없을 경우 update 진행
+        await user.update({
+          nickname: nicknameNew,
+          avatarUrl,
+        });
+        return res.status(200).send({
+          user,
+          message: "회원 정보 수정이 완료 되었습니다.",
+        });
+      } else if (
+        // else if 중복되는 닉네임이 로그인한 user 자신의 닉네임일 경우를 비교
+        existNick.nickname === nicknameNew &&
+        existNick.userId === user.userId
+      ) {
+        await user.update({
+          nickname: nicknameNew,
+          avatarUrl,
+        });
+        return res.status(200).send({
+          user,
+          message: "회원 정보 수정이 완료 되었습니다.",
+        });
+      } else {
+        // 실패
+        return res.status(400).send({ message: "중복된 닉네임입니다." });
       }
     } catch (err) {
       console.log(err);

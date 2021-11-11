@@ -9,7 +9,9 @@ const verifyJoi = {
         .max(50)
         .required(),
       nickname: Joi.string().min(1).max(20).required(),
-      password: Joi.string().min(6).pattern(new RegExp("^[a-zA-Z0-9]{3,30}$")),
+      password: Joi.string().regex(
+        /^.*(?=^.{8,}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/
+      ),
       confirmPassword: Joi.ref("password"),
     });
     const { email, nickname, password, confirmPassword } = req.body;
@@ -33,7 +35,7 @@ const verifyJoi = {
   updateUserProfile: async (req, res, next) => {
     console.log("조이 검증 미들웨어 입장");
     const joiSchema = Joi.object({
-      nicknameNew: Joi.string().min(1).max(20),
+      nicknameNew: Joi.string().min(1).max(20).required(),
     });
 
     try {
@@ -44,7 +46,9 @@ const verifyJoi = {
         res.verifyBody = verifyBody;
         next();
       } else {
-        next();
+        return res
+          .status(400)
+          .send({ message: "닉네임의 형식이 올바르지 않습니다." });
       }
     } catch (err) {
       console.log(err);
@@ -56,12 +60,12 @@ const verifyJoi = {
 
   updateUserPw: async (req, res, next) => {
     const joiSchema = Joi.object({
-      passwordOld: Joi.string()
-        .min(6)
-        .pattern(new RegExp("^[a-zA-Z0-9]{3,30}$")),
-      passwordNew: Joi.string()
-        .min(6)
-        .pattern(new RegExp("^[a-zA-Z0-9]{3,30}$")),
+      passwordOld: Joi.string().regex(
+        /^.*(?=^.{8,}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/
+      ),
+      passwordNew: Joi.string().regex(
+        /^.*(?=^.{8,}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/
+      ),
       confirmPasswordNew: Joi.ref("passwordNew"),
     });
     const { passwordOld, passwordNew, confirmPasswordNew } = req.body;
