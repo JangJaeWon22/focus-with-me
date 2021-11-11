@@ -107,6 +107,7 @@ const filter = async (req, res, next) => {
           attributes: [],
         },
       ],
+
       raw: true,
       group: ["postId"],
     });

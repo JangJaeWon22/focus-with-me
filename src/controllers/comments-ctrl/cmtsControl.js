@@ -40,12 +40,15 @@ const comments = {
   // 댓글 조회
   commentSearch: async (req, res) => {
     try {
+      // req.params로 postId를 할당 받음
       const { postId } = req.params;
       // const postId = req.params.postId; // ES5 및 이전 문법
 
+      // comment db에서 값을 찾아보자
       const commentAll = await Comment.findAll({
-        // where는 조건절, 결과값에서 postId 컬럼에 조건을 건다. 필터링
+        // db에서 찾을 때 할당 받은 postId와 같은 조건인 것을 찾음 ( 해당 게시글의 댓글만 가져오면 되서)
         where: { postId },
+        // 가져올때 속성은 comment의 전부 + commentLikeCnt(commentLikeId의 갯수)
         attributes: [
           "Comment.*",
           [
@@ -53,6 +56,9 @@ const comments = {
             "commentLikeCnt",
           ],
         ],
+        /*  join!! (user, commentLike) ==> user는 작성자의 닉네임, 작성자의 프로필사진
+        commentLike는 현재 미들웨어(loginBoth)를 타고 res.local.user가 있을 경우를 대비해서 그 사람이 각 댓글마다 
+        좋아요를 했는지 안했는지 boolean 값을 주기 위해서 */
         include: [
           {
             model: User,
@@ -63,24 +69,30 @@ const comments = {
             attributes: [],
           },
         ],
+        // raw => google링 해보면 나옴
+        // 가공 하지 않은 상태가 됨 {} <- 이런걸로 안감싸고, 바로 model.keyname으로 나옴
         raw: true,
+        // group by 설정
         group: ["commentId"],
       });
 
-      console.log(commentAll);
       // 배열, 배열안에 객체(Object)를 저장
       const respondComments = [];
       for (const comment of commentAll) {
+        // isCommentLiked 기본 값으로 false로 설정
         let isCommentLiked = false;
+        // 사용자 인증 미들웨어를 타고 들어왔는데 사용자가 로그인 상태라면
         if (res.locals.user) {
+          // 로그인 한 사용자가 현재의 포스트에서 좋아요를 했는지 db 검색
           const liked = await CommentLike.findOne({
             where: { userId: res.locals.user.userId, postId: comment.postId },
           });
-          console.log(res.locals.user.userId);
-          console.log(comment.postId);
-          console.log(liked);
+
+          // 로그인 한 사용자가 현재의 포스트를 좋아요 했으면 true로 반환
           if (liked) isCommentLiked = true;
         }
+
+        // 각 for문을 돌릴때의 필요한 값들 push
         respondComments.push({
           userId: comment.userId,
           userNickname: comment.nickname,
@@ -107,6 +119,7 @@ const comments = {
       //   order: [["date", "DESC"]],
       // });
 
+      // 성공 응답 코드
       return res.status(200).send({
         respondComments,
         message: "댓글 조회에 성공했습니다.",
