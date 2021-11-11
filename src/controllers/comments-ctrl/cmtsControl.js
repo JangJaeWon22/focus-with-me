@@ -102,7 +102,7 @@ const comments = {
         // where 옵션으로 나열함으로써, 기본적으로 and 옵션과 같다
         where: { postId, commentId }, 
       });
-      console.log(userId);
+      
       if (reqDelete.userId === userId) {
         // "특정 포스트 -> 특정 댓글" 지운다
         await reqDelete.destroy(); 
