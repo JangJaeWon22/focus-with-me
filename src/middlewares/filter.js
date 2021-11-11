@@ -77,8 +77,6 @@ const filter = async (req, res, next) => {
     if (categoryInterest) where.push({ categoryInterest });
     if (categorySpace) where.push({ categorySpace });
     if (categoryStudyMate) where.push({ categoryStudyMate });
-    console.log(where);
-
     // 조인 후 배열이 아니라 count 함수 사용 예정
     const posts = await Post.findAll({
       where: {
@@ -123,23 +121,26 @@ const filter = async (req, res, next) => {
     GROUP BY Post.postId;`;
 
     const arr = [];
-    posts.forEach(async (post) => {
-      //로그인을 했다면
+    for (const post of posts) {
+      console.log("로그인 상관어뵤이 여기로 와야 함");
       let userId;
       let isLiked = false;
       let isBookmarked = false;
+      //로그인을 했다면 게시물에 좋아요 북마크 했는지 확인하는 로직 수행
       if (res.locals.user) {
+        userId = res.locals.user.userId;
         const liked = await Like.findOne({
           where: { userId, postId: post.postId },
         });
         const bookmarked = await Bookmark.findOne({
           where: { userId, postId: post.postId },
         });
+        console.log(liked);
+        console.log(bookmarked);
         if (liked) isLiked = true;
         if (bookmarked) isBookmarked = true;
       }
-
-      // like, book 조회 후 새로운 key push
+      console.log("좋아요 북마크 확인 후 push 전");
       arr.push({
         postId: post.postId,
         imageCover: post.imageCover,
@@ -155,7 +156,7 @@ const filter = async (req, res, next) => {
         isLiked,
         isBookmarked,
       });
-    });
+    }
     console.log(arr);
 
     req.posts = arr;
