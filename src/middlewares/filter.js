@@ -9,7 +9,7 @@ const filter = async (req, res, next) => {
     // 좋아요 내림차순 10개, 랜덤 포스트 10개, 로그인한 경우 팔로잉 5개
 
     // 좋아요 내림차순 10개
-    const postQuery = `
+    const sqlQuery = `
     SELECT Posts.*, COUNT(Likes.postId) AS likeCnt, Users.nickname, Users.avatarUrl
     FROM Posts
     JOIN Likes On Posts.postId = Likes.postId
@@ -18,7 +18,7 @@ const filter = async (req, res, next) => {
     ORDER BY likeCnt DESC
     LIMIT 10;`;
 
-    const posts = await sequelize.query(postQuery, {
+    const posts = await sequelize.query(sqlQuery, {
       type: Sequelize.QueryTypes.SELECT,
     });
 
@@ -74,10 +74,11 @@ const filter = async (req, res, next) => {
     const { categorySpace, categoryInterest, categoryStudyMate, page } =
       req.query;
     // 페이지네이션에 필요한 것 : page query string, total number of posts, total page
-    const postPerPage = 5;
+    // if (!page) page = 1;
+    const postPerPage = 2;
     const totalCnt = await Post.count();
-    const totalPage = Math.ceil(totalCnt / limit);
-
+    const totalPage = Math.ceil(totalCnt / postPerPage);
+    const offset = (page - 1) * postPerPage;
     // 로그인한 사람이 좋아요, 북마크했는지 확인할 때 쓸 변수. 토큰 유무에 따라 재할당 할 수 있으므로 let 선언
     let userId;
     // SQL where에 사용할 배열
@@ -85,48 +86,54 @@ const filter = async (req, res, next) => {
     if (categoryInterest) where.push({ categoryInterest });
     if (categorySpace) where.push({ categorySpace });
     if (categoryStudyMate) where.push({ categoryStudyMate });
-    // 조인 후 배열이 아니라 count 함수 사용 예정
-    const posts = await Post.findAll({
-      where: {
-        [Op.and]: where, // assign the "where" array here
-      },
-      // 이렇게도 사용 가능
-      // attributes: {
-      //   include: [
-      //     [Sequelize.literal("COUNT(DISTINCT Likes.likeId)"), "likeCnt"],
-      //     [
-      //       Sequelize.literal("COUNT(DISTINCT Bookmarks.bookmarkId)"),
-      //       "bookCnt",
-      //     ],
-      //   ],
-      // },
-      attributes: [
-        "Post.*",
-        [Sequelize.literal("COUNT(DISTINCT Likes.likeId)"), "likeCnt"],
-        [Sequelize.literal("COUNT(DISTINCT Bookmarks.bookmarkId)"), "bookCnt"],
-      ],
-      include: [
-        {
-          model: Like,
-          attributes: [],
-        },
-        {
-          model: Bookmark,
-          attributes: [],
-        },
-      ],
-      raw: true,
-      group: ["postId"],
-    });
-    // sequelize equivalent SQL 이렇게도 사용 가능
-    `use focus;
-    SELECT Post.postId, Post.imageCover, Post.title, Post.categorySpace, Post.categoryStudyMate, Post.categoryInterest, Post.contentEditor, Post.date, Post.userId, 
+
+    const sqlQuery = `SELECT Post.postId, Post.imageCover, Post.title, Post.categorySpace, Post.categoryStudyMate, Post.categoryInterest, Post.contentEditor, Post.date, Post.userId, 
     COUNT(DISTINCT Likes.likeId) AS likeCnt, 
     COUNT(DISTINCT Bookmarks.bookmarkId) AS bookCnt
     FROM Posts AS Post 
     LEFT OUTER JOIN Likes AS Likes ON Post.postId = Likes.postId 
     LEFT OUTER JOIN Bookmarks AS Bookmarks ON Post.postId = Bookmarks.postId 
-    GROUP BY Post.postId;`;
+    GROUP BY Post.postId
+    LIMIT ${postPerPage}
+    OFFSET ${offset};`;
+
+    const posts = await sequelize.query(sqlQuery, {
+      type: Sequelize.QueryTypes.SELECT,
+    });
+    // 조인 후 배열이 아니라 count 함수 사용 예정
+    // const posts = await Post.findAll({
+    //   where: {
+    //     [Op.and]: where, // assign the "where" array here
+    //   },
+    //   // 이렇게도 사용 가능
+    //   // attributes: {
+    //   //   include: [
+    //   //     [Sequelize.literal("COUNT(DISTINCT Likes.likeId)"), "likeCnt"],
+    //   //     [
+    //   //       Sequelize.literal("COUNT(DISTINCT Bookmarks.bookmarkId)"),
+    //   //       "bookCnt",
+    //   //     ],
+    //   //   ],
+    //   // },
+    //   attributes: [
+    //     "Post.*",
+    //     [Sequelize.literal("COUNT(DISTINCT Likes.likeId)"), "likeCnt"],
+    //     [Sequelize.literal("COUNT(DISTINCT Bookmarks.bookmarkId)"), "bookCnt"],
+    //   ],
+    //   include: [
+    //     {
+    //       model: Like,
+    //       attributes: [],
+    //     },
+    //     {
+    //       model: Bookmark,
+    //       attributes: [],
+    //     },
+    //   ],
+    //   raw: true,
+    //   group: ["postId"],
+    // });
+    // sequelize equivalent SQL 이렇게도 사용 가능
 
     const arr = [];
     //forEach는 await 안 기다려줘서 기대한 대로 안됨
