@@ -44,14 +44,14 @@ const userProcess = {
           avatarUrl,
           date,
         });
-        res.status(201).send({
+        return res.status(201).send({
           user,
           message: "회원가입에 성공했습니다.",
         });
       }
     } catch (err) {
       console.log(err);
-      res.status(500).send({
+      return res.status(500).send({
         message: "알 수 없는 문제가 발생했습니다. 잠시 후 다시 시도해주세요.",
       });
     }
