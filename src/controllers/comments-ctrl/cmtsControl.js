@@ -14,6 +14,7 @@ const comments = {
 
       const user = await User.findByPk(userId);
       const userNick = user.nickname;
+      const avatarUrl = user.avatarUrl;
 
       const date = new Date();
       const comment = await Comment.create({
@@ -25,6 +26,7 @@ const comments = {
       return res.status(201).send({
         userNick,
         comment,
+        avatarUrl,
         message: "댓글 작성에 성공했습니다.",
       });
     } catch (err) {
