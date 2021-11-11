@@ -66,6 +66,10 @@ const filter = async (req, res, next) => {
       적용되어야 할 것
       무한 스크롤 || 페이지네이션
       좋아요 개수, 북마크 개수.
+      
+      각 카드별 좋아요?
+      배열 선언 후 forEach push , Like 조회 Bookmark 조회
+
       */
     const { categorySpace, categoryInterest, categoryStudyMate } = req.query;
 
@@ -108,7 +112,6 @@ const filter = async (req, res, next) => {
       raw: true,
       group: ["postId"],
     });
-
     // sequelize equivalent SQL 이렇게도 사용 가능
     `use focus;
     SELECT Post.postId, Post.imageCover, Post.title, Post.categorySpace, Post.categoryStudyMate, Post.categoryInterest, Post.contentEditor, Post.date, Post.userId, 
@@ -119,7 +122,43 @@ const filter = async (req, res, next) => {
     LEFT OUTER JOIN Bookmarks AS Bookmarks ON Post.postId = Bookmarks.postId 
     GROUP BY Post.postId;`;
 
-    req.posts = posts;
+    const arr = [];
+    posts.forEach(async (post) => {
+      //로그인을 했다면
+      let userId;
+      let isLiked = false;
+      let isBookmarked = false;
+      if (res.locals.user) {
+        const liked = await Like.findOne({
+          where: { userId, postId: post.postId },
+        });
+        const bookmarked = await Bookmark.findOne({
+          where: { userId, postId: post.postId },
+        });
+        if (liked) isLiked = true;
+        if (bookmarked) isBookmarked = true;
+      }
+
+      // like, book 조회 후 새로운 key push
+      arr.push({
+        postId: post.postId,
+        imageCover: post.imageCover,
+        title: post.title,
+        categorySpace: post.categorySpace,
+        categoryStudyMate: post.categoryStudyMate,
+        categoryInterest: post.categoryInterest,
+        contentEditor: post.contentEditor,
+        date: post.date,
+        userId: post.userId,
+        likeCnt: post.likeCnt,
+        bookCnt: post.bookCnt,
+        isLiked,
+        isBookmarked,
+      });
+    });
+    console.log(arr);
+
+    req.posts = arr;
     next();
   }
 };
