@@ -38,6 +38,7 @@ const comments = {
     } catch (err) {
       // 에러 발생 했을 경우, console.log를 찍어준다
       console.log(err);
+      // try 구문에 에러가 생겼을 경우, 서버 에러로 인식하고 오류창을 보여준다
       return res.status(500).send({
         message: "댓글 서버로부터 오류가 생겼습니다.",
       });
