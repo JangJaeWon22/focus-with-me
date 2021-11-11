@@ -42,7 +42,7 @@ const userInfoOutPut = {
         raw: true,
         group: ["postId"],
       });
-      const myposts = [];
+      const myPosts = [];
       for (const postList of postLists) {
         let isLiked = false;
         let isBookmarked = false;
@@ -61,7 +61,7 @@ const userInfoOutPut = {
           // 북마크 했으면 true
           if (bookmarked) isBookmarked = true;
           // 배열에 삽입
-          myposts.push({
+          myPosts.push({
             postId: postList.postId,
             imageCover: postList.imageCover,
             title: postList.title,
@@ -77,7 +77,7 @@ const userInfoOutPut = {
             isBookmarked,
           });
         } else {
-          myposts.push({
+          myPosts.push({
             postId: postList.postId,
             imageCover: postList.imageCover,
             title: postList.title,
@@ -95,7 +95,7 @@ const userInfoOutPut = {
         }
       }
 
-      res.status(200).send({ myposts });
+      res.status(200).send({ myPosts });
     } catch (error) {
       console.error(error);
       res.status(400).send({
