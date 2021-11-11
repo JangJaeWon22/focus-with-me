@@ -1,6 +1,5 @@
 const { sequelize, Sequelize } = require("../models");
 const { Post, User, Like, Bookmark } = require("../models");
-const { Op } = require("sequelize");
 
 const filter = async (req, res, next) => {
   const { searchMode } = req.query;
@@ -66,16 +65,14 @@ const filter = async (req, res, next) => {
       적용되어야 할 것
       무한 스크롤 || 페이지네이션
       좋아요 개수, 북마크 개수.
-      
       각 카드별 좋아요?
       배열 선언 후 forEach push , Like 조회 Bookmark 조회
-
       */
     const { categorySpace, categoryInterest, categoryStudyMate } = req.query;
     let { page } = req.query;
     // 페이지네이션에 필요한 것 : page query string, total number of posts, total page
     if (!page) page = 1;
-    const postPerPage = 9;
+    const postPerPage = 2;
     const totalCnt = await Post.count();
     const totalPage = Math.ceil(totalCnt / postPerPage);
     const offset = (page - 1) * postPerPage;
@@ -100,42 +97,8 @@ const filter = async (req, res, next) => {
     const posts = await sequelize.query(sqlQuery, {
       type: Sequelize.QueryTypes.SELECT,
     });
-    // 조인 후 배열이 아니라 count 함수 사용 예정
-    // const posts = await Post.findAll({
-    //   where: {
-    //     [Op.and]: where, // assign the "where" array here
-    //   },
-    //   // 이렇게도 사용 가능
-    //   // attributes: {
-    //   //   include: [
-    //   //     [Sequelize.literal("COUNT(DISTINCT Likes.likeId)"), "likeCnt"],
-    //   //     [
-    //   //       Sequelize.literal("COUNT(DISTINCT Bookmarks.bookmarkId)"),
-    //   //       "bookCnt",
-    //   //     ],
-    //   //   ],
-    //   // },
-    //   attributes: [
-    //     "Post.*",
-    //     [Sequelize.literal("COUNT(DISTINCT Likes.likeId)"), "likeCnt"],
-    //     [Sequelize.literal("COUNT(DISTINCT Bookmarks.bookmarkId)"), "bookCnt"],
-    //   ],
-    //   include: [
-    //     {
-    //       model: Like,
-    //       attributes: [],
-    //     },
-    //     {
-    //       model: Bookmark,
-    //       attributes: [],
-    //     },
-    //   ],
-    //   raw: true,
-    //   group: ["postId"],
-    // });
-    // sequelize equivalent SQL 이렇게도 사용 가능
 
-    const arr = [];
+    const postsArr = [];
     //forEach는 await 안 기다려줘서 기대한 대로 안됨
     for (const post of posts) {
       // 초기값은 false로 두고, 토큰이 없으면 false를 push
@@ -154,7 +117,7 @@ const filter = async (req, res, next) => {
         if (liked) isLiked = true;
         if (bookmarked) isBookmarked = true;
       }
-      arr.push({
+      postsArr.push({
         postId: post.postId,
         imageCover: post.imageCover,
         title: post.title,
@@ -170,7 +133,7 @@ const filter = async (req, res, next) => {
         isBookmarked,
       });
     }
-    req.posts = arr;
+    req.posts = postsArr;
     req.totalPage = totalPage;
     next();
   }

@@ -1,5 +1,4 @@
 const { Post, Bookmark, Like, User, sequelize } = require("../models");
-const { Op } = require("sequelize");
 const {
   removeImage,
   extractImageSrc,
