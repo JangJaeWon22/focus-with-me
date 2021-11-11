@@ -12,29 +12,6 @@ try {
 }
 // 프로필 수정 페이지 접근 시 회원 정보 먼저 조회
 const userUpdate = {
-  updateUserInfo: async (req, res) => {
-    try {
-      const { userId } = res.locals.user;
-      const user = await User.findOne({
-        where: {
-          userId,
-        },
-        attributes: ["userId", "nickname", "avatarUrl", "password"],
-      });
-      if (user) {
-        res.status(200).send({
-          user,
-          message: "회원 정보 조회를 완료 했습니다.",
-        });
-      } else {
-        res.status(400).send({ message: "사용자를 찾을 수 없습니다." });
-      }
-    } catch (error) {
-      res.status(400).send({
-        message: "알 수 없는 문제가 발생 했습니다. 관리자에게 문의 해주세요.",
-      });
-    }
-  },
   updateUserProfile: async (req, res) => {
     try {
       console.log("업데이트 라우터 입장");
