@@ -71,8 +71,15 @@ const filter = async (req, res, next) => {
       배열 선언 후 forEach push , Like 조회 Bookmark 조회
 
       */
-    const { categorySpace, categoryInterest, categoryStudyMate } = req.query;
+    const { categorySpace, categoryInterest, categoryStudyMate, page } =
+      req.query;
+    // 페이지네이션에 필요한 것 : page query string, total number of posts, total page
+    const totalCnt = await Post.count();
+    const totalPage = Math.ceil(totalCnt / limit);
 
+    // 로그인한 사람이 좋아요, 북마크했는지 확인할 때 쓸 변수. 토큰 유무에 따라 재할당 할 수 있으므로 let 선언
+    let userId;
+    // SQL where에 사용할 배열
     let where = [];
     if (categoryInterest) where.push({ categoryInterest });
     if (categorySpace) where.push({ categorySpace });
@@ -122,11 +129,10 @@ const filter = async (req, res, next) => {
 
     const arr = [];
     for (const post of posts) {
-      console.log("로그인 상관어뵤이 여기로 와야 함");
-      let userId;
+      // 초기값은 false로 두고, 토큰이 없으면 false를 push
       let isLiked = false;
       let isBookmarked = false;
-      //로그인을 했다면 게시물에 좋아요 북마크 했는지 확인하는 로직 수행
+      //로그인을 했다면 게시물에 좋아요 북마크 했는지 확인하는 작업 수행
       if (res.locals.user) {
         userId = res.locals.user.userId;
         const liked = await Like.findOne({
@@ -135,12 +141,10 @@ const filter = async (req, res, next) => {
         const bookmarked = await Bookmark.findOne({
           where: { userId, postId: post.postId },
         });
-        console.log(liked);
-        console.log(bookmarked);
+        0;
         if (liked) isLiked = true;
         if (bookmarked) isBookmarked = true;
       }
-      console.log("좋아요 북마크 확인 후 push 전");
       arr.push({
         postId: post.postId,
         imageCover: post.imageCover,
@@ -157,9 +161,8 @@ const filter = async (req, res, next) => {
         isBookmarked,
       });
     }
-    console.log(arr);
-
     req.posts = arr;
+    req.totalPage = totalPage;
     next();
   }
 };
