@@ -69,8 +69,8 @@ const comments = {
             attributes: [],
           },
         ],
-        // raw => google링 해보면 나옴
-        // 가공 하지 않은 상태가 됨 {} <- 이런걸로 안감싸고, 바로 model.keyname으로 나옴
+        /* raw => google링 해보면 나옴
+        가공 하지 않은 상태가 됨 {} <- 이런걸로 안감싸고, 바로 model.keyname으로 나옴 */
         raw: true,
         // group by 설정
         group: ["commentId"],
