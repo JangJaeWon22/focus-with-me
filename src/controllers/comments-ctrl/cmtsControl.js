@@ -46,7 +46,7 @@ const comments = {
 
       // comment db에서 값을 찾아보자
       const commentAll = await Comment.findAll({
-        // db에서 찾을 때 할당 받은 postId와 같은 조건인 것을 찾음 ( 해당 게시글의 댓글만 가져오면 되서)
+        // db에서 찾을 때 할당 받은 postId와 같은 조건인 것을 찾음 (해당 게시글의 댓글만 가져오면 되서)
         where: { postId },
         // 가져올때 속성은 comment의 전부 + commentLikeCnt(commentLikeId의 갯수)
         attributes: [
@@ -69,8 +69,8 @@ const comments = {
             attributes: [],
           },
         ],
-        // raw => google링 해보면 나옴
-        // 가공 하지 않은 상태가 됨 {} <- 이런걸로 안감싸고, 바로 model.keyname으로 나옴
+        /* raw => google링 해보면 나옴
+        가공 하지 않은 상태가 됨 {} <- 이런걸로 안감싸고, 바로 model.keyname으로 나옴 */
         raw: true,
         // group by 설정
         group: ["commentId"],
@@ -145,7 +145,7 @@ const comments = {
         // where 옵션으로 나열함으로써, 기본적으로 and 옵션과 같다
         where: { postId, commentId },
       });
-      console.log(userId);
+
       if (reqDelete.userId === userId) {
         // "특정 포스트 -> 특정 댓글" 지운다
         await reqDelete.destroy();
