@@ -1,7 +1,7 @@
 const { User, Post, sequelize } = require("../../models");
 
 //유저 정보 가공(작성한 게시글 갯수 카운트)
-const GetUserInfo = async (req, res, next) => {
+const getUserInfo = async (req, res, next) => {
   try {
     // const { userId } = req.body === undefined ? res.locals.user : req.body;
     const { userId } = req.params;
@@ -25,4 +25,4 @@ const GetUserInfo = async (req, res, next) => {
   }
 };
 
-module.exports = GetUserInfo;
+module.exports = getUserInfo;
