@@ -14,6 +14,7 @@
   <!-- <script src="static/js/requireJS.js"></script> -->
   <!-- External JavaScript -->
   <!-- <script src="static/js/index.js" defer></script> -->
+  
   <style>
     .test {
       opacity: 1;
@@ -26,5 +27,17 @@
 <body>
   <img src="public/images/user.svg" alt="" class="test">
 </body>
+<script>
+  console.log(document.body.scrollHeight);
+  console.log(document.documentElement.scrollHeight);
+
+  document.addEventListener('scroll', function(e) {
+    const position= window.scrollY;
+    console.log(position);
+    if((window.innerHeight + window.scrollY) >= document.body.offsetHeight){
+      console.log("여기서 api 호출");
+    }
+});
+</script>
 
 </html>
