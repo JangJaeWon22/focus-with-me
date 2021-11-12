@@ -2,7 +2,7 @@ const { Comment, User, CommentLike } = require("../../models");
 const { Sequelize } = require("../../models");
 
 const comments = {
-  // 댓글 생성
+  // 댓글 생성을 비동기식 방식으로 처리한다
   commentCreate: async (req, res) => {
     try {
       // const { textContent : 성공 } = { textContent : 성공 }
@@ -12,17 +12,23 @@ const comments = {
       const { postId } = req.params;
       const { userId } = res.locals.user;
 
+      // user 변수에서 findByPk 를 통해 식별된 값을 가져온다
       const user = await User.findByPk(userId);
+      // userNick 변수에서 사용자의 nickname을 선언한다
       const userNick = user.nickname;
+      // avatarUrl 변수에서 사용자의 avatarUrl을 선언한다
       const avatarUrl = user.avatarUrl;
-
+      // 날짜를 선언한다
       const date = new Date();
+      // comment model에서 생성해주기 위해 create를 사용한다
+      // comment 라는 변수에 저장하고자 하는 값을 넣어준다
       const comment = await Comment.create({
         userId,
         postId,
         date,
         textContent,
       });
+      // 성공 했을 경우, 다음과 같은 값을 보내준다
       return res.status(201).send({
         userNick,
         comment,
@@ -30,7 +36,9 @@ const comments = {
         message: "댓글 작성에 성공했습니다.",
       });
     } catch (err) {
+      // 에러 발생 했을 경우, console.log를 찍어준다
       console.log(err);
+      // try 구문에 에러가 생겼을 경우, 서버 에러로 인식하고 오류창을 보여준다
       return res.status(500).send({
         message: "댓글 서버로부터 오류가 생겼습니다.",
       });
@@ -141,25 +149,30 @@ const comments = {
       const { postId, commentId } = req.params;
       // res.locals.user 는 미들웨어인 loginOnly에서 값을 가져와 userId에 할당한다
       const { userId } = res.locals.user;
-      // Comment 테이블에서 데이터 하나만 가져온다.
+      // Comment 의 첫번째 요소만 보기 위해 데이터를 가져온다
       const reqDelete = await Comment.findOne({
-        // 어디에서 postId 라는 컬럼에서 postId로, id 라는 컬럼에서 commentId로
         // where 옵션으로 나열함으로써, 기본적으로 and 옵션과 같다
+        // postId 라는 컬럼에서 postId로, commentId 라는 컬럼에서 commentId로 가져온다
         where: { postId, commentId },
       });
-
+      
+      // 삭제할 요청의 아이디가 해당 유저의 아이디가 같다면
       if (reqDelete.userId === userId) {
-        // "특정 포스트 -> 특정 댓글" 지운다
+        // 특정 포스트에 해당하는 특정 댓글을 지운다
+        // 특정 포스트 -> 특정 댓글
         await reqDelete.destroy();
+        // 댓글이 삭제되는 메세지를 제대로 보내졌을 경우
         return res.status(200).send({
           message: "댓글이 삭제되었습니다.",
         });
+        // 삭제할 댓글이 해당 유저의 아이디가 일치하지 않을 경우
       } else {
         return res.status(400).send({
           message: "작성자가 아닙니다.",
         });
       }
     } catch (err) {
+      // 댓글 기능이 제대로 작동하지 않을 경우
       return res.status(500).send({
         message: "댓글 삭제에 문제가 생겼습니다! 관리자에게 문의해주세요.",
       });
