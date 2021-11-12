@@ -51,6 +51,8 @@ const comments = {
         // 가져올때 속성은 comment의 전부 + commentLikeCnt(commentLikeId의 갯수)
         attributes: [
           "Comment.*",
+          "User.avatarUrl",
+          "User.nickname",
           [
             Sequelize.literal("COUNT(DISTINCT CommentLikes.commentLikeId)"),
             "commentLikeCnt",
