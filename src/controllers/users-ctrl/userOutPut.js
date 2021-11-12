@@ -59,6 +59,8 @@ const userOutPut = {
   kakaoCallback: async (req, res) => {
     try {
       console.log("넘어와찌롱");
+      console.log("-----------------------------------------");
+      console.log(req.session);
       const user = req.user;
       const token = Jwt.sign({ userId: user.userId }, process.env.TOKEN_KEY);
       res.status(200).send({
