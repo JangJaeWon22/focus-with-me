@@ -1,12 +1,14 @@
 ### Swagger 구현
 
-Api 명세서를 작성할 때, 초기에는 Google SpreadSheet를 통해 작성했지만, 시간적인 문제를 단축시키고자 Rest Api를 설계, 빌드, 문서화 및 사용하는데 사용하는 오픈소스 프레임워크 도구이다
+### Api 명세서를 작성할 때, 초기에는 Google SpreadSheet를 통해 작성했지만, 시간적인 문제를 단축시키고자 Rest Api를 설계, 빌드, 문서화 및 사용하는데 사용하는 오픈소스 프레임워크 도구이다
 
 ### 1. Swagger 패키지 설치
+
 npm install swagger-ui-express
 npm install swagger-autogen
 
 ### 2. server.js 수정
+
 ```jsx
 const swaggerUi = require("swagger-ui-express");
 const swaggerFile = require("./swagger-output");
@@ -18,6 +20,7 @@ app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 ### 3. swagger.js
 
 ### root 디렉토리에 추가시키고 endpointsFiles에 라우터의 js들을 각각 적용해준다
+
 ```jsx
 const swaggerAutogen = require("swagger-autogen")();
 
@@ -90,5 +93,5 @@ swagger는 API문서를 자동화할 수 있는 역할 및 API를 테스트하�
 
 ### 6. swagger 사용하면서 어려웠던 점, 발생하는 문제점 및 해결
 
-swagger를 사용하면서 발생하는 문제점은 눈에 띄게 보이지는 않았지만, 
-이전에 yaml 형식으로 썼다면, 현 프로젝트에서는 autogen 방식으로 해서 쓰는 형태가 달랐다. 더불어 주석처리 형식의 띄어쓰기가 민감한 swagger 형태라 작성하는데 소요되는 시간이 많이 걸렸다. 하지만, 그 부분에 대해서는 백엔드 팀원들끼리 함께 작업했고, 같이 프론트 분들과 결과 공유하면서 문제 해결을 해 나갈 수 있었다.
+swagger를 사용하면서 발생하는 문제점은 눈에 띄게 보이지는 않았지만, 어려웠던 점은 2가지가 있었다. 첫째는
+이전에 swagger를 yaml 형식으로 썼다면, final 프로젝트에서는 autogen 방식으로 해서 쓰는 형태가 달랐다. 둘째는 주석처리 형식의 띄어쓰기가 민감한 swagger 형태라 작성하는데 소요되는 시간이 많이 걸렸다. 이로 인한 해결부분에 대해서는 백엔드 팀원들끼리 함께 작업했고, 오류 문제가 발생할 부분을 함께 검토했다. 더불어 팀플레이로 짰던 프로그램을 프론트 분들과 같이 결과 공유하면서 문제 해결을 하였다.
