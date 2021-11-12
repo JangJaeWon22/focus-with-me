@@ -97,11 +97,12 @@ const filter = async (req, res, next) => {
     if (categorySpace) where.push(`Post.categorySpace='${categorySpace}'`);
     if (categoryStudyMate)
       where.push(`Post.categoryStudyMate='${categoryStudyMate}'`);
-
-    let strr = "";
-    if (where.length > 2) strr = where.join(" AND ");
-    console.log(strr);
     console.log(where);
+    let strr = "";
+    if (where.length > 2) {
+      console.log(where.join(" AND "));
+    }
+    console.log(strr);
     const sqlQuery = `SELECT Post.postId, Post.imageCover, Post.title, Post.categorySpace, Post.categoryStudyMate, Post.categoryInterest, Post.contentEditor, Post.date, Post.userId, 
     COUNT(DISTINCT Likes.likeId) AS likeCnt, 
     COUNT(DISTINCT Bookmarks.bookmarkId) AS bookCnt
