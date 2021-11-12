@@ -79,17 +79,36 @@ const filter = async (req, res, next) => {
     // 로그인한 사람이 좋아요, 북마크했는지 확인할 때 쓸 변수. 토큰 유무에 따라 재할당 할 수 있으므로 let 선언
     let userId;
     // SQL where에 사용할 배열
-    let where = [];
-    if (categoryInterest) where.push({ categoryInterest });
-    if (categorySpace) where.push({ categorySpace });
-    if (categoryStudyMate) where.push({ categoryStudyMate });
+    // let where = "WHERE";
+    // if (categoryInterest)
+    //   where += `Post.categoryInterest='${categoryInterest}' `;
+    // if (categorySpace) where += `AND Post.categorySpace='${categorySpace} '`;
+    // if (categoryStudyMate)
+    //   where += `AND Post.categoryStudyMate='${categoryStudyMate}'`;
+    // // let where = [];
+    // // if (categoryInterest) where.push({ categoryInterest });
+    // // if (categorySpace) where.push({ categorySpace });
+    // // if (categoryStudyMate) where.push({ categoryStudyMate });
+    // // ${where.length > 5 ? where : ""}
 
+    let where = [];
+    if (categoryInterest)
+      where.push(`Post.categoryInterest='${categoryInterest}'`);
+    if (categorySpace) where.push(`Post.categorySpace='${categorySpace}'`);
+    if (categoryStudyMate)
+      where.push(`Post.categoryStudyMate='${categoryStudyMate}'`);
+
+    let strr = "";
+    if (where.length > 2) strr = where.join(" AND ");
+    console.log(strr);
+    console.log(where);
     const sqlQuery = `SELECT Post.postId, Post.imageCover, Post.title, Post.categorySpace, Post.categoryStudyMate, Post.categoryInterest, Post.contentEditor, Post.date, Post.userId, 
     COUNT(DISTINCT Likes.likeId) AS likeCnt, 
     COUNT(DISTINCT Bookmarks.bookmarkId) AS bookCnt
     FROM Posts AS Post 
     LEFT OUTER JOIN Likes AS Likes ON Post.postId = Likes.postId 
     LEFT OUTER JOIN Bookmarks AS Bookmarks ON Post.postId = Bookmarks.postId 
+    
     GROUP BY Post.postId
     LIMIT ${postPerPage}
     OFFSET ${offset};`;
@@ -140,4 +159,3 @@ const filter = async (req, res, next) => {
 };
 
 module.exports = { filter };
-//ddd
