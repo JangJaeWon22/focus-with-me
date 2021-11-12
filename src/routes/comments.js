@@ -1,9 +1,12 @@
+// express 는 함수나 객체 또는 변수가 할당된 모듈이다
+// require() 는 JS 라이브러리/파일이다
 const express = require("express");
+// router를 세팅 하기 위해 필요하다
 const router = express.Router();
 
-// add controller function
+// 댓글 기능을 위해 컨트롤러를 적용했다
 const cmtCtrl = require("../controllers/comments-ctrl/cmtsControl");
-// add middleware function
+// 로그인 했을 때와 안 했을 때 모두 적용된 미들웨어다
 const { logInOnly, logInBoth } = require("../middlewares/passport-auth");
 
 
