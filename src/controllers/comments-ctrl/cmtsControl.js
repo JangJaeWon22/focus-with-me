@@ -1,3 +1,4 @@
+const db = require("../../models");
 const { Comment, User, CommentLike } = require("../../models");
 const { Sequelize } = require("../../models");
 
@@ -178,6 +179,63 @@ const comments = {
       });
     }
   },
+
+  // 댓글 페이징
+  commentPg: async (req, res) => {
+    if(req.session.adminId){
+      const sql = "SELECT *, INV.INV_QTY FROM md_mtrl AS M INNER JOIN MA_INVENT AS INV ON M.MTRL_CD = INV.MTRL_CD WHERE USE_YN = 'Y'";
+      db.query(sql, function(err, rows){
+        if(!error){
+          if(rows.length > 0){
+            const pageSize = 2;
+            const pageListSize = 2;
+            const no = '';
+            const totalPageCount = rows.length;
+            if(totalPageCount < 0){
+              totalPageCount = 0;
+            }
+            const curPage = req.params.page;
+            const totalPage = Math.ceil(totalPageCount / pageSize);
+            const totalSet = Math.ceil(totalPage / pageListSize);
+            const curSet = Math.ceil(curPage / pageListSize);
+            const startPage = ((curSet - 1) * pageListSize) + 1;
+            const endPage = (startPage + pageListSize) - 1;
+
+            if(curPage < 0){
+              no = 0;
+            } else {
+              no = (curPage - 1) * pageSize;
+            }
+
+            const pageDate = {
+              "curPage" : curPage,
+              "pageListSize" : pageListSize,
+              "pageSize" : pageSize,
+              "totalPage" : totalPage,
+              "totalSet" : totalSet,
+              "curSet" : curSet,
+              "startPage" : startPage,
+              "endPage" : endPage
+            };
+
+            sql = sql + " LIMIT "+no+","+pageSize+"";
+            console.log("query cluase: " + sql);
+            db.query(sql, function(error, rows){
+              if(!error){
+                res.render('mtrl_list', {rows : rows, pasing : pageDate});
+              }
+            });
+          } else {
+            res.render('mtrl_list', {rows: []});
+          }
+        } else {
+          res.render('mtrl_list', {rows: []});
+        }
+      });
+    } else {
+      res.redirect('/');
+    }
+  }
 };
 
 module.exports = { comments };
