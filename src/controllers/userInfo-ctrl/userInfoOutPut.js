@@ -159,8 +159,7 @@ const userInfoOutPut = {
           });
           // 좋아요 했으면 true
           if (liked) isLiked = true;
-
-          // 북마크 했는지 check
+          // 북마크 했는지 check_
           const bookmarked = await Bookmark.findOne({
             where: {
               userId: res.locals.user.userId,
