@@ -63,7 +63,6 @@ const userProcess = {
       const { userId } = res.locals.user;
       console.log(userId);
       const existUser = await User.findOne({ where: { userId } });
-      console.log(existUser);
       if (existUser) {
         await User.destroy({ where: { userId: existUser.userId } });
         res.status(200).send({ message: "회원탈퇴가 완료되었습니다." });
