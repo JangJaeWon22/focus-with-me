@@ -1,5 +1,4 @@
 const passport = require("passport");
-const { Strategy: LocalStrategy } = require("passport-local");
 const { ExtractJwt, Strategy: JWTStrategy } = require("passport-jwt");
 
 const { User } = require("../models");
