@@ -72,8 +72,9 @@ const filter = async (req, res, next) => {
     let { page } = req.query;
     // 페이지네이션에 필요한 것 : page query string, total number of posts, total page
     if (!page) page = 1;
-    const postPerPage = 3;
+    const postPerPage = 9;
     const totalCnt = await Post.count();
+    console.log(totalCnt);
     const totalPage = Math.ceil(totalCnt / postPerPage);
     const offset = (page - 1) * postPerPage;
     // 로그인한 사람이 좋아요, 북마크했는지 확인할 때 쓸 변수. 토큰 유무에 따라 재할당 할 수 있으므로 let 선언
@@ -81,11 +82,11 @@ const filter = async (req, res, next) => {
     // WHERE에 사용할 조건문을 담을 List
     let condition = [];
     if (categoryInterest)
-      condition.push(` Post.categoryInterest='${categoryInterest}'`);
+      condition.push(`Post.categoryInterest='${categoryInterest}'`);
     if (categorySpace) condition.push(`Post.categorySpace='${categorySpace}'`);
     if (categoryStudyMate)
       condition.push(`Post.categoryStudyMate='${categoryStudyMate}'`);
-    /**
+    /*
      * 조건이 안 들어온다 ->  WHERE 없이 빈 문자열 처리
      * 조건이 한 개 이상 들어온다 -> WHERE 붙이고, 조건 배열을 " AND "로 join하고 붙인다.
      */
@@ -142,6 +143,7 @@ const filter = async (req, res, next) => {
         isBookmarked,
       });
     }
+
     req.posts = postsArr;
     req.totalPage = totalPage;
     next();

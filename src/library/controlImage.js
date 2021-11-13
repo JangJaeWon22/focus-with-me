@@ -1,5 +1,6 @@
 const fsSync = require("fs");
 const fs = require("fs/promises");
+
 const removeImage = async (path) => {
   try {
     await fs.unlink(path);
