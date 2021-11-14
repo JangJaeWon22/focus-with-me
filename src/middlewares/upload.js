@@ -1,5 +1,9 @@
 const multer = require("multer");
 const path = require("path");
+const multerS3 = require("multer-s3");
+const aws = require("aws-sdk");
+const s3 = new aws.S3();
+// aws.config.loadFromPath(`${process.cwd()}/config/s3.js`);
 
 module.exports = {
   //파일 생성 규칙
@@ -33,5 +37,12 @@ module.exports = {
   uploadTemp: multer({
     dest: "public/uploads/temp",
     limits: { fileSize: 1000000 },
+  }),
+  uploadAvatarS3: multer({
+    storage: multerS3({
+      s3,
+      bucket: "kkirri-images",
+      acl: "public-read",
+    }),
   }),
 };

@@ -8,7 +8,11 @@ const {
   deletePosts,
   ckUpload,
 } = require("../controllers/postsController");
-const { uploadCover, uploadTemp } = require("../middlewares/upload");
+const {
+  uploadCover,
+  uploadTemp,
+  uploadAvatarS3,
+} = require("../middlewares/upload");
 const { filter } = require("../middlewares/filter");
 const { logInOnly, logInBoth } = require("../middlewares/passport-auth");
 
@@ -22,6 +26,14 @@ postsRouter
 postsRouter
   .route("/posts/ckUpload")
   .post(logInOnly, uploadTemp.single("temp"), ckUpload);
+
+// s3 test
+postsRouter
+  .route("/posts/s3")
+  .post(uploadAvatarS3.single("test"), (req, res) => {
+    console.log(req.file);
+    return res.send({ message: "하하하" });
+  });
 
 postsRouter
   .route("/posts/:postId")
