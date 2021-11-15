@@ -16,7 +16,7 @@ const {
   uploadCoverS3,
 } = require("../middlewares/upload");
 // S3 테스트용 커스텀 라이브러리
-const { removeS3Obj, listingS3Objs } = require("../library/controlS3");
+const { removeObjS3 } = require("../library/controlS3");
 
 const { filter } = require("../middlewares/filter");
 const { logInOnly, logInBoth } = require("../middlewares/passport-auth");
@@ -43,10 +43,10 @@ postsRouter
   .post(logInOnly, uploadTempS3.single("temp"), ckUpload);
 
 // s3 test
-postsRouter.route("/posts/s3").delete((req, res) => {
+postsRouter.route("/posts/s3").delete(async (req, res) => {
   const { path } = req.query;
   console.log(path);
-  removeS3Obj(path);
+  await removeObjS3(path);
   return res.send({ message: "삭제 성공했나" });
 });
 

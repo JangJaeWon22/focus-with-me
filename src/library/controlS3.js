@@ -8,13 +8,13 @@ const s3 = new aws.S3();
 
 const extractImageSrcS3 = (html) => {
   try {
-    const regexp = /src\s*=\s*"([^"]+)"/g;
-
+    const regexp = /<img[^>]+src\s*=\s*['"]([^'"]+)['"][^>]*>/g;
     const srcs = html.match(regexp);
     const imageList = [];
-    if (srcs.length > 0) {
+    console.log(srcs);
+    if (srcs) {
       srcs.forEach((src) => {
-        const imageUrl = src.split('"')[1];
+        const imageUrl = "uploads" + src.split("uploads")[1].slice(0, -2);
         imageList.push(imageUrl);
       });
     }
@@ -37,8 +37,8 @@ const copyImagesS3 = async (imageList) => {
       await s3
         .copyObject({
           Bucket: "kkirri-images",
-          CopySource: `kkirri-images/temp/${filename}`,
-          Key: `content/${filename}`,
+          CopySource: `kkirri-images/${url}`,
+          Key: `uploads/content/${filename}`,
           ACL: "public-read",
         })
         .promise();
@@ -50,33 +50,54 @@ const copyImagesS3 = async (imageList) => {
   }
 };
 
-const removeS3Obj = (path) => {
-  const params = {
+/**
+ * root 이 후의 경로가 Key
+ * temp/1636955398064_20170716_211848140_iOS.jpg
+ */
+const removeObjS3 = async (src) => {
+  console.log("여기는 오나");
+  try {
+    await s3
+      .deleteObject({
+        Bucket: "kkirri-images",
+        Key: src,
+      })
+      .promise();
+    console.log("삭제 뒤");
+  } catch (error) {
+    console.log(error);
+    return;
+  }
+};
+
+const emptyTempS3 = async () => {
+  const listParams = {
     Bucket: "kkirri-images",
-    Key: path,
+    Prefix: "uploads/temp",
   };
 
-  s3.deleteObject(params, function (err, data) {
-    if (err) console.log(err, err.stack);
-    // an error occurred
-    else console.log(data); // successful response
-    /*
-     data = {
-     }
-     */
+  const listedObjects = await s3.listObjectsV2(listParams).promise();
+  console.log(listedObjects);
+
+  if (listedObjects.Contents.length === 0) return;
+
+  const deleteParams = {
+    Bucket: "kkirri-images",
+    Delete: { Objects: [] },
+  };
+
+  listedObjects.Contents.forEach(({ Key }) => {
+    deleteParams.Delete.Objects.push({ Key });
   });
+
+  await s3.deleteObjects(deleteParams).promise();
+
+  if (listedObjects.IsTruncated) await emptyTempS3(bucket, dir);
 };
 
-const moveS3Objs = () => {};
-
-const listingS3Objs = async () => {
-  console.log("여기로 와라");
-  const list = await s3.listObjects({ Bucket: "kkirri-images" }).promise();
-  console.log(list);
-};
 module.exports = {
-  removeS3Obj,
-  listingS3Objs,
+  removeObjS3,
   extractImageSrcS3,
   copyImagesS3,
+  emptyTempS3,
 };

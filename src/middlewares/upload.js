@@ -39,7 +39,7 @@ module.exports = {
       acl: "public-read",
       key: (req, file, cb) => {
         console.log(file);
-        cb(null, `avatar/${Date.now()}_${file.originalname}`);
+        cb(null, `uploads/avatar/${Date.now()}_${file.originalname}`);
         // cb(null, `}`)
       },
     }),
@@ -50,7 +50,7 @@ module.exports = {
       bucket: "kkirri-images",
       acl: " public-read",
       key: (req, file, cb) => {
-        cb(null, `content/${Date.now()}_${file.originalname}`);
+        cb(null, `uploads/content/${Date.now()}_${file.originalname}`);
       },
     }),
   }),
@@ -60,7 +60,7 @@ module.exports = {
       bucket: "kkirri-images",
       acl: " public-read",
       key: (req, file, cb) => {
-        cb(null, `cover/${Date.now()}_${file.originalname}`);
+        cb(null, `uploads/cover/${Date.now()}_${file.originalname}`);
       },
     }),
   }),
@@ -70,7 +70,7 @@ module.exports = {
       bucket: "kkirri-images",
       acl: " public-read",
       key: (req, file, cb) => {
-        cb(null, `temp/${Date.now()}_${file.originalname}`);
+        cb(null, `uploads/temp/${Date.now()}_${file.originalname}`);
       },
     }),
   }),

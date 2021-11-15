@@ -1,7 +1,11 @@
 const { Post, Bookmark, Like, User, sequelize } = require("../models");
 const { removeImage } = require("../library/controlImage");
 
-const { extractImageSrcS3, copyImagesS3 } = require("../library/controlS3");
+const {
+  extractImageSrcS3,
+  copyImagesS3,
+  removeObjS3,
+} = require("../library/controlS3");
 /* option + shift + a */
 
 module.exports = {
@@ -26,7 +30,10 @@ module.exports = {
   postPosts: async (req, res) => {
     // 사용자 인증 미들웨어 사용할 경우
     const { userId } = res.locals.user;
-    const path = req.file ? req.file.location : "";
+    const path = req.file
+      ? `uploads${req.file.location.split("uploads")[1]}`
+      : "";
+
     //multipart 에서 json 형식으로 변환
     const body = JSON.parse(JSON.stringify(req.body));
     const {
@@ -39,11 +46,10 @@ module.exports = {
     // image list 추출
     const imageList = extractImageSrcS3(contentEditor);
     // 비교 후 이동
-    console.log(imageList);
     await copyImagesS3(imageList);
+
     // 모든 temp 경로를 content로 바꾸기
     const innerHtml = contentEditor.replace(/temp/g, "content");
-    console.log(innerHtml);
     // 인코딩 해서 저장, why? 이모티콘
     const encodedTitle = encodeURIComponent(title);
     const encodedHTML = encodeURIComponent(innerHtml);
@@ -59,7 +65,6 @@ module.exports = {
       date,
     };
     try {
-      console.log(post);
       await Post.create(post);
       return res.status(201).send({ message: "게시물 작성 성공!" });
     } catch (error) {
@@ -74,7 +79,9 @@ module.exports = {
     const { userId } = res.locals.user;
     const { postId } = req.params;
     // imageCover 파일이 없을 경우를 대비한 예외처리
-    const path = req.file ? req.file.path : null;
+    const path = req.file
+      ? `uploads${req.file.location.split("uploads")[1]}`
+      : null;
     const body = JSON.parse(JSON.stringify(req.body));
     const {
       title,
@@ -91,27 +98,30 @@ module.exports = {
       // throw "error occurs!!!!!!!!!";
       //조회 결과가 없으면 이미 업로드된 cover 파일 다시 지워야 함.
       if (!post) {
-        await removeImage(path);
+        await removeObjS3(path);
         return res
           .status(404)
           .send({ message: "해당 게시물이 존재하지 않습니다." });
       }
       //조회 결과 게시물 주인이 현재 로그인한 사람 소유가 아니면 꺼져
-      if (userId !== post.userId)
+      if (userId !== post.userId) {
+        await removeObjS3(path);
         return res
           .status(403)
           .send({ message: "본인의 게시물만 수정할 수 있습니다." });
+      }
       // 기존 이미지 삭제하는 부분
-      //post 의 이미지 url 따라가서 삭제
-      //기존 이미지 content 삭제
+      // post 의 이미지 url 따라가서 삭제
+      // 기존 이미지 content 삭제
       const decodedHtml = decodeURIComponent(post.contentEditor);
-      const imageList = extractImageSrc(decodedHtml);
+      const imageList = extractImageSrcS3(decodedHtml);
       //새로 올라온 데이터가 있을 때만 바꾸기
       // 새로 올라온 파일이 있으면 -> imageCover path를 바꾸고, 기존 이미지 삭제
       if (path) {
         await removeImage(post.imageCover);
         post.imageCover = path;
       }
+      // 수정 본문 이미지 처리가 안되어있음.
       if (title) post.title = encodeURIComponent(title);
       if (categorySpace) post.categorySpace = categorySpace;
       if (categoryInterest) post.categoryInterest = categoryInterest;
@@ -153,12 +163,13 @@ module.exports = {
         return res.status(403).send({ message: "주인 아님" });
       // 게시물 삭제 전, 이미지 src 추출하고 삭제
       const decodedHtml = decodeURIComponent(post.contentEditor);
-      const imgList = extractImageSrc(decodedHtml);
-      imgList.forEach(async (src) => {
-        await removeImage(src);
-      });
-      await removeImage(post.imageCover);
-      // cascade???? 관계 맺을 때 옵션 주기
+      const imgList = extractImageSrcS3(decodedHtml);
+      console.log(imgList);
+
+      for (const src of imgList) {
+        await removeObjS3(src);
+      }
+      await removeObjS3(post.imageCover);
       await post.destroy();
       return res.status(200).send({ message: "포스팅 삭제 성공" });
     } catch (error) {
