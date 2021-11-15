@@ -130,7 +130,6 @@ module.exports = {
           await removeObjS3(src);
         });
       }
-      console.log(prevImageCover);
       // 커버 이미지 삭제
       await removeObjS3(prevImageCover);
       return;
@@ -161,12 +160,10 @@ module.exports = {
       // 게시물 삭제 전, 이미지 src 추출하고 삭제
       const decodedHtml = decodeURIComponent(post.contentEditor);
       const imgList = extractImageSrcS3(decodedHtml);
-      console.log(imgList);
 
       for (const src of imgList) {
         await removeObjS3(src);
       }
-      console.log(post.imageCover);
       await removeObjS3(post.imageCover);
       await post.destroy();
       return res.status(200).send({ message: "포스팅 삭제 성공" });
