@@ -1,6 +1,4 @@
 const { Post, Bookmark, Like, User, sequelize } = require("../models");
-const { removeImage } = require("../library/controlImage");
-
 const {
   extractImageSrcS3,
   copyImagesS3,
@@ -97,45 +95,43 @@ module.exports = {
     try {
       // throw "error occurs!!!!!!!!!";
       //조회 결과가 없으면 이미 업로드된 cover 파일 다시 지워야 함.
-      if (!post) {
-        await removeObjS3(path);
-        return res
-          .status(404)
-          .send({ message: "해당 게시물이 존재하지 않습니다." });
-      }
       //조회 결과 게시물 주인이 현재 로그인한 사람 소유가 아니면 꺼져
-      if (userId !== post.userId) {
+      if (!post || userId !== post.userId) {
+        // 이미 업로드된 이미지 삭제
         await removeObjS3(path);
-        return res
-          .status(403)
-          .send({ message: "본인의 게시물만 수정할 수 있습니다." });
+        // 조건에 따라 status 분기
+        return !post
+          ? res
+              .status(404)
+              .send({ message: "해당 게시물이 존재하지 않습니다." })
+          : res
+              .status(403)
+              .send({ message: "본인의 게시물만 수정할 수 있습니다." });
       }
-      // 기존 이미지 삭제하는 부분
+      // 기존 이미지 삭제 - 수정 성공하고 난 뒤에 해도 늦지 않음
       // post 의 이미지 url 따라가서 삭제
       // 기존 이미지 content 삭제
       const decodedHtml = decodeURIComponent(post.contentEditor);
-      const imageList = extractImageSrcS3(decodedHtml);
-      //새로 올라온 데이터가 있을 때만 바꾸기
-      // 새로 올라온 파일이 있으면 -> imageCover path를 바꾸고, 기존 이미지 삭제
-      if (path) {
-        await removeImage(post.imageCover);
-        post.imageCover = path;
-      }
+      const prevImageList = extractImageSrcS3(decodedHtml);
+      const prevImageCover = post.imageCover;
       // 수정 본문 이미지 처리가 안되어있음.
+      //새로 올라온 데이터가 있을 때만 데이터 바꾸기
+      if (path) post.imageCover = path;
       if (title) post.title = encodeURIComponent(title);
       if (categorySpace) post.categorySpace = categorySpace;
       if (categoryInterest) post.categoryInterest = categoryInterest;
       if (categoryStudyMate) post.categoryStudyMate = categoryStudyMate;
       if (contentEditor) post.contentEditor = encodeURIComponent(contentEditor);
       await post.save();
-
       res.status(204).send({ message: "게시물 수정 성공" });
-      //성공하면 기존 이미지들 삭제 한 뒤에 return
-      if (imageList.length !== 0) {
-        imageList.forEach(async (src) => {
-          await removeImage(src);
+      //성공하면 기존 본문 이미지들 삭제
+      if (prevImageList.length !== 0) {
+        prevImageList.forEach(async (src) => {
+          await removeObjS3(src);
         });
       }
+      // 커버 이미지 삭제
+      await removeObjS3(prevImageCover);
       return;
     } catch (error) {
       console.log(error);
@@ -145,7 +141,7 @@ module.exports = {
       // 기존 데이터를 어딘가에 백업해야할 듯.
       await post.update(backup);
       await post.save();
-      await removeImage(path);
+      await removeObjS3(path);
       return res.status(500).send({ message: "DB 업데이트 실패" });
     }
   },

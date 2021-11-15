@@ -71,6 +71,8 @@ const removeObjS3 = async (src) => {
 };
 
 const emptyTempS3 = async () => {
+  // 인터넷에서 긁어온 코드
+  // 로직 모름;;; 공부 필요
   const listParams = {
     Bucket: "kkirri-images",
     Prefix: "uploads/temp",
