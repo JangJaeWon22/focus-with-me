@@ -1,9 +1,7 @@
 const { Post, Bookmark, Like, User, sequelize } = require("../models");
-const {
-  removeImage,
-  extractImageSrc,
-  moveImages,
-} = require("../library/controlImage");
+const { removeImage } = require("../library/controlImage");
+
+const { extractImageSrcS3, copyImagesS3 } = require("../library/controlS3");
 /* option + shift + a */
 
 module.exports = {
@@ -28,9 +26,7 @@ module.exports = {
   postPosts: async (req, res) => {
     // 사용자 인증 미들웨어 사용할 경우
     const { userId } = res.locals.user;
-    // 여기서 받는 파일은 cover image
-    // const { path } = { path: "" } || req.file;
-    const path = req.file.path ? req.file.path : "";
+    const path = req.file ? req.file.location : "";
     //multipart 에서 json 형식으로 변환
     const body = JSON.parse(JSON.stringify(req.body));
     const {
@@ -40,11 +36,11 @@ module.exports = {
       categoryInterest,
       contentEditor,
     } = body;
-    console.log(contentEditor);
     // image list 추출
-    const imageList = extractImageSrc(contentEditor);
+    const imageList = extractImageSrcS3(contentEditor);
     // 비교 후 이동
-    await moveImages(imageList);
+    console.log(imageList);
+    await copyImagesS3(imageList);
     // 모든 temp 경로를 content로 바꾸기
     const innerHtml = contentEditor.replace(/temp/g, "content");
     console.log(innerHtml);
@@ -235,10 +231,7 @@ module.exports = {
   */
   ckUpload: (req, res) => {
     const { user } = res.locals.user;
-    console.log("res.locals : ", res.locals);
-    console.log("user :", user);
-    console.log("res.locals.user : ", res.locals.user);
-    const { path } = req.file;
+    const path = req.file.location;
     return res.status(201).send({ path });
   },
 };
