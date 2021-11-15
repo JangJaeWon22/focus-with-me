@@ -110,10 +110,13 @@ module.exports = {
       }
       // 기존 이미지 삭제 - 수정 성공하고 난 뒤에 해도 늦지 않음
       // post 의 이미지 url 따라가서 삭제
-      // 기존 이미지 content 삭제
       const decodedHtml = decodeURIComponent(post.contentEditor);
       const prevImageList = extractImageSrcS3(decodedHtml);
       const prevImageCover = decodeURIComponent(post.imageCover);
+
+      // 새로 올라온 html에서 이미지 src 추출 후 파일 이동
+      const imageList = extractImageSrcS3(contentEditor);
+      await copyImagesS3(imageList);
       // 수정 본문 이미지 처리가 안되어있음.
       //새로 올라온 데이터가 있을 때만 데이터 바꾸기
       if (path) post.imageCover = path;

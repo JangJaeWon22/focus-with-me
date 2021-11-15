@@ -35,7 +35,7 @@ const userProcess = {
         });
       } else {
         date = new Date();
-        const avatarUrl = "public/images/noAvatar";
+        const avatarUrl = "uploads/assets/noAvatar.png";
         const encryptPassword = bcrypt.hashSync(password, 10);
         const user = await User.create({
           email,

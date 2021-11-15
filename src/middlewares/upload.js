@@ -20,18 +20,6 @@ module.exports = {
     }),
     limits: { fileSize: 10000000 },
   }),
-  uploadCover: multer({
-    dest: "public/uploads/cover",
-    limits: { fileSize: 10000000 },
-  }),
-  uploadContents: multer({
-    dest: "public/uploads/content",
-    limits: { fileSize: 10000000 },
-  }),
-  uploadTemp: multer({
-    dest: "public/uploads/temp",
-    limits: { fileSize: 1000000 },
-  }),
   uploadAvatarS3: multer({
     storage: multerS3({
       s3,
@@ -74,4 +62,16 @@ module.exports = {
       },
     }),
   }),
+  // uploadCover: multer({
+  //   dest: "public/uploads/cover",
+  //   limits: { fileSize: 10000000 },
+  // }),
+  // uploadContents: multer({
+  //   dest: "public/uploads/content",
+  //   limits: { fileSize: 10000000 },
+  // }),
+  // uploadTemp: multer({
+  //   dest: "public/uploads/temp",
+  //   limits: { fileSize: 1000000 },
+  // }),
 };
