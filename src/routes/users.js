@@ -4,7 +4,7 @@ const { userProcess } = require("../controllers/users-ctrl/userProcess");
 const { userOutPut } = require("../controllers/users-ctrl/userOutPut");
 const { userExist } = require("../controllers/users-ctrl/userExist");
 const { userUpdate } = require("../controllers/users-ctrl/userUpdate");
-const { uploadAvatar } = require("../middlewares/upload");
+const { uploadAvatarS3 } = require("../middlewares/upload");
 const { verifyJoi } = require("../middlewares/verifyJoi");
 const passport = require("passport");
 const {
@@ -47,7 +47,7 @@ router.get(
 router.put(
   "/users/profileEdit",
   logInOnly,
-  uploadAvatar.single("file"),
+  uploadAvatarS3.single("file"),
   verifyJoi.updateUserProfile,
   userUpdate.updateUserProfile
 );

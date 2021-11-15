@@ -1,15 +1,16 @@
 const { User } = require("../../models");
 const bcrypt = require("bcrypt");
 const path = require("path");
-const { removeImage } = require("../../library/controlImage");
-const fs = require("fs");
+// const { removeImage } = require("../../library/controlImage");
+const { removeObjS3 } = require("../../library/controlS3");
+// const fs = require("fs");
 //이미지 저장 폴더 생성
-try {
-  fs.readdirSync("public/uploads/avatar");
-} catch (err) {
-  console.log("uploads 폴더가 없어 uploads 폴더를 생성합니다.");
-  fs.mkdirSync("public/uploads/avatar");
-}
+// try {
+//   fs.readdirSync("public/uploads/avatar");
+// } catch (err) {
+//   console.log("uploads 폴더가 없어 uploads 폴더를 생성합니다.");
+//   fs.mkdirSync("public/uploads/avatar");
+// }
 // 프로필 수정 페이지 접근 시 회원 정보 먼저 조회
 const userUpdate = {
   updateUserProfile: async (req, res) => {
@@ -19,17 +20,17 @@ const userUpdate = {
       const { file } = req;
       let avatarUrl = "";
       // 닉네임입력란이 공백일 경우 대비
-
       const { nicknameNew } = res.verifyBody;
 
       //변경할 file이 있을 때
       // noAvatar 상태면, 파일 지우면 안됨
       // 파일이 없으면 유지
       if (file) {
-        if (user.avatarUrl !== "public/images/noAvatar") {
-          await removeImage(user.avatarUrl);
+        if (user.avatarUrl !== "uploads/assets/noAvatar.png") {
+          // await removeImage(user.avatarUrl);
+          await removeObjS3(user.avatarUrl);
         }
-        avatarUrl = file.path;
+        avatarUrl = `uploads${file.location.split("uploads")[1]}`;
       } else {
         avatarUrl = user.avatarUrl;
       }
