@@ -55,7 +55,6 @@ const copyImagesS3 = async (imageList) => {
  * temp/1636955398064_20170716_211848140_iOS.jpg
  */
 const removeObjS3 = async (src) => {
-  console.log("여기는 오나");
   try {
     await s3
       .deleteObject({
@@ -63,7 +62,6 @@ const removeObjS3 = async (src) => {
         Key: src,
       })
       .promise();
-    console.log("삭제 뒤");
   } catch (error) {
     console.log(error);
     return;

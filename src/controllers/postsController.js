@@ -113,7 +113,7 @@ module.exports = {
       // 기존 이미지 content 삭제
       const decodedHtml = decodeURIComponent(post.contentEditor);
       const prevImageList = extractImageSrcS3(decodedHtml);
-      const prevImageCover = post.imageCover;
+      const prevImageCover = decodeURIComponent(post.imageCover);
       // 수정 본문 이미지 처리가 안되어있음.
       //새로 올라온 데이터가 있을 때만 데이터 바꾸기
       if (path) post.imageCover = path;
@@ -130,6 +130,7 @@ module.exports = {
           await removeObjS3(src);
         });
       }
+      console.log(prevImageCover);
       // 커버 이미지 삭제
       await removeObjS3(prevImageCover);
       return;
@@ -165,6 +166,7 @@ module.exports = {
       for (const src of imgList) {
         await removeObjS3(src);
       }
+      console.log(post.imageCover);
       await removeObjS3(post.imageCover);
       await post.destroy();
       return res.status(200).send({ message: "포스팅 삭제 성공" });

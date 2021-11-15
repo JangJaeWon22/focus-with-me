@@ -43,16 +43,16 @@ postsRouter
   .post(logInOnly, uploadTempS3.single("temp"), ckUpload);
 
 // s3 test
-postsRouter.route("/posts/s3").delete(async (req, res) => {
-  const { path } = req.query;
-  console.log(path);
-  await removeObjS3(path);
-  return res.send({ message: "삭제 성공했나" });
-});
+// postsRouter.route("/posts/s3").delete(async (req, res) => {
+//   const { path } = req.query;
+//   console.log(path);
+//   await removeObjS3(path);
+//   return res.send({ message: "삭제 성공했나" });
+// });
 
 postsRouter
   .route("/posts/:postId")
-  .put(logInOnly, uploadCover.single("imageCover"), putPosts)
+  .put(logInOnly, uploadCoverS3.single("imageCover"), putPosts)
   .delete(logInOnly, deletePosts)
   .get(logInBoth, getOnePost);
 
