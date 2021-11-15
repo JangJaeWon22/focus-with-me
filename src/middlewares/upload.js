@@ -23,12 +23,6 @@ module.exports = {
   uploadCover: multer({
     dest: "public/uploads/cover",
     limits: { fileSize: 10000000 },
-    // 파일이 없을 경우 예외처리 필요.
-    // onError: function (err, next) {
-    //   console.log("error", err);
-    //   console.log("여기는 multer 에러 처리");
-    //   next();
-    // },
   }),
   uploadContents: multer({
     dest: "public/uploads/content",
@@ -43,6 +37,41 @@ module.exports = {
       s3,
       bucket: "kkirri-images",
       acl: "public-read",
+      key: (req, file, cb) => {
+        console.log(file);
+        cb(null, `avatar/${Date.now()}_${file.originalname}`);
+        // cb(null, `}`)
+      },
+    }),
+  }),
+  uploadContentS3: multer({
+    storage: multerS3({
+      s3,
+      bucket: "kkirri-images",
+      acl: " public-read",
+      key: (req, file, cb) => {
+        cb(null, `content/${Date.now()}_${file.originalname}`);
+      },
+    }),
+  }),
+  uploadCoverS3: multer({
+    storage: multerS3({
+      s3,
+      bucket: "kkirri-images",
+      acl: " public-read",
+      key: (req, file, cb) => {
+        cb(null, `cover/${Date.now()}_${file.originalname}`);
+      },
+    }),
+  }),
+  uploadTempS3: multer({
+    storage: multerS3({
+      s3,
+      bucket: "kkirri-images",
+      acl: " public-read",
+      key: (req, file, cb) => {
+        cb(null, `temp/${Date.now()}_${file.originalname}`);
+      },
     }),
   }),
 };
