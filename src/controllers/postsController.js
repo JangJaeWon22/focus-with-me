@@ -240,7 +240,7 @@ module.exports = {
   */
   ckUpload: (req, res) => {
     const { user } = res.locals.user;
-    const path = req.file.location;
+    const path = `uploads${req.file.location.split("uploads")[1]}`;
     return res.status(201).send({ path });
   },
 };
