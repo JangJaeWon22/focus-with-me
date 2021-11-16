@@ -1,6 +1,8 @@
+const { logInOnly } = require("../../middlewares/passport-auth");
 const db = require("../../models");
 const { Comment, User, CommentLike } = require("../../models");
 const { Sequelize } = require("../../models");
+const { getPgNum } = require("../comments-ctrl/getPgNum"); 
 
 const comments = {
   // 댓글 생성을 비동기식 방식으로 처리한다
@@ -126,13 +128,21 @@ const comments = {
       //     attributes: [],
       //   },
       //   //limit: 5,
-      //   raw: true,
+      //   raw: true, //반환값이 object 형식으로 출력, 아니면 json형식
       //   order: [["date", "DESC"]],
       // });
 
+      // added from nov.15-17, 2021 댓글 페이지리스팅
+      const { pagination } = req.query;
+      const cmtsList = await getPgNum(pagination, respondComments);
+      // res 부분 처리를 getPgNum에서 insert하기에는 어려움 그래서 cmtsControl에서 처리
+      if(cmtsList === null){
+        return res.status(500).send({message: "error"});
+      }
+
       // 성공 응답 코드
       return res.status(200).send({
-        respondComments,
+        cmtsList,
         message: "댓글 조회에 성공했습니다.",
       });
     } catch (err) {
@@ -182,59 +192,20 @@ const comments = {
 
   // 댓글 페이징
   commentPg: async (req, res) => {
-    if(req.session.adminId){
-      const sql = "SELECT *, INV.INV_QTY FROM md_mtrl AS M INNER JOIN MA_INVENT AS INV ON M.MTRL_CD = INV.MTRL_CD WHERE USE_YN = 'Y'";
-      db.query(sql, function(err, rows){
-        if(!error){
-          if(rows.length > 0){
-            const pageSize = 2;
-            const pageListSize = 2;
-            const no = '';
-            const totalPageCount = rows.length;
-            if(totalPageCount < 0){
-              totalPageCount = 0;
-            }
-            const curPage = req.params.page;
-            const totalPage = Math.ceil(totalPageCount / pageSize);
-            const totalSet = Math.ceil(totalPage / pageListSize);
-            const curSet = Math.ceil(curPage / pageListSize);
-            const startPage = ((curSet - 1) * pageListSize) + 1;
-            const endPage = (startPage + pageListSize) - 1;
+     
 
-            if(curPage < 0){
-              no = 0;
-            } else {
-              no = (curPage - 1) * pageSize;
-            }
+  // const pageDate = {
+  //   "curPage" : curPage,
+  //   "pageListSize" : pageListSize,
+  //   "pageSize" : pageSize,
+  //   "totalPage" : totalPage,
+  //   "totalSet" : totalSet,
+  //   "curSet" : curSet,
+  //   "startPage" : startPage,
+  //   "endPage" : endPage
+  // };
 
-            const pageDate = {
-              "curPage" : curPage,
-              "pageListSize" : pageListSize,
-              "pageSize" : pageSize,
-              "totalPage" : totalPage,
-              "totalSet" : totalSet,
-              "curSet" : curSet,
-              "startPage" : startPage,
-              "endPage" : endPage
-            };
-
-            sql = sql + " LIMIT "+no+","+pageSize+"";
-            console.log("query cluase: " + sql);
-            db.query(sql, function(error, rows){
-              if(!error){
-                res.render('mtrl_list', {rows : rows, pasing : pageDate});
-              }
-            });
-          } else {
-            res.render('mtrl_list', {rows: []});
-          }
-        } else {
-          res.render('mtrl_list', {rows: []});
-        }
-      });
-    } else {
-      res.redirect('/');
-    }
+            
   }
 };
 
