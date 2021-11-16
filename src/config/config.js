@@ -21,4 +21,11 @@ module.exports = {
     host: process.env.DB_END_POINT,
     dialect: "mysql",
   },
+  rds: {
+    username: process.env.RDS_USER,
+    password: process.env.RDS_PASSWORD,
+    database: process.env.RDS_NAME,
+    host: process.env.RDS_END_POINT,
+    dialect: "mysql",
+  },
 };
