@@ -5,7 +5,7 @@ exports.getPgNum = async function (pagination, respondComments) {
     const pageNum = parseInt(pagination, 10); //parseInt(string, 진수)
     console.log(pageNum);
     let startNum = 0; // num을 변경할 것이기 때문에, 초기화값으로 설정
-    let lastNum = 0; // num을 변경할 것이기 때문에, 초기화값으로 설정
+    let lastNum = 0; // num을 변경할 것이기 때문에, 초기화값으로 설정ㅎ
 
     // 유효성 처리
     if(pageNum >= 1){
