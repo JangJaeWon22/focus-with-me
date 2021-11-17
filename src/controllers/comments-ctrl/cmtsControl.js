@@ -1,5 +1,8 @@
+const { logInOnly } = require("../../middlewares/passport-auth");
+const db = require("../../models");
 const { Comment, User, CommentLike } = require("../../models");
 const { Sequelize } = require("../../models");
+const { getPgNum } = require("../comments-ctrl/getPgNum"); 
 
 const comments = {
   // 댓글 생성을 비동기식 방식으로 처리한다
@@ -125,13 +128,21 @@ const comments = {
       //     attributes: [],
       //   },
       //   //limit: 5,
-      //   raw: true,
+      //   raw: true, //반환값이 object 형식으로 출력, 아니면 json형식
       //   order: [["date", "DESC"]],
       // });
 
+      // added from nov.15-17, 2021 댓글 페이지리스팅
+      const { pagination } = req.query;
+      const cmtsList = await getPgNum(pagination, respondComments);
+      // res 부분 처리를 getPgNum에서 insert하기에는 어려움 그래서 cmtsControl에서 처리
+      if(cmtsList === null){
+        return res.status(500).send({message: "error"});
+      }
+
       // 성공 응답 코드
       return res.status(200).send({
-        respondComments,
+        cmtsList,
         message: "댓글 조회에 성공했습니다.",
       });
     } catch (err) {
@@ -178,6 +189,24 @@ const comments = {
       });
     }
   },
+
+  // 댓글 페이징
+  commentPg: async (req, res) => {
+     
+
+  // const pageDate = {
+  //   "curPage" : curPage,
+  //   "pageListSize" : pageListSize,
+  //   "pageSize" : pageSize,
+  //   "totalPage" : totalPage,
+  //   "totalSet" : totalSet,
+  //   "curSet" : curSet,
+  //   "startPage" : startPage,
+  //   "endPage" : endPage
+  // };
+
+            
+  }
 };
 
 module.exports = { comments };

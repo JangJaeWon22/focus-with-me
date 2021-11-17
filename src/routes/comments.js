@@ -29,4 +29,11 @@ router.delete(
   cmtCtrl.comments.commentDel
 );
 
+// 댓글 페이지 라우터
+// router.get(
+//   "/posts/:postId/comments/:page", 
+//   logInBoth, 
+//   cmtCtrl.comments.commentPg
+// );
+
 module.exports = router;
