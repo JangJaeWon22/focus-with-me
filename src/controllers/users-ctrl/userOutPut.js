@@ -20,11 +20,13 @@ const userOutPut = {
         // user를 조회하지 못할 경우
         if (!user) {
           res.status(400).send({ message: info.message });
+          logger.info(`POST /api/users/login 400 "res:${info.message}`);
           return;
         }
         // user데이터를 통해 로그인 진행
         req.login(user, { session: false }, (loginError) => {
           if (loginError) {
+            logger.error(`POST /api/users/login 400 "res:${loginError}`);
             res.send(loginError);
             return;
           }
@@ -34,9 +36,7 @@ const userOutPut = {
             process.env.TOKEN_KEY,
             { expiresIn: "1d" }
           );
-
           message = "로그인에 성공하셨습니다.";
-
           logger.info(`POST /api/users/login 201 "res: ${message}`);
           res.status(201).send({ token, user, message });
         });
@@ -53,15 +53,14 @@ const userOutPut = {
       console.log(req.session);
       const user = req.user;
       const token = Jwt.sign({ userId: user.userId }, process.env.TOKEN_KEY);
-      res.status(200).send({
-        message: "로그인에 성공하였습니다.",
-        token: token,
-      });
+      message = "로그인에 성공하였습니다.";
+      logger.info(`GET /api/kakao/callback 201 "res: ${message}`);
+      res.status(201).send({ message, token });
     } catch (error) {
       console.log(error);
-      res.status(500).send({
-        message: "알 수 없는 문제가 발생했습니다. 잠시 후 다시 시도해주세요.",
-      });
+      message = "알 수 없는 문제가 발생했습니다. 잠시 후 다시 시도해주세요.";
+      logger.error(`GET /api/kakao/callback 500 "res: ${error}`);
+      res.status(500).send({ message });
     }
   },
 };
