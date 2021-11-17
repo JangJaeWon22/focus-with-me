@@ -32,12 +32,18 @@ const followMW = async (req, res, next) => {
         },
       ],
     });
-    follow(user);
-    next();
+    if (!user) {
+      message = "조회 하려는 사용자가 없습니다.";
+      logger.info(`userInfo/userFollow middleware error: ${message}`);
+      return res.status(400).send({ message });
+    } else {
+      follow(user);
+      next();
+    }
   } catch (error) {
     console.log(error);
     message = "알 수 없는 문제로 회원 정보를 가져오는데 실패 했습니다.";
-    logger.error(`userInfo/userFollow middleware error: ${error}`);
+    logger.error(`userInfo/userFollow middleware catch error: ${error}`);
     res.status(500).send({ message });
   }
 };

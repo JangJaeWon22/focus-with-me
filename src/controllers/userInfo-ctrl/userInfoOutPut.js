@@ -200,7 +200,7 @@ const userInfoOutPut = {
       }
       message = "북마크한 리스트를 조회 했습니다.";
       logger.info(`GET /mmypage/mybookmarks/${userId} 200 res:${message}`);
-      res.status(200).send({ bookmarkedPost, message });
+      res.status(200).send({ bookmarkedPosts, message });
     } catch (error) {
       console.error(error);
       message = "알 수 없는 문제로 인해 정보를 가져오는데 실패했습니다.";
