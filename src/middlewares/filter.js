@@ -63,12 +63,14 @@ const filter = async (req, res, next) => {
     /* 
       --------------------------- 필터 페이지 -----------------------------------
       적용되어야 할 것
+      필터 쿼리, 검색 쿼리
       무한 스크롤 || 페이지네이션
       좋아요 개수, 북마크 개수.
       각 카드별 좋아요?
       배열 선언 후 forEach push , Like 조회 Bookmark 조회
       */
-    const { categorySpace, categoryInterest, categoryStudyMate } = req.query;
+    const { categorySpace, categoryInterest, categoryStudyMate, keyword } =
+      req.query;
     let { page } = req.query;
     // 페이지네이션에 필요한 것 : page query string, total number of posts, total page
     if (!page) page = 1;
@@ -80,6 +82,8 @@ const filter = async (req, res, next) => {
     let userId;
     // WHERE에 사용할 조건문을 담을 List
     let condition = [];
+    if (keyword)
+      condition.push(`Post.title LIKE '%${encodeURIComponent(keyword)}%'`);
     if (categoryInterest)
       condition.push(`Post.categoryInterest='${categoryInterest}'`);
     if (categorySpace) condition.push(`Post.categorySpace='${categorySpace}'`);
