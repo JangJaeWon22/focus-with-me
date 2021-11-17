@@ -2,6 +2,7 @@ const { Post, Bookmark, Like } = require("../../models");
 const { Sequelize } = require("../../models");
 
 const userInfoOutPut = {
+  // 회원 정보 조회
   getUser: async (req, res) => {
     try {
       const userInfo = res.userInfo;

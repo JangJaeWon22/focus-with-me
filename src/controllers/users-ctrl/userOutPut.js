@@ -3,22 +3,9 @@ const Jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 dotenv.config();
 const passport = require("passport");
+const logger = require("../../config/logger");
 
 const userOutPut = {
-  // 회원 정보 조회
-  getUser: async (req, res) => {
-    try {
-      const { user } = res.locals;
-      console.log(user.userId);
-      const userId = user.userId;
-      const getUser = await User.findByPk(userId);
-      res.status(200).send({ getUser, message: "회원 정보 조회를 했습니다." });
-    } catch (error) {
-      console.log(error);
-      res.status(400).send({ message: "회원 정보 조회에 실패 했습니다." });
-    }
-  },
-
   authUser: async (req, res, next) => {
     // local 로그인
     try {
@@ -27,7 +14,8 @@ const userOutPut = {
         // 인증이 실패했거나 유저 데이터가 없다면 에러 발생
         if (passportError) {
           console.error("passportError:", passportError);
-          return res.send({ message: passportError });
+          logger.error(`POST /api/users/login 500 "res:${passportError}`);
+          return res.status(500).send({ message: passportError });
         }
         // user를 조회하지 못할 경우
         if (!user) {
@@ -46,9 +34,11 @@ const userOutPut = {
             process.env.TOKEN_KEY,
             { expiresIn: "1d" }
           );
-          res
-            .status(201)
-            .send({ token, user, message: "로그인에 성공하셨습니다." });
+
+          message = "로그인에 성공하셨습니다.";
+
+          logger.info(`POST /api/users/login 201 "res: ${message}`);
+          res.status(201).send({ token, user, message });
         });
       })(req, res, next);
     } catch (error) {
