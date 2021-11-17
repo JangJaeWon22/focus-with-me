@@ -8,7 +8,7 @@ https://github.com/erionRK621/studyWithMe
 
 ## 사용 기술 스택
 
-### <div align=center>📚 STACKS</div>
+#### <div align=center>📚 STACKS</div>
 
 <div align=center> 
 <img src="https://img.shields.io/badge/passport-0.5.0-34E27A?style=for-the-badge&logo=Passport&logoColor=white"/>
@@ -22,7 +22,7 @@ https://github.com/erionRK621/studyWithMe
 <br>
 </div>
 
-### 기술서
+#### 기술서
 
 - [passport(local,kakao,jwt)](./doc/skill-book/passport.md)
 - [ckEditor5](./doc/skill-book/ckeditor.md)
@@ -33,6 +33,6 @@ https://github.com/erionRK621/studyWithMe
 
 ## 문제점과 해결 방법
 
-### refactoring-history
+#### refactoring-history
 
 - [Daily-refactoring-history](./doc/refactoring-history)
