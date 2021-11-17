@@ -8,7 +8,9 @@ const userInfoOutPut = {
     try {
       const userInfo = res.userInfo;
       message = "회원 정보 조회를 했습니다.";
-      logger.info(`GET /api/mypage/myInfo/${userId} 200 res:${message}`);
+      logger.info(
+        `GET /api/mypage/myInfo/${req.params.userId} 200 res:${message}`
+      );
       res.status(200).send({
         userInfo,
         followerCount,
@@ -18,7 +20,9 @@ const userInfoOutPut = {
     } catch (error) {
       console.log(error);
       message = "회원 정보 조회에 실패 했습니다.";
-      logger.error(`GET /api/mypage/myInfo/${userId} 500 res:${error}`);
+      logger.error(
+        `GET /api/mypage/myInfo/${req.params.userId} 500 res:${error}`
+      );
       res.status(500).send({ message });
     }
   },

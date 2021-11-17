@@ -1,4 +1,5 @@
 const Joi = require("joi");
+const logger = require("../config/logger");
 
 const verifyJoi = {
   //회원가입 시 joi 검증 실행
@@ -25,9 +26,9 @@ const verifyJoi = {
       res.verifyBody = verifyBody;
       next();
     } catch (error) {
-      return res.status(400).send({
-        message: "아이디와 비밀번호의 형식이 올바르지 않습니다.",
-      });
+      message = "아이디와 비밀번호의 형식이 올바르지 않습니다.";
+      logger.info(`verifyJoi-singUpUser middlewares 500 error:${message}`);
+      return res.status(500).send({ message });
     }
   },
 
@@ -46,15 +47,19 @@ const verifyJoi = {
         res.verifyBody = verifyBody;
         next();
       } else {
-        return res
-          .status(400)
-          .send({ message: "닉네임의 형식이 올바르지 않습니다." });
+        message = "닉네임의 형식이 올바르지 않습니다.";
+        logger.info(
+          `verifyJoi-updateUserProfile middlewares 400 error:${message}`
+        );
+        return res.status(400).send({ message });
       }
     } catch (error) {
       console.log(error);
-      return res.status(400).send({
-        message: "닉네임의 형식이 올바르지 않습니다.",
-      });
+      message = "닉네임의 형식이 올바르지 않습니다.";
+      logger.error(
+        `verifyJoi-updateUserProfile middlewares 500 error:${error}`
+      );
+      return res.status(500).send({ message });
     }
   },
 
@@ -72,14 +77,16 @@ const verifyJoi = {
     try {
       ///비밀번호 변경을 하지 않을 경우 빈값으로 넘겨받아야됨
       if (!passwordNew || !confirmPasswordNew) {
-        return res.status(400).send({
-          message: "변경할 비밀번호 또는 비밀번호 확인란을 확인 해주세요.",
-        });
+        message = "변경할 비밀번호 또는 비밀번호 확인란을 확인 해주세요.";
+        logger.info(`verifyJoi-updateUserPw middlewares 400 error:${message}`);
+        return res.status(400).send({ message });
       } else {
         if (passwordNew !== confirmPasswordNew) {
-          return res.status(400).send({
-            message: "변경할 비밀번호와 비밀번호 확인란이 일치하지 않습니다.",
-          });
+          message = "변경할 비밀번호와 비밀번호 확인란이 일치하지 않습니다.";
+          logger.info(
+            `verifyJoi-updateUserPw middlewares 400 error:${message}`
+          );
+          return res.status(400).send({ message });
         } else {
           const verifyBody = await joiSchema.validateAsync({
             passwordOld,
@@ -92,9 +99,9 @@ const verifyJoi = {
       }
     } catch (error) {
       console.log(error);
-      return res.status(400).send({
-        message: "입력하신 비밀번호의 형식이 올바르지 않습니다.",
-      });
+      message = "입력하신 비밀번호의 형식이 올바르지 않습니다.";
+      logger.error(`verifyJoi-updateUserPw middlewares 500 error:${error}`);
+      return res.status(500).send({ message });
     }
   },
 };
