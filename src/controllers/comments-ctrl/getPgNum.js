@@ -1,6 +1,6 @@
 exports.getPgNum = async function (pagination, respondComments) {
     console.log(pagination);
-    const perPage = 4; // per page당 몇개씩 댓글 처리할 것인가 // limit
+    const perPage = 3; // per page당 몇개씩 댓글 처리할 것인가 // limit
     const totalPage = pagination * perPage; // offset
     const pageNum = parseInt(pagination, 10); //parseInt(string, 진수)
     console.log(pageNum);
