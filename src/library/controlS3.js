@@ -1,3 +1,4 @@
+require("dotenv").config();
 const aws = require("aws-sdk");
 const s3 = new aws.S3();
 /**
@@ -36,7 +37,7 @@ const copyImagesS3 = async (imageList) => {
       console.log(filename);
       await s3
         .copyObject({
-          Bucket: "kkirri-images",
+          Bucket: process.env.S3_BUCKET_NAME,
           CopySource: `kkirri-images/${url}`,
           Key: `uploads/content/${filename}`,
           ACL: "public-read",
@@ -58,7 +59,7 @@ const removeObjS3 = async (src) => {
   try {
     await s3
       .deleteObject({
-        Bucket: "kkirri-images",
+        Bucket: rocess.env.S3_BUCKET_NAME,
         Key: src,
       })
       .promise();
@@ -72,17 +73,17 @@ const emptyTempS3 = async () => {
   // 인터넷에서 긁어온 코드
   // 로직 모름;;; 공부 필요
   const listParams = {
-    Bucket: "kkirri-images",
+    Bucket: rocess.env.S3_BUCKET_NAME,
     Prefix: "uploads/temp",
   };
 
   const listedObjects = await s3.listObjectsV2(listParams).promise();
-  console.log(listedObjects);
 
+  // 폴더 내 파일이 없으면 함수 종료
   if (listedObjects.Contents.length === 0) return;
 
   const deleteParams = {
-    Bucket: "kkirri-images",
+    Bucket: rocess.env.S3_BUCKET_NAME,
     Delete: { Objects: [] },
   };
 
