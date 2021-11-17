@@ -1,15 +1,14 @@
-## Focus With Me
+## <div align=center> Focus With Me </div>
 
-## 프로젝트 개요
+## <div align=center> 프로젝트 개요 </div>
 
-## 프론트엔드 주소
+## <div align=center> 프론트엔드 주소 </div>
 
 https://github.com/erionRK621/studyWithMe
 
-## 사용 기술 스택
+## <div align=center> 📚 STACKS </div>
 
-#### <div align=center> 📚 STACKS </div>
-
+<div align=center>
 <img src="https://img.shields.io/badge/passport-0.5.0-34E27A?style=for-the-badge&logo=Passport&logoColor=white"/>
 <img src="https://img.shields.io/badge/sequelize-6.8.0-52B0E7?style=for-the-badge&logo=Sequelize&logoColor=white"/>
 <img src="https://img.shields.io/badge/Swagger-4.1.6-85EA2D?style=for-the-badge&logo=Swagger&logoColor=white"/>
@@ -19,6 +18,7 @@ https://github.com/erionRK621/studyWithMe
 <img src="https://img.shields.io/badge/prometheus-2.32.0-E6522C?style=for-the-badge&logo=prometheus&logoColor=white"/>
 <img src="https://img.shields.io/badge/grafana-8.2.4-E6522C?style=for-the-badge&logo=grafana&logoColor=white"/>
 <br>
+</div>
 
 #### 기술서
 
@@ -29,7 +29,7 @@ https://github.com/erionRK621/studyWithMe
 - [swagger](./doc/skill-book/swagger.md)
 - [prometheus and grafana](./doc/skill-book/prometheus_and_grafana/prometheus_and_grafana.md)
 
-## 문제점과 해결 방법
+## <div align=center> 문제점과 해결 방법 </div>
 
 #### refactoring-history
 
