@@ -98,6 +98,8 @@ const filter = async (req, res, next) => {
       FROM Posts AS Post 
       ${where}`;
 
+    // sequelize count 처리 방법 or sql count 만 하는거 찾아봐서 고쳐보고 monitoring 확인
+
     const cntForPaging = await sequelize.query(beforePagination, {
       type: Sequelize.QueryTypes.SELECT,
     });
