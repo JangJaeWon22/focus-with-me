@@ -22,6 +22,7 @@ https://github.com/erionRK621/studyWithMe
 - [Sequelize&MySQL](./doc/skill-book/sequelize&mysql/sequelize&mysql.md)
 - [S3](./doc/skill-book/S3.md)
 - [swagger](./doc/skill-book/swagger.md)
+- [prometheus and grafana](./doc/skill-book/prometheus_and_grafana/prometheus_and_grafana.md)
 
 ## 문제점과 해결 방법
 
