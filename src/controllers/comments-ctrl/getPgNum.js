@@ -1,9 +1,13 @@
 exports.getPgNum = async function (pagination, respondComments) {
     console.log(pagination);
-    const perPage = 5; // per page당 몇개씩 댓글 처리할 것인가 // limit
+    const perPage = 3; // per page당 몇개씩 댓글 처리할 것인가 // limit
     const totalPage = pagination * perPage; // offset
     const pageNum = parseInt(pagination, 10); //parseInt(string, 진수)
     console.log(pageNum);
+
+    //const totalCmtsCount = await respondComments.count();
+    //const pageCnt = Math.ceil(totalCmtsCount/perPage);
+  
     let startNum = 0; // num을 변경할 것이기 때문에, 초기화값으로 설정
     let lastNum = 0; // num을 변경할 것이기 때문에, 초기화값으로 설정ㅎ
 
@@ -15,12 +19,13 @@ exports.getPgNum = async function (pagination, respondComments) {
     } else { // < 1
        return null;
     }
-    console.log(respondComments.length);
-    console.log(respondComments);
+    //console.log(respondComments.length);
+    //console.log(respondComments);
     if(respondComments.length < totalPage) {
         lastNum = respondComments.length;
     }
 
+    
     // 배열처리
     const cmtsList = [];
     for (let i = startNum; i < lastNum; i++) {

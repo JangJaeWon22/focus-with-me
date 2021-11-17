@@ -120,8 +120,6 @@ const comments = {
           postId: comment.postId,
           commentLikeCnt: comment.commentLikeCnt,
           isCommentLiked,
-          //add
-          totalPage: comment.totalPage,
         });
       }
 
@@ -141,6 +139,7 @@ const comments = {
       // added from nov.15-17, 2021 댓글 페이지리스팅
       const { pagination } = req.query;
       const cmtsList = await getPgNum(pagination, respondComments);
+      const cmtsNumber = cmtsList.length;
       // res 부분 처리를 getPgNum에서 insert하기에는 어려움 그래서 cmtsControl에서 처리
       if (cmtsList === null) {
         message = "댓글 리스트를 불러오는데 실패 했습니다.";
@@ -151,7 +150,7 @@ const comments = {
       // 성공 응답 코드
       message = "댓글 조회에 성공했습니다.";
       logger.info(`GET /api/posts/${postId}/comments 200 res:${message}`);
-      return res.status(200).send({ cmtsList, message });
+      return res.status(200).send({ cmtsList, message, cmtsNumber });
     } catch (error) {
       console.log(error);
       message = "알 수 없는 문제가 발생했습니다.";
@@ -202,20 +201,6 @@ const comments = {
       );
       return res.status(500).send({ message });
     }
-  },
-
-  // 댓글 페이징
-  commentPg: async (req, res) => {
-    // const pageDate = {
-    //   "curPage" : curPage,
-    //   "pageListSize" : pageListSize,
-    //   "pageSize" : pageSize,
-    //   "totalPage" : totalPage,
-    //   "totalSet" : totalSet,
-    //   "curSet" : curSet,
-    //   "startPage" : startPage,
-    //   "endPage" : endPage
-    // };
   },
 };
 
