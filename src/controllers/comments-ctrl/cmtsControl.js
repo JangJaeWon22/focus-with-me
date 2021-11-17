@@ -116,6 +116,8 @@ const comments = {
           postId: comment.postId,
           commentLikeCnt: comment.commentLikeCnt,
           isCommentLiked,
+          //add
+          totalPage: comment.totalPage,
         });
       }
 
