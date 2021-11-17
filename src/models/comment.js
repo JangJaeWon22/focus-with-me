@@ -15,10 +15,12 @@ module.exports = (sequelize, DataTypes) => {
       Comment.belongsTo(db.User, {
         foreignKey: "userId",
         targetKey: "userId",
+        onDelete: "cascade",
       });
       Comment.belongsTo(db.Post, {
         foreignKey: "postId",
         targetKey: "postId",
+        onDelete: "cascade",
       });
     }
   }
