@@ -77,8 +77,8 @@ const emptyTempS3 = async () => {
   };
 
   const listedObjects = await s3.listObjectsV2(listParams).promise();
-  console.log(listedObjects);
 
+  // 폴더 내 파일이 없으면 함수 종료
   if (listedObjects.Contents.length === 0) return;
 
   const deleteParams = {
