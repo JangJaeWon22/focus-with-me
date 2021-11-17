@@ -5,6 +5,7 @@ const getUserInfo = async (req, res, next) => {
   try {
     // const { userId } = req.body === undefined ? res.locals.user : req.body;
     const { userId } = req.params;
+    console.log(userId);
     const userQuery = `
     SELECT Users.userId,Users.email,Users.nickname,Users.avatarUrl,Users.date,Users.provider, COUNT(Posts.userId) AS postCnt
     FROM Users
@@ -19,9 +20,9 @@ const getUserInfo = async (req, res, next) => {
     next();
   } catch (error) {
     console.error(error);
-    res.status(400).send({
-      message: "알 수 없는 문제로 회원 정보를 가져오는데 실패 했습니다.",
-    });
+    message = "알 수 없는 문제로 회원 정보를 가져오는데 실패 했습니다.";
+    logger.error(`userInfo/userInfo middleware error: ${error}`);
+    res.status(500).send({ message });
   }
 };
 

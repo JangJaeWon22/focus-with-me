@@ -2,7 +2,8 @@ const { logInOnly } = require("../../middlewares/passport-auth");
 const db = require("../../models");
 const { Comment, User, CommentLike } = require("../../models");
 const { Sequelize } = require("../../models");
-const { getPgNum } = require("../comments-ctrl/getPgNum"); 
+const { getPgNum } = require("../comments-ctrl/getPgNum");
+const logger = require("../../config/logger");
 
 const comments = {
   // 댓글 생성을 비동기식 방식으로 처리한다
@@ -31,20 +32,23 @@ const comments = {
         date,
         textContent,
       });
+
+      message = "댓글 작성에 성공했습니다.";
+      logger.info(`POST api/posts/${postId}/comments 201 res:${message}`);
       // 성공 했을 경우, 다음과 같은 값을 보내준다
       return res.status(201).send({
         userNick,
         comment,
         avatarUrl,
-        message: "댓글 작성에 성공했습니다.",
+        message,
       });
-    } catch (err) {
+    } catch (error) {
       // 에러 발생 했을 경우, console.log를 찍어준다
-      console.log(err);
+      console.log(error);
+      message = "알 수 없는 문제가 발생했습니다.";
+      logger.error(`POST api/posts/${postId}/comments 500 res:${error}`);
       // try 구문에 에러가 생겼을 경우, 서버 에러로 인식하고 오류창을 보여준다
-      return res.status(500).send({
-        message: "댓글 서버로부터 오류가 생겼습니다.",
-      });
+      return res.status(500).send({ message });
     }
   },
 
@@ -138,20 +142,21 @@ const comments = {
       const { pagination } = req.query;
       const cmtsList = await getPgNum(pagination, respondComments);
       // res 부분 처리를 getPgNum에서 insert하기에는 어려움 그래서 cmtsControl에서 처리
-      if(cmtsList === null){
-        return res.status(500).send({message: "error"});
+      if (cmtsList === null) {
+        message = "댓글 리스트를 불러오는데 실패 했습니다.";
+        logger.info(`GET /api/posts/${postId}/comments 400 res:${message}`);
+        return res.status(400).send({ message });
       }
 
       // 성공 응답 코드
-      return res.status(200).send({
-        cmtsList,
-        message: "댓글 조회에 성공했습니다.",
-      });
-    } catch (err) {
-      console.log(err);
-      return res.status(500).send({
-        message: "댓글 조회로부터 문제가 생겼습니다.",
-      });
+      message = "댓글 조회에 성공했습니다.";
+      logger.info(`GET /api/posts/${postId}/comments 200 res:${message}`);
+      return res.status(200).send({ cmtsList, message });
+    } catch (error) {
+      console.log(error);
+      message = "알 수 없는 문제가 발생했습니다.";
+      logger.error(`GET /api/posts/${postId}/comments 500 res:${error}`);
+      return res.status(500).send({ message });
     }
   },
 
@@ -175,40 +180,43 @@ const comments = {
         // 특정 포스트 -> 특정 댓글
         await reqDelete.destroy();
         // 댓글이 삭제되는 메세지를 제대로 보내졌을 경우
-        return res.status(200).send({
-          message: "댓글이 삭제되었습니다.",
-        });
+        message = "댓글이 삭제되었습니다.";
+        logger.info(
+          `DELETE /api/posts/${postId}/comments/${commentId} 200 res:${message}`
+        );
+        return res.status(200).send({ message });
         // 삭제할 댓글이 해당 유저의 아이디가 일치하지 않을 경우
       } else {
-        return res.status(400).send({
-          message: "작성자가 아닙니다.",
-        });
+        message = "작성자가 아닙니다.";
+        logger.info(
+          `DELETE /api/posts/${postId}/comments/${commentId} 400 res:${message}`
+        );
+        return res.status(400).send({ message });
       }
-    } catch (err) {
+    } catch (error) {
+      console.log(error);
       // 댓글 기능이 제대로 작동하지 않을 경우
-      return res.status(500).send({
-        message: "댓글 삭제에 문제가 생겼습니다! 관리자에게 문의해주세요.",
-      });
+      message = "알 수 없는 문제가 발생했습니다.";
+      logger.error(
+        `DELETE /api/posts/${postId}/comments/${commentId} 500 res:${error}`
+      );
+      return res.status(500).send({ message });
     }
   },
 
   // 댓글 페이징
   commentPg: async (req, res) => {
-     
-
-  // const pageDate = {
-  //   "curPage" : curPage,
-  //   "pageListSize" : pageListSize,
-  //   "pageSize" : pageSize,
-  //   "totalPage" : totalPage,
-  //   "totalSet" : totalSet,
-  //   "curSet" : curSet,
-  //   "startPage" : startPage,
-  //   "endPage" : endPage
-  // };
-
-            
-  }
+    // const pageDate = {
+    //   "curPage" : curPage,
+    //   "pageListSize" : pageListSize,
+    //   "pageSize" : pageSize,
+    //   "totalPage" : totalPage,
+    //   "totalSet" : totalSet,
+    //   "curSet" : curSet,
+    //   "startPage" : startPage,
+    //   "endPage" : endPage
+    // };
+  },
 };
 
 module.exports = { comments };

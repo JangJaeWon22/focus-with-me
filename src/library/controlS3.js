@@ -59,7 +59,7 @@ const removeObjS3 = async (src) => {
   try {
     await s3
       .deleteObject({
-        Bucket: rocess.env.S3_BUCKET_NAME,
+        Bucket: process.env.S3_BUCKET_NAME,
         Key: src,
       })
       .promise();
@@ -73,7 +73,7 @@ const emptyTempS3 = async () => {
   // 인터넷에서 긁어온 코드
   // 로직 모름;;; 공부 필요
   const listParams = {
-    Bucket: rocess.env.S3_BUCKET_NAME,
+    Bucket: process.env.S3_BUCKET_NAME,
     Prefix: "uploads/temp",
   };
 
@@ -83,7 +83,7 @@ const emptyTempS3 = async () => {
   if (listedObjects.Contents.length === 0) return;
 
   const deleteParams = {
-    Bucket: rocess.env.S3_BUCKET_NAME,
+    Bucket: process.env.S3_BUCKET_NAME,
     Delete: { Objects: [] },
   };
 

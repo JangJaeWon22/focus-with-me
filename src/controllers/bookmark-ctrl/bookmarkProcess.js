@@ -1,4 +1,5 @@
 const { Bookmark } = require("../../models");
+const logger = require("../../config/logger");
 
 const bookmarkProcess = {
   createbookmark: async (req, res) => {
@@ -21,22 +22,21 @@ const bookmarkProcess = {
           date,
         });
         // 성공 응답값 200 및 로그인 유저가 북마크 했으면 true값을 보내어 프론트에서 state 바로 적용.
-        res.status(200).send({
-          isBookmarked: true,
-          message: "북마크를 완료 했습니다.",
-        });
+        message = "북마크 완료";
+        logger.info(`POST /api/bookmarks/${postId} 200 res:${message}`);
+        res.status(200).send({ isBookmarked: true, message });
         // 이미 북마크를 함.
       } else {
-        res.status(400).send({
-          message: "북마크를 이미 했습니다.",
-        });
+        message = "북마크를 이미 했습니다.";
+        logger.info(`POST /api/bookmarks/${postId} 400 res:${message}`);
+        res.status(400).send({ message });
       }
-    } catch (err) {
-      console.error(err);
+    } catch (error) {
+      console.error(error);
+      message = "알 수 없는 문제가 발생했습니다.";
+      logger.error(`POST /api/bookmarks/${postId} 500 res:${error}`);
       // try 구문에서 발생한 오류 catch해서 메세지 전송.
-      res.status(500).send({
-        message: "알 수 없는 문제가 발생했습니다. 잠시 후 다시 시도해주세요.",
-      });
+      res.status(500).send({ message });
     }
   },
 
@@ -55,28 +55,27 @@ const bookmarkProcess = {
           //해당 북마크 db 삭제
           await bookmark.destroy();
           // 성공 응답값 200 및 로그인 유저가 북마크 취소하면 false값을 보내어 프론트에서 state 바로 적용.
-          res.status(200).send({
-            isBookmarked: false,
-            message: "북마크를 취소 했습니다.",
-          });
+          message = "북마크 취소";
+          logger.info(`DELETE /api/bookmarks/${postId} 200 res:${message}`);
+          res.status(200).send({ isBookmarked: false, message });
           // 북마크의 userId가 로그인한 userId가 다를 경우의 응답 값
         } else {
-          res.status(400).send({
-            message: "작성자가 아닙니다.",
-          });
+          message = "작성자가 아닙니다.";
+          logger.info(`DELETE /api/bookmarks/${postId} 400 res:${message}`);
+          res.status(400).send({ message });
         }
         // 북마크가 없을 때의 응닶 값
       } else {
-        res.status(400).send({
-          message: "북마크 한 정보를 찾을 수 없습니다.",
-        });
+        message = "북마크 한 정보를 찾을 수 없습니다.";
+        logger.info(`DELETE /api/bookmarks/${postId} 400 res:${message}`);
+        res.status(400).send({ message });
       }
     } catch (error) {
       // try 구문에서 발생한 오류 catch해서 메세지 전송.
       console.error(error);
-      res.status(500).send({
-        message: "알 수 없는 문제가 발생했습니다. 잠시 후 다시 시도해주세요.",
-      });
+      message = "알 수 없는 문제가 발생했습니다. 잠시 후 다시 시도해주세요.";
+      logger.error(`DELETE /api/bookmarks/${postId} 500 res:${error}`);
+      res.status(500).send({ message });
     }
   },
 };
