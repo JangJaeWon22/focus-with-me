@@ -1,4 +1,5 @@
 const { User } = require("../../models");
+const logger = require("../../config/logger");
 
 function follow(user) {
   user.followerCount = user ? user.Followers.length : 0;
@@ -35,6 +36,9 @@ const followMW = async (req, res, next) => {
     next();
   } catch (error) {
     console.log(error);
+    message = "알 수 없는 문제로 회원 정보를 가져오는데 실패 했습니다.";
+    logger.error(`userInfo/userFollow middleware error: ${error}`);
+    res.status(500).send({ message });
   }
 };
 

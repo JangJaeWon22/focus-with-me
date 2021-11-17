@@ -15,9 +15,10 @@ module.exports = {
     //조회는 미들웨어에서 처리하고, 여기는 던지는 역할만 하기
     const { randPosts, posts, totalPage } = req;
     const followPost = res.followPost;
-
+    message = "posts 조회 성공";
+    logger.info(`GET /api/posts 200 res:${message}`);
     return res.status(200).send({
-      message: "posts 조회 성공",
+      message,
       posts,
       randPosts,
       followPost,
@@ -106,13 +107,15 @@ module.exports = {
         // 이미 업로드된 이미지 삭제
         await removeObjS3(path);
         // 조건에 따라 status 분기
-        return !post
-          ? res
-              .status(404)
-              .send({ message: "해당 게시물이 존재하지 않습니다." })
-          : res
-              .status(403)
-              .send({ message: "본인의 게시물만 수정할 수 있습니다." });
+        if (!post) {
+          message = "해당 게시물이 존재하지 않습니다.";
+          logger.info(`PUT /api/posts/${postId} 404 res:${message}`);
+          return res.status(404).send({ message });
+        } else {
+          message = "본인의 게시물만 수정할 수 있습니다.";
+          logger.info(`PUT /api/posts/${postId} 404 res:${message}`);
+          return res.status(403).send({ message });
+        }
       }
       // 기존 이미지 삭제 - 수정 성공하고 난 뒤에 해도 늦지 않음
       // post 의 이미지 url 따라가서 삭제
@@ -132,7 +135,9 @@ module.exports = {
       if (categoryStudyMate) post.categoryStudyMate = categoryStudyMate;
       if (contentEditor) post.contentEditor = encodeURIComponent(contentEditor);
       await post.save();
-      res.status(204).send({ message: "게시물 수정 성공" });
+      message = "게시물 수정 성공";
+      logger.info(`PUT /api/posts/${postId} 204 res:${message}`);
+      res.status(204).send({ message });
       //성공하면 기존 본문 이미지들 삭제
       if (prevImageList.length !== 0) {
         prevImageList.forEach(async (src) => {
@@ -151,7 +156,9 @@ module.exports = {
       await post.update(backup);
       await post.save();
       await removeObjS3(path);
-      return res.status(500).send({ message: "DB 업데이트 실패" });
+      message = "DB 업데이트 실패";
+      logger.error(`PUT /api/posts/${postId} 204 res:${message}`);
+      return res.status(500).send({ message });
     }
   },
   /* 
@@ -175,10 +182,14 @@ module.exports = {
       }
       await removeObjS3(post.imageCover);
       await post.destroy();
-      return res.status(200).send({ message: "포스팅 삭제 성공" });
+      message = "포스팅 삭제 성공";
+      logger.info(`DELETE /api/posts/${postId} 200 res:${message}`);
+      return res.status(200).send({ message });
     } catch (error) {
       console.log(error);
-      return res.status(500).send({ message: "포스팅 삭제 실패" });
+      message = "포스팅 삭제 실패";
+      logger.error(`DELETE /api/posts/${postId} 200 res:${error}`);
+      return res.status(500).send({ message });
     }
   },
   /* 
@@ -228,6 +239,8 @@ module.exports = {
         );
         if (following.length !== 0) isFollowing = true;
       }
+      message = "특정 게시물 1개를 조회 했습니다.";
+      logger.info(`GET /api/posts/${postId} 200 res:${message}`);
       return res.status(200).send({
         post,
         isBookmarked,
@@ -238,7 +251,9 @@ module.exports = {
       });
     } catch (error) {
       console.log(error);
-      return res.status(500).send({ message: "DB 조회에 실패했습니다." });
+      message = "DB 조회에 실패했습니다.";
+      logger.error(`GET /api/posts/${postId} 500 res:${error}}`);
+      return res.status(500).send({ message });
     }
   },
   /* 
@@ -247,6 +262,7 @@ module.exports = {
   ckUpload: (req, res) => {
     const { user } = res.locals.user;
     const path = `uploads${req.file.location.split("uploads")[1]}`;
+    logger.info(`POST /api/posts/ckUpload 201 res:${path} 경로 이미지 저장`);
     return res.status(201).send({ path });
   },
 };

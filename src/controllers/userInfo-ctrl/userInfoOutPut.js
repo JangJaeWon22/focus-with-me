@@ -1,20 +1,29 @@
 const { Post, Bookmark, Like } = require("../../models");
 const { Sequelize } = require("../../models");
+const logger = require("../../config/logger");
 
 const userInfoOutPut = {
   // 회원 정보 조회
   getUser: async (req, res) => {
     try {
       const userInfo = res.userInfo;
+      message = "회원 정보 조회를 했습니다.";
+      logger.info(
+        `GET /api/mypage/myInfo/${req.params.userId} 200 res:${message}`
+      );
       res.status(200).send({
         userInfo,
         followerCount,
         followingsCount,
-        message: "회원 정보 조회를 했습니다.",
+        message,
       });
     } catch (error) {
       console.log(error);
-      res.status(400).send({ message: "회원 정보 조회에 실패 했습니다." });
+      message = "회원 정보 조회에 실패 했습니다.";
+      logger.error(
+        `GET /api/mypage/myInfo/${req.params.userId} 500 res:${error}`
+      );
+      res.status(500).send({ message });
     }
   },
   getUserPost: async (req, res) => {
@@ -80,12 +89,14 @@ const userInfoOutPut = {
         });
       }
 
-      res.status(200).send({ myPosts });
+      message = "작성하신 게시물을 조회했습니다.";
+      logger.info(`GET /api/mypage/myposts/${userId} 200 res:${message}`);
+      res.status(200).send({ myPosts, message });
     } catch (error) {
       console.error(error);
-      res.status(400).send({
-        message: "알 수 없는 문제로 인해 정보를 가져오는데 실패했습니다.",
-      });
+      message = "알 수 없는 문제로 인해 정보를 가져오는데 실패했습니다.";
+      logger.error(`GET /api/mypage/myposts/${userId} 500 res:${error}`);
+      res.status(500).send({ message });
     }
   },
   getUserBookmark: async (req, res) => {
@@ -187,13 +198,14 @@ const userInfoOutPut = {
           isBookmarked,
         });
       }
-
-      res.status(200).send({ bookmarkedPosts });
+      message = "북마크한 리스트를 조회 했습니다.";
+      logger.info(`GET /mmypage/mybookmarks/${userId} 200 res:${message}`);
+      res.status(200).send({ bookmarkedPost, message });
     } catch (error) {
       console.error(error);
-      res.status(400).send({
-        message: "알 수 없는 문제로 인해 정보를 가져오는데 실패했습니다.",
-      });
+      message = "알 수 없는 문제로 인해 정보를 가져오는데 실패했습니다.";
+      logger.error(`GET /mmypage/mybookmarks/${userId} 500 res:${error}`);
+      res.status(500).send({ message });
     }
   },
 };
