@@ -20,6 +20,8 @@ https://github.com/erionRK621/studyWithMe
 - [passport(local,kakao,jwt)](./doc/skill-book/passport.md)
 - [ckEditor5](./doc/skill-book/ckeditor.md)
 - [Sequelize&MySQL](./doc/skill-book/sequelize&mysql/sequelize&mysql.md)
+- [S3](./doc/skill-book/S3.md)
+- [swagger](./doc/skill-book/swagger.md)
 
 ## 문제점과 해결 방법
 

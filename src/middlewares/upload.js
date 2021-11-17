@@ -1,5 +1,9 @@
 const multer = require("multer");
 const path = require("path");
+const multerS3 = require("multer-s3");
+const aws = require("aws-sdk");
+const s3 = new aws.S3();
+// aws.config.loadFromPath(`${process.cwd()}/config/s3.js`);
 
 module.exports = {
   //파일 생성 규칙
@@ -16,22 +20,58 @@ module.exports = {
     }),
     limits: { fileSize: 10000000 },
   }),
-  uploadCover: multer({
-    dest: "public/uploads/cover",
-    limits: { fileSize: 10000000 },
-    // 파일이 없을 경우 예외처리 필요.
-    // onError: function (err, next) {
-    //   console.log("error", err);
-    //   console.log("여기는 multer 에러 처리");
-    //   next();
-    // },
+  uploadAvatarS3: multer({
+    storage: multerS3({
+      s3,
+      bucket: "kkirri-images",
+      acl: "public-read",
+      key: (req, file, cb) => {
+        console.log(file);
+        cb(null, `uploads/avatar/${Date.now()}_${file.originalname}`);
+        // cb(null, `}`)
+      },
+    }),
   }),
-  uploadContents: multer({
-    dest: "public/uploads/content",
-    limits: { fileSize: 10000000 },
+  uploadContentS3: multer({
+    storage: multerS3({
+      s3,
+      bucket: "kkirri-images",
+      acl: " public-read",
+      key: (req, file, cb) => {
+        cb(null, `uploads/content/${Date.now()}_${file.originalname}`);
+      },
+    }),
   }),
-  uploadTemp: multer({
-    dest: "public/uploads/temp",
-    limits: { fileSize: 1000000 },
+  uploadCoverS3: multer({
+    storage: multerS3({
+      s3,
+      bucket: "kkirri-images",
+      acl: " public-read",
+      key: (req, file, cb) => {
+        cb(null, `uploads/cover/${Date.now()}_${file.originalname}`);
+      },
+    }),
   }),
+  uploadTempS3: multer({
+    storage: multerS3({
+      s3,
+      bucket: "kkirri-images",
+      acl: " public-read",
+      key: (req, file, cb) => {
+        cb(null, `uploads/temp/${Date.now()}_${file.originalname}`);
+      },
+    }),
+  }),
+  // uploadCover: multer({
+  //   dest: "public/uploads/cover",
+  //   limits: { fileSize: 10000000 },
+  // }),
+  // uploadContents: multer({
+  //   dest: "public/uploads/content",
+  //   limits: { fileSize: 10000000 },
+  // }),
+  // uploadTemp: multer({
+  //   dest: "public/uploads/temp",
+  //   limits: { fileSize: 1000000 },
+  // }),
 };

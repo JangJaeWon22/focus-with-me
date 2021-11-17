@@ -78,38 +78,27 @@ const filter = async (req, res, next) => {
     const offset = (page - 1) * postPerPage;
     // 로그인한 사람이 좋아요, 북마크했는지 확인할 때 쓸 변수. 토큰 유무에 따라 재할당 할 수 있으므로 let 선언
     let userId;
-    // SQL where에 사용할 배열
-    // let where = "WHERE";
-    // if (categoryInterest)
-    //   where += `Post.categoryInterest='${categoryInterest}' `;
-    // if (categorySpace) where += `AND Post.categorySpace='${categorySpace} '`;
-    // if (categoryStudyMate)
-    //   where += `AND Post.categoryStudyMate='${categoryStudyMate}'`;
-    // // let where = [];
-    // // if (categoryInterest) where.push({ categoryInterest });
-    // // if (categorySpace) where.push({ categorySpace });
-    // // if (categoryStudyMate) where.push({ categoryStudyMate });
-    // // ${where.length > 5 ? where : ""}
-
-    let where = [];
+    // WHERE에 사용할 조건문을 담을 List
+    let condition = [];
     if (categoryInterest)
-      where.push(`Post.categoryInterest='${categoryInterest}'`);
-    if (categorySpace) where.push(`Post.categorySpace='${categorySpace}'`);
+      condition.push(`Post.categoryInterest='${categoryInterest}'`);
+    if (categorySpace) condition.push(`Post.categorySpace='${categorySpace}'`);
     if (categoryStudyMate)
-      where.push(`Post.categoryStudyMate='${categoryStudyMate}'`);
-    console.log(where);
-    let strr = "";
-    if (where.length > 2) {
-      console.log(where.join(" AND "));
-    }
-    console.log(strr);
+      condition.push(`Post.categoryStudyMate='${categoryStudyMate}'`);
+    /*
+     * 조건이 안 들어온다 ->  WHERE 없이 빈 문자열 처리
+     * 조건이 한 개 이상 들어온다 -> WHERE 붙이고, 조건 배열을 " AND "로 join하고 붙인다.
+     */
+    let where =
+      condition.length === 0 ? "" : `WHERE ${condition.join(" AND ")}`;
+
     const sqlQuery = `SELECT Post.postId, Post.imageCover, Post.title, Post.categorySpace, Post.categoryStudyMate, Post.categoryInterest, Post.contentEditor, Post.date, Post.userId, 
     COUNT(DISTINCT Likes.likeId) AS likeCnt, 
     COUNT(DISTINCT Bookmarks.bookmarkId) AS bookCnt
     FROM Posts AS Post 
     LEFT OUTER JOIN Likes AS Likes ON Post.postId = Likes.postId 
     LEFT OUTER JOIN Bookmarks AS Bookmarks ON Post.postId = Bookmarks.postId 
-    
+    ${where}
     GROUP BY Post.postId
     LIMIT ${postPerPage}
     OFFSET ${offset};`;
@@ -153,6 +142,7 @@ const filter = async (req, res, next) => {
         isBookmarked,
       });
     }
+
     req.posts = postsArr;
     req.totalPage = totalPage;
     next();
