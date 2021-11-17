@@ -14,6 +14,9 @@ https://github.com/erionRK621/studyWithMe
 <img src="https://img.shields.io/badge/sequelize-6.8.0-52B0E7?style=for-the-badge&logo=Sequelize&logoColor=white">
 <img src="https://img.shields.io/badge/Swagger-4.1.6-85EA2D?style=for-the-badge&logo=Swagger&logoColor=green">
 <img src="https://img.shields.io/badge/MySQL-2.3.2-4479A1?style=for-the-badge&logo=MySQL&logoColor=white">
+<img src="https://img.shields.io/badge/prometheus-E6522C?style=for-the-badge&logo=MySQL&logoColor=red">
+<img src="https://img.shields.io/badge/grafana-E6522C?style=for-the-badge&logo=MySQL&logoColor=red">
+<img src="https://img.shields.io/badge/docker-3.0.0-2496ED?style=for-the-badge&logo=MySQL&logoColor=blue">
 
 ### 기술서
 
