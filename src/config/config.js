@@ -24,7 +24,7 @@ module.exports = {
   rds: {
     username: process.env.RDS_USER,
     password: process.env.RDS_PASSWORD,
-    database: process.env.RDS_NAME,
+    database: process.env.RDS_DB_NAME,
     host: process.env.RDS_END_POINT,
     dialect: "mysql",
   },
