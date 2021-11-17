@@ -8,7 +8,7 @@ const logger = require("../../config/logger");
 //이미지 저장 폴더 생성
 // try {
 //   fs.readdirSync("public/uploads/avatar");
-// } catch (err) {
+// } catch (error) {
 //   console.log("uploads 폴더가 없어 uploads 폴더를 생성합니다.");
 //   fs.mkdirSync("public/uploads/avatar");
 // }

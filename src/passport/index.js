@@ -29,7 +29,7 @@ module.exports = () => {
       ],
     })
       .then((user) => done(null, user))
-      .catch((err) => done(err));
+      .catch((error) => done(error));
   });
 
   local();

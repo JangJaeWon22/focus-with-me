@@ -40,8 +40,8 @@ const postList = {
         // user가 좋아요를 이미 누른 상태에서 한번 더 눌렀을 경우
         return res.status(400).send({ message });
       }
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
       message = "좋아요 기능에 문제가 있습니다. 관리자에게 문의해주세요.";
       logger.error(`POST /api/posts/${postId}/like 500 res:${error}`);
       return res.status(500).send({ message });
@@ -67,8 +67,8 @@ const postList = {
         logger.info(`DELETE /api/posts/${postId}/like 400 res:${message}`);
         return res.status(400).send({ message });
       }
-    } catch (err) {
-      console.log(err); // catch error 문 이렇게 확인
+    } catch (error) {
+      console.log(error); // catch error 문 이렇게 확인
       message = "좋아요 취소 기능에 문제가 있습니다. 관리자에게 문의해주세요.";
       logger.error(`DELETE /api/posts/${postId}/like 500 res:${error}`);
       return res.status(500).send({ message });

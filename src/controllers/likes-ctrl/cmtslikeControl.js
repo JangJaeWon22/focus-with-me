@@ -47,8 +47,8 @@ const commentsLikeFunc = {
         );
         return res.status(400).send({ message });
       }
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
       message = "댓글 좋아요 기능에 문제가 생겼습니다.";
       logger.error(
         `POST /api/posts/${postId}/comments/${commentId}/like 500 res:${error}`

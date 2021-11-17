@@ -24,7 +24,7 @@ const verifyJoi = {
       });
       res.verifyBody = verifyBody;
       next();
-    } catch (err) {
+    } catch (error) {
       return res.status(400).send({
         message: "아이디와 비밀번호의 형식이 올바르지 않습니다.",
       });
@@ -50,8 +50,8 @@ const verifyJoi = {
           .status(400)
           .send({ message: "닉네임의 형식이 올바르지 않습니다." });
       }
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
       return res.status(400).send({
         message: "닉네임의 형식이 올바르지 않습니다.",
       });
@@ -90,8 +90,8 @@ const verifyJoi = {
           next();
         }
       }
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
       return res.status(400).send({
         message: "입력하신 비밀번호의 형식이 올바르지 않습니다.",
       });

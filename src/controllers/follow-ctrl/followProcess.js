@@ -26,8 +26,8 @@ const followProcess = {
         logger.info(`POST /api/follows 400 res:${message}`);
         res.status(400).send({ message });
       }
-    } catch (err) {
-      console.error(err);
+    } catch (error) {
+      console.error(error);
       message = "알 수 없는 문제가 발생했습니다. 잠시 후 다시 시도해주세요.";
       logger.error(`POST /api/follows 500 res:${error}`);
       res.status(500).send({ message });
@@ -57,8 +57,8 @@ const followProcess = {
         logger.info(`DELETE /api/follows 400 res:${message}`);
         res.status(400).send({ message });
       }
-    } catch (err) {
-      console.error(err);
+    } catch (error) {
+      console.error(error);
       message = "알 수 없는 문제가 발생했습니다. 잠시 후 다시 시도해주세요.";
       logger.error(`DELETE /api/follows 500 res:${message}`);
       res.status(500).send({ message });
