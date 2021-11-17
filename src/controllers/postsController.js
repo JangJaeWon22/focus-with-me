@@ -4,6 +4,7 @@ const {
   copyImagesS3,
   removeObjS3,
 } = require("../library/controlS3");
+const logger = require("../config/logger");
 /* option + shift + a */
 
 module.exports = {
@@ -14,6 +15,7 @@ module.exports = {
     //조회는 미들웨어에서 처리하고, 여기는 던지는 역할만 하기
     const { randPosts, posts, totalPage } = req;
     const followPost = res.followPost;
+
     return res.status(200).send({
       message: "posts 조회 성공",
       posts,
@@ -64,10 +66,14 @@ module.exports = {
     };
     try {
       await Post.create(post);
-      return res.status(201).send({ message: "게시물 작성 성공!" });
+      message = "게시물 작성 성공!";
+      logger.info(`POST /api/posts 201 res:${message}`);
+      return res.status(201).send({ message });
     } catch (error) {
       console.log(error);
-      return res.status(500).send({ message: "DB 저장에 실패했습니다." });
+      message = "DB 저장에 실패했습니다.";
+      logger.info(`POST /api/posts 500 res:${message}`);
+      return res.status(500).send({ message });
     }
   },
   /* 
