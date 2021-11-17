@@ -1,4 +1,3 @@
-<div align=center> 
 ## Focus With Me
 
 ## 프로젝트 개요
@@ -35,4 +34,3 @@ https://github.com/erionRK621/studyWithMe
 #### refactoring-history
 
 - [Daily-refactoring-history](./doc/refactoring-history)
-</div>
