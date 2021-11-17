@@ -6,6 +6,9 @@ const { emptyTempS3 } = require("./library/controlS3");
 dotenv.config();
 const port = process.env.EXPRESS_PORT;
 
+//winston
+const logger = require("./config/logger");
+
 //test용 시작 view page
 app.set("views", __dirname + "/views");
 app.set("view engine", "ejs");
@@ -23,5 +26,5 @@ const job = schedule.scheduleJob("0 0 0 * * *", async () => {
 });
 
 app.listen(port, () => {
-  console.log(`${port} 포트에서 서버가 가동되었습니다.`);
+  logger.info(`${port} 포트에서 서버가 가동되었습니다.`);
 });

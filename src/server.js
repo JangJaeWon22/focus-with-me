@@ -83,6 +83,41 @@ app.use("/api", userInfoRouter);
 app.use("/api", bookmarkRouter);
 app.use("/api", likeCommentRouter);
 
+// metrics
+const client = require("prom-client");
+
+collectDefaultMetrics = client.collectDefaultMetrics;
+client.collectDefaultMetrics({ timeOut: 5000 });
+
+const counter = new client.Counter({
+  name: "node_request_operations_total",
+  help: "The total number of processed request",
+});
+
+const histogram = new client.Histogram({
+  name: "node_request_duration_seconds",
+  help: "Histogram for the durations in seconds",
+  buckets: [1, 2, 5, 6, 10],
+});
+
+app.get("/", (req, res) => {
+  var start = new Date();
+  var simulateTime = 1000;
+
+  setTimeout(() => {
+    var end = new Date() - start;
+    histogram.observe(end / 1000);
+  }, simulateTime);
+  counter.inc();
+
+  res.send("hihi");
+});
+
+app.get("/metrics", async (req, res) => {
+  res.setHeader("Content-Type", client.register.contentType);
+  res.send(await client.register.metrics());
+});
+
 //Error handler
 app.use(function (err, req, res, next) {
   res.locals.message = err.message;

@@ -155,7 +155,7 @@ const comments = {
         // postId 라는 컬럼에서 postId로, commentId 라는 컬럼에서 commentId로 가져온다
         where: { postId, commentId },
       });
-      
+
       // 삭제할 요청의 아이디가 해당 유저의 아이디가 같다면
       if (reqDelete.userId === userId) {
         // 특정 포스트에 해당하는 특정 댓글을 지운다
