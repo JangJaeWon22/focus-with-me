@@ -142,7 +142,7 @@ const comments = {
       // res 부분 처리를 getPgNum에서 insert하기에는 어려움 그래서 cmtsControl에서 처리
       if (cmtsList === null) {
         message = "댓글 리스트를 불러오는데 실패 했습니다.";
-        logger.error(`GET /api/posts/${postId}/comments 400 res:${message}`);
+        logger.info(`GET /api/posts/${postId}/comments 400 res:${message}`);
         return res.status(400).send({ message });
       }
 
