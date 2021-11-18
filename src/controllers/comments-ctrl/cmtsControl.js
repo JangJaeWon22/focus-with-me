@@ -137,15 +137,19 @@ const comments = {
       // });
 
       const { pagination } = req.query;
-      const perPage = 9; // limit
+      const perPage = 4; // limit
       const offset = pagination * perPage;
-      const count = await Comment.count();
+      //const count = await Comment.count();
+      const totCount = respondComments.length;
+      console.log(totCount)
       const pageNum = parseInt(pagination, 10); // parseInt(string, 진수)
-      console.log(pageNum);
-      const totalPg = Math.ceil(count/perPage); 
+      //console.log(pageNum);
+      const totalPg = Math.ceil(totCount/perPage); 
+      //console.log(totalPg)
       let startNum = 0;
       let lastNum = 0;
 
+      //유효성 검사
       if (pageNum >= 1){
         startNum = (pageNum - 1) * perPage,
         lastNum = pageNum * perPage;
