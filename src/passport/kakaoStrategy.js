@@ -27,11 +27,11 @@ module.exports = () => {
         const existNick = await User.findAll({ where: { nickname } });
         if (!userInfo) {
           if (existNick) {
-            newNickname = nickname + existNick.length;
+            nickname = nickname + existNick.length;
           }
           const newUser = await User.create({
             email: email,
-            nickname: newNickname,
+            nickname,
             snsId: profile.id,
             avatarUrl,
             provider,
