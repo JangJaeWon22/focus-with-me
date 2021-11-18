@@ -1,6 +1,6 @@
 const { Post, Bookmark, Like } = require("../../models");
 const { Sequelize } = require("../../models");
-const logger = require("../../config/logger");
+const { logger } = require("../../config/logger");
 
 const userInfoOutPut = {
   // 회원 정보 조회

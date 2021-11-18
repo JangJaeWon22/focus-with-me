@@ -1,5 +1,5 @@
 const { User, Follow } = require("../../models");
-const logger = require("../../config/logger");
+const { logger } = require("../../config/logger");
 
 const followOutPut = {
   getFollowing: async (req, res) => {

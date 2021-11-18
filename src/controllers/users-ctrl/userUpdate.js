@@ -1,9 +1,8 @@
 const { User } = require("../../models");
 const bcrypt = require("bcrypt");
-const path = require("path");
 // const { removeImage } = require("../../library/controlImage");
 const { removeObjS3 } = require("../../library/controlS3");
-const logger = require("../../config/logger");
+const { logger } = require("../../config/logger");
 // const fs = require("fs");
 //이미지 저장 폴더 생성
 // try {
