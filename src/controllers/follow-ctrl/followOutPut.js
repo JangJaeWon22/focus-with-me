@@ -21,9 +21,7 @@ const followOutPut = {
   getFollower: async (req, res) => {
     try {
       message = "팔로워 중인 유저목록을 불러왔습니다";
-      logger.error(
-        `GET /api/followers/${req.params.userId} 200 res:${message}`
-      );
+      logger.info(`GET /api/followers/${req.params.userId} 200 res:${message}`);
       res.status(200).send({ followerIdList, message });
     } catch (error) {
       console.error(error);

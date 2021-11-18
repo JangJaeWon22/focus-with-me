@@ -32,6 +32,10 @@ const userExist = {
           message = "기존 닉네임과 변동사항이 없습니다.";
           logger.info(`POST /api/users/nicknameexist 200 "res:${message}`);
           return res.status(200).send({ message });
+        } else if (existNickname) {
+          message = "이미 사용중인 닉네임 입니다.";
+          logger.info(`POST /api/users/nicknameexist 400 "res:${message}`);
+          return res.status(400).send({ message });
         } else {
           return successMsg();
         }

@@ -5,7 +5,6 @@ const getUserInfo = async (req, res, next) => {
   try {
     // const { userId } = req.body === undefined ? res.locals.user : req.body;
     const { userId } = req.params;
-    console.log(userId);
     const userQuery = `
     SELECT Users.userId,Users.email,Users.nickname,Users.avatarUrl,Users.date,Users.provider, COUNT(Posts.userId) AS postCnt
     FROM Users

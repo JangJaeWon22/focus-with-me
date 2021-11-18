@@ -11,10 +11,12 @@ module.exports = (sequelize, DataTypes) => {
       Like.belongsTo(db.Post, {
         foreignKey: "postId",
         targetKey: "postId",
+        onDelete: "cascade",
       });
       Like.belongsTo(db.User, {
         foreignKey: "userId",
         targetKey: "userId",
+        onDelete: "cascade",
       });
     }
   }

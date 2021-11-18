@@ -1,6 +1,12 @@
 const { createLogger, transports, format } = require("winston");
 const { label, combine, timestamp, printf, simple, colorize } = format;
 
+const timezoned = () => {
+  return new Date().toLocaleString("ko-KR", {
+    timeZone: "Asia/Seoul",
+  });
+};
+
 const printFormat = printf(({ timestamp, label, level, message }) => {
   return `${timestamp} [${label}] ${level} : ${message}`;
 });
@@ -10,9 +16,7 @@ const printLogFormat = {
     label({
       label: "study",
     }),
-    timestamp({
-      format: "YYYY-MM-DD HH:MM:DD",
-    }),
+    timestamp({ format: timezoned }),
     printFormat
   ),
   console: combine(colorize(), simple()),
