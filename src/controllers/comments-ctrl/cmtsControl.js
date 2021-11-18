@@ -2,7 +2,7 @@ const { logInOnly } = require("../../middlewares/passport-auth");
 const db = require("../../models");
 const { Comment, User, CommentLike } = require("../../models");
 const { Sequelize } = require("../../models");
-const { getPgNum } = require("../comments-ctrl/getPgNum");
+//const { getPgNum } = require("../comments-ctrl/getPgNum");
 const logger = require("../../config/logger");
 
 const comments = {
@@ -137,12 +137,12 @@ const comments = {
       // });
 
       const { pagination } = req.query;
-      const perPage = 3; // limit
+      const perPage = 9; // limit
       const offset = pagination * perPage;
       const count = await Comment.count();
       const pageNum = parseInt(pagination, 10); // parseInt(string, 진수)
       console.log(pageNum);
-      const totalPg = Math.ceil(count/perPage);
+      const totalPg = Math.ceil(count/perPage); 
       let startNum = 0;
       let lastNum = 0;
 
