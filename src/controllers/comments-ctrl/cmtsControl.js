@@ -138,7 +138,7 @@ const comments = {
 
       const { pagination } = req.query;
       const perPage = 4; // limit
-      const offset = pagination * perPage;
+      const offset = pagination * perPage; // offset
       //const count = await Comment.count();
       const totCount = respondComments.length;
       console.log(totCount)
