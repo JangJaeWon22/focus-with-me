@@ -16,8 +16,8 @@ exports.getPgNum = async function (pagination, respondComments) {
     } else { // < 1
        return null;
     }
-    //console.log(respondComments.length);
-    //console.log(respondComments);
+   
+    
     if(respondComments.length < totalPage) {
         lastNum = respondComments.length;
     }
