@@ -47,7 +47,7 @@ sequelize
 app.use(cors({ origin: true, credentials: true }));
 app.use(
   logger(
-    "HTTP/:http-version :method :remote-addr :url :remote-user :status :res[content-length] :referrer :user-agent :response-time ms",
+    `HTTP/:http-version :method :remote-addr [:url] :remote-user (:status) [:res[content-length]] [:referrer // :user-agent] [:response-time ms] `,
     { stream }
   )
 );

@@ -30,6 +30,7 @@ const userOutPut = {
             res.send(loginError);
             return;
           }
+
           //회원정보 암호화
           const token = Jwt.sign(
             { userId: user.userId },
@@ -43,6 +44,8 @@ const userOutPut = {
       })(req, res, next);
     } catch (error) {
       console.error(error);
+      message = "알 수 없는 문제가 발생했습니다. 잠시 후 다시 시도해주세요.";
+      logger.error(`GET /api/kakao/callback 500 "res: ${error}`);
       next(error);
     }
   },
