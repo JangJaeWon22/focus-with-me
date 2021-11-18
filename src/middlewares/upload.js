@@ -62,8 +62,6 @@ module.exports = {
           null,
           `uploads/cover/${Date.now()}_${file.originalname
             .replace(/ /g, "")
-            .trim()
-            .replace(/ /g, "")
             .trim()}`
         );
       },
