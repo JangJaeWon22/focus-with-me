@@ -1,4 +1,5 @@
 const { User, Post, sequelize } = require("../../models");
+const { logger } = require("../../config/logger");
 
 //유저 정보 가공(작성한 게시글 갯수 카운트)
 const getUserInfo = async (req, res, next) => {

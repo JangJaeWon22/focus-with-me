@@ -6,7 +6,6 @@ const { sequelize } = require("./models");
 require("dotenv").config();
 const passport = require("passport");
 const passportConfig = require("./passport");
-const session = require("express-session");
 const userRouter = require("./routes/users");
 const postsRouter = require("./routes/posts");
 const likeRouter = require("./routes/postsLike");
@@ -15,6 +14,7 @@ const followRouter = require("./routes/follow");
 const userInfoRouter = require("./routes/userInfo");
 const bookmarkRouter = require("./routes/bookmark");
 const likeCommentRouter = require("./routes/commentsLike");
+const { stream } = require("./config/logger");
 
 //swagger
 const swaggerUi = require("swagger-ui-express");
@@ -45,7 +45,12 @@ sequelize
   });
 
 app.use(cors({ origin: true, credentials: true }));
-app.use(logger("dev"));
+app.use(
+  logger(
+    "HTTP/:http-version :method :remote-addr :url :remote-user :status :res[content-length] :referrer :user-agent :response-time ms",
+    { stream }
+  )
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use("/public", express.static("public"));

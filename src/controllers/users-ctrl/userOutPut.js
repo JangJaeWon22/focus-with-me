@@ -3,7 +3,7 @@ const Jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 dotenv.config();
 const passport = require("passport");
-const logger = require("../../config/logger");
+const { logger } = require("../../config/logger");
 
 const userOutPut = {
   authUser: async (req, res, next) => {

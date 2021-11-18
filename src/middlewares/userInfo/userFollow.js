@@ -1,5 +1,5 @@
 const { User } = require("../../models");
-const logger = require("../../config/logger");
+const { logger } = require("../../config/logger");
 
 function follow(user) {
   user.followerCount = user ? user.Followers.length : 0;

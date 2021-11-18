@@ -1,5 +1,5 @@
 const { CommentLike } = require("../../models");
-const logger = require("../../config/logger");
+const { logger } = require("../../config/logger");
 
 const commentsLikeFunc = {
   // 댓글 좋아요 생성

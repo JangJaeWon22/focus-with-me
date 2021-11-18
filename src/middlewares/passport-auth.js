@@ -1,5 +1,5 @@
 const passport = require("passport");
-const logger = require("../config/logger");
+const { logger } = require("../config/logger");
 
 //토큰이 없이 들어오면 빠꾸 --- 사유 : 회원 탈퇴-아에 접근하면 안됨, 게시글 작성-아에 접근하면 안됨, 좋아요 등등
 exports.logInOnly = (req, res, next) => {
