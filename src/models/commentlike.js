@@ -11,14 +11,17 @@ module.exports = (sequelize, DataTypes) => {
       CommentLike.belongsTo(db.User, {
         foreignKey: "userId",
         targetKey: "userId",
+        onDelete: "cascade",
       });
       CommentLike.belongsTo(db.Post, {
         foreignKey: "postId",
         targetKey: "postId",
+        onDelete: "cascade",
       });
       CommentLike.belongsTo(db.Comment, {
         foreignKey: "commentId",
         targetKey: "commentId",
+        onDelete: "cascade",
       });
     }
   }

@@ -4,7 +4,7 @@ const {
   copyImagesS3,
   removeObjS3,
 } = require("../library/controlS3");
-const logger = require("../config/logger");
+const { logger } = require("../config/logger");
 /* option + shift + a */
 
 module.exports = {

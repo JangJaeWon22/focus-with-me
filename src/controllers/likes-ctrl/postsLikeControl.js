@@ -1,5 +1,5 @@
 const { Like } = require("../../models");
-const logger = require("../../config/logger");
+const { logger } = require("../../config/logger");
 
 const postList = {
   // 게시물 좋아요 추가 기능

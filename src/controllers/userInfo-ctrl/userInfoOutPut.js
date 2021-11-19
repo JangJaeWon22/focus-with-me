@@ -1,6 +1,6 @@
 const { Post, Bookmark, Like } = require("../../models");
 const { Sequelize } = require("../../models");
-const logger = require("../../config/logger");
+const { logger } = require("../../config/logger");
 
 const userInfoOutPut = {
   // 회원 정보 조회
@@ -199,12 +199,12 @@ const userInfoOutPut = {
         });
       }
       message = "북마크한 리스트를 조회 했습니다.";
-      logger.info(`GET /mmypage/mybookmarks/${userId} 200 res:${message}`);
-      res.status(200).send({ bookmarkedPost, message });
+      logger.info(`GET /mypage/mybookmarks/${userId} 200 res:${message}`);
+      res.status(200).send({ bookmarkedPosts, message });
     } catch (error) {
       console.error(error);
       message = "알 수 없는 문제로 인해 정보를 가져오는데 실패했습니다.";
-      logger.error(`GET /mmypage/mybookmarks/${userId} 500 res:${error}`);
+      logger.error(`GET /mypage/mybookmarks/${userId} 500 res:${error}`);
       res.status(500).send({ message });
     }
   },

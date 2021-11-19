@@ -19,15 +19,19 @@ module.exports = () => {
         const email = profile["_json"].kakao_account.email;
         const nickname = profile.displayName;
         const provider = "kakao";
-        const avatarUrl = "public/images/noAvatar";
+        const avatarUrl = "uploads/assets/noAvatar.png";
         const date = new Date();
         const userInfo = await User.findOne({
           where: { snsId: profile.id, provider: "kakao" },
         });
+        const existNick = await User.findAll({ where: { nickname } });
         if (!userInfo) {
+          if (existNick) {
+            nickname = nickname + existNick.length;
+          }
           const newUser = await User.create({
             email: email,
-            nickname: nickname,
+            nickname,
             snsId: profile.id,
             avatarUrl,
             provider,

@@ -1,5 +1,12 @@
 const { createLogger, transports, format } = require("winston");
+const winstonDaily = require("winston-daily-rotate-file");
 const { label, combine, timestamp, printf, simple, colorize } = format;
+
+const timezoned = () => {
+  return new Date().toLocaleString("ko-KR", {
+    timeZone: "Asia/Seoul",
+  });
+};
 
 const printFormat = printf(({ timestamp, label, level, message }) => {
   return `${timestamp} [${label}] ${level} : ${message}`;
@@ -10,17 +17,15 @@ const printLogFormat = {
     label({
       label: "study",
     }),
-    timestamp({
-      format: "YYYY-MM-DD HH:MM:DD",
-    }),
+    timestamp({ format: timezoned }),
     printFormat
   ),
   console: combine(colorize(), simple()),
 };
 
 const opts = {
-  file: new transports.File({
-    filename: "access.log",
+  file: new winstonDaily({
+    filename: `%DATE%.log`,
     dirname: "./logs",
     level: "info",
     format: printLogFormat.file,
@@ -39,4 +44,10 @@ if (process.env.NODE_ENV !== "production") {
   logger.add(opts.console);
 }
 
-module.exports = logger;
+const stream = {
+  write: (message) => {
+    logger.info(message);
+  },
+};
+
+module.exports = { logger, stream };
