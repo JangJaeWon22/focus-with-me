@@ -1,5 +1,5 @@
 const { User } = require("../../models");
-const logger = require("../../config/logger");
+const { logger } = require("../../config/logger");
 
 const followProcess = {
   createFollow: async (req, res) => {

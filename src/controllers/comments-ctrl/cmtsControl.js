@@ -2,8 +2,8 @@ const { logInOnly } = require("../../middlewares/passport-auth");
 const db = require("../../models");
 const { Comment, User, CommentLike } = require("../../models");
 const { Sequelize } = require("../../models");
-//const { getPgNum } = require("../comments-ctrl/getPgNum");
-const logger = require("../../config/logger");
+const { logger } = require("../../config/logger");
+
 
 const comments = {
   // 댓글 생성을 비동기식 방식으로 처리한다

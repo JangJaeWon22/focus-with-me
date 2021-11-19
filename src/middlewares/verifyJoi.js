@@ -1,5 +1,5 @@
 const Joi = require("joi");
-const logger = require("../config/logger");
+const { logger } = require("../config/logger");
 
 const verifyJoi = {
   //회원가입 시 joi 검증 실행

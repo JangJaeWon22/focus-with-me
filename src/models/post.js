@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       Post.belongsTo(db.User, {
         foreignKey: "userId",
         targetKey: "userId",
+        onDelete: "cascade",
       });
       Post.hasMany(db.Like, {
         foreignKey: "postId",

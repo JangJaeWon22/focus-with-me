@@ -1,7 +1,7 @@
 const { User } = require("../../models");
 const { Op } = require("sequelize");
 const bcrypt = require("bcrypt");
-const logger = require("../../config/logger");
+const { logger } = require("../../config/logger");
 
 //userProcess => user 관련 db 생성, 삭제 메소드 포함
 const userProcess = {

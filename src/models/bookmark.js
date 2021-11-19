@@ -11,10 +11,12 @@ module.exports = (sequelize, DataTypes) => {
       Bookmark.belongsTo(db.Post, {
         foreignKey: "postId",
         targetKey: "postId",
+        onDelete: "cascade",
       });
       Bookmark.belongsTo(db.User, {
         foreignKey: "userId",
         targetKey: "userId",
+        onDelete: "cascade",
       });
     }
   }

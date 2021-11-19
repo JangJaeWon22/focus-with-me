@@ -7,7 +7,7 @@ dotenv.config();
 const port = process.env.EXPRESS_PORT;
 
 //winston
-const logger = require("./config/logger");
+const { logger } = require("./config/logger");
 
 //test용 시작 view page
 app.set("views", __dirname + "/views");

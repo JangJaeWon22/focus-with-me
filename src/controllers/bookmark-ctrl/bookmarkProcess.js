@@ -1,5 +1,5 @@
 const { Bookmark } = require("../../models");
-const logger = require("../../config/logger");
+const { logger } = require("../../config/logger");
 
 const bookmarkProcess = {
   createbookmark: async (req, res) => {

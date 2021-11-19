@@ -27,7 +27,12 @@ module.exports = {
       acl: "public-read",
       key: (req, file, cb) => {
         console.log(file);
-        cb(null, `uploads/avatar/${Date.now()}_${file.originalname}`);
+        cb(
+          null,
+          `uploads/avatar/${Date.now()}_${file.originalname
+            .replace(/ /g, "")
+            .trim()}`
+        );
         // cb(null, `}`)
       },
     }),
@@ -38,7 +43,12 @@ module.exports = {
       bucket: "kkirri-images",
       acl: " public-read",
       key: (req, file, cb) => {
-        cb(null, `uploads/content/${Date.now()}_${file.originalname}`);
+        cb(
+          null,
+          `uploads/content/${Date.now()}_${file.originalname
+            .replace(/ /g, "")
+            .trim()}`
+        );
       },
     }),
   }),
@@ -48,7 +58,12 @@ module.exports = {
       bucket: "kkirri-images",
       acl: " public-read",
       key: (req, file, cb) => {
-        cb(null, `uploads/cover/${Date.now()}_${file.originalname}`);
+        cb(
+          null,
+          `uploads/cover/${Date.now()}_${file.originalname
+            .replace(/ /g, "")
+            .trim()}`
+        );
       },
     }),
   }),
@@ -58,7 +73,12 @@ module.exports = {
       bucket: "kkirri-images",
       acl: " public-read",
       key: (req, file, cb) => {
-        cb(null, `uploads/temp/${Date.now()}_${file.originalname}`);
+        cb(
+          null,
+          `uploads/temp/${Date.now()}_${file.originalname
+            .replace(/ /g, "")
+            .trim()}`
+        );
       },
     }),
   }),
