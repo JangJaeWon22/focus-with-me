@@ -1,5 +1,5 @@
 cd src
 sleep 7
 npm install
-sleep 20000
+sleep 10
 npm run dev
