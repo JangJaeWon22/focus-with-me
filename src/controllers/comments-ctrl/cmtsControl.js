@@ -2,7 +2,6 @@ const { logInOnly } = require("../../middlewares/passport-auth");
 const db = require("../../models");
 const { Comment, User, CommentLike } = require("../../models");
 const { Sequelize } = require("../../models");
-//const { getPgNum } = require("../comments-ctrl/getPgNum");
 const logger = require("../../config/logger");
 
 const comments = {
@@ -143,7 +142,7 @@ const comments = {
       const totCount = respondComments.length;
       console.log(totCount)
       const pageNum = parseInt(pagination, 10); // parseInt(string, 진수)
-      //console.log(pageNum);
+      console.log(pageNum);
       const totalPg = Math.ceil(totCount/perPage); 
       //console.log(totalPg)
       let startNum = 0;
@@ -154,7 +153,9 @@ const comments = {
         startNum = (pageNum - 1) * perPage,
         lastNum = pageNum * perPage;
       } else {
-        return null;
+        message = "작성한 댓글이 없습니다";
+        logger.info(`GET /api/posts/${postId}/comments 400 res:${message}`);
+        return res.status(404).send({ message });
       }
 
       if(respondComments.length < offset){
