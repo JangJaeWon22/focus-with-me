@@ -25,4 +25,5 @@ jobs:
           port: ${{ secrets.STUDY_SSH_PORT }}
       - run: ls
       - run: ls -al
-      - run: node.sh
+      - run: chmod 777 node.sh
+      - run: ./node.sh
