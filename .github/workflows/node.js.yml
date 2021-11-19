@@ -26,6 +26,6 @@ jobs:
       - run: ls
       - run: pwd
       - run: ls -al
-      - run: pwd/cd npm install
+      - run: cd ~/src
       - run: chmod 777 node.sh
       - run: ./node.sh
