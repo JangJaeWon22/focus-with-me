@@ -1,13 +1,22 @@
-name: Deploy
-on: [push]
-jobs:
-  build-ssh:
-    name: Build SSHKEY
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
+name: Node.js CI
 
-      - name: Executing remote command
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x]
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
         uses: JangJaeWon22/focus-with-me@main
         with:
           host: ${{ secrets.STUDY_IP }}
