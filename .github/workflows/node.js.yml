@@ -8,12 +8,12 @@ jobs:
       - uses: actions/checkout@v1
 
       - name: Executing remote command
-        uses: appleboy/ssh-action@master
+        uses: JangJaeWon22/focus-with-me@main
         with:
-          host: ${{ secrets.PREPROD_HOST }}
-          USERNAME: ${{ secrets.PREPROD_USER }}
-          PORT: ${{ secrets.PREPROD_PORT }}
-          KEY: ${{ secrets.PREPROD_SSHKEY }}
+          host: ${{ secrets.STUDY_IP }}
+          username: ${{ secrets.STUDY_SSH_ID}}
+          key: ${{ secrets.STUDY_SSH_KEY }}
+          port: ${{ secrets.STUDY_SSH_PORT }}
           script: |
             whoami
             ls -la
