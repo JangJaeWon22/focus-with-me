@@ -19,7 +19,7 @@ module.exports = () => {
         const email = profile["_json"].kakao_account.email;
         let nickname = profile.displayName;
         const provider = "kakao";
-        const avatarUrl = "uploads/assets/noAvatar.png";
+        const avatarUrl = "uploads/assets/noAvatar.svg";
         const date = new Date();
         const userInfo = await User.findOne({
           where: { snsId: profile.id, provider: "kakao" },

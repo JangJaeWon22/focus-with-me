@@ -26,7 +26,7 @@ const userUpdate = {
       // noAvatar 상태면, 파일 지우면 안됨
       // 파일이 없으면 유지
       if (file) {
-        if (user.avatarUrl !== "uploads/assets/noAvatar.png") {
+        if (user.avatarUrl !== "uploads/assets/noAvatar.svg") {
           // await removeImage(user.avatarUrl);
           await removeObjS3(user.avatarUrl);
         }
