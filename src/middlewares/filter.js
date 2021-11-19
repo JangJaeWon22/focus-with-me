@@ -68,20 +68,26 @@ const filter = async (req, res, next) => {
       좋아요 개수, 북마크 개수.
       각 카드별 좋아요?
       배열 선언 후 forEach push , Like 조회 Bookmark 조회
+      정렬 기능도 추가
       */
-    const { categorySpace, categoryInterest, categoryStudyMate, keyword } =
-      req.query;
+    const {
+      categorySpace,
+      categoryInterest,
+      categoryStudyMate,
+      keyword,
+      sort,
+    } = req.query;
     let { page } = req.query;
     // 페이지네이션에 필요한 것 : page query string, total number of posts, total page
     if (!page) page = 1;
     const postPerPage = 9;
-    const totalCnt = await Post.count();
-    const totalPage = Math.ceil(totalCnt / postPerPage);
     const offset = (page - 1) * postPerPage;
     // 로그인한 사람이 좋아요, 북마크했는지 확인할 때 쓸 변수. 토큰 유무에 따라 재할당 할 수 있으므로 let 선언
     let userId;
     // WHERE에 사용할 조건문을 담을 List
     let condition = [];
+    let sortBy = "";
+    if (sort) sortBy = `ORDER BY Post.date ${sort}`;
     if (keyword)
       condition.push(`Post.title LIKE '%${encodeURIComponent(keyword)}%'`);
     if (categoryInterest)
@@ -96,7 +102,21 @@ const filter = async (req, res, next) => {
     let where =
       condition.length === 0 ? "" : `WHERE ${condition.join(" AND ")}`;
 
-    const sqlQuery = `SELECT Post.postId, Post.imageCover, Post.title, Post.categorySpace, Post.categoryStudyMate, Post.categoryInterest, Post.contentEditor, Post.date, Post.userId, 
+    const beforePagination = `SELECT COUNT(*) as cnt
+      FROM Posts AS Post 
+      ${where}`;
+
+    // sequelize count 처리 방법 or sql count 만 하는거 찾아봐서 고쳐보고 monitoring 확인
+
+    const cntForPaging = await sequelize.query(beforePagination, {
+      type: Sequelize.QueryTypes.SELECT,
+    });
+    //조회한 결과의 개수 -> 현재 9개로 limit을 걸어놨으니까 당연히 1밖에 안 나오지
+    const totalCnt = cntForPaging[0].cnt;
+    // 페이지네이션 몇페이지까지 할지?
+    const totalPage = Math.ceil(totalCnt / postPerPage);
+
+    const sqlQuery = `SELECT Post.*,
     COUNT(DISTINCT Likes.likeId) AS likeCnt, 
     COUNT(DISTINCT Bookmarks.bookmarkId) AS bookCnt
     FROM Posts AS Post 
@@ -104,6 +124,7 @@ const filter = async (req, res, next) => {
     LEFT OUTER JOIN Bookmarks AS Bookmarks ON Post.postId = Bookmarks.postId 
     ${where}
     GROUP BY Post.postId
+    ${sortBy}
     LIMIT ${postPerPage}
     OFFSET ${offset};`;
 
@@ -132,7 +153,8 @@ const filter = async (req, res, next) => {
       }
       postsArr.push({
         postId: post.postId,
-        imageCover: post.imageCover,
+        coverOriginal: post.coverOriginal,
+        coverCropped: post.coverCropped,
         title: post.title,
         categorySpace: post.categorySpace,
         categoryStudyMate: post.categoryStudyMate,

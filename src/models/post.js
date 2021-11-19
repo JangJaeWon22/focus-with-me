@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       Post.belongsTo(db.User, {
         foreignKey: "userId",
         targetKey: "userId",
+        onDelete: "cascade",
       });
       Post.hasMany(db.Like, {
         foreignKey: "postId",
@@ -39,9 +40,11 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         unique: true,
       },
-      imageCover: {
-        type: DataTypes.STRING,
-      },
+      // imageCover: {
+      //   type: DataTypes.STRING,
+      // },
+      coverOriginal: { type: DataTypes.STRING },
+      coverCropped: { type: DataTypes.STRING },
       title: {
         allowNull: false,
         type: DataTypes.STRING,

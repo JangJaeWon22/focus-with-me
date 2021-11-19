@@ -4,7 +4,7 @@ const {
   copyImagesS3,
   removeObjS3,
 } = require("../library/controlS3");
-const logger = require("../config/logger");
+const { logger } = require("../config/logger");
 /* option + shift + a */
 
 module.exports = {
@@ -29,11 +29,17 @@ module.exports = {
     게시물 생성
   */
   postPosts: async (req, res) => {
-    // 사용자 인증 미들웨어 사용할 경우
-    const { userId } = res.locals.user;
-    const path = req.file
-      ? `uploads${req.file.location.split("uploads")[1]}`
+    const files = JSON.parse(JSON.stringify(req.files));
+    const originPath = req.files
+      ? `uploads${files["coverOriginal"][0].location.split("uploads")[1]}`
       : "";
+    const croppedPath = req.files
+      ? `uploads${files["coverCropped"][0].location.split("uploads")[1]}`
+      : "";
+    const { userId } = res.locals.user;
+    // const path = req.file
+    //   ? `uploads${req.file.location.split("uploads")[1]}`
+    //   : "";
 
     //multipart 에서 json 형식으로 변환
     const body = JSON.parse(JSON.stringify(req.body));
@@ -57,7 +63,9 @@ module.exports = {
     const date = new Date();
     const post = {
       userId,
-      imageCover: path,
+      coverCropped: croppedPath,
+      coverOriginal: originPath,
+      // imageCover: path,
       title: encodedTitle,
       categoryInterest,
       categorySpace,
@@ -83,10 +91,19 @@ module.exports = {
   putPosts: async (req, res) => {
     const { userId } = res.locals.user;
     const { postId } = req.params;
+    const files = JSON.parse(JSON.stringify(req.files));
+
     // imageCover 파일이 없을 경우를 대비한 예외처리
-    const path = req.file
-      ? `uploads${req.file.location.split("uploads")[1]}`
-      : null;
+    // const path = req.file
+    //   ? `uploads${req.file.location.split("uploads")[1]}`
+    //   : null;
+    const originPath = req.files
+      ? `uploads${files["coverOriginal"][0].location.split("uploads")[1]}`
+      : "";
+    const croppedPath = req.files
+      ? `uploads${files["coverCropped"][0].location.split("uploads")[1]}`
+      : "";
+
     const body = JSON.parse(JSON.stringify(req.body));
     const {
       title,
@@ -105,7 +122,9 @@ module.exports = {
       //조회 결과 게시물 주인이 현재 로그인한 사람 소유가 아니면 꺼져
       if (!post || userId !== post.userId) {
         // 이미 업로드된 이미지 삭제
-        await removeObjS3(path);
+        // await removeObjS3(path);
+        await removeObjS3(originPath);
+        await removeObjS3(croppedPath);
         // 조건에 따라 status 분기
         if (!post) {
           message = "해당 게시물이 존재하지 않습니다.";
@@ -121,14 +140,18 @@ module.exports = {
       // post 의 이미지 url 따라가서 삭제
       const decodedHtml = decodeURIComponent(post.contentEditor);
       const prevImageList = extractImageSrcS3(decodedHtml);
-      const prevImageCover = decodeURIComponent(post.imageCover);
+      // const prevImageCover = decodeURIComponent(post.imageCover);
+      const prevCoverOriginal = decodeURIComponent(post.coverOriginal);
+      const prevCvoerCropped = decodeURIComponent(post.coverCropped);
 
       // 새로 올라온 html에서 이미지 src 추출 후 파일 이동
       const imageList = extractImageSrcS3(contentEditor);
       await copyImagesS3(imageList);
       // 수정 본문 이미지 처리가 안되어있음.
       //새로 올라온 데이터가 있을 때만 데이터 바꾸기
-      if (path) post.imageCover = path;
+      // if (path) post.imageCover = path;
+      if (originPath) post.coverOriginal = originPath;
+      if (croppedPath) post.coverCropped = croppedPath;
       if (title) post.title = encodeURIComponent(title);
       if (categorySpace) post.categorySpace = categorySpace;
       if (categoryInterest) post.categoryInterest = categoryInterest;
@@ -145,7 +168,9 @@ module.exports = {
         });
       }
       // 커버 이미지 삭제
-      await removeObjS3(prevImageCover);
+      // await removeObjS3(prevImageCover);
+      await removeObjS3(prevCoverOriginal);
+      await removeObjS3(prevCvoerCropped);
       return;
     } catch (error) {
       console.log(error);
@@ -155,7 +180,9 @@ module.exports = {
       // 기존 데이터를 어딘가에 백업해야할 듯.
       await post.update(backup);
       await post.save();
-      await removeObjS3(path);
+      // await removeObjS3(path);
+      await removeObjS3(originPath);
+      await removeObjS3(croppedPath);
       message = "DB 업데이트 실패";
       logger.error(`PUT /api/posts/${postId} 204 res:${message}`);
       return res.status(500).send({ message });
@@ -180,7 +207,8 @@ module.exports = {
       for (const src of imgList) {
         await removeObjS3(src);
       }
-      await removeObjS3(post.imageCover);
+      await removeObjS3(post.coverOriginal);
+      await removeObjS3(post.coverCropped);
       await post.destroy();
       message = "포스팅 삭제 성공";
       logger.info(`DELETE /api/posts/${postId} 200 res:${message}`);

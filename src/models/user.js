@@ -32,11 +32,13 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "followingId",
         as: "Followers",
         through: "Follow",
+        onDelete: "cascade",
       });
       db.User.belongsToMany(db.User, {
         foreignKey: "followerId",
         as: "Followings",
         through: "Follow",
+        onDelete: "cascade",
       });
     }
   }
@@ -57,7 +59,6 @@ module.exports = (sequelize, DataTypes) => {
       nickname: {
         type: DataTypes.STRING(20),
         allowNull: false,
-        unique: true,
       },
       password: {
         allowNull: true,
