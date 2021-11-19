@@ -161,6 +161,7 @@ const comments = {
         lastNum = respondComments.length;
       }
 
+      // 배열 
       const cmtsList = [];
       for(let i = startNum; i < lastNum; i++){
         cmtsList.push(respondComments[i]);
