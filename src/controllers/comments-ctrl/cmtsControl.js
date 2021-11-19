@@ -2,7 +2,6 @@ const { logInOnly } = require("../../middlewares/passport-auth");
 const db = require("../../models");
 const { Comment, User, CommentLike } = require("../../models");
 const { Sequelize } = require("../../models");
-const { getPgNum } = require("../comments-ctrl/getPgNum");
 const { logger } = require("../../config/logger");
 
 const comments = {
