@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: JangJaeWon22/focus-with-me@main
+        uses: actions/checkout@main
         with:
           host: ${{ secrets.STUDY_IP }}
           username: ${{ secrets.STUDY_SSH_ID}}
