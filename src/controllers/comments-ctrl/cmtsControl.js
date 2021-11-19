@@ -4,7 +4,6 @@ const { Comment, User, CommentLike } = require("../../models");
 const { Sequelize } = require("../../models");
 const { logger } = require("../../config/logger");
 
-
 const comments = {
   // 댓글 생성을 비동기식 방식으로 처리한다
   commentCreate: async (req, res) => {
@@ -141,33 +140,32 @@ const comments = {
       const offset = pagination * perPage; // offset
       //const count = await Comment.count();
       const totCount = respondComments.length;
-      console.log(totCount)
+      console.log(totCount);
       const pageNum = parseInt(pagination, 10); // parseInt(string, 진수)
       //console.log(pageNum);
-      const totalPg = Math.ceil(totCount/perPage); 
+      const totalPg = Math.ceil(totCount / perPage);
       //console.log(totalPg)
       let startNum = 0;
       let lastNum = 0;
 
       //유효성 검사
-      if (pageNum >= 1){
-        startNum = (pageNum - 1) * perPage,
-        lastNum = pageNum * perPage;
+      if (pageNum >= 1) {
+        (startNum = (pageNum - 1) * perPage), (lastNum = pageNum * perPage);
       } else {
-        return null;
+        message = "작성된 댓글이 없습니다.";
+        logger.info(`GET /api/posts/${postId}/comments 404 res:${message}`);
+        return res.status(404).send({ message });
       }
 
-      if(respondComments.length < offset){
+      if (respondComments.length < offset) {
         lastNum = respondComments.length;
       }
 
-      // 배열 
+      // 배열
       const cmtsList = [];
-      for(let i = startNum; i < lastNum; i++){
+      for (let i = startNum; i < lastNum; i++) {
         cmtsList.push(respondComments[i]);
       }
-
-      
 
       // res 부분 처리를 getPgNum에서 insert하기에는 어려움 그래서 cmtsControl에서 처리
       if (cmtsList === null) {
