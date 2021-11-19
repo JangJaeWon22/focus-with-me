@@ -116,7 +116,7 @@ const filter = async (req, res, next) => {
     // 페이지네이션 몇페이지까지 할지?
     const totalPage = Math.ceil(totalCnt / postPerPage);
 
-    const sqlQuery = `SELECT Post.postId, Post.imageCover, Post.title, Post.categorySpace, Post.categoryStudyMate, Post.categoryInterest, Post.contentEditor, Post.date, Post.userId, 
+    const sqlQuery = `SELECT Post.*,
     COUNT(DISTINCT Likes.likeId) AS likeCnt, 
     COUNT(DISTINCT Bookmarks.bookmarkId) AS bookCnt
     FROM Posts AS Post 
@@ -153,7 +153,8 @@ const filter = async (req, res, next) => {
       }
       postsArr.push({
         postId: post.postId,
-        imageCover: post.imageCover,
+        coverOriginal: post.coverOriginal,
+        coverCropped: post.coverCropped,
         title: post.title,
         categorySpace: post.categorySpace,
         categoryStudyMate: post.categoryStudyMate,
