@@ -25,3 +25,5 @@ jobs:
           port: ${{ secrets.STUDY_SSH_PORT }}
       - run: ls
       - run: ls -al
+      - run: npm install
+      - run: npm start
