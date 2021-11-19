@@ -23,6 +23,5 @@ jobs:
           username: ${{ secrets.STUDY_SSH_ID}}
           key: ${{ secrets.STUDY_SSH_KEY }}
           port: ${{ secrets.STUDY_SSH_PORT }}
-          script: |
-            whoami
-            ls -la
+      - run: ls
+      - run: ls -al
