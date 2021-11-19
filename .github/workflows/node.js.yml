@@ -36,7 +36,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: executing remote ssh commands using password
-        uses: appleboy/ssh-action@main
+        uses: JangJaeWon22/focus-with-me@main
         with:
           host: ${{ secrets.STUDY_IP }}
           username: ${{ secrets.STUDY_SSH_ID}}
