@@ -24,6 +24,10 @@ jobs:
           key: ${{ secrets.STUDY_SSH_KEY }}
           port: ${{ secrets.STUDY_SSH_PORT }}
           script: cd src
+      - run: |
+          touch .env
+          echo API_KEY=${{ secrets.API_KEY }} >> .env
+          cat .env
       - run: ls
       - run: pwd
       - run: ls -al
