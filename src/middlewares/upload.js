@@ -57,13 +57,28 @@ module.exports = {
       s3,
       bucket: "kkirri-images",
       acl: " public-read",
-      key: (req, file, cb) => {
-        cb(
-          null,
-          `uploads/cover/${Date.now()}_${file.originalname
-            .replace(/ /g, "")
-            .trim()}`
-        );
+      key: (req, files, cb) => {
+        //여기서 분기처리 하면 되겠네
+        if (files.fieldname === "coverOriginal")
+          cb(
+            null,
+            `uploads/cover/${Date.now()}_${files.originalname
+              .replace(/ /g, "")
+              .trim()}`
+          );
+        else
+          cb(
+            null,
+            `uploads/cropped/${Date.now()}_${files.originalname
+              .replace(/ /g, "")
+              .trim()}`
+          );
+        // cb(
+        //   null,
+        //   `uploads/cover/${Date.now()}_${file.originalname
+        //     .replace(/ /g, "")
+        //     .trim()}`
+        // );
       },
     }),
   }),

@@ -17,7 +17,7 @@ module.exports = () => {
         console.log("refreshToken:", refreshToken);
         console.log("profile", profile);
         const email = profile["_json"].kakao_account.email;
-        const nickname = profile.displayName;
+        let nickname = profile.displayName;
         const provider = "kakao";
         const avatarUrl = "uploads/assets/noAvatar.png";
         const date = new Date();
