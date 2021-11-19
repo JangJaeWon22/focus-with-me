@@ -27,6 +27,7 @@
 #             whoami
 #             ls -la
 #             git pull origin main
+
 name: remote ssh command
 on: [push]
 jobs:
