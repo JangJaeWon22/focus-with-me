@@ -143,9 +143,9 @@ const userInfoOutPut = {
           if (postList.postId === mybook.postId) {
             myBookLists.push({
               postId: postList.postId,
-              coverOriginal: myBookList.coverOriginal,
-              coverCropped: myBookList.coverCropped,
-              // imageCover: myBookList.imageCover,
+              coverOriginal: postList.coverOriginal,
+              coverCropped: postList.coverCropped,
+              // imageCover: postList.imageCover,
               title: postList.title,
               categorySpace: postList.categorySpace,
               categoryStudyMate: postList.categoryStudyMate,
