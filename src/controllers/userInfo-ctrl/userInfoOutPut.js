@@ -141,7 +141,9 @@ const userInfoOutPut = {
           if (postList.postId === mybook.postId) {
             myBookLists.push({
               postId: postList.postId,
-              imageCover: postList.imageCover,
+              coverOriginal: postList.coverOriginal,
+              coverCropped: postList.coverCropped,
+              // imageCover: postList.imageCover,
               title: postList.title,
               categorySpace: postList.categorySpace,
               categoryStudyMate: postList.categoryStudyMate,
@@ -184,7 +186,9 @@ const userInfoOutPut = {
         // 배열에 삽입
         bookmarkedPosts.push({
           postId: myBookList.postId,
-          imageCover: myBookList.imageCover,
+          coverCropped: myBookList.coverCropped,
+          coverOriginal: myBookList.coverOriginal,
+          // imageCover: myBookList.imageCover,
           title: myBookList.title,
           categorySpace: myBookList.categorySpace,
           categoryStudyMate: myBookList.categoryStudyMate,
