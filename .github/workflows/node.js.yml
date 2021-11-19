@@ -1,29 +1,44 @@
-name: Node.js CI
+# name: Node.js CI
 
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+# on:
+#   push:
+#     branches: [main]
+#   pull_request:
+#     branches: [main]
 
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+
+#     # strategy:
+#     #   matrix:
+#     #     node-version: [12.x, 14.x]
+#     steps:
+#       - uses: actions/checkout@v2
+
+#       - name: Use Node.js ${{ matrix.node-version }}
+#         uses: actions/checkout@main
+#         with:
+#           host: ${{ secrets.STUDY_IP }}
+#           username: ${{ secrets.STUDY_SSH_ID}}
+#           key: ${{ secrets.STUDY_SSH_KEY }}
+#           port: ${{ secrets.STUDY_SSH_PORT }}
+#           script: |
+#             whoami
+#             ls -la
+#             git pull origin main
+name: remote ssh command
+on: [push]
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-latest
-
-    # strategy:
-    #   matrix:
-    #     node-version: [12.x, 14.x]
     steps:
-      - uses: actions/checkout@v2
-
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/checkout@main
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.STUDY_IP }}
           username: ${{ secrets.STUDY_SSH_ID}}
           key: ${{ secrets.STUDY_SSH_KEY }}
           port: ${{ secrets.STUDY_SSH_PORT }}
-          script: |
-            whoami
-            ls -la
-            git pull origin main
+          script: whoami
