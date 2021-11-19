@@ -74,7 +74,9 @@ const userInfoOutPut = {
         // 배열에 삽입
         myPosts.push({
           postId: postList.postId,
-          imageCover: postList.imageCover,
+          coverOriginal: postList.coverOriginal,
+          coverCropped: postList.coverCropped,
+          // imageCover: postList.imageCover,
           title: postList.title,
           categorySpace: postList.categorySpace,
           categoryStudyMate: postList.categoryStudyMate,
@@ -186,8 +188,13 @@ const userInfoOutPut = {
         // 배열에 삽입
         bookmarkedPosts.push({
           postId: myBookList.postId,
+<<<<<<< HEAD
           coverCropped: myBookList.coverCropped,
           coverOriginal: myBookList.coverOriginal,
+=======
+          coverOriginal: myBookList.coverOriginal,
+          coverCropped: myBookList.coverCropped,
+>>>>>>> aa88d882453ba47617b223695edd1e20111bd655
           // imageCover: myBookList.imageCover,
           title: myBookList.title,
           categorySpace: myBookList.categorySpace,
