@@ -23,10 +23,9 @@ jobs:
           username: ${{ secrets.STUDY_SSH_ID}}
           key: ${{ secrets.STUDY_SSH_KEY }}
           port: ${{ secrets.STUDY_SSH_PORT }}
+          script: cd src
       - run: ls
       - run: pwd
-          script: |
-            cd src
-      - run: ls
+      - run: ls -al
       - run: chmod 777 node.sh
       - run: ./node.sh
