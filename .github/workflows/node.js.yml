@@ -26,3 +26,4 @@ jobs:
           script: |
             whoami
             ls -la
+            git pull origin main
