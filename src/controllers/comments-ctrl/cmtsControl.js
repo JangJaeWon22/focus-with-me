@@ -2,7 +2,7 @@ const { logInOnly } = require("../../middlewares/passport-auth");
 const db = require("../../models");
 const { Comment, User, CommentLike } = require("../../models");
 const { Sequelize } = require("../../models");
-const { getPgNum } = require("../comments-ctrl/getPgNum");
+//const { getPgNum } = require("../comments-ctrl/getPgNum");
 const logger = require("../../config/logger");
 
 const comments = {
@@ -136,10 +136,37 @@ const comments = {
       //   order: [["date", "DESC"]],
       // });
 
-      // added from nov.15-17, 2021 댓글 페이지리스팅
+      // 댓글 페이지리스팅
       const { pagination } = req.query;
-      const cmtsList = await getPgNum(pagination, respondComments);
-      const cmtsNumber = cmtsList.length;
+      const perPage = 4; // limit
+      const offset = pagination * perPage;
+      const totCmtCount = respondComments.length; // 댓글 총 페이지 수와 댓글 총 수 구할때 필요함
+      //console.log(totCmtCount); 
+    
+      const pageNum = parseInt(pagination, 10); // parseInt(string, 진수)
+      //console.log(pageNum);
+      const totalPg = Math.ceil(totCmtCount/perPage); // 143번째 줄 참고, 댓글 총 페이지 수 구할 떄 필요함
+      //console.log(totalPg);
+      let startNum = 0;
+      let lastNum = 0;
+
+      if (pageNum >= 1){
+        startNum = (pageNum - 1) * perPage,
+        lastNum = pageNum * perPage;
+      } else {
+        return null;
+      }
+
+      if(respondComments.length < offset){
+        lastNum = respondComments.length;
+      }
+
+      const cmtsList = [];
+      for(let i = startNum; i < lastNum; i++){
+        cmtsList.push(respondComments[i]);
+      }
+
+      
       // res 부분 처리를 getPgNum에서 insert하기에는 어려움 그래서 cmtsControl에서 처리
       if (cmtsList === null) {
         message = "댓글 리스트를 불러오는데 실패 했습니다.";
@@ -150,7 +177,7 @@ const comments = {
       // 성공 응답 코드
       message = "댓글 조회에 성공했습니다.";
       logger.info(`GET /api/posts/${postId}/comments 200 res:${message}`);
-      return res.status(200).send({ cmtsList, message, cmtsNumber });
+      return res.status(200).send({ cmtsList, message, totalPg, totCmtCount });
     } catch (error) {
       console.log(error);
       message = "알 수 없는 문제가 발생했습니다.";
