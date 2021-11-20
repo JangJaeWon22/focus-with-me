@@ -14,6 +14,9 @@ jobs:
         node-version: [14.x]
     steps:
       - uses: actions/checkout@v2
+
+      - name: Create .env
+        shell: bash
         env:
           ENV_KAKAO_ID: ${{ secrets.KAKAO_ID }}
         run: |
