@@ -1,32 +1,57 @@
-name: Node.js CI
+name: SERVER distribute
 
 on:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [14.x]
+    runs-on: ubuntu-18.04
+
     steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/checkout@main
-        env:
-          KAKAO_ID: ${{ secrets.KAKAO_ID }}
+      - name: Deploy
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.STUDY_IP }}
-          username: ${{ secrets.STUDY_SSH_ID}}
+          username: ${{ secrets.STUDY_SSH_ID }}
           key: ${{ secrets.STUDY_SSH_KEY }}
           port: ${{ secrets.STUDY_SSH_PORT }}
-      - run: touch .env
-      - run: echo KAKAO_ID="$KAKAO_ID" >> .env
-      - run: cat .env
-      - run: ls
-      - run: ls -al
-      - run: chmod 777 node.sh
-      - run: ./node.sh
+          script: |
+            cd /home/ubuntu/focus-with-me
+            sudo git pull
+            cd /src
+            sudo npm install
+            sudo pm2 reload all
+
+# name: Node.js CI
+
+# on:
+#   push:
+#     branches: [main]
+#   pull_request:
+#     branches: [main]
+
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     strategy:
+#       matrix:
+#         node-version: [14.x]
+#     steps:
+#       - uses: actions/checkout@v2
+#       - name: Use Node.js ${{ matrix.node-version }}
+#         uses: actions/checkout@main
+#         env:
+#           KAKAO_ID: ${{ secrets.KAKAO_ID }}
+#         with:
+#           host: ${{ secrets.STUDY_IP }}
+#           username: ${{ secrets.STUDY_SSH_ID}}
+#           key: ${{ secrets.STUDY_SSH_KEY }}
+#           port: ${{ secrets.STUDY_SSH_PORT }}
+#       - run: touch .env
+#       - run: echo KAKAO_ID="$KAKAO_ID" >> .env
+#       - run: cat .env
+#       - run: ls
+#       - run: ls -al
+#       - run: chmod 777 node.sh
+#       - run: ./node.sh
