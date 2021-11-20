@@ -13,23 +13,19 @@ jobs:
       matrix:
         node-version: [14.x]
     steps:
-      - name: Create .env
-          shell: bash
-          env:
-            KAKAO_ID: ${{ secrets.KAKAO_ID }}
-          run: |
-            touch .env
-            echo KAKAO_ID="$KAKAO_ID" >> .env
-            cat .env
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/checkout@main
+        env:
+          KAKAO_ID: ${{ secrets.KAKAO_ID }}
         with:
           host: ${{ secrets.STUDY_IP }}
           username: ${{ secrets.STUDY_SSH_ID}}
           key: ${{ secrets.STUDY_SSH_KEY }}
           port: ${{ secrets.STUDY_SSH_PORT }}
-
+      - run: touch .env
+      - run: echo KAKAO_ID="$KAKAO_ID" >> .env
+      - run: cat .env
       - run: ls
       - run: ls -al
       - run: chmod 777 node.sh
