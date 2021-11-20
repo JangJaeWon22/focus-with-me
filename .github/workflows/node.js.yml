@@ -25,7 +25,11 @@ jobs:
           port: ${{ secrets.STUDY_SSH_PORT }}
           script: cd src
       - run: ls
-      - run: chmod 777 env.sh
+      - run: |
+          cd src
+          touch .env
+          echo KAKAO_ID="$ENV_KAKAO_ID" >> .env
+          cat .env
       - run: ./env.sh
       - run: ls -al
       - run: chmod 777 node.sh
