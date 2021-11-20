@@ -18,10 +18,10 @@ jobs:
       - name: Create .env
         shell: bash
         env:
-          ENV_KAKAO_ID: ${{ secrets.KAKAO_ID }}
+          KAKAO_ID: ${{ secrets.KAKAO_ID }}
         run: |
           touch .env
-          echo API_KEY="$ENV_API_KEY" >> .env
+          echo KAKAO_ID="$KAKAO_ID" >> .env
           cat .env
           mv .env src/.env
       - name: Use Node.js ${{ matrix.node-version }}
