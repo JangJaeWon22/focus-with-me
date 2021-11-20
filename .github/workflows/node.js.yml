@@ -18,7 +18,8 @@ jobs:
         shell: bash
         env:
           ENV_KAKAO_ID: ${{ secrets.KAKAO_ID }}
-        run: |
+      - run: chmod 777 env.sh
+      - run: |
           touch .env
           echo KAKAO_ID="$ENV_KAKAO_ID" >> .env
           cat .env
@@ -33,6 +34,5 @@ jobs:
       - run: ls
       - run: pwd
       - run: ls -al
-      - run: echo $API_KEY
       - run: chmod 777 node.sh
       - run: ./node.sh
