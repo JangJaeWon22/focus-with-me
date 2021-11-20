@@ -11,10 +11,13 @@ router.post("/nodemailerTest", function(req, res, next){
   
   let transporter = nodemailer.createTransport({
     service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: false,
     auth: {
-      user:'test@gmail.com',
-      password:'test'
-    }
+      user: process.env.NODEMAILER_USER,
+      password: process.env.NODEMAILER_PASS,
+    },
   });
 
   let mailOptions = {
@@ -24,6 +27,22 @@ router.post("/nodemailerTest", function(req, res, next){
     text: 'challenge yourself'
   };
   
-  transporter.sendMail
+  let info = await transporter.sendMail({
+    from: `"WDMA Team" <${process.env.NODEMAILER_USER}>`,
+    to: email,
+    subject: 'WDMA Auth Number',
+    text: generatedAuthNumber,
+    html: `<b>${generatedAuthNumber}</b>`
+  });
+
+  console.log('Message sent: %s', info.messageId);
+
+  res.status(200).json({
+    status: 'success',
+    code: 200,
+    message: 'sent auth email'
+  });
 });
 module.exports = router;
+
+main().catch(console.error);

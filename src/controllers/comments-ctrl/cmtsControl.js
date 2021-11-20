@@ -2,12 +2,7 @@ const { logInOnly } = require("../../middlewares/passport-auth");
 const db = require("../../models");
 const { Comment, User, CommentLike } = require("../../models");
 const { Sequelize } = require("../../models");
-<<<<<<< HEAD
-//const { getPgNum } = require("../comments-ctrl/getPgNum");
-const logger = require("../../config/logger");
-=======
 const { logger } = require("../../config/logger");
->>>>>>> ab81d89804bb579e5563d279ba2bc1e5110a0728
 
 const comments = {
   // 댓글 생성을 비동기식 방식으로 처리한다
@@ -140,10 +135,7 @@ const comments = {
       //   order: [["date", "DESC"]],
       // });
 
-<<<<<<< HEAD
       // 댓글 페이지리스팅
-=======
->>>>>>> ab81d89804bb579e5563d279ba2bc1e5110a0728
       const { pagination } = req.query;
       const perPage = 4; // limit
       const offset = pagination * perPage;
@@ -154,20 +146,12 @@ const comments = {
       //console.log(pageNum);
       const totalPg = Math.ceil(totCmtCount/perPage); // 143번째 줄 참고, 댓글 총 페이지 수 구할 떄 필요함
       //console.log(totalPg);
-<<<<<<< HEAD
-      let startNum = 0;
-      let lastNum = 0;
-
-      if (pageNum >= 1){
-        startNum = (pageNum - 1) * perPage,
-=======
       let startNum = 0; //initialize
       let lastNum = 0; //initialize
 
       // validation below 1 or above 1
       if (pageNum >= 1){
         startNum = (pageNum - 1) * perPage, 
->>>>>>> ab81d89804bb579e5563d279ba2bc1e5110a0728
         lastNum = pageNum * perPage;
       } else {
         return null;
