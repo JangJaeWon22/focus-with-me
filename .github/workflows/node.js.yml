@@ -17,12 +17,10 @@ jobs:
         env:
           ENV_KAKAO_ID: ${{ secrets.KAKAO_ID }}
         run: |
-          cd src
-          pwd
-          ls -al
           touch .env
-          echo KAKAO_ID="$ENV_KAKAO_ID" >> .env
+          echo API_KEY="$ENV_API_KEY" >> .env
           cat .env
+          mv .env src/.env
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/checkout@main
         with:
