@@ -18,8 +18,6 @@ jobs:
         shell: bash
         env:
           ENV_KAKAO_ID: ${{ secrets.KAKAO_ID }}
-        run: chmod 777 env.sh
-        run: ./env.sh
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/checkout@main
         with:
@@ -29,7 +27,8 @@ jobs:
           port: ${{ secrets.STUDY_SSH_PORT }}
           script: cd src
       - run: ls
-      - run: pwd
+      - run: chmod 777 env.sh
+      - run: ./env.sh
       - run: ls -al
       - run: chmod 777 node.sh
       - run: ./node.sh
