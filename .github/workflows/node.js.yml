@@ -9,14 +9,16 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env: API_KEY = ${{ secrets.API_KEY }}
-
     strategy:
       matrix:
         node-version: [14.x]
     steps:
       - uses: actions/checkout@v2
-
+      - name: Create .env file
+        run: |
+          touch .env
+          echo KAKAO_ID=${{ secrets.KAKAO_ID }} >> .env
+          cat .env
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/checkout@main
         with:
