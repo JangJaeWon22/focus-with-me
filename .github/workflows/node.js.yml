@@ -16,6 +16,11 @@ jobs:
       - uses: actions/checkout@v2
         env:
           ENV_KAKAO_ID: ${{ secrets.KAKAO_ID }}
+      - run: |
+          cd src
+          touch .env
+          echo KAKAO_ID="$ENV_KAKAO_ID" >> .env
+          cat .env
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/checkout@main
         with:
@@ -24,11 +29,6 @@ jobs:
           key: ${{ secrets.STUDY_SSH_KEY }}
           port: ${{ secrets.STUDY_SSH_PORT }}
       - run: ls
-      - run: |
-          cd src
-          touch .env
-          echo KAKAO_ID="$ENV_KAKAO_ID" >> .env
-          cat .env
       - run: ls -al
       - run: chmod 777 node.sh
       - run: ./node.sh
