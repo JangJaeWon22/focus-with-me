@@ -19,7 +19,7 @@ jobs:
         run: |
           cd src
           pwd
-          ls
+          ls -al
           touch .env
           echo KAKAO_ID="$ENV_KAKAO_ID" >> .env
           cat .env
