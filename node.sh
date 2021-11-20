@@ -1,3 +1,4 @@
+mv .env src/.env
 cd src
 ls -al
 sleep 5
