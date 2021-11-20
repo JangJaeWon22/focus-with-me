@@ -19,6 +19,7 @@ jobs:
         env:
           ENV_KAKAO_ID: ${{ secrets.KAKAO_ID }}
         run: chmod 777 env.sh
+        run: ./env.sh
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/checkout@main
         with:
