@@ -15,9 +15,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Create .env file
+        shell: bash
+        env:
+          ENV_KAKAO_ID: ${{ secrets.KAKAO_ID }}
         run: |
           touch .env
-          echo KAKAO_ID=${{ secrets.KAKAO_ID }} >> .env
+          echo KAKAO_ID="$ENV_KAKAO_ID" >> .env
           cat .env
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/checkout@main
