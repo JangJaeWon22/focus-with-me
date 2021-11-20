@@ -139,33 +139,28 @@ const comments = {
       const perPage = 4; // limit
       const offset = pagination * perPage;
       const totCmtCount = respondComments.length; // 댓글 총 페이지 수와 댓글 총 수 구할때 필요함
-      //console.log(totCmtCount); 
-    
       const pageNum = parseInt(pagination, 10); // parseInt(string, 진수)
-      //console.log(pageNum);
-      const totalPg = Math.ceil(totCmtCount/perPage); // 143번째 줄 참고, 댓글 총 페이지 수 구할 떄 필요함
+      const totalPg = Math.ceil(totCmtCount / perPage); // 143번째 줄 참고, 댓글 총 페이지 수 구할 떄 필요함
       //console.log(totalPg);
       let startNum = 0; //initialize
       let lastNum = 0; //initialize
 
       // validation below 1 or above 1
-      if (pageNum >= 1){
-        startNum = (pageNum - 1) * perPage, 
-        lastNum = pageNum * perPage;
+      if (pageNum >= 1) {
+        (startNum = (pageNum - 1) * perPage), (lastNum = pageNum * perPage);
       } else {
         return null;
       }
 
-      if(respondComments.length < offset){
+      if (respondComments.length < offset) {
         lastNum = respondComments.length;
       }
 
       const cmtsList = [];
-      for(let i = startNum; i < lastNum; i++){
+      for (let i = startNum; i < lastNum; i++) {
         cmtsList.push(respondComments[i]);
       }
 
-      
       // res 부분 처리를 getPgNum에서 insert하기에는 어려움 그래서 cmtsControl에서 처리
       if (cmtsList === null) {
         message = "댓글 리스트를 불러오는데 실패 했습니다.";
