@@ -20,7 +20,7 @@ jobs:
             cd /home/ubuntu/focus-with-me
             sudo git pull
             ls -al
-            cd /src
+            cd /home/ubuntu/focus-with-me/src
             ls -al
             sudo npm install
             sudo pm2 reload all
