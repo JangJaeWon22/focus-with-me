@@ -21,8 +21,8 @@ https://github.com/erionRK621/studyWithMe
 <br>
 
 [![Docker](https://img.shields.io/badge/docker-3.0.0-2496ED?style=for-the-badge&logo=docker&logoColor=white&link=./doc/skill-book/prometheus_and_grafana/prometheus_and_grafana.md)](./doc/skill-book/prometheus_and_grafana/prometheus_and_grafana.md)
-[![Prometheus](https://img.shields.io/badge/prometheus-2.32.0-E6522C?style=for-the-badge&logo=prometheus&logoColor=white&link=./doc/skill-book/prometheus_and_grafana/prometheus_and_grafana.md)](./doc/skill-book/prometheus_and_grafana/prometheus_and_grafana.md)
-[![Grafana](https://img.shields.io/badge/grafana-8.2.4-E6522C?style=for-the-badge&logo=grafana&logoColor=white&link=./doc/skill-book/prometheus_and_grafana/prometheus_and_grafana.md)](./doc/skill-book/prometheus_and_grafana/prometheus_and_grafana.md)
+[![Prometheus](https://img.shields.io/badge/prometheus-2.32.0-E6522C?style=for-the-badge&logo=prometheus&logoColor=white&link=./doc/skill-book/prometheus_and_grafana/prometheus_and_grafana.md)](https://github.com/JangJaeWon22/focus-with-me/blob/main/doc/skill-book/prometheus_and_grafana/prometheus_and_grafana.md#5-%ED%8C%8C%EC%9D%BC-%EC%83%9D%EC%84%B1-srcprometheusprometheusyml)
+[![Grafana](https://img.shields.io/badge/grafana-8.2.4-E6522C?style=for-the-badge&logo=grafana&logoColor=white&link=./doc/skill-book/prometheus_and_grafana/prometheus_and_grafana.md)](https://github.com/JangJaeWon22/focus-with-me/blob/main/doc/skill-book/prometheus_and_grafana/prometheus_and_grafana.md#6-%ED%8C%8C%EC%9D%BC-%EC%83%9D%EC%84%B1-srcgrafanadatasourceyml)
 <br>
 
 [![node.js CI](https://github.com/JangJaeWon22/focus-with-me/actions/workflows/node.js.yml/badge.svg?branch=main)](https://github.com/JangJaeWon22/focus-with-me/actions/workflows/node.js.yml)
