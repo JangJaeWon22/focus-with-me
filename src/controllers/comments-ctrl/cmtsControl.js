@@ -141,7 +141,6 @@ const comments = {
       const totCmtCount = respondComments.length; // 댓글 총 페이지 수와 댓글 총 수 구할때 필요함
       const pageNum = parseInt(pagination, 10); // parseInt(string, 진수)
       const totalPg = Math.ceil(totCmtCount / perPage); // 143번째 줄 참고, 댓글 총 페이지 수 구할 떄 필요함
-      //console.log(totalPg);
       let startNum = 0; //initialize
       let lastNum = 0; //initialize
 
