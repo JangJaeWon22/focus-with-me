@@ -21,9 +21,10 @@ jobs:
             cd /home/ubuntu/focus-with-me
             sudo git pull
             cd /home/ubuntu/focus-with-me/src
-            npm install
+            npm i
             node app.js
 
+# sudo chown -R $USER /home/ubuntu/focus-with-me/src/node_modules
 # sudo pm2 reload all
 
 # name: Node.js CI
