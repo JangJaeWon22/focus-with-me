@@ -6,7 +6,6 @@ const s3 = new aws.S3();
  * - 파일 삭제
  * - 폴더 삭제
  */
-
 const extractImageSrcS3 = (html) => {
   try {
     const regexp = /<img[^>]+src\s*=\s*['"]([^'"]+)['"][^>]*>/g;
@@ -55,6 +54,8 @@ const copyImagesS3 = async (imageList) => {
  * root 이 후의 경로가 Key
  * temp/1636955398064_20170716_211848140_iOS.jpg
  */
+
+// 배열까지 처리할 수 있도록 만들어보기
 const removeObjS3 = async (src) => {
   try {
     await s3
@@ -93,7 +94,7 @@ const emptyTempS3 = async () => {
 
   await s3.deleteObjects(deleteParams).promise();
 
-  if (listedObjects.IsTruncated) await emptyTempS3(bucket, dir);
+  if (listedObjects.IsTruncated) await emptyTempS3();
 };
 
 module.exports = {
