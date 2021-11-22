@@ -135,6 +135,7 @@ const comments = {
       //   order: [["date", "DESC"]],
       // });
 
+      // 댓글 페이지리스팅
       const { pagination } = req.query;
       const perPage = 4; // limit
       const offset = pagination * perPage;
