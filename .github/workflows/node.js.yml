@@ -20,10 +20,9 @@ jobs:
             sudo -s
             cd /home/ubuntu/focus-with-me
             sudo git pull
-            ls
             cd /home/ubuntu/focus-with-me/src
             npm i
-            node app.js
+            pm2 start app.js --watch
 
 # sudo chown -R $USER /home/ubuntu/focus-with-me/src/node_modules
 # sudo pm2 reload all
