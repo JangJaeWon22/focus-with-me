@@ -36,7 +36,8 @@ const userProcess = {
         res.status(400).send({ message });
       } else {
         date = new Date();
-        const avatarUrl = "uploads/assets/noAvatar.png";
+        // const avatarUrl = "uploads/assets/noAvatar.png";
+        const avatarUrl = "uploads/assets/noAvatar.svg";
         const encryptPassword = bcrypt.hashSync(password, 10);
         const user = await User.create({
           email,
