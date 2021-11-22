@@ -1,5 +1,3 @@
-![node.js CI](https://github.com/JangJaeWon22/focus-with-me/actions/workflows/node.js.yml/badge.svg?branch=main)
-
 # Focus With Me
 
 ## <div align=left> ❓ 프로젝트 개요 ❓ </div>
@@ -15,16 +13,20 @@ https://github.com/erionRK621/studyWithMe
 ## <div align=left> 📚 STACKS 📚 </div>
 
 <div align=left>
-<img src="https://img.shields.io/badge/passport-0.5.0-34E27A?style=for-the-badge&logo=Passport&logoColor=white"/>
-<img src="https://img.shields.io/badge/sequelize-6.8.0-52B0E7?style=for-the-badge&logo=Sequelize&logoColor=white"/>
-<img src="https://img.shields.io/badge/Swagger-4.1.6-85EA2D?style=for-the-badge&logo=Swagger&logoColor=white"/>
-<img src="https://img.shields.io/badge/MySQL-2.3.2-4479A1?style=for-the-badge&logo=MySQL&logoColor=white"/>
+
+[![Passport](https://img.shields.io/badge/passport-0.5.0-34E27A?style=for-the-badge&logo=Passport&logoColor=white&link=/doc/skill-book/passport.md)](./doc/skill-book/passport.md)
+[![Sequelize](https://img.shields.io/badge/sequelize-6.8.0-52B0E7?style=for-the-badge&logo=Sequelize&logoColor=white&link=./doc/skill-book/sequelize&mysql/sequelize&mysql.md)](./doc/skill-book/sequelize&mysql/sequelize&mysql.md)
+[![Swagger](https://img.shields.io/badge/Swagger-4.1.6-85EA2D?style=for-the-badge&logo=Swagger&logoColor=white&link=./doc/skill-book/swagger.md)](./doc/skill-book/swagger.md)
+[![MySQL](https://img.shields.io/badge/MySQL-2.3.2-4479A1?style=for-the-badge&logo=MySQL&logoColor=white&link=./doc/skill-book/sequelize&mysql/sequelize&mysql.md)](./doc/skill-book/sequelize&mysql/sequelize&mysql.md)
 <br>
-<img src="https://img.shields.io/badge/docker-3.0.0-2496ED?style=for-the-badge&logo=docker&logoColor=white"/>
-<img src="https://img.shields.io/badge/prometheus-2.32.0-E6522C?style=for-the-badge&logo=prometheus&logoColor=white"/>
-<img src="https://img.shields.io/badge/grafana-8.2.4-E6522C?style=for-the-badge&logo=grafana&logoColor=white"/>
+
+[![Docker](https://img.shields.io/badge/docker-3.0.0-2496ED?style=for-the-badge&logo=docker&logoColor=white&link=./doc/skill-book/prometheus_and_grafana/prometheus_and_grafana.md)](./doc/skill-book/prometheus_and_grafana/prometheus_and_grafana.md)
+[![Prometheus](https://img.shields.io/badge/prometheus-2.32.0-E6522C?style=for-the-badge&logo=prometheus&logoColor=white&link=./doc/skill-book/prometheus_and_grafana/prometheus_and_grafana.md)](./doc/skill-book/prometheus_and_grafana/prometheus_and_grafana.md)
+[![Grafana](https://img.shields.io/badge/grafana-8.2.4-E6522C?style=for-the-badge&logo=grafana&logoColor=white&link=./doc/skill-book/prometheus_and_grafana/prometheus_and_grafana.md)](./doc/skill-book/prometheus_and_grafana/prometheus_and_grafana.md)
 <br>
-<img src="https://img.shields.io/badge/githubactions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white"/>
+
+[![node.js CI](https://github.com/JangJaeWon22/focus-with-me/actions/workflows/node.js.yml/badge.svg?branch=main)](https://github.com/JangJaeWon22/focus-with-me/actions/workflows/node.js.yml)
+
 </div>
 
 #### 기술서
