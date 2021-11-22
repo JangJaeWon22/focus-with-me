@@ -14,7 +14,6 @@ https://github.com/erionRK621/studyWithMe
 
 ## <div align=center> 📚 STACKS 📚 </div>
 
-<div align=center>
 <img src="https://img.shields.io/badge/passport-0.5.0-34E27A?style=for-the-badge&logo=Passport&logoColor=white"/>
 <img src="https://img.shields.io/badge/sequelize-6.8.0-52B0E7?style=for-the-badge&logo=Sequelize&logoColor=white"/>
 <img src="https://img.shields.io/badge/Swagger-4.1.6-85EA2D?style=for-the-badge&logo=Swagger&logoColor=white"/>
@@ -25,7 +24,6 @@ https://github.com/erionRK621/studyWithMe
 <img src="https://img.shields.io/badge/grafana-8.2.4-E6522C?style=for-the-badge&logo=grafana&logoColor=white"/>
 <br>
 <img src="https://img.shields.io/badge/githubactions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white"/>
-</div>
 
 #### 기술서
 
