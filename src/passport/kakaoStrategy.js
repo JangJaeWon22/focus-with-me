@@ -13,8 +13,6 @@ module.exports = () => {
         callbackURL: process.env.KAKAO_CALLBACK,
       },
       async (accessToken, refreshToken, profile, done) => {
-        console.log("accessToken:", accessToken);
-        console.log("refreshToken:", refreshToken);
         console.log("profile", profile);
         const email = profile["_json"].kakao_account.email;
         let nickname = profile.displayName;

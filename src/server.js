@@ -115,7 +115,7 @@ app.get("/", (req, res) => {
   }, simulateTime);
   counter.inc();
 
-  res.send("hihi");
+  res.send("에이치 아이");
 });
 
 app.get("/metrics", async (req, res) => {
