@@ -18,6 +18,7 @@ https://github.com/erionRK621/studyWithMe
 <img src="https://img.shields.io/badge/prometheus-2.32.0-E6522C?style=for-the-badge&logo=prometheus&logoColor=white"/>
 <img src="https://img.shields.io/badge/grafana-8.2.4-E6522C?style=for-the-badge&logo=grafana&logoColor=white"/>
 <br>
+<img src="https://img.shields.io/badge/githubaction-2088FF?style=for-the-badge&logo=GitHub_Actions&logoColor=white"/>
 </div>
 
 #### 기술서
