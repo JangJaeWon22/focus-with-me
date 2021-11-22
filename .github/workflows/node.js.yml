@@ -19,11 +19,11 @@ jobs:
           script: |
             cd /home/ubuntu/focus-with-me
             sudo git pull
-            ls -al
             cd /home/ubuntu/focus-with-me/src
-            ls -al
             sudo npm install
-            sudo pm2 reload all
+            sudo node app.js
+
+# sudo pm2 reload all
 
 # name: Node.js CI
 
