@@ -17,11 +17,12 @@ jobs:
           key: ${{ secrets.STUDY_SSH_KEY }}
           port: ${{ secrets.STUDY_SSH_PORT }}
           script: |
+            sudo -s
             cd /home/ubuntu/focus-with-me
             sudo git pull
             cd /home/ubuntu/focus-with-me/src
-            sudo npm install
-            sudo node app.js
+            npm install
+            node app.js
 
 # sudo pm2 reload all
 
