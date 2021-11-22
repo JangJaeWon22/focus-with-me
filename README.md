@@ -1,6 +1,6 @@
-## <div align=center> Focus With Me </div>
+![node.js CI](https://github.com/JangJaeWon22/focus-with-me/actions/workflows/node.js.yml/badge.svg?branch=main)
 
-[node.js CI](https://github.com/JangJaeWon22/focus-with-me/actions/workflows/node.js.yml/badge.svg?branch=main)
+# Focus With Me
 
 ## <div align=center> 프로젝트 개요 </div>
 
