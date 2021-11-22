@@ -1,4 +1,4 @@
-name: SERVER distribute
+name: node.js CI
 
 on:
   push:

@@ -1,5 +1,3 @@
-# 제목 없음
-
 ## Sequelize & MySQL
 
 ### 사용 목적
