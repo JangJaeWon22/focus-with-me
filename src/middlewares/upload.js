@@ -7,19 +7,19 @@ const s3 = new aws.S3();
 
 module.exports = {
   //파일 생성 규칙
-  uploadAvatar: multer({
-    storage: multer.diskStorage({
-      destination(req, file, cb) {
-        cb(null, "${__dirname}/../public/uploads/avatar");
-      },
-      /*       filename(req, file, cb) {
-        // const fileName = randomstring.generate(20);
-        const ext = path.extname(file.originalname);
-        cb(null, Date.now() + ext);
-      }, */
-    }),
-    limits: { fileSize: 10000000 },
-  }),
+  // uploadAvatar: multer({
+  //   storage: multer.diskStorage({
+  //     destination(req, file, cb) {
+  //       cb(null, "${__dirname}/../public/uploads/avatar");
+  //     },
+  //     /*       filename(req, file, cb) {
+  //       // const fileName = randomstring.generate(20);
+  //       const ext = path.extname(file.originalname);
+  //       cb(null, Date.now() + ext);
+  //     }, */
+  //   }),
+  //   limits: { fileSize: 10000000 },
+  // }),
   uploadAvatarS3: multer({
     storage: multerS3({
       s3,
