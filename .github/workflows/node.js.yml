@@ -22,7 +22,7 @@ jobs:
             sudo git pull
             cd /home/ubuntu/focus-with-me/src
             npm i
-            sudo pm2 start app.js --watch
+            sudo pm2 restart app --watch
 
 # sudo chown -R $USER /home/ubuntu/focus-with-me/src/node_modules
 # sudo pm2 reload all
