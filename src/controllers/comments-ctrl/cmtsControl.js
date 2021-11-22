@@ -109,7 +109,7 @@ const comments = {
         }
 
         // 각 for문을 돌릴때의 필요한 값들 push
-        respondComments.push({
+        respondComments.unshift({ //댓글 내림차순
           userId: comment.userId,
           userNickname: comment.nickname,
           textContent: comment.textContent,
@@ -135,6 +135,7 @@ const comments = {
       //   order: [["date", "DESC"]],
       // });
 
+      // 댓글 페이지리스팅
       const { pagination } = req.query;
       const perPage = 4; // limit
       const offset = pagination * perPage;
@@ -159,7 +160,7 @@ const comments = {
       for (let i = startNum; i < lastNum; i++) {
         cmtsList.push(respondComments[i]);
       }
-
+      
       // res 부분 처리를 getPgNum에서 insert하기에는 어려움 그래서 cmtsControl에서 처리
       if (cmtsList === null) {
         message = "댓글 리스트를 불러오는데 실패 했습니다.";
