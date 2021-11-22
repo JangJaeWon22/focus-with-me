@@ -12,6 +12,7 @@ const { uploadTempS3, uploadCoverS3 } = require("../middlewares/upload");
 
 const { filter } = require("../middlewares/filter");
 const { logInOnly, logInBoth } = require("../middlewares/passport-auth");
+const upload = require("../middlewares/upload");
 
 /* GET users listing. */
 // postsRouter
