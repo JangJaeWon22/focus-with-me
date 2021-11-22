@@ -81,6 +81,10 @@ ls
 
 cat id_rsa.pub
 
+// 권한 설정
+chmod 700 .ssh
+chmod 600 authorized_keys
+
 // 이제 public 키를 키페어에 추가 해주면 끝.
 cat id_rsa.pub >> ~/.ssh/authorized_keys
 
