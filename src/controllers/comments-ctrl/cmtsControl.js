@@ -148,8 +148,15 @@ const comments = {
       // });
 
       // 댓글 페이지리스팅
-      const { pagination } = req.query;
+      let { pagination } = req.query;
       const perPage = 4; // limit
+
+      // pagination 예외처리
+      if (!pagination){
+        // 페이지네이션이 없을 경우에도 1페이지로 이동
+        pagination = 1
+      }
+
       const offset = pagination * perPage;
       const totCmtCount = respondComments.length; // 댓글 총 페이지 수와 댓글 총 수 구할때 필요함
       const pageNum = parseInt(pagination, 10); // parseInt(string, 진수)
@@ -182,6 +189,7 @@ const comments = {
         logger.info(`GET /api/posts/${postId}/comments 400 res:${message}`);
         return res.status(400).send({ message, totalPg });
       }
+      
 
       // 성공 응답 코드
       message = "댓글 조회에 성공했습니다.";
