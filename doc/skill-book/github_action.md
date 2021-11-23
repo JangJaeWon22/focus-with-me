@@ -64,7 +64,9 @@ setting 값으로 github에서 STUDY_IP, STUDY_SSH_ID, STUDY_SSH_KEY, STUDY_SSH_
   > - STUDY_SSH_PORT : 22 포트가 기본이다. 또 한번 FileZilla를 생각해 보자 포트가 22로 맞췄을 꺼다.
   > - STUDY_SSH_KEY:
   >   가장 중요하다. 5일 동안 삽질을.. 하고 알아 냈다.
+  >   해당 키는 id_rsa 키로 사용한다(RSA PRIVATE KEY)
   >   - ubuntu 서버에서 public 키를 발급 한다.
+  >     위 public key를 authorized_key에 추가 해야 git actions 에서 접속 가능
   >   - 그리고 기존 연결은 ubuntu keypair.pem으로 하던걸 기억하자.
 
 ```jsx
