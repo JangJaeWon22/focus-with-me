@@ -1,0 +1,36 @@
+{
+    "config": {
+        "target": "http://3.34.44.44",
+        "phases": [
+            {
+                "duration": 60,
+                "arrivalRate": 30
+            }
+        ]
+    },
+    "scenarios": [
+        {
+            "flow": [
+                {
+                    "get": {
+                        "url": "/api/posts"
+                    }
+                },
+                {
+                    "post": {
+                        "url": "/api/users/login",
+                        "json": {
+                            "email": "user@test.com",
+                            "password": "qwer1234!"
+                        }
+                    }
+                },
+                {
+                    "get": {
+                        "url": "/api/posts/3/comments"
+                    }
+                }
+            ]
+        }
+    ]
+}
