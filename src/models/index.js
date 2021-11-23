@@ -3,8 +3,8 @@ const fs = require("fs");
 const path = require("path");
 const Sequelize = require("sequelize");
 const basename = path.basename(__filename);
-//const env = process.env.NODE_ENV || "development"; 
-const env = "rds";
+//const env = process.env.NODE_ENV || "development"; //자기자신 도커에 접속하기 위한 용도
+const env = "rds"; // 서버에 접속하기 위한 용도
 const config = require(__dirname + "/../config/config.js")[env];
 const db = {};
 
