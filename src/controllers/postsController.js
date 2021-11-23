@@ -315,12 +315,11 @@ module.exports = {
       const base64Format = result.Body.toString("base64");
 
       logger.info(
-        `POST /api/posts/${postId}/coverOriginal 200 res:${path} 경로의 이미지 갖다주기!!`
+        `POST /api/posts/${postId}/coverOriginal 200 res: 경로의 이미지 갖다주기!!`
       );
       return res.status(200).send({ coverOriginalObj: base64Format });
     } catch (error) {
       console.log(error);
-
       logger.info(`POST /api/posts/${postId}/coverOriginal 500 res:${error}`);
       return res.status(500).send({ message: "파일을 불러올 수 없습니다." });
     }
