@@ -59,5 +59,5 @@ postsRouter
 postsRouter
   .route("/posts/:postId/coverOriginal")
   .get(logInOnly, getCoverOriginal);
-
+//z
 module.exports = postsRouter;
