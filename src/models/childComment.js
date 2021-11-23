@@ -1,40 +1,33 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class Comment extends Model {
+  class ChildComment extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(db) {
-      Comment.hasMany(db.ChildComment, {
-        foreignKey: "commentId",
-        sourceKey: "commentId",
-      });
-      Comment.hasMany(db.CommentLike, {
-        foreignKey: "commentId",
-        sourceKey: "commentId",
-      });
-      Comment.hasMany(db.ChildComment, {
-        foreignKey: "commentId",
-        sourceKey: "commentId",
-      });
-      Comment.belongsTo(db.User, {
+      ChildComment.belongsTo(db.User, {
         foreignKey: "userId",
-        targetKey: "userId",
+        sourceKey: "userId",
         onDelete: "cascade",
       });
-      Comment.belongsTo(db.Post, {
+      ChildComment.belongsTo(db.Comment, {
+        foreignKey: "commentId",
+        sourceKey: "commentId",
+        onDelete: "cascade",
+      });
+      ChildComment.belongsTo(db.Post, {
         foreignKey: "postId",
         targetKey: "postId",
         onDelete: "cascade",
       });
     }
   }
-  Comment.init(
+  ChildComment.init(
     {
-      commentId: {
+      childCommentId: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
@@ -52,11 +45,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: "Comment",
+      modelName: "ChildComment",
       timestamps: false,
       charset: "utf8",
       collate: "utf8_general_ci",
     }
   );
-  return Comment;
+  return ChildComment;
 };
