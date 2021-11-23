@@ -56,7 +56,6 @@ postsRouter
   .delete(logInOnly, deletePosts)
   .get(logInBoth, getOnePost);
 
-//ㅋ
 postsRouter
   .route("/posts/:postId/coverOriginal")
   .get(logInOnly, getCoverOriginal);
