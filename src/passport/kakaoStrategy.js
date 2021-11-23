@@ -13,13 +13,11 @@ module.exports = () => {
         callbackURL: process.env.KAKAO_CALLBACK,
       },
       async (accessToken, refreshToken, profile, done) => {
-        console.log("accessToken:", accessToken);
-        console.log("refreshToken:", refreshToken);
         console.log("profile", profile);
         const email = profile["_json"].kakao_account.email;
-        const nickname = profile.displayName;
+        let nickname = profile.displayName;
         const provider = "kakao";
-        const avatarUrl = "uploads/assets/noAvatar.png";
+        const avatarUrl = "uploads/assets/noAvatar.svg";
         const date = new Date();
         const userInfo = await User.findOne({
           where: { snsId: profile.id, provider: "kakao" },

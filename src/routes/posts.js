@@ -8,14 +8,11 @@ const {
   deletePosts,
   ckUpload,
 } = require("../controllers/postsController");
-const {
-  uploadAvatarS3,
-  uploadTempS3,
-  uploadCoverS3,
-} = require("../middlewares/upload");
+const { uploadTempS3, uploadCoverS3 } = require("../middlewares/upload");
 
 const { filter } = require("../middlewares/filter");
 const { logInOnly, logInBoth } = require("../middlewares/passport-auth");
+const upload = require("../middlewares/upload");
 
 /* GET users listing. */
 // postsRouter
@@ -31,7 +28,14 @@ const { logInOnly, logInBoth } = require("../middlewares/passport-auth");
 postsRouter
   .route("/posts")
   .get(logInBoth, filter, getPosts)
-  .post(logInOnly, uploadCoverS3.single("imageCover"), postPosts);
+  .post(
+    logInOnly,
+    uploadCoverS3.fields([
+      { name: "coverOriginal", maxCount: 1 },
+      { name: "coverCropped", maxCount: 1 },
+    ]),
+    postPosts
+  );
 
 // ckEditor5 custom image upload adapter
 postsRouter
@@ -40,7 +44,14 @@ postsRouter
 
 postsRouter
   .route("/posts/:postId")
-  .put(logInOnly, uploadCoverS3.single("imageCover"), putPosts)
+  .put(
+    logInOnly,
+    uploadCoverS3.fields([
+      { name: "coverOriginal", maxCount: 1 },
+      { name: "coverCropped", maxCount: 1 },
+    ]),
+    putPosts
+  )
   .delete(logInOnly, deletePosts)
   .get(logInBoth, getOnePost);
 

@@ -23,6 +23,7 @@ const comments = {
       const avatarUrl = user.avatarUrl;
       // 날짜를 선언한다
       const date = new Date();
+     
       // comment model에서 생성해주기 위해 create를 사용한다
       // comment 라는 변수에 저장하고자 하는 값을 넣어준다
       const comment = await Comment.create({
@@ -32,6 +33,16 @@ const comments = {
         textContent,
       });
 
+      //특정 게시물의 댓글의 수
+      const cmtCount = await Comment.count({
+        where: {postId} 
+      })
+      //페이지네이션 1페이지당 몇개를 보여줄지?
+      const perPage = 4;
+     
+      //전체 페이지 수  
+      const totalPg = Math.ceil(cmtCount/perPage);
+
       message = "댓글 작성에 성공했습니다.";
       logger.info(`POST api/posts/${postId}/comments 201 res:${message}`);
       // 성공 했을 경우, 다음과 같은 값을 보내준다
@@ -40,6 +51,7 @@ const comments = {
         comment,
         avatarUrl,
         message,
+        totalPg, 
       });
     } catch (error) {
       // 에러 발생 했을 경우, console.log를 찍어준다
@@ -109,7 +121,7 @@ const comments = {
         }
 
         // 각 for문을 돌릴때의 필요한 값들 push
-        respondComments.push({
+        respondComments.unshift({ //댓글 내림차순
           userId: comment.userId,
           userNickname: comment.nickname,
           textContent: comment.textContent,
@@ -135,49 +147,46 @@ const comments = {
       //   order: [["date", "DESC"]],
       // });
 
+      // 댓글 페이지리스팅
       const { pagination } = req.query;
       const perPage = 4; // limit
-      const offset = pagination * perPage; // offset
-      //const count = await Comment.count();
-      const totCount = respondComments.length;
-      console.log(totCount);
+      const offset = pagination * perPage;
+      const totCmtCount = respondComments.length; // 댓글 총 페이지 수와 댓글 총 수 구할때 필요함
       const pageNum = parseInt(pagination, 10); // parseInt(string, 진수)
-      //console.log(pageNum);
-      const totalPg = Math.ceil(totCount / perPage);
-      //console.log(totalPg)
-      let startNum = 0;
-      let lastNum = 0;
+      const totalPg = Math.ceil(totCmtCount / perPage); // 143번째 줄 참고, 댓글 총 페이지 수 구할 떄 필요함
+      let startNum = 0; //initialize
+      let lastNum = 0; //initialize
 
-      //유효성 검사
+      // validation below 1 or above 1
       if (pageNum >= 1) {
         (startNum = (pageNum - 1) * perPage), (lastNum = pageNum * perPage);
       } else {
-        message = "작성된 댓글이 없습니다.";
-        logger.info(`GET /api/posts/${postId}/comments 404 res:${message}`);
-        return res.status(404).send({ message });
+        message = "댓글 리스트를 불러오는데 실패 했습니다."
+        logger.info(`GET /api/posts/${postId}/comments 400 res:${message}`);
+        return res.status(400).send({ message });
       }
 
       if (respondComments.length < offset) {
         lastNum = respondComments.length;
       }
 
-      // 배열
       const cmtsList = [];
       for (let i = startNum; i < lastNum; i++) {
         cmtsList.push(respondComments[i]);
       }
-
+      
       // res 부분 처리를 getPgNum에서 insert하기에는 어려움 그래서 cmtsControl에서 처리
       if (cmtsList === null) {
+        totalPg = 0
         message = "댓글 리스트를 불러오는데 실패 했습니다.";
         logger.info(`GET /api/posts/${postId}/comments 400 res:${message}`);
-        return res.status(400).send({ message });
+        return res.status(400).send({ message, totalPg });
       }
 
       // 성공 응답 코드
       message = "댓글 조회에 성공했습니다.";
       logger.info(`GET /api/posts/${postId}/comments 200 res:${message}`);
-      return res.status(200).send({ cmtsList, message, totalPg });
+      return res.status(200).send({ cmtsList, message, totalPg, totCmtCount });
     } catch (error) {
       console.log(error);
       message = "알 수 없는 문제가 발생했습니다.";
