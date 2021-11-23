@@ -190,7 +190,6 @@ const comments = {
         return res.status(400).send({ message, totalPg });
       }
       
-      
 
       // 성공 응답 코드
       message = "댓글 조회에 성공했습니다.";
