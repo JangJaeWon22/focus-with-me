@@ -19,7 +19,7 @@ jobs:
           script: |
             sudo -s
             cd /home/ubuntu/focus-with-me
-            sudo git pull
+            sudo git pull --ff
             cd /home/ubuntu/focus-with-me/src
             sudo rm -rf package-lock.json
             npm i
