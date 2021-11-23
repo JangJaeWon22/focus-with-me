@@ -7,6 +7,7 @@ const {
   putPosts,
   deletePosts,
   ckUpload,
+  getCoverOriginal,
 } = require("../controllers/postsController");
 const { uploadTempS3, uploadCoverS3 } = require("../middlewares/upload");
 
@@ -54,5 +55,9 @@ postsRouter
   )
   .delete(logInOnly, deletePosts)
   .get(logInBoth, getOnePost);
+
+postsRouter
+  .route("/posts/:postId/coverOriginal")
+  .get(logInOnly, getCoverOriginal);
 
 module.exports = postsRouter;

@@ -97,9 +97,26 @@ const emptyTempS3 = async () => {
   if (listedObjects.IsTruncated) await emptyTempS3();
 };
 
+const getObjS3 = async (src) => {
+  try {
+    const result = await s3
+      .getObject({
+        Bucket: process.env.S3_BUCKET_NAME,
+        Key: src,
+      })
+      .promise();
+
+    return result;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+
 module.exports = {
   removeObjS3,
   extractImageSrcS3,
   copyImagesS3,
   emptyTempS3,
+  getObjS3,
 };
