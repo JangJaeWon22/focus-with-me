@@ -25,6 +25,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "postId",
         sourceKey: "postId",
       });
+      Post.hasMany(db.ChildComment, {
+        foreignKey: "postId",
+        sourceKey: "postId",
+      });
       Post.hasMany(db.CommentLike, {
         foreignKey: "postId",
         sourceKey: "postId",
