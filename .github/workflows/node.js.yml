@@ -18,6 +18,7 @@ jobs:
           port: ${{ secrets.STUDY_SSH_PORT }}
           script: |
             sudo -s
+            ls
             cd /home/ubuntu/focus-with-me
             sudo git pull
             cd /home/ubuntu/focus-with-me/src
