@@ -3,6 +3,7 @@ const {
   extractImageSrcS3,
   copyImagesS3,
   removeObjS3,
+  getObjS3,
 } = require("../library/controlS3");
 const { logger } = require("../config/logger");
 /* option + shift + a */
@@ -292,5 +293,35 @@ module.exports = {
     const path = `uploads${req.file.location.split("uploads")[1]}`;
     logger.info(`POST /api/posts/ckUpload 201 res:${path} 경로 이미지 저장`);
     return res.status(201).send({ path });
+  },
+  /*
+    크롭퍼에 넣어줄 이미지 가져온 뒤 보여주기
+  */
+  getCoverOriginal: async (req, res) => {
+    // 포스트 수정 시 이미지 가져오기
+    const { postId } = req.params;
+    /*
+      예외 처리
+      본인의 게시물이 맞는지
+      게시물 DB 조회 결과 있는지
+      S3 파일 조회 결과 있는지
+     */
+
+    try {
+      const post = await Post.findByPk(postId);
+      const coverOriginalUrl = post.coverOriginal;
+
+      const result = await getObjS3(coverOriginalUrl);
+      const base64Format = result.Body.toString("base64");
+
+      logger.info(
+        `POST /api/posts/${postId}/coverOriginal 200 res: 경로의 이미지 갖다주기!!`
+      );
+      return res.status(200).send({ coverOriginalObj: base64Format });
+    } catch (error) {
+      console.log(error);
+      logger.info(`POST /api/posts/${postId}/coverOriginal 500 res:${error}`);
+      return res.status(500).send({ message: "파일을 불러올 수 없습니다." });
+    }
   },
 };
