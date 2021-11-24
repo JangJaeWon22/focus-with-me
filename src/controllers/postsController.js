@@ -322,7 +322,7 @@ module.exports = {
       return res.status(200).send({ coverOriginalObj: coverOriginalUrl });
     } catch (error) {
       console.log(error);
-      logger.info(`POST /api/posts/${postId}/coverOriginal 500 res:${error}`);
+      logger.error(`POST /api/posts/${postId}/coverOriginal 500 res:${error}`);
       return res.status(500).send({ message: "파일을 불러올 수 없습니다." });
     }
   },
