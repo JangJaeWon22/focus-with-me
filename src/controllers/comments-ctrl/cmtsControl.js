@@ -1,5 +1,3 @@
-const { logInOnly } = require("../../middlewares/passport-auth");
-const db = require("../../models");
 const { Comment, User, CommentLike } = require("../../models");
 const { Sequelize } = require("../../models");
 const { logger } = require("../../config/logger");
@@ -8,10 +6,7 @@ const comments = {
   // 댓글 생성을 비동기식 방식으로 처리한다
   commentCreate: async (req, res) => {
     try {
-      // const { textContent : 성공 } = { textContent : 성공 }
       const { textContent } = req.body;
-      // const textContent = req.body.textContent => 구조분해할당 해제
-      // const textContent = 성공
       const { postId } = req.params;
       const { userId } = res.locals.user;
 
@@ -106,8 +101,12 @@ const comments = {
 
       // 배열, 배열안에 객체(Object)를 저장
       const respondComments = [];
-      for (const comment of commentAll) {
-        // isCommentLiked 기본 값으로 false로 설정
+      /*
+        반복문의 역할: commentAll 이 인덱스 오름차순으로 정렬되는데, 날짜 오름차순과 일치한다
+                    프론트 쪽에서 날짜 최신순으로 보여줘야 해서, 배열의 unshift 메서드로 처리한다
+                    또한, 현재 로그인한 유저가 각각의 댓글에 대해 좋아요를 눌렀는지 판별한 뒤, 판별한 값을 댓글 객체에 같이 넣어준다
+      */ 
+      for (const comment of commentAll) { 
         let isCommentLiked = false;
         // 사용자 인증 미들웨어를 타고 들어왔는데 사용자가 로그인 상태라면
         if (res.locals.user) {
@@ -115,83 +114,55 @@ const comments = {
           const liked = await CommentLike.findOne({
             where: { userId: res.locals.user.userId, postId: comment.postId },
           });
-
-          // 로그인 한 사용자가 현재의 포스트를 좋아요 했으면 true로 반환
           if (liked) isCommentLiked = true;
         }
 
-        // 각 for문을 돌릴때의 필요한 값들 push
-        respondComments.unshift({ //댓글 내림차순
+        respondComments.unshift({ 
           userId: comment.userId,
           userNickname: comment.nickname,
           textContent: comment.textContent,
           avatarUrl: comment.avatarUrl,
-          date: comment.date, // 댓글 작성날짜 부분
+          date: comment.date, 
           commentId: comment.commentId,
           postId: comment.postId,
           commentLikeCnt: comment.commentLikeCnt,
           isCommentLiked,
         });
       }
-
-      // SQL part
-      // const a = await Comment.findAll({
-      //   where: { postId },
-      //   attributes: ["Comment.*", "User.nickname", "User.avatarUrl"],
-      //   include: {
-      //     model: User,
-      //     attributes: [],
-      //   },
-      //   //limit: 5,
-      //   raw: true, //반환값이 object 형식으로 출력, 아니면 json형식
-      //   order: [["date", "DESC"]],
-      // });
-
-      // 댓글 페이지리스팅
+      
+      // 댓글 페이지네이션
       let { pagination } = req.query;
       const perPage = 4; // limit
 
       // pagination 예외처리
       if (!pagination){
-        // 페이지네이션이 없을 경우에도 1페이지로 이동
         pagination = 1
       }
 
-      const offset = pagination * perPage;
-      const totCmtCount = respondComments.length; // 댓글 총 페이지 수와 댓글 총 수 구할때 필요함
-      const pageNum = parseInt(pagination, 10); // parseInt(string, 진수)
-      const totalPg = Math.ceil(totCmtCount / perPage); // 143번째 줄 참고, 댓글 총 페이지 수 구할 떄 필요함
-      let startNum = 0; //initialize
-      let lastNum = 0; //initialize
+      const pageNum = parseInt(pagination, 10); // 페이지 수를 10진수로 처리함
+      const totCmtCount = respondComments.length; // 댓글 총 페이지 수와 댓글 총 수 구할때 필요함, 배열의 길이 
+      const totalPg = Math.ceil(totCmtCount / perPage); // 총 페이지를 보여주면, 댓글 여러개 달렸을때, 나눠서 보여주려고 사용함
+      let startNum = (pageNum - 1) * perPage;
+      let lastNum = pageNum * perPage;
 
-      // validation below 1 or above 1
-      if (pageNum >= 1) {
-        (startNum = (pageNum - 1) * perPage), (lastNum = pageNum * perPage);
-      } else {
+      // 예외처리
+      if (pageNum < 1) {
         message = "댓글 리스트를 불러오는데 실패 했습니다."
         logger.info(`GET /api/posts/${postId}/comments 400 res:${message}`);
         return res.status(400).send({ message });
       }
 
-      if (respondComments.length < offset) {
-        lastNum = respondComments.length;
+      // ex) 댓글이 10개 일 경우 3페이지의 lastNum = 12 //totCmtCount = 10 == > arr[10], arr[11] 째는 없으므로 arr[9]까지 보여줘야됨
+      // ex) 댓글이 10개인 경우(totCmtCount = 10)에는 arr[9] ***(arr[totCmtCount-1])***가 마지막 요소. 마지막요소에 접근하려면 totCmtCount -1 해줘야됨!
+      if (totCmtCount < lastNum) {
+        lastNum = totCmtCount - 1;
       }
 
       const cmtsList = [];
-      for (let i = startNum; i < lastNum; i++) {
-        cmtsList.push(respondComments[i]);
+      for (let i = startNum; i < lastNum; i++){
+        cmtsList.push(respondComments[i])
       }
-      
-      // res 부분 처리를 getPgNum에서 insert하기에는 어려움 그래서 cmtsControl에서 처리
-      if (cmtsList === null) {
-        totalPg = 0
-        message = "댓글 리스트를 불러오는데 실패 했습니다.";
-        logger.info(`GET /api/posts/${postId}/comments 400 res:${message}`);
-        return res.status(400).send({ message, totalPg });
-      }
-      
 
-      // 성공 응답 코드
       message = "댓글 조회에 성공했습니다.";
       logger.info(`GET /api/posts/${postId}/comments 200 res:${message}`);
       return res.status(200).send({ cmtsList, message, totalPg, totCmtCount });
