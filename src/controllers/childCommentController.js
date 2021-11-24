@@ -26,7 +26,7 @@ const getChildComments = async (req, res) => {
   const offset = (page - 1) * childPerPage;
 
   try {
-    const totalCnt = await ChildComment.count({ where: { commentId } });
+    const totalCnt = await ChildComment.count({ where: { commentId, postId } });
     const sqlQuery = `
       SELECT child.*, Users.nickname, Users.avatarUrl
       FROM ChildComments AS child
@@ -40,7 +40,13 @@ const getChildComments = async (req, res) => {
     const childComments = await sequelize.query(sqlQuery, {
       type: Sequelize.QueryTypes.SELECT,
     });
-
+    if (!childComments) {
+      message = "조회하려는 답글이 없습니다.";
+      logger.info(
+        `GET /api/posts/${postId}/comments/${commentId}/childs 404 res: ${message}`
+      );
+      res.status(404).send({ message });
+    }
     message = "답글 조회 성공";
     logger.info(
       `GET /api/posts/${postId}/comments/${commentId}/childs 200 res: ${message}`
