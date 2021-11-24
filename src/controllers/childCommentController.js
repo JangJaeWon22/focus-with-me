@@ -44,7 +44,7 @@ const getChildComments = async (req, res) => {
     logger.info(
       `GET /api/posts/${postId}/comments/${commentId}/childs 200 res: ${message}`
     );
-    return res.status(200).send({ message, childComments });
+    return res.status(200).send({ message, childComments, totalCnt });
   } catch (error) {
     console.log(error);
     message = "답글 조회 실패";
