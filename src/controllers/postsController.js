@@ -95,15 +95,15 @@ module.exports = {
     const files = JSON.parse(JSON.stringify(req.files));
 
     // imageCover 파일이 없을 경우를 대비한 예외처리
-    // const path = req.file
-    //   ? `uploads${req.file.location.split("uploads")[1]}`
-    //   : null;
     const originPath = files["coverOriginal"]
       ? `uploads${files["coverOriginal"][0].location.split("uploads")[1]}`
       : null;
     const croppedPath = files["coverCropped"]
       ? `uploads${files["coverCropped"][0].location.split("uploads")[1]}`
       : null;
+
+    console.log("ㅎㅎ", originPath);
+    console.log("ㅎㅎ", croppedPath);
 
     const body = JSON.parse(JSON.stringify(req.body));
     const {
@@ -141,9 +141,7 @@ module.exports = {
         기존 이미지를 크로핑할 경우
         coverOriginal -> null
         coverCropped -> url
-        
         coverOriginal -> null 일 경우, 기존 이미지를 삭제하면 안됨.
-
        */
 
       // 기존 이미지 삭제 - 수정 성공하고 난 뒤에 해도 늦지 않음
@@ -177,9 +175,9 @@ module.exports = {
           await removeObjS3(src);
         });
       }
-      // 커버 이미지 삭제
-      // await removeObjS3(prevImageCover);
-      await removeObjS3(prevCoverOriginal);
+      // 커버 이미지 삭제 -> Null이 아닐 때에만 삭제 :
+      // 새로 이미지가 올라올 때에만 삭제
+      if (originPath) await removeObjS3(prevCoverOriginal);
       await removeObjS3(prevCoverCropped);
       return;
     } catch (error) {
@@ -190,7 +188,7 @@ module.exports = {
       // 기존 데이터를 어딘가에 백업해야할 듯.
       await post.update(backup);
       await post.save();
-      // await removeObjS3(path);
+
       await removeObjS3(originPath);
       await removeObjS3(croppedPath);
       message = "DB 업데이트 실패";
