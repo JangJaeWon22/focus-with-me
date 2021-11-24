@@ -40,13 +40,7 @@ const getChildComments = async (req, res) => {
     const childComments = await sequelize.query(sqlQuery, {
       type: Sequelize.QueryTypes.SELECT,
     });
-    if (!childComments) {
-      message = "조회하려는 답글이 없습니다.";
-      logger.info(
-        `GET /api/posts/${postId}/comments/${commentId}/childs 404 res: ${message}`
-      );
-      res.status(404).send({ message });
-    }
+
     message = "답글 조회 성공";
     logger.info(
       `GET /api/posts/${postId}/comments/${commentId}/childs 200 res: ${message}`
@@ -67,7 +61,7 @@ const postChildComments = async (req, res) => {
     body: { textContent },
     params: { postId, commentId },
   } = req;
-  const { userId } = res.locals.user;
+  const { userId, nickname, avatarUrl } = res.locals.user;
   const date = new Date();
 
   const child = {
@@ -82,19 +76,21 @@ const postChildComments = async (req, res) => {
     // 프론트에서 댓글 생성하면 바로 리턴되는 댓글을 컴포넌트로 붙여서 보여준다고 함
     // avatarUrl, nickname
 
-    const sqlQuery = `SELECT child.*, Users.nickname, Users.avatarUrl
-      FROM ChildComments AS child
-      JOIN Users ON child.userId = Users.userId
-      GROUP BY child.childCommentId
-      ;`;
-    const createdChild = await sequelize.query(sqlQuery, {
-      type: Sequelize.QueryTypes.SELECT,
-    });
+    // const sqlQuery = `SELECT child.*, Users.nickname, Users.avatarUrl
+    //   FROM ChildComments AS child
+    //   JOIN Users ON child.userId = Users.userId
+    //   WHERE child.commentId = ${commentId} and child.postId = ${postId}
+    //   GROUP BY child.childCommentId
+    //   ;`;
+    // const createdChild = await sequelize.query(sqlQuery, {
+    //   type: Sequelize.QueryTypes.SELECT,
+    // });
+    const user = { nickname, avatarUrl };
     message = "답글 작성 완료";
     logger.info(
       `POST /api/posts/${postId}/comments/${commentId}/childs 200 res: ${message}`
     );
-    return res.status(201).send({ message, createdChild /* result */ });
+    return res.status(201).send({ message, user, createdChild /* result */ });
   } catch (error) {
     console.log(error);
     message = "답글을 작성 할 수 없습니다.";
