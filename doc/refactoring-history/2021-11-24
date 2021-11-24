@@ -1,0 +1,19 @@
+### 2021-11-24 refactoring
+
+#### 1. 댓글 페이지네이션 final review
+
+- 댓글 페이지네이션 주석처리 수정
+    - 필요없는 주석처리 지우고, 요약본으로 변경
+
+- 코딩 리뷰하면서 코딩 처리가 깔끔해짐
+    - startNum, lastNum 이 0 처리 부분을 const -> let 처리로 변경하고,  
+      if 구절에 넣었던 부분을 변수로 변경 처리함
+
+    - 예외처리 하면서, 댓글이 0 이상일 경우 부분 삭제됨
+    
+    - totCmtCount < lastNum 
+    // ex) 댓글이 10개 일 경우 3페이지의 lastNum = 12 //totCmtCount = 10 == > arr[10], arr[11] 째는 없으므로 arr[9]까지 보여줘야됨
+      // ex) 댓글이 10개인 경우(totCmtCount = 10)에는 arr[9] ***(arr[totCmtCount-1])***가 마지막 요소. 마지막요소에 접근하려면 totCmtCount -1 해줘야됨!
+      if (totCmtCount < lastNum) {
+        lastNum = totCmtCount - 1;
+      }
