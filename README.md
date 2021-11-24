@@ -41,7 +41,7 @@ https://github.com/erionRK621/studyWithMe
 - [prometheus and grafana](./doc/skill-book/prometheus_and_grafana/prometheus_and_grafana.md)
 - [winston and morgan](./doc/skill-book/winston&morgan/winston&morgan.md)
 - [GitHub Action](./doc/skill-book/github_action.md)
-- [Artillery-서버부화테스트](./doc/Actillery/Actrillery_test/Artillery.md)
+- [Artillery-서버부화테스트](./doc/skill-book/Actillery/Actrillery_test/Artillery.md)
 
 ## <div align=left> 🐳 문제점과 해결 방법 🐳 </div>
 
