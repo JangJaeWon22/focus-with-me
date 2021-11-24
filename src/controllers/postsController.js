@@ -98,12 +98,12 @@ module.exports = {
     // const path = req.file
     //   ? `uploads${req.file.location.split("uploads")[1]}`
     //   : null;
-    const originPath = req.files
+    const originPath = files["coverOriginal"]
       ? `uploads${files["coverOriginal"][0].location.split("uploads")[1]}`
-      : "";
-    const croppedPath = req.files
+      : null;
+    const croppedPath = files["coverCropped"]
       ? `uploads${files["coverCropped"][0].location.split("uploads")[1]}`
-      : "";
+      : null;
 
     const body = JSON.parse(JSON.stringify(req.body));
     const {
@@ -137,13 +137,22 @@ module.exports = {
           return res.status(403).send({ message });
         }
       }
+      /*
+        기존 이미지를 크로핑할 경우
+        coverOriginal -> null
+        coverCropped -> url
+        
+        coverOriginal -> null 일 경우, 기존 이미지를 삭제하면 안됨.
+
+       */
+
       // 기존 이미지 삭제 - 수정 성공하고 난 뒤에 해도 늦지 않음
       // post 의 이미지 url 따라가서 삭제
       const decodedHtml = decodeURIComponent(post.contentEditor);
       const prevImageList = extractImageSrcS3(decodedHtml);
       // const prevImageCover = decodeURIComponent(post.imageCover);
       const prevCoverOriginal = decodeURIComponent(post.coverOriginal);
-      const prevCvoerCropped = decodeURIComponent(post.coverCropped);
+      const prevCoverCropped = decodeURIComponent(post.coverCropped);
 
       // 새로 올라온 html에서 이미지 src 추출 후 파일 이동
       const imageList = extractImageSrcS3(contentEditor);
@@ -171,7 +180,7 @@ module.exports = {
       // 커버 이미지 삭제
       // await removeObjS3(prevImageCover);
       await removeObjS3(prevCoverOriginal);
-      await removeObjS3(prevCvoerCropped);
+      await removeObjS3(prevCoverCropped);
       return;
     } catch (error) {
       console.log(error);
