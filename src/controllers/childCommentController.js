@@ -62,9 +62,15 @@ const postChildComments = async (req, res) => {
     commentId,
   };
   try {
-    const result = await ChildComment.create(child);
+    await ChildComment.create(child);
+    // `SELECT child.*, Users.nickname, Users.avatarUrl
+    //   FROM ChildComments AS child
+    //   JOIN Users ON child.userId = Users.userId
+    //   GROUP BY child.childCommentId
+    //   ;`
+    // const createdChild = await sequelize.query()
     console.log(result);
-    return res.status(201).send({ message: "답글 작성 완료", result });
+    return res.status(201).send({ message: "답글 작성 완료" /* result */ });
   } catch (error) {
     console.log(error);
     return res.status(500).send({ message: "답글을 작성할 수 없습니다." });
