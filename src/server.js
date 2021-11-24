@@ -14,6 +14,8 @@ const followRouter = require("./routes/follow");
 const userInfoRouter = require("./routes/userInfo");
 const bookmarkRouter = require("./routes/bookmark");
 const likeCommentRouter = require("./routes/commentsLike");
+const childCommentRouter = require("./routes/childComments");
+
 const { stream } = require("./config/logger");
 
 //swagger
@@ -53,7 +55,7 @@ app.use(
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use("/public", express.static("public"));
+// app.use("/public", express.static("public"));
 
 //swagger
 app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerFile));
@@ -87,6 +89,7 @@ app.use("/api", followRouter);
 app.use("/api", userInfoRouter);
 app.use("/api", bookmarkRouter);
 app.use("/api", likeCommentRouter);
+app.use("/api", childCommentRouter);
 
 // metrics
 const client = require("prom-client");

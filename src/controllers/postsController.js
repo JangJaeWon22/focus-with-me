@@ -312,12 +312,14 @@ module.exports = {
       const coverOriginalUrl = post.coverOriginal;
 
       const result = await getObjS3(coverOriginalUrl);
-      const base64Format = result.Body.toString("base64");
-
+      // const base64Format = result.Body.toString("base64");
+      const utf8Format = result.Body.toString("utf-8");
+      console.log(utf8Format);
       logger.info(
         `POST /api/posts/${postId}/coverOriginal 200 res: 경로의 이미지 갖다주기!!`
       );
-      return res.status(200).send({ coverOriginalObj: base64Format });
+      // return res.status(200).send({ coverOriginalObj: base64Format });
+      return res.status(200).send(utf8Format);
     } catch (error) {
       console.log(error);
       logger.info(`POST /api/posts/${postId}/coverOriginal 500 res:${error}`);
