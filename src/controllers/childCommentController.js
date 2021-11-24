@@ -75,6 +75,7 @@ const postChildComments = async (req, res) => {
   };
   try {
     const child = await ChildComment.create(createdChild);
+    const abc = { child, nickname, avatarUrl };
     // 프론트에서 댓글 생성하면 바로 리턴되는 댓글을 컴포넌트로 붙여서 보여준다고 함
     // avatarUrl, nickname
 
@@ -92,7 +93,7 @@ const postChildComments = async (req, res) => {
     logger.info(
       `POST /api/posts/${postId}/comments/${commentId}/childs 200 res: ${message}`
     );
-    return res.status(201).send({ message, user, child /* result */ });
+    return res.status(201).send({ message, abc, user, child /* result */ });
   } catch (error) {
     console.log(error);
     message = "답글을 작성 할 수 없습니다.";
