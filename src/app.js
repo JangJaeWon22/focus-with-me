@@ -12,7 +12,6 @@ const { logger } = require("./config/logger");
 //test용 시작 view page
 app.set("views", __dirname + "/views");
 app.set("view engine", "ejs");
-
 app.get("/", (req, res) => {
   const title = "YJ's playground";
   res.render("index", { title });
