@@ -64,7 +64,7 @@ const postChildComments = async (req, res) => {
   const { userId, nickname, avatarUrl } = res.locals.user;
   const date = new Date();
 
-  const child = {
+  const createdChild = {
     textContent,
     postId,
     userId,
@@ -72,7 +72,7 @@ const postChildComments = async (req, res) => {
     commentId,
   };
   try {
-    await ChildComment.create(child);
+    await ChildComment.create(createdChild);
     // 프론트에서 댓글 생성하면 바로 리턴되는 댓글을 컴포넌트로 붙여서 보여준다고 함
     // avatarUrl, nickname
 
