@@ -31,7 +31,7 @@ const getChildComments = async (req, res) => {
       SELECT child.*, Users.nickname, Users.avatarUrl
       FROM ChildComments AS child
       JOIN Users ON child.userId = Users.userId
-      WHERE child.commentId = ${commentId}
+      WHERE child.commentId = ${commentId} and child.postId = ${postId}
       GROUP BY child.childCommentId
       LIMIT ${childPerPage}
       OFFSET ${offset}
