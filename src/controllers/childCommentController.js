@@ -62,17 +62,28 @@ const postChildComments = async (req, res) => {
     commentId,
   };
   try {
-    const result = await ChildComment.create(child);
-    console.log(result);
-    return res.status(201).send({ message: "답글 작성 완료", result });
+    await ChildComment.create(child);
+    // 프론트에서 댓글 생성하면 바로 리턴되는 댓글을 컴포넌트로 붙여서 보여준다고 함
+    // avatarUrl, nickname
+
+    // `SELECT child.*, Users.nickname, Users.avatarUrl
+    //   FROM ChildComments AS child
+    //   JOIN Users ON child.userId = Users.userId
+    //   GROUP BY child.childCommentId
+    //   ;`
+    // const createdChild = await sequelize.query()
+    return res.status(201).send({ message: "답글 작성 완료" /* result */ });
   } catch (error) {
     console.log(error);
     return res.status(500).send({ message: "답글을 작성할 수 없습니다." });
   }
 };
+
 const deleteChildComments = async (req, res) => {
   const { postId, commentId, childCommentId } = req.params;
 
+  // 자기꺼만 삭제할 수 있어야 하고
+  // 기타 등등.....
   try {
     await ChildComment.destroy(childCommentId);
   } catch (error) {
