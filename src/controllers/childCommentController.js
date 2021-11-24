@@ -70,6 +70,8 @@ const postChildComments = async (req, res) => {
     userId,
     date,
     commentId,
+    nickname,
+    avatarUrl,
   };
   try {
     await ChildComment.create(createdChild);
