@@ -109,7 +109,7 @@ const deleteChildComments = async (req, res) => {
   try {
     console.log("hi1");
     const { userId } = res.locals.user;
-    const childComment = await findByPk(childCommentId);
+    const childComment = await ChildComment.findByPk(childCommentId);
     console.log(childComment);
 
     // 답글 없을 경우 예외 처리
