@@ -1,4 +1,4 @@
-const { User, Post, sequelize } = require("../../models");
+const { User, Post, sequelize, Sequelize } = require("../../models");
 const { logger } = require("../../config/logger");
 
 //유저 정보 가공(작성한 게시글 갯수 카운트)
@@ -16,6 +16,20 @@ const getUserInfo = async (req, res, next) => {
     const userInfo = await sequelize.query(userQuery, {
       type: sequelize.QueryTypes.SELECT,
     });
+
+    let isFollowing = false;
+    if (res.locals.user) {
+      const result = await sequelize.query(
+        `SELECT * FROM Follow 
+        WHERE Follow.followerId=${res.locals.user.userId} AND
+        Follow.followingId=${userInfo[0].userId}`,
+        {
+          type: Sequelize.QueryTypes.SELECT,
+        }
+      );
+      if (result.length !== 0) isFollowing = true;
+    }
+    res.isFollowing = isFollowing;
     res.userInfo = userInfo;
     next();
   } catch (error) {

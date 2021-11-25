@@ -10,18 +10,8 @@ const userInfoOutPut = {
         로그인한 사람이 타겟을 팔로우하고 있는지? 아닌지? 판별할 것 
        */
       const userInfo = res.userInfo;
-      let isFollowing = false;
-      if (res.locals.user) {
-        const result = await sequelize.query(
-          `SELECT * FROM Follow 
-        WHERE Follow.followerId=${res.locals.user.userId} AND
-        Follow.followingId=${userInfo[0].userId}`,
-          {
-            type: Sequelize.QueryTypes.SELECT,
-          }
-        );
-        if (result.length !== 0) isFollowing = true;
-      }
+      const isFollowing = res.isFollowing;
+
       message = "회원 정보 조회를 했습니다.";
       logger.info(
         `GET /api/mypage/myInfo/${req.params.userId} 200 res:${message}`
@@ -29,7 +19,7 @@ const userInfoOutPut = {
       res.status(200).send({
         userInfo,
         followerCount,
-        followingsCount,
+        followingCount,
         message,
         isFollowing,
       });
