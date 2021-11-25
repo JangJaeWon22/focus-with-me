@@ -123,7 +123,7 @@ const deleteChildComments = async (req, res) => {
     }
     // 로그인한 유저가 작성자일 경우
     if (userId === childComment.userId) {
-      await ChildComment.destroy(childCommentId);
+      await ChildComment.destroy({ where: childCommentId });
       message = "답글 삭제 완료";
       logger.info(
         `DELETE /api/posts/${postId}/comments/${commentId}/childs/${childCommentId} 200 res: ${message}`
