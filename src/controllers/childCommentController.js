@@ -110,8 +110,9 @@ const deleteChildComments = async (req, res) => {
     console.log("hi1");
     const { userId } = res.locals.user;
     const childComment = await ChildComment.findByPk(childCommentId);
-    console.log(childComment);
+    console.log(childComment.userId);
 
+    console.log("userId", userId);
     // 답글 없을 경우 예외 처리
     if (!childComment) {
       message = "답글을 찾을 수 없습니다.";
