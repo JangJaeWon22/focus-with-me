@@ -152,14 +152,10 @@ const comments = {
         return res.status(400).send({ message });
       }
 
-      // ex) 댓글이 10개 일 경우 3페이지의 lastNum = 12 //totCmtCount = 10 == > arr[10], arr[11] 째는 없으므로 arr[9]까지 보여줘야됨
-      // ex) 댓글이 10개인 경우(totCmtCount = 10)에는 arr[9] ***(arr[totCmtCount-1])***가 마지막 요소. 마지막요소에 접근하려면 totCmtCount -1 해줘야됨!
       if (totCmtCount < lastNum) {
         lastNum = totCmtCount;
       }
      
-      //console.log(totCmtCount);
-      //console.log(lastNum);
       const cmtsList = [];
       for (let i = startNum; i < lastNum; i++){
         cmtsList.push(respondComments[i])
