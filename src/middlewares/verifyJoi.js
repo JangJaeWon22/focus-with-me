@@ -38,7 +38,6 @@ const verifyJoi = {
     const joiSchema = Joi.object({
       nicknameNew: Joi.string().min(2).max(10).required(),
     });
-
     try {
       // 사용자 인증 미들웨어에서 값 들고 옴
       if (req.body.nicknameNew) {
@@ -130,7 +129,6 @@ const verifyJoi = {
       return res.status(500).send({ message });
     }
   },
-
   // 이메일 중복검사
   existEmail: async (req, res, next) => {
     console.log("조이 검증 미들웨어 입장");
