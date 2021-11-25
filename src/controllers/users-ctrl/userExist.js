@@ -4,7 +4,7 @@ const { logger } = require("../../config/logger");
 const userExist = {
   existEmail: async (req, res) => {
     try {
-      const { email } = req.verifyBody;
+      const { email } = res.verifyBody;
       const existEmail = await User.findOne({ where: { email } });
       if (!existEmail) {
         message = "사용 가능한 이메일 입니다.";
@@ -24,11 +24,11 @@ const userExist = {
   },
   existNickname: async (req, res) => {
     try {
-      const { nickname } = req.verifyBody;
+      const { nickname } = res.verifyBody;
       const existNickname = await User.findOne({ where: { nickname } });
       if (res.locals.user) {
         const user = res.locals.user;
-        if (user.nickname == req.verifyBody.nickname) {
+        if (user.nickname == res.verifyBody.nickname) {
           message = "기존 닉네임과 변동사항이 없습니다.";
           logger.info(`POST /api/users/nicknameexist 200 "res:${message}`);
           return res.status(200).send({ message });
