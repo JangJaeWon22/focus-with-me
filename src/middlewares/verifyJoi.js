@@ -9,7 +9,7 @@ const verifyJoi = {
         .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
         .max(50)
         .required(),
-      nickname: Joi.string().min(1).max(20).required(),
+      nickname: Joi.string().min(2).max(10).required(),
       password: Joi.string().regex(
         /^.*(?=^.{8,}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/
       ),
@@ -32,13 +32,12 @@ const verifyJoi = {
     }
   },
 
-  //회원정보 수정 시 joi 검증 실행
+  // nickname 변경 시
   updateUserProfile: async (req, res, next) => {
     console.log("조이 검증 미들웨어 입장");
     const joiSchema = Joi.object({
-      nicknameNew: Joi.string().min(1).max(20).required(),
+      nicknameNew: Joi.string().min(2).max(10).required(),
     });
-
     try {
       // 사용자 인증 미들웨어에서 값 들고 옴
       if (req.body.nicknameNew) {
@@ -63,6 +62,7 @@ const verifyJoi = {
     }
   },
 
+  //프로필 정보 변경(password)
   updateUserPw: async (req, res, next) => {
     const joiSchema = Joi.object({
       passwordOld: Joi.string().regex(
@@ -101,6 +101,59 @@ const verifyJoi = {
       console.log(error);
       message = "입력하신 비밀번호의 형식이 올바르지 않습니다.";
       logger.error(`verifyJoi-updateUserPw middlewares 500 error:${error}`);
+      return res.status(500).send({ message });
+    }
+  },
+
+  // 닉네임 중복검사
+  existNickname: async (req, res, next) => {
+    console.log("조이 검증 미들웨어 입장");
+    const joiSchema = Joi.object({
+      nickname: Joi.string().min(2).max(10).required(),
+    });
+    try {
+      if (req.body.nickname) {
+        const { nickname } = req.body;
+        const verifyBody = await joiSchema.validateAsync({ nickname });
+        res.verifyBody = verifyBody;
+        next();
+      } else {
+        message = "닉네임의 형식이 올바르지 않습니다.";
+        logger.info(`verifyJoi-existNickname middlewares 400 error:${message}`);
+        return res.status(400).send({ message });
+      }
+    } catch (error) {
+      console.log(error);
+      message = "닉네임의 형식이 올바르지 않습니다.";
+      logger.error(`verifyJoi-existNickname middlewares 500 error:${error}`);
+      return res.status(500).send({ message });
+    }
+  },
+  // 이메일 중복검사
+  existEmail: async (req, res, next) => {
+    console.log("조이 검증 미들웨어 입장");
+    const joiSchema = Joi.object({
+      email: Joi.string()
+        .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
+        .max(50)
+        .required(),
+    });
+    try {
+      // 사용자 인증 미들웨어에서 값 들고 옴
+      if (req.body.email) {
+        const { email } = req.body;
+        const verifyBody = await joiSchema.validateAsync({ email });
+        res.verifyBody = verifyBody;
+        next();
+      } else {
+        message = "이메일의 형식이 올바르지 않습니다.";
+        logger.info(`verifyJoi-existEmail middlewares 400 error:${message}`);
+        return res.status(400).send({ message });
+      }
+    } catch (error) {
+      console.log(error);
+      message = "이메일 형식이 올바르지 않습니다.";
+      logger.error(`verifyJoi-existEmail middlewares 500 error:${error}`);
       return res.status(500).send({ message });
     }
   },

@@ -18,7 +18,7 @@ const comments = {
       const avatarUrl = user.avatarUrl;
       // 날짜를 선언한다
       const date = new Date();
-     
+
       // comment model에서 생성해주기 위해 create를 사용한다
       // comment 라는 변수에 저장하고자 하는 값을 넣어준다
       const comment = await Comment.create({
@@ -30,13 +30,13 @@ const comments = {
 
       //특정 게시물의 댓글의 수
       const cmtCount = await Comment.count({
-        where: {postId} 
-      })
+        where: { postId },
+      });
       //페이지네이션 1페이지당 몇개를 보여줄지?
       const perPage = 4;
-     
-      //전체 페이지 수  
-      const totalPg = Math.ceil(cmtCount/perPage);
+
+      //전체 페이지 수
+      const totalPg = Math.ceil(cmtCount / perPage);
 
       message = "댓글 작성에 성공했습니다.";
       logger.info(`POST api/posts/${postId}/comments 201 res:${message}`);
@@ -46,7 +46,7 @@ const comments = {
         comment,
         avatarUrl,
         message,
-        totalPg, 
+        totalPg,
       });
     } catch (error) {
       // 에러 발생 했을 경우, console.log를 찍어준다
@@ -105,8 +105,8 @@ const comments = {
         반복문의 역할: commentAll 이 인덱스 오름차순으로 정렬되는데, 날짜 오름차순과 일치한다
                     프론트 쪽에서 날짜 최신순으로 보여줘야 해서, 배열의 unshift 메서드로 처리한다
                     또한, 현재 로그인한 유저가 각각의 댓글에 대해 좋아요를 눌렀는지 판별한 뒤, 판별한 값을 댓글 객체에 같이 넣어준다
-      */ 
-      for (const comment of commentAll) { 
+      */
+      for (const comment of commentAll) {
         let isCommentLiked = false;
         // 사용자 인증 미들웨어를 타고 들어왔는데 사용자가 로그인 상태라면
         if (res.locals.user) {
@@ -117,37 +117,37 @@ const comments = {
           if (liked) isCommentLiked = true;
         }
 
-        respondComments.unshift({ 
+        respondComments.unshift({
           userId: comment.userId,
           userNickname: comment.nickname,
           textContent: comment.textContent,
           avatarUrl: comment.avatarUrl,
-          date: comment.date, 
+          date: comment.date,
           commentId: comment.commentId,
           postId: comment.postId,
           commentLikeCnt: comment.commentLikeCnt,
           isCommentLiked,
         });
       }
-      
+
       // 댓글 페이지네이션
       let { pagination } = req.query;
       const perPage = 4; // limit
 
       // pagination 예외처리
-      if (!pagination){
-        pagination = 1
+      if (!pagination) {
+        pagination = 1;
       }
 
       const pageNum = parseInt(pagination, 10); // 페이지 수를 10진수로 처리함
-      const totCmtCount = respondComments.length; // 댓글 총 페이지 수와 댓글 총 수 구할때 필요함, 배열의 길이 
+      const totCmtCount = respondComments.length; // 댓글 총 페이지 수와 댓글 총 수 구할때 필요함, 배열의 길이
       const totalPg = Math.ceil(totCmtCount / perPage); // 총 페이지를 보여주면, 댓글 여러개 달렸을때, 나눠서 보여주려고 사용함
       let startNum = (pageNum - 1) * perPage;
       let lastNum = pageNum * perPage;
 
       // 예외처리
       if (pageNum < 1) {
-        message = "댓글 리스트를 불러오는데 실패 했습니다."
+        message = "댓글 리스트를 불러오는데 실패 했습니다.";
         logger.info(`GET /api/posts/${postId}/comments 400 res:${message}`);
         return res.status(400).send({ message });
       }
@@ -157,8 +157,8 @@ const comments = {
       }
      
       const cmtsList = [];
-      for (let i = startNum; i < lastNum; i++){
-        cmtsList.push(respondComments[i])
+      for (let i = startNum; i < lastNum; i++) {
+        cmtsList.push(respondComments[i]);
       }
 
       message = "댓글 조회에 성공했습니다.";

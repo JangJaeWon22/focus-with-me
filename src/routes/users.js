@@ -22,12 +22,20 @@ router.post(
 );
 
 // 중복확인 - email
-router.post("/users/emailexist", logInNot, userExist.existEmail);
+router.post(
+  "/users/emailexist",
+  logInNot,
+  verifyJoi.existEmail,
+  userExist.existEmail
+);
 
 // 중복확인 - nickname
-//
-// router.post("/users/nicknameexist", logInNot, userExist.existNickname);
-router.post("/users/nicknameexist", logInBoth, userExist.existNickname);
+router.post(
+  "/users/nicknameexist",
+  logInBoth,
+  verifyJoi.existNickname,
+  userExist.existNickname
+);
 
 // 로그인
 router.post("/users/login", logInNot, userOutPut.authUser);

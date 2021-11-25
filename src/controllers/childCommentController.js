@@ -103,14 +103,15 @@ const postChildComments = async (req, res) => {
 
 const deleteChildComments = async (req, res) => {
   const { postId, commentId, childCommentId } = req.params;
-
+  console.log("hi");
   // 자기꺼만 삭제할 수 있어야 하고
   // 기타 등등.....
   try {
     const { userId } = res.locals.user;
-    const childComment = await findByPk(childCommentId);
-    console.log(childComment);
+    const childComment = await ChildComment.findByPk(childCommentId);
+    console.log(childComment.userId);
 
+    console.log("userId", userId);
     // 답글 없을 경우 예외 처리
     if (!childComment) {
       message = "답글을 찾을 수 없습니다.";
@@ -121,7 +122,9 @@ const deleteChildComments = async (req, res) => {
     }
     // 로그인한 유저가 작성자일 경우
     if (userId === childComment.userId) {
-      await ChildComment.destroy(childCommentId);
+      await ChildComment.destroy({
+        where: { childCommentId: childComment.childCommentId },
+      });
       message = "답글 삭제 완료";
       logger.info(
         `DELETE /api/posts/${postId}/comments/${commentId}/childs/${childCommentId} 200 res: ${message}`
@@ -139,7 +142,7 @@ const deleteChildComments = async (req, res) => {
     console.log(error);
     message = "답글 삭제 실패";
     logger.error(
-      `POST /api/posts/${postId}/comments/${childs}/childs/${childCommentId} 500 res: ${error}`
+      `POST /api/posts/${postId}/comments/${commentId}/childs/${childCommentId} 500 res: ${error}`
     );
     return res.status(500).send({ message });
   }

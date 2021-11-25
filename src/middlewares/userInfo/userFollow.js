@@ -3,11 +3,11 @@ const { logger } = require("../../config/logger");
 
 function follow(user) {
   user.followerCount = user ? user.Followers.length : 0;
-  user.followingsCount = user ? user.Followings.length : 0;
+  user.followingCount = user ? user.Followings.length : 0;
   user.followingIdList = user ? user.Followings : [];
   user.followerIdList = user ? user.Followers : [];
   followerCount = user.followerCount;
-  followingsCount = user.followingsCount;
+  followingCount = user.followingCount;
   followingIdList = user.followingIdList;
   followerIdList = user.followerIdList;
 }
