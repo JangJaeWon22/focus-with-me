@@ -160,7 +160,7 @@ const comments = {
       for (let i = startNum; i < lastNum; i++) {
         cmtsList.push(respondComments[i]);
       }
-      console.log("hi");
+      
       message = "댓글 조회에 성공했습니다.";
       logger.info(`GET /api/posts/${postId}/comments 200 res:${message}`);
       return res.status(200).send({ cmtsList, message, totalPg, totCmtCount });
