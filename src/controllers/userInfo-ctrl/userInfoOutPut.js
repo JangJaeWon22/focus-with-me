@@ -1,12 +1,17 @@
-const { Post, Bookmark, Like } = require("../../models");
-const { Sequelize } = require("../../models");
+const { Post, Bookmark, Like, sequelize, Sequelize } = require("../../models");
 const { logger } = require("../../config/logger");
 
 const userInfoOutPut = {
   // 회원 정보 조회
   getUser: async (req, res) => {
     try {
+      /*
+        현재 로그인한 사람이 다른 사람 정보 페이지 갈 경우,
+        로그인한 사람이 타겟을 팔로우하고 있는지? 아닌지? 판별할 것 
+       */
       const userInfo = res.userInfo;
+      const isFollowing = res.isFollowing;
+
       message = "회원 정보 조회를 했습니다.";
       logger.info(
         `GET /api/mypage/myInfo/${req.params.userId} 200 res:${message}`
@@ -14,8 +19,9 @@ const userInfoOutPut = {
       res.status(200).send({
         userInfo,
         followerCount,
-        followingsCount,
+        followingCount,
         message,
+        isFollowing,
       });
     } catch (error) {
       console.log(error);
