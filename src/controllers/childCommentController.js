@@ -103,10 +103,11 @@ const postChildComments = async (req, res) => {
 
 const deleteChildComments = async (req, res) => {
   const { postId, commentId, childCommentId } = req.params;
-
+  console.log("hi");
   // 자기꺼만 삭제할 수 있어야 하고
   // 기타 등등.....
   try {
+    console.log("hi1");
     const { userId } = res.locals.user;
     const childComment = await findByPk(childCommentId);
     console.log(childComment);
