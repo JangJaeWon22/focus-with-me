@@ -27,7 +27,7 @@ const opts = {
   file: new winstonDaily({
     filename: `%DATE%.log`,
     dirname: "./logs",
-    level: "info",
+    level: "error",
     format: printLogFormat.file,
   }),
   console: new transports.Console({
@@ -44,10 +44,10 @@ if (process.env.NODE_ENV !== "production") {
   logger.add(opts.console);
 }
 
-const stream = {
-  write: (message) => {
-    logger.info(message);
-  },
-};
+// const stream = {
+//   write: (message) => {
+//     logger.info(message);
+//   },
+// };
 
-module.exports = { logger, stream };
+module.exports = { logger /* stream  */ };

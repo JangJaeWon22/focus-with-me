@@ -3,6 +3,8 @@ name: node.js CI
 on:
   push:
     branches: [main]
+  # pull_request:
+  #   branches: [main]
 
 jobs:
   build:
@@ -19,8 +21,8 @@ jobs:
           script: |
             sudo -s
             cd /home/ubuntu/focus-with-me
-            sudo git pull
+            sudo git pull --ff
             cd /home/ubuntu/focus-with-me/src
-            rm -rf package-lock.json
+            sudo rm -rf package-lock.json
             npm i
             sudo pm2 reload all
