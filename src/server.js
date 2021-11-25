@@ -1,5 +1,5 @@
 const express = require("express");
-const logger = require("morgan");
+const morgan = require("morgan");
 const app = express();
 const cors = require("cors");
 const { sequelize } = require("./models");
@@ -49,7 +49,7 @@ sequelize
 app.use(cors({ origin: true, credentials: true }));
 
 app.use(
-  logger(
+  morgan(
     `HTTP/:http-version :method :remote-addr [:url] :remote-user (:status) [:res[content-length]] [:referrer // :user-agent] [:response-time ms] `
     // { stream }
   )

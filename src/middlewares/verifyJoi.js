@@ -32,7 +32,7 @@ const verifyJoi = {
     }
   },
 
-  //회원정보 수정 시 joi 검증 실행
+  // nickname 변경 시
   updateUserProfile: async (req, res, next) => {
     console.log("조이 검증 미들웨어 입장");
     const joiSchema = Joi.object({
@@ -63,50 +63,7 @@ const verifyJoi = {
     }
   },
 
-  //프로필 정보 변경(nickname)
-  updateUserPw: async (req, res, next) => {
-    const joiSchema = Joi.object({
-      passwordOld: Joi.string().regex(
-        /^.*(?=^.{8,}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/
-      ),
-      passwordNew: Joi.string().regex(
-        /^.*(?=^.{8,}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/
-      ),
-      confirmPasswordNew: Joi.ref("passwordNew"),
-    });
-    const { passwordOld, passwordNew, confirmPasswordNew } = req.body;
-    try {
-      ///비밀번호 변경을 하지 않을 경우 빈값으로 넘겨받아야됨
-      if (!passwordNew || !confirmPasswordNew) {
-        message = "변경할 비밀번호 또는 비밀번호 확인란을 확인 해주세요.";
-        logger.info(`verifyJoi-updateUserPw middlewares 400 error:${message}`);
-        return res.status(400).send({ message });
-      } else {
-        if (passwordNew !== confirmPasswordNew) {
-          message = "변경할 비밀번호와 비밀번호 확인란이 일치하지 않습니다.";
-          logger.info(
-            `verifyJoi-updateUserPw middlewares 400 error:${message}`
-          );
-          return res.status(400).send({ message });
-        } else {
-          const verifyBody = await joiSchema.validateAsync({
-            passwordOld,
-            passwordNew,
-            confirmPasswordNew,
-          });
-          res.verifyBody = verifyBody;
-          next();
-        }
-      }
-    } catch (error) {
-      console.log(error);
-      message = "입력하신 비밀번호의 형식이 올바르지 않습니다.";
-      logger.error(`verifyJoi-updateUserPw middlewares 500 error:${error}`);
-      return res.status(500).send({ message });
-    }
-  },
-
-  // 비밀번호 변경 시
+  //프로필 정보 변경(password)
   updateUserPw: async (req, res, next) => {
     const joiSchema = Joi.object({
       passwordOld: Joi.string().regex(
@@ -155,9 +112,7 @@ const verifyJoi = {
     const joiSchema = Joi.object({
       nickname: Joi.string().min(2).max(10).required(),
     });
-
     try {
-      // 사용자 인증 미들웨어에서 값 들고 옴
       if (req.body.nickname) {
         const { nickname } = req.body;
         const verifyBody = await joiSchema.validateAsync({ nickname });
@@ -185,7 +140,6 @@ const verifyJoi = {
         .max(50)
         .required(),
     });
-
     try {
       // 사용자 인증 미들웨어에서 값 들고 옴
       if (req.body.email) {
