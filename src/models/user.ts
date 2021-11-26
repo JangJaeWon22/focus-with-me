@@ -1,12 +1,33 @@
-"use strict";
-const { Model } = require("sequelize");
-module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
+import { Model } from "sequelize";
+
+// These are all the attributes in the User model
+interface UserAttributes {
+  userId: number;
+  email?: string;
+  nickname: string;
+  password?: string;
+  avatarUrl?: string;
+  provider: string;
+  snsId?: string;
+  date: Date;
+}
+
+module.exports = (sequelize:any, DataTypes:any) => {
+  class User extends Model<UserAttributes> 
+  implements UserAttributes {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
+     userId: number;
+     email?: string;
+     nickname: string;
+     password?: string;
+     avatarUrl?: string;
+     provider: string;
+     snsId?: string;
+     date: Date;
     static associate(db) {
       User.hasMany(db.Post, {
         foreignKey: "userId",
@@ -46,6 +67,8 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
   }
+
+
   User.init(
     {
       userId: {
