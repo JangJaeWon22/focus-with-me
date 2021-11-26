@@ -1,4 +1,5 @@
-const { Post, Bookmark, Like, User, sequelize } = require("../models");
+// const { Post, Bookmark, Like, User, sequelize } = require("../models");
+import { Post, Bookmark, Like, User, sequelize } from "../models";
 const {
   extractImageSrcS3,
   copyImagesS3,
@@ -8,7 +9,7 @@ const {
 const { logger } = require("../config/logger");
 /* option + shift + a */
 
-module.exports = {
+class PostsController {
   /* 
     게시물 조회
   */
