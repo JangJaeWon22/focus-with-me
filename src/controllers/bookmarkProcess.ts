@@ -4,7 +4,7 @@ import { logger } from "../config/logger";
 import {bookmark} from "../interfaces/bookmark"
 
 
-class bookmarkProcess {
+class BookmarkProcess {
   public createbookmark = async (req: Request, res: Response) => {
     // params로 postId 받아옴
     const { postId } = req.params;
@@ -83,4 +83,4 @@ class bookmarkProcess {
   };
 };
 
-export default new bookmarkProcess()
+export default new BookmarkProcess()
