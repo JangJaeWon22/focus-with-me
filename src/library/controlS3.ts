@@ -11,14 +11,15 @@ import * as aws from "aws-sdk";
 class ControlS3 {
   s3 = new aws.S3();
 
-  public async extractImageSrcS3 (html:string) {
+  public async extractImageSrcS3(html: string) {
     try {
-      const regexp : RegExp = /<img[^>]+src\s*=\s*['"]([^'"]+)['"][^>]*>/g;
-      const srcs : string[] = html.match(regexp);
-      const imageList : string[] = [];
+      const regexp: RegExp = /<img[^>]+src\s*=\s*['"]([^'"]+)['"][^>]*>/g;
+      const srcs: string[] = html.match(regexp);
+      const imageList: string[] = [];
       if (srcs) {
         srcs.forEach((src) => {
-          const imageUrl:string = "uploads" + src.split("uploads")[1].slice(0, -2);
+          const imageUrl: string =
+            "uploads" + src.split("uploads")[1].slice(0, -2);
           imageList.push(imageUrl);
         });
       }
@@ -27,16 +28,16 @@ class ControlS3 {
       console.log(error);
       return [];
     }
-  };
-  
-  public async copyImagesS3 (imageList : string[]){
+  }
+
+  public async copyImagesS3(imageList: string[]) {
     try {
       /**
        * 이미지 리스트에서 파일 이름만 추출
        * 각 파일이 새로운 경로 key가 되고, copyObject 수행
        */
       for (const url of imageList) {
-        const filename : string = url.split("temp/")[1];
+        const filename: string = url.split("temp/")[1];
         await this.s3
           .copyObject({
             Bucket: process.env.S3_BUCKET_NAME,
@@ -51,15 +52,15 @@ class ControlS3 {
       console.log(error);
       return;
     }
-  };
-  
+  }
+
   /**
    * root 이 후의 경로가 Key
    * temp/1636955398064_20170716_211848140_iOS.jpg
    */
-  
+
   // 배열까지 처리할 수 있도록 만들어보기
-  public async removeObjS3 (src:string) {
+  public async removeObjS3(src: string) {
     try {
       await this.s3
         .deleteObject({
@@ -71,34 +72,34 @@ class ControlS3 {
       console.log(error);
       return;
     }
-  };
-  
-  public async emptyTempS3 () {
+  }
+
+  public async emptyTempS3() {
     const listParams = {
       Bucket: process.env.S3_BUCKET_NAME,
       Prefix: "uploads/temp",
     };
-  
+
     const listedObjects = await this.s3.listObjectsV2(listParams).promise();
-  
+
     // 폴더 내 파일이 없으면 함수 종료
     if (listedObjects.Contents.length === 0) return;
-  
+
     const deleteParams = {
       Bucket: process.env.S3_BUCKET_NAME,
       Delete: { Objects: [] },
     };
-  
+
     listedObjects.Contents.forEach(({ Key }) => {
       deleteParams.Delete.Objects.push({ Key });
     });
-  
+
     await this.s3.deleteObjects(deleteParams).promise();
-  
+
     if (listedObjects.IsTruncated) await this.emptyTempS3();
-  };
-  
-  public async getObjS3 (src:string) {
+  }
+
+  public async getObjS3(src: string) {
     try {
       const result = await this.s3
         .getObject({
@@ -106,14 +107,13 @@ class ControlS3 {
           Key: src,
         })
         .promise();
-  
+
       return result;
     } catch (error) {
       console.log(error);
       return null;
     }
-  };
+  }
 }
 // 다른 곳에서 import하면 여기서 인스턴스를 만들어준다?
 export default new ControlS3();
-

@@ -1,19 +1,20 @@
-// const { Post, Bookmark, Like, User, sequelize } = require("../models");
 import { Post, Bookmark, Like, User, sequelize } from "../models";
+import { Request, Response } from 'express';
+import ControlS3 from "../library/controlS3"
+import { logger } from "../config/logger";
 const {
   extractImageSrcS3,
   copyImagesS3,
   removeObjS3,
   getObjS3,
-} = require("../library/controlS3");
-const { logger } = require("../config/logger");
+} = ControlS3;
 /* option + shift + a */
 
 class PostsController {
   /* 
     게시물 조회
   */
-  getPosts: async (req, res) => {
+    public async getPosts(req : Request, res: Response) {
     //조회는 미들웨어에서 처리하고, 여기는 던지는 역할만 하기
     const { randPosts, posts, totalPage } = req;
     const followPost = res.followPost;
@@ -26,11 +27,11 @@ class PostsController {
       followPost,
       totalPage,
     });
-  },
+  };
   /* 
     게시물 생성
   */
-  postPosts: async (req, res) => {
+    public async postPosts (req : Request, res :Response){
     const files = JSON.parse(JSON.stringify(req.files));
     const originPath = req.files
       ? `uploads${files["coverOriginal"][0].location.split("uploads")[1]}`
@@ -86,11 +87,11 @@ class PostsController {
       logger.info(`POST /api/posts 500 res:${message}`);
       return res.status(500).send({ message });
     }
-  },
+  };
   /* 
     게시물 수정
   */
-  putPosts: async (req, res) => {
+    public async putPosts (req: Request, res :Response) {
     const { userId } = res.locals.user;
     const { postId } = req.params;
     const files = JSON.parse(JSON.stringify(req.files));
@@ -196,11 +197,11 @@ class PostsController {
       logger.error(`PUT /api/posts/${postId} 204 res:${message}`);
       return res.status(500).send({ message });
     }
-  },
+  };
   /* 
     게시물 삭제
   */
-  deletePosts: async (req, res) => {
+    public async deletePosts (req: Request, res :Response) {
     const { postId } = req.params;
     const { userId } = res.locals.user;
 
@@ -228,11 +229,11 @@ class PostsController {
       logger.error(`DELETE /api/posts/${postId} 200 res:${error}`);
       return res.status(500).send({ message });
     }
-  },
+  };
   /* 
     특정 게시물 조회
   */
-  getOnePost: async (req, res) => {
+    public async getOnePost (req: Request, res :Response) {
     const { postId } = req.params;
     // const userId = req.user ? req.user.userId : undefined;
     // 예외처리
@@ -292,11 +293,11 @@ class PostsController {
       logger.error(`GET /api/posts/${postId} 500 res:${error}}`);
       return res.status(500).send({ message });
     }
-  },
+  };
   /* 
     ckEditor 본문 이미지 업로드
   */
-  ckUpload: (req, res) => {
+    public ckUpload (req: Request, res :Response) {
     const { user } = res.locals.user;
     const path = `uploads${req.file.location.split("uploads")[1]}`;
     logger.info(`POST /api/posts/ckUpload 201 res:${path} 경로 이미지 저장`);
@@ -305,7 +306,7 @@ class PostsController {
   /*
     크롭퍼에 넣어줄 이미지 가져온 뒤 보여주기
   */
-  getCoverOriginal: async (req, res) => {
+  public async getCoverOriginal (req: Request, res :Response) {
     // 포스트 수정 시 이미지 가져오기
     const { postId } = req.params;
     /*

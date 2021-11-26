@@ -1,6 +1,6 @@
-const { sequelize, Sequelize } = require("../models");
-const { Post, User, Like, Bookmark } = require("../models");
-
+// const { sequelize, Sequelize } = require("../models");
+import { sequelize, Sequelize, Post, User, Like, Bookmark } from "../models";
+// const { Post, User, Like, Bookmark } = require("../models");
 const filter = async (req, res, next) => {
   const { searchMode } = req.query;
   if (searchMode === "main") {
