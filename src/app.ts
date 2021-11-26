@@ -9,12 +9,12 @@ const port = process.env.EXPRESS_PORT;
 import {logger} from "./config/logger"
 
 //test용 시작 view page
-app.set("views", __dirname + "/views");
-app.set("view engine", "ejs");
-app.get("/", (req, res) => {
-  const title = "YJ's playground";
-  res.render("index", { title });
-});
+// app.set("views", __dirname + "/views");
+// app.set("view engine", "ejs");
+// app.get("/", (req, res) => {
+//   const title = "YJ's playground";
+//   res.render("index", { title });
+// });
 
 // 매일 0시 0분 0초에 temp 폴더 비우기
 // 초 분 시 일 월 년

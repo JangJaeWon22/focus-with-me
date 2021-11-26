@@ -8,7 +8,7 @@ interface BookmarkAttributes {
   date: Date;
 }
 
-module.exports = (sequelize: any, DataTypes: any) => {
+export function BookmarkFac (sequelize: any, DataTypes: any){
   class Bookmark extends Model<BookmarkAttributes>
   implements BookmarkAttributes {
     /**
