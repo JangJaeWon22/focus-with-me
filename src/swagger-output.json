@@ -934,6 +934,18 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "textContent": {
+                  "example": "대댓글임"
+                }
+              }
+            }
           }
         ],
         "responses": {
@@ -970,18 +982,6 @@
             "in": "path",
             "required": true,
             "type": "string"
-          },
-          {
-            "name": "obj",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "textContent": {
-                  "example": "대댓글임"
-                }
-              }
-            }
           }
         ],
         "responses": {
