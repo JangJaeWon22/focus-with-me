@@ -1,12 +1,14 @@
-import app from "./server"
-import * as dotenv from "dotenv"
+import app from "./server";
+import * as dotenv from "dotenv";
 dotenv.config();
-import * as schedule from "node-schedule"
-import * as emptyTempS3 from "./library/controlS3"
+import * as schedule from "node-schedule";
+import ControlS3 from "./library/controlS3";
+const { emptyTempS3 } = ControlS3;
+
 const port = process.env.EXPRESS_PORT;
 
 //winston
-import {logger} from "./config/logger"
+import { logger } from "./config/logger";
 
 //test용 시작 view page
 // app.set("views", __dirname + "/views");

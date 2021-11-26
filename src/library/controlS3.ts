@@ -11,7 +11,7 @@ import * as aws from "aws-sdk";
 class ControlS3 {
   s3 = new aws.S3();
 
-  public async extractImageSrcS3(html: string) {
+  public extractImageSrcS3(html: string) {
     try {
       const regexp: RegExp = /<img[^>]+src\s*=\s*['"]([^'"]+)['"][^>]*>/g;
       const srcs: string[] = html.match(regexp);

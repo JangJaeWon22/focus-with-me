@@ -1,14 +1,14 @@
-// const { sequelize, Sequelize } = require("../models");
 import { sequelize, Sequelize, Post, User, Like, Bookmark } from "../models";
-// const { Post, User, Like, Bookmark } = require("../models");
-const filter = async (req, res, next) => {
-  const { searchMode } = req.query;
+import { Request, Response, NextFunction } from "express";
+
+const filter = async (req: Request, res: Response, next: NextFunction) => {
+  const { searchMode }: { searchMode: string } = req.query;
   if (searchMode === "main") {
     //여기에 유저 정보 보여주기
     // 좋아요 내림차순 10개, 랜덤 포스트 10개, 로그인한 경우 팔로잉 5개
 
     // 좋아요 내림차순 10개
-    const sqlQuery = `
+    const sqlQuery: string = `
     SELECT Posts.*, COUNT(Likes.postId) AS likeCnt, Users.nickname, Users.avatarUrl
     FROM Posts
     JOIN Likes On Posts.postId = Likes.postId
@@ -76,6 +76,12 @@ const filter = async (req, res, next) => {
       categoryStudyMate,
       keyword,
       sort,
+    }: {
+      categorySpace: string;
+      categoryInterest: string;
+      categoryStudyMate: string;
+      keyword: string;
+      sort: string;
     } = req.query;
     let { page } = req.query;
     // 페이지네이션에 필요한 것 : page query string, total number of posts, total page
