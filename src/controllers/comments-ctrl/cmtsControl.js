@@ -1,4 +1,4 @@
-const { Comment, User, CommentLike } = require("../../models");
+const { Comment, User, CommentLike, ChildComment } = require("../../models");
 const { Sequelize } = require("../../models");
 const { logger } = require("../../config/logger");
 
@@ -58,7 +58,10 @@ const comments = {
     }
   },
 
-  // 댓글 조회
+  /* 
+    댓글 조회
+    각 댓글별로 답글이 몇개있는지 끼워넣어서 보내줘야 함
+  */
   commentSearch: async (req, res) => {
     try {
       // req.params로 postId를 할당 받음
@@ -108,6 +111,7 @@ const comments = {
       */
       for (const comment of commentAll) {
         let isCommentLiked = false;
+        let childCnt = 0;
         // 사용자 인증 미들웨어를 타고 들어왔는데 사용자가 로그인 상태라면
         if (res.locals.user) {
           // 로그인 한 사용자가 현재의 포스트에서 좋아요를 했는지 db 검색
@@ -116,6 +120,13 @@ const comments = {
           });
           if (liked) isCommentLiked = true;
         }
+
+        childCnt = await ChildComment.count({
+          where: {
+            commentId: comment.commentId,
+          },
+        });
+        // 각 댓글별로 답글 수 찾기
 
         respondComments.unshift({
           userId: comment.userId,
@@ -127,6 +138,7 @@ const comments = {
           postId: comment.postId,
           commentLikeCnt: comment.commentLikeCnt,
           isCommentLiked,
+          childCnt,
         });
       }
 
@@ -155,7 +167,7 @@ const comments = {
       if (totCmtCount < lastNum) {
         lastNum = totCmtCount;
       }
-     
+
       const cmtsList = [];
       for (let i = startNum; i < lastNum; i++) {
         cmtsList.push(respondComments[i]);
