@@ -1,13 +1,12 @@
-const app = require("./server");
-const dotenv = require("dotenv");
-const schedule = require("node-schedule");
-const { emptyTempS3 } = require("./library/controlS3");
-
+import app from "./server"
+import * as dotenv from "dotenv"
 dotenv.config();
+import * as schedule from "node-schedule"
+import * as emptyTempS3 from "./library/controlS3"
 const port = process.env.EXPRESS_PORT;
 
 //winston
-const { logger } = require("./config/logger");
+import {logger} from "./config/logger"
 
 //test용 시작 view page
 app.set("views", __dirname + "/views");

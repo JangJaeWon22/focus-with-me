@@ -1,9 +1,7 @@
-const express = require("express");
+import * as express from "express"
 const router = express.Router();
-const { logInOnly } = require("../middlewares/passport-auth");
-const {
-  bookmarkProcess,
-} = require("../controllers/bookmark-ctrl/bookmarkProcess");
+import { logInOnly } from "../middlewares/passport-auth"
+import bookmarkProcess from "../controllers/bookmarkProcess"
 
 router.post("/bookmarks/:postId", logInOnly, bookmarkProcess.createbookmark);
 router.delete("/bookmarks/:postId", logInOnly, bookmarkProcess.deleteBookmark);

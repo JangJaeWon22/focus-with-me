@@ -1,5 +1,5 @@
-require("dotenv").config();
-module.exports = {
+import 'dotenv/config';
+export const config = {
   development: {
     username: "root",
     password: process.env.DB_TEST_PW,

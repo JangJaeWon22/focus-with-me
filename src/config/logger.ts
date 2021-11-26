@@ -1,5 +1,7 @@
-const { createLogger, transports, format } = require("winston");
-const winstonDaily = require("winston-daily-rotate-file");
+import { createLogger, transports, format } from "winston";
+import * as winstonDaily from "winston-daily-rotate-file";
+
+
 const { label, combine, timestamp, printf, simple, colorize } = format;
 
 const timezoned = () => {
@@ -44,10 +46,5 @@ if (process.env.NODE_ENV !== "production") {
   logger.add(opts.console);
 }
 
-// const stream = {
-//   write: (message) => {
-//     logger.info(message);
-//   },
-// };
 
-module.exports = { logger /* stream  */ };
+export {logger};
