@@ -23,8 +23,10 @@ const job = schedule.scheduleJob("0 0 0 * * *", async () => {
   await emptyTempS3();
   console.log("temp 폴더 삭제");
 });
-console.log("hi");
+
 app.listen(port, () => {
+  console.log("서연제도 푸쉬 된다!!!");
+  console.log("서연제도 푸쉬 된다!!!");
   logger.info(`
   ${port} 포트에서 서버가 가동되었습니다.😄😄
 ----------------------------------------------
