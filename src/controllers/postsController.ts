@@ -1,5 +1,5 @@
 import { Post, Bookmark, Like, User, sequelize } from "../models";
-import { Request, Response } from "express";
+import { Request, Response, Express } from "express";
 import ControlS3 from "../library/controlS3";
 import { logger } from "../config/logger";
 const { extractImageSrcS3, copyImagesS3, removeObjS3, getObjS3 } = ControlS3;
@@ -9,7 +9,7 @@ class PostsController {
   /* 
     게시물 조회
   */
-  public async getPosts(req, res) {
+  public async getPosts(req: any, res: any) {
     //조회는 미들웨어에서 처리하고, 여기는 던지는 역할만 하기
     const {
       randPosts,
@@ -40,9 +40,6 @@ class PostsController {
       ? `uploads${files["coverCropped"][0].location.split("uploads")[1]}`
       : "";
     const { userId } = res.locals.user;
-    // const path = req.file
-    //   ? `uploads${req.file.location.split("uploads")[1]}`
-    //   : "";
 
     //multipart 에서 json 형식으로 변환
     const body = JSON.parse(JSON.stringify(req.body));

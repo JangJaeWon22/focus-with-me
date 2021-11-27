@@ -73,7 +73,3 @@ router.put(
 router.delete("/users/withdrawal", logInOnly, UserProcess.deleteUser);
 
 export default router;
-<<<<<<< HEAD
-// module.exports = router;
-=======
->>>>>>> 5814078f8807bedb4605af16d451e2ecb516e87e

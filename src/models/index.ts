@@ -1,18 +1,16 @@
-// const fs = require("fs");
 import * as fs from "fs";
-// const path = require("path");
 import * as path from "path";
-// const Sequelize = require("sequelize");
-import { Sequelize } from "sequelize";
+const Sequelize = require("sequelize");
+// import { Sequelize } from "sequelize";
 const basename = path.basename(__filename);
-import config from "../config/config";
-// const config = require(__dirname + "/../config/config.js")[env];
+// import config from "../config/config";
 // const env = process.env.NODE_ENV || "development";
 const env = "rds";
+const config = require(__dirname + "/../config/config.js")[env];
 config[env];
-const db = {};
+const db: any = {};
 
-let sequelize;
+let sequelize: any;
 if (config.use_env_variable) {
   sequelize = new Sequelize(process.env[config.use_env_variable], config);
 } else {
@@ -25,12 +23,12 @@ if (config.use_env_variable) {
 }
 
 fs.readdirSync(__dirname)
-  .filter((file) => {
+  .filter((file: string) => {
     return (
       file.indexOf(".") !== 0 && file !== basename && file.slice(-3) === ".js"
     );
   })
-  .forEach((file) => {
+  .forEach((file: any) => {
     const model = require(path.join(__dirname, file))(
       sequelize,
       Sequelize.DataTypes

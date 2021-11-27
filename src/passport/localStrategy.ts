@@ -29,6 +29,7 @@ const passportVerify = async (email, password, done) => {
   }
 };
 
-module.exports = () => {
-  passport.use("local", new LocalStrategy(passportConfig, passportVerify));
-};
+export default passport.use(
+  "local",
+  new LocalStrategy(passportConfig, passportVerify)
+);

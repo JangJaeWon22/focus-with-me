@@ -115,7 +115,6 @@ class ChildCommentsController {
 
   deleteChildComments = async (req: Request, res: Response) => {
     const { postId, commentId, childCommentId } = req.params;
-    console.log("hi");
     // 자기꺼만 삭제할 수 있어야 하고
     // 기타 등등.....
     try {
