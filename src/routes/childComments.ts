@@ -1,12 +1,9 @@
-const express = require("express");
+import * as express from "express";
+import { logInOnly, logInBoth } from "../middlewares/passport-auth";
+import ChildCommentsController from "../controllers/childCommentController";
+const { getChildComments, postChildComments, deleteChildComments } =
+  ChildCommentsController;
 const childCommentRouter = express.Router();
-
-const { logInOnly, logInBoth } = require("../middlewares/passport-auth");
-const {
-  getChildComments,
-  postChildComments,
-  deleteChildComments,
-} = require("../controllers/childCommentController");
 
 childCommentRouter
   .route("/posts/:postId/comments/:commentId/childs")

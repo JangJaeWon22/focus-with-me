@@ -2,7 +2,6 @@ import { Post, Bookmark, Like, User, sequelize } from "../models";
 import { Request, Response } from "express";
 import ControlS3 from "../library/controlS3";
 import { logger } from "../config/logger";
-import { bool } from "aws-sdk/clients/signer";
 const { extractImageSrcS3, copyImagesS3, removeObjS3, getObjS3 } = ControlS3;
 /* option + shift + a */
 
@@ -12,7 +11,12 @@ class PostsController {
   */
   public async getPosts(req: Request, res: Response) {
     //조회는 미들웨어에서 처리하고, 여기는 던지는 역할만 하기
-    const { randPosts, posts, totalPage } = req;
+    const {
+      randPosts,
+      posts,
+      totalPage,
+    }: { randPosts: Request<any>; posts: Request; totalPage: Request<any> } =
+      req;
     const followPost = res.followPost;
     const message: string = "posts 조회 성공";
     logger.info(`GET /api/posts 200 res:${message}`);
