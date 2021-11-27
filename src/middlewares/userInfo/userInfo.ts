@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-import { User, Post, sequelize, Sequelize } from "../../models";
+import sequelize from "../../models"
+import Sequelize from "../../models"
 import { logger } from "../../config/logger";
 import { GetUserInfo } from "../../interfaces/user";
 

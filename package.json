@@ -45,6 +45,7 @@
   "description": "",
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
+    "@types/bluebird": "^3.5.36",
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
     "@types/jsonwebtoken": "^8.5.6",
@@ -59,11 +60,7 @@
     "@types/passport-local": "^1.0.34",
     "@types/validator": "^13.7.0",
     "@types/winston": "^2.4.4",
-<<<<<<< HEAD
     "artillery": "^2.0.0-5",
-=======
-    "artillery": "^1.7.9",
->>>>>>> e0796edd4ad69d565bc9194e401c90d9f178f766
     "sequelize-cli": "^6.2.0",
     "swagger-autogen": "^2.12.4",
     "tsc-watch": "^4.5.0"

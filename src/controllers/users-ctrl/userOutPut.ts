@@ -52,8 +52,9 @@ class UserOutPut {
     try {
       console.log("넘어와찌롱");
       console.log("-----------------------------------------");
-      const user = req.user;
-      const token = Jwt.sign({ userId: user.userId }, process.env.TOKEN_KEY, { expiresIn: "1d" });
+      const user : any = req.user;
+      const userId : number = user.userId
+      const token = Jwt.sign({ userId }, process.env.TOKEN_KEY, { expiresIn: "1d" });
       const message: string = "로그인에 성공하였습니다.";
       logger.info(`GET /api/kakao/callback 201 "res: ${message}`);
       res.status(201).send({ message, token });

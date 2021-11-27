@@ -1,9 +1,18 @@
-import { Post, Bookmark, Like, User, sequelize } from "../models";
-import { Request, Response, Express } from "express";
+import Post from "../models"
+import Bookmark from "../models"
+import Like from "../models"
+import User from "../models"
+import sequelize from "../models"
+import { Request, Response} from "express";
 import ControlS3 from "../library/controlS3";
 import { logger } from "../config/logger";
-const { extractImageSrcS3, copyImagesS3, removeObjS3, getObjS3 } = ControlS3;
+const { extractImageSrcS3, copyImagesS3, removeObjS3 } = ControlS3;
 /* option + shift + a */
+
+interface MulterRequest extends Request {
+  file: any;
+}
+
 
 class PostsController {
   /* 
@@ -301,8 +310,8 @@ class PostsController {
     ckEditor 본문 이미지 업로드
   */
   public ckUpload(req: Request, res: Response) {
-    const { user } = res.locals.user;
-    const path = `uploads${req.file.location.split("uploads")[1]}`;
+    const { file } = (req as MulterRequest)
+    const path = `uploads${file.location.split("uploads")[1]}`;
     logger.info(`POST /api/posts/ckUpload 201 res:${path} 경로 이미지 저장`);
     return res.status(201).send({ path });
   }
