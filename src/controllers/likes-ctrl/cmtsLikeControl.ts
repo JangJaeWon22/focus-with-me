@@ -1,7 +1,10 @@
 import { Request, Response } from "express";
-import { CommentLike } from "../models";
-import { logger } from "../config/logger";
-import { CommentLike } from "../interfaces/commentLike";
+//@ts-ignore
+import { likecmt } from "../models";
+//@ts-ignore
+import { logger } from "../likes-ctrl";
+//@ts-ignore
+import { CommentLike } from "../interfaces/CommentLike";
 
 class commentsLikeFunc {
   public likeExist = async (req: Request, res: Response) => {
@@ -11,15 +14,15 @@ class commentsLikeFunc {
     const userId: number = res.locals.user.userId;
     try {
       // 해당 postId와 userId를 가진 bookmark를 가져와 보자
-      const likeCmt: likeCmt = await CommentLike.findOne({
+      const cmts: CommentLike = await likecmt.findOne({
         where: { postId, commentId, userId },
       });
 
       // 북마크가 없을 때
-      if (!likeCmt) {
+      if (!cmts) {
         const date = new Date();
         // 북마크 추가 실행
-        await CommentLike.create({
+        await likecmt.create({
           postId: Number(postId),
           userId,
           commentId,
@@ -54,13 +57,13 @@ class commentsLikeFunc {
     const userId: number = res.locals.user.userId;
     try {
       // 해당 postId와 userId를 가진 bookmark를 가져와 보자
-      const likeCmt: likeCmt = await CommentLike.findOne({
+      const cmts : CommentLike = await likecmt.findOne({
         where: { postId, commentId, userId },
       });
       // 북마크가 있을 때
-      if (likeCmt) {
+      if (cmts) {
           //해당 북마크 db 삭제
-          await CommentLike.destroy({ where: {postId, commentId, userId}});
+          await likecmt.destroy({ where: {postId, commentId, userId}});
           // 성공 응답값 200 및 로그인 유저가 북마크 취소하면 false값을 보내어 프론트에서 state 바로 적용.
           const likeCount = await CommentLike.count({
             where: { commentId, postId },
@@ -79,10 +82,10 @@ class commentsLikeFunc {
       console.error(error);
       const message: string =
         "관리자에게 문의해주세요.";
-        `DELETE /api/posts/${postId}/comments/${commentId}/like 500 res:${error}`);
+      logger.error(`DELETE /api/posts/${postId}/comments/${commentId}/like 500 res:${error}`);
       res.status(500).send({ message });
     }
   };
 }
 
-export default new commentLikeFunc();
+export default new commentsLikeFunc ();
