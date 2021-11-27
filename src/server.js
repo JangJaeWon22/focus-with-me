@@ -62,6 +62,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 //passport
+// import Passport from './passport/index';
+// const passportConfig: Passport = new Passport();
+// passportConfig.config()
 passportConfig();
 // app.use(
 //   session({
