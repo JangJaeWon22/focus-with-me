@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+      "module": "commonjs",
+      "target":"ES2015",
+      "sourceMap":true,
+      // express타입을 커스터마이징 할 파일을 한개 만듬 res에 추가 값 넣기 위해서,
+      "typeRoots": ["./node_modules/@types","src/customType"],
+      "outDir": "dist"
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
+}

@@ -1,4 +1,4 @@
-export interface bookmark {
+export interface BookmarkAttr {
     postId: number
     userId: number,
     bookmarkId: number,

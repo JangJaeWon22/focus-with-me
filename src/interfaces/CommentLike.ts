@@ -1,4 +1,4 @@
-export interface likecommenting {
+export interface commentlike {
     postId: number,
     userId: number,
     commentId: number,

@@ -6,7 +6,7 @@ interface commentLikeAttr {
 }
 
 export function commentLikeFactory (sequelize: any, DataTypes: any){
-  class likecmt extends Model<commentLikeAttr>
+  class Commentlike extends Model<commentLikeAttr>
   implements commentLikeAttr {
     /**
      * Helper method for defining associations.
@@ -17,19 +17,19 @@ export function commentLikeFactory (sequelize: any, DataTypes: any){
     date: Date;
 
   static associate(db: any) {
-    likecmt.belongsTo(db.Post, {
+    Commentlike.belongsTo(db.Post, {
       foreignKey: "userId",
       targetKey: "userId",
       onDelete: "cascade",
     });
-    likecmt.belongsTo(db.Comment, {
+    Commentlike.belongsTo(db.Comment, {
       foreignKey: "commentId",
       targetKey: "commentId",
       onDelete: "cascade",
     });
   }
   }
-  likecmt.init(
+  Commentlike.init(
     {
       commentLikeId: {
         allowNull: false,
@@ -43,13 +43,13 @@ export function commentLikeFactory (sequelize: any, DataTypes: any){
     },
     {
       sequelize,
-      modelName: "likecmt",
+      modelName: "Commentlike",
       timestamps: false,
       charset: "utf8",
       collate: "utf8_general_ci",
     }
   );
-  return likecmt;
+  return Commentlike;
 };
 
 

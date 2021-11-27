@@ -4,13 +4,14 @@ import * as express from "express";
 // router를 세팅 하기 위해 필요하다
 const router = express.Router();
 // 댓글 좋아요를 위해 컨트롤러를 적용했다
-import commentsLikeFunc from "../controllers/likes-ctrl/cmtsLikeControl";
+import commentsLikeController from "../controllers/likes-ctrl/cmtsLikeControl";
 // 로그인 했을 때만 이용 가능한 미들웨어다
 import { logInOnly } from "../middlewares/passport-auth";
+import { commentLikeFactory } from "../models/commentLike";
 
 // 댓글 좋아요 추가
-router.post("/posts/:postId/comments/:commentId/like", logInOnly, commentsLikeFunc.likeExist);
+router.post("/posts/:postId/comments/:commentId/like", logInOnly, commentsLikeController.likeExist);
 // 댓글 좋아요 취소
-router.delete("/posts/:postId/comments/:commentId/like", logInOnly, commentsLikeFunc.notLikeExist);
+router.delete("/posts/:postId/comments/:commentId/like", logInOnly, commentsLikeController.notLikeExist);
 
-module.exports = router;
+export default commentLikeFactory;

@@ -1,12 +1,12 @@
-const { User } = require("../../models");
-const Jwt = require("jsonwebtoken");
-const dotenv = require("dotenv");
+import { Request, Response, NextFunction } from 'express';
+import * as Jwt from "jsonwebtoken"
+import * as dotenv from "dotenv"
 dotenv.config();
-const passport = require("passport");
-const { logger } = require("../../config/logger");
+import * as passport from "passport"
+import {logger} from "../../config/logger"
 
-const userOutPut = {
-  authUser: async (req, res, next) => {
+class UserOutPut {
+  public authUser = async (req: Request, res: Response , next: NextFunction) => {
     // local 로그인
     try {
       // passport/index.js로 실행 됨
@@ -33,38 +33,36 @@ const userOutPut = {
 
           //회원정보 암호화
           const token = Jwt.sign(
-            { userId: user.userId },
+            { userId : user.userId },
             process.env.TOKEN_KEY,
             { expiresIn: "1d" }
           );
-          message = "로그인에 성공하셨습니다.";
+          const message: string = "로그인에 성공하셨습니다.";
           logger.info(`POST /api/users/login 201 "res: ${message}`);
           res.status(201).send({ token, user, message });
         });
       })(req, res, next);
     } catch (error) {
       console.error(error);
-      message = "알 수 없는 문제가 발생했습니다. 잠시 후 다시 시도해주세요.";
       logger.error(`GET /api/kakao/callback 500 "res: ${error}`);
       next(error);
     }
-  },
-  kakaoCallback: async (req, res) => {
+  }
+  public kakaoCallback = async (req: Request, res: Response) => {
     try {
       console.log("넘어와찌롱");
       console.log("-----------------------------------------");
-      console.log(req.session);
       const user = req.user;
-      const token = Jwt.sign({ userId: user.userId }, process.env.TOKEN_KEY);
-      message = "로그인에 성공하였습니다.";
+      const token = Jwt.sign({ userId: user.userId }, process.env.TOKEN_KEY, { expiresIn: "1d" });
+      const message: string = "로그인에 성공하였습니다.";
       logger.info(`GET /api/kakao/callback 201 "res: ${message}`);
       res.status(201).send({ message, token });
     } catch (error) {
       console.log(error);
-      message = "알 수 없는 문제가 발생했습니다. 잠시 후 다시 시도해주세요.";
+      const message: string = "알 수 없는 문제가 발생했습니다. 잠시 후 다시 시도해주세요.";
       logger.error(`GET /api/kakao/callback 500 "res: ${error}`);
       res.status(500).send({ message });
     }
-  },
+  }
 };
-module.exports = { userOutPut };
+export default new UserOutPut();
