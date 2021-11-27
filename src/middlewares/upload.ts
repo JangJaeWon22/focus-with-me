@@ -1,26 +1,13 @@
-const multer = require("multer");
-const path = require("path");
-const multerS3 = require("multer-s3");
-const aws = require("aws-sdk");
+// const multer = require("multer");
+import * as multer from "multer";
+import * as multerS3 from "multer-s3";
+import * as aws from "aws-sdk";
+import { Request } from "express";
+
 const s3 = new aws.S3();
 // aws.config.loadFromPath(`${process.cwd()}/config/s3.js`);
-
-module.exports = {
-  //파일 생성 규칙
-  // uploadAvatar: multer({
-  //   storage: multer.diskStorage({
-  //     destination(req, file, cb) {
-  //       cb(null, "${__dirname}/../public/uploads/avatar");
-  //     },
-  //     /*       filename(req, file, cb) {
-  //       // const fileName = randomstring.generate(20);
-  //       const ext = path.extname(file.originalname);
-  //       cb(null, Date.now() + ext);
-  //     }, */
-  //   }),
-  //   limits: { fileSize: 10000000 },
-  // }),
-  uploadAvatarS3: multer({
+class uploadMiddlewares {
+  uploadAvatarS3 = multer({
     storage: multerS3({
       s3,
       bucket: "kkirri-images",
@@ -33,16 +20,15 @@ module.exports = {
             .replace(/ /g, "")
             .trim()}`
         );
-        // cb(null, `}`)
       },
     }),
-  }),
-  uploadContentS3: multer({
+  });
+  uploadContentS3 = multer({
     storage: multerS3({
       s3,
       bucket: "kkirri-images",
       acl: " public-read",
-      key: (req, file, cb) => {
+      key: (req: Request, file, cb) => {
         cb(
           null,
           `uploads/content/${Date.now()}_${file.originalname
@@ -51,13 +37,13 @@ module.exports = {
         );
       },
     }),
-  }),
-  uploadCoverS3: multer({
+  });
+  uploadCoverS3 = multer({
     storage: multerS3({
       s3,
       bucket: "kkirri-images",
       acl: " public-read",
-      key: (req, files, cb) => {
+      key: (req: Request, files, cb) => {
         //여기서 분기처리 하면 되겠네
         if (files.fieldname === "coverOriginal")
           cb(
@@ -73,21 +59,15 @@ module.exports = {
               .replace(/ /g, "")
               .trim()}`
           );
-        // cb(
-        //   null,
-        //   `uploads/cover/${Date.now()}_${file.originalname
-        //     .replace(/ /g, "")
-        //     .trim()}`
-        // );
       },
     }),
-  }),
-  uploadTempS3: multer({
+  });
+  uploadTempS3 = multer({
     storage: multerS3({
       s3,
       bucket: "kkirri-images",
       acl: " public-read",
-      key: (req, file, cb) => {
+      key: (req: Request, file, cb) => {
         cb(
           null,
           `uploads/temp/${Date.now()}_${file.originalname
@@ -96,17 +76,7 @@ module.exports = {
         );
       },
     }),
-  }),
-  // uploadCover: multer({
-  //   dest: "public/uploads/cover",
-  //   limits: { fileSize: 10000000 },
-  // }),
-  // uploadContents: multer({
-  //   dest: "public/uploads/content",
-  //   limits: { fileSize: 10000000 },
-  // }),
-  // uploadTemp: multer({
-  //   dest: "public/uploads/temp",
-  //   limits: { fileSize: 1000000 },
-  // }),
-};
+  });
+}
+
+export default new uploadMiddlewares();
