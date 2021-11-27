@@ -1,11 +1,11 @@
-import * as passport from "passport"
-import * as passportJwt from "passport-jwt"
-const { ExtractJwt, Strategy: JWTStrategy } = passportJwt
-import { User } from "../models"
-import { UserAttr } from "../interfaces/user"
+import * as passport from "passport";
+import * as passportJwt from "passport-jwt";
+const { ExtractJwt, Strategy: JWTStrategy } = passportJwt;
+import User from "../models";
+import { UserAttr } from "../interfaces/user";
 
-export interface jwtPayload{
-  userId:number
+export interface jwtPayload {
+  userId: number;
 }
 
 const JWTConfig = {
@@ -43,6 +43,6 @@ const JWTVerify = async (jwtPayload: jwtPayload, done: any) => {
     done(error);
   }
 };
-export function jwt(){
+export function jwt() {
   passport.use("jwt", new JWTStrategy(JWTConfig, JWTVerify));
-};
+}

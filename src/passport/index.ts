@@ -1,7 +1,7 @@
 import * as passport from "passport";
 import local from "./localStrategy";
 import kakao from "./kakaoStrategy";
-import { User } from "../models";
+import User from "../models";
 import { jwt } from "./jwt";
 
 class Passport {
