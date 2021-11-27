@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { Bookmark } from "../models";
 import { logger } from "../config/logger";
-import { bookmark } from "../interfaces/bookmark";
+import { BookmarkAttr } from "../interfaces/bookmark";
 
 class BookmarkProcess {
   public createbookmark = async (req: Request, res: Response) => {
@@ -11,7 +11,7 @@ class BookmarkProcess {
     const userId: number = res.locals.user.userId;
     try {
       // 해당 postId와 userId를 가진 bookmark를 가져와 보자
-      const bookmark: bookmark = await Bookmark.findOne({
+      const bookmark: BookmarkAttr = await Bookmark.findOne({
         where: { postId, userId },
       });
       // 날짜 생성
@@ -51,7 +51,7 @@ class BookmarkProcess {
     const userId: number = res.locals.user.userId;
     try {
       // 해당 postId와 userId를 가진 bookmark를 가져와 보자
-      const bookmark: bookmark = await Bookmark.findOne({
+      const bookmark: BookmarkAttr = await Bookmark.findOne({
         where: { postId, userId },
       });
       // 북마크가 있을 때

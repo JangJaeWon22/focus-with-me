@@ -1,17 +1,23 @@
-const passport = require("passport");
-const { ExtractJwt, Strategy: JWTStrategy } = require("passport-jwt");
+import * as passport from "passport"
+import * as passportJwt from "passport-jwt"
+const { ExtractJwt, Strategy: JWTStrategy } = passportJwt
 
-const { User } = require("../models");
+import { User } from "../models"
+import { user } from "../interfaces/user"
+
+export interface jwtPayload{
+  userId:number
+}
 
 const JWTConfig = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey: process.env.TOKEN_KEY,
 };
 
-const JWTVerify = async (jwtPayload, done) => {
+const JWTVerify = async (jwtPayload: jwtPayload, done: any) => {
   try {
     // payload의 id값으로 유저의 데이터 조회
-    const user = await User.findOne({
+    const user: user = await User.findOne({
       where: { userId: jwtPayload.userId },
       include: [
         {
@@ -38,6 +44,6 @@ const JWTVerify = async (jwtPayload, done) => {
     done(error);
   }
 };
-module.exports = () => {
+export function jwt(){
   passport.use("jwt", new JWTStrategy(JWTConfig, JWTVerify));
 };

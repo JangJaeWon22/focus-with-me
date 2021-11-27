@@ -1,7 +1,6 @@
 import { createLogger, transports, format } from "winston";
 import * as winstonDaily from "winston-daily-rotate-file";
 
-
 const { label, combine, timestamp, printf, simple, colorize } = format;
 
 const timezoned = () => {

@@ -3,8 +3,8 @@
       "module": "commonjs",
       "target":"ES2015",
       "sourceMap":true,
-      "outDir": "dist",
-      "typeRoots": ["./node_modules/@types","./src/interfaces"], 
+      "typeRoots": ["./node_modules/@types","src/customType"],
+      "outDir": "dist"
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"],
