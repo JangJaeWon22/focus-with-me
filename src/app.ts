@@ -1,12 +1,14 @@
-import app from "./server"
-import * as dotenv from "dotenv"
+import app from "./server";
+import * as dotenv from "dotenv";
 dotenv.config();
-import * as schedule from "node-schedule"
-import * as emptyTempS3 from "./library/controlS3"
+import * as schedule from "node-schedule";
+import ControlS3 from "./library/controlS3";
+const { emptyTempS3 } = ControlS3;
+
 const port = process.env.EXPRESS_PORT;
 
 //winston
-import {logger} from "./config/logger"
+import { logger } from "./config/logger";
 
 //test용 시작 view page
 // app.set("views", __dirname + "/views");
@@ -24,12 +26,9 @@ const job = schedule.scheduleJob("0 0 0 * * *", async () => {
 });
 
 app.listen(port, () => {
-  console.log("서연제도 푸쉬 된다!!!");
-  console.log("서연제도 푸쉬 된다!!!");
   logger.info(`
   ${port} 포트에서 서버가 가동되었습니다.😄😄
 ----------------------------------------------
-
        / / / / / / / / / / 
       / / / / / / / / / / 
     ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ
@@ -38,7 +37,6 @@ app.listen(port, () => {
        .-^^^-/ / 
     __/       / 
    <__.|_|-|_|
-
 ----------------------------------------------
   `);
 });
