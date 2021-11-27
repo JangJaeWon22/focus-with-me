@@ -24,6 +24,7 @@ const job = schedule.scheduleJob("0 0 0 * * *", async () => {
   console.log("temp 폴더 삭제");
 });
 
+const fs = require("fs");
 const https = require("https");
 // Certificate 인증서 경로
 const privateKey = fs.readFileSync(
