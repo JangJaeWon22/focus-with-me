@@ -7,7 +7,7 @@ import { logger } from "";
 
 import { likecommenting } from "../../interfaces/commentlike";
 
-class commentsLikeFunc {
+class commentsLikeController {
   public likeExist = async (req: Request, res: Response) => {
     // params로 postId, commentId 받아옴
     const { postId, commentId }  = req.params;

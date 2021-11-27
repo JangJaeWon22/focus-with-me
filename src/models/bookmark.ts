@@ -1,13 +1,26 @@
-"use strict";
-const { Model } = require("sequelize");
-module.exports = (sequelize, DataTypes) => {
-  class Bookmark extends Model {
+import { Model } from "sequelize";
+
+// These are all the attributes in the User model
+interface BookmarkAttributes {
+  bookmarkId: number;
+  // userId: number;
+  // postId: number;
+  date: Date;
+}
+
+export function BookmarkFac (sequelize: any, DataTypes: any){
+  class Bookmark extends Model<BookmarkAttributes>
+  implements BookmarkAttributes {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(db) {
+     bookmarkId!: number;
+    //  userId: number;
+    //  postId: number;
+     date: Date;
+    static associate(db: any) {
       Bookmark.belongsTo(db.Post, {
         foreignKey: "postId",
         targetKey: "postId",

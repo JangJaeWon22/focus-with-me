@@ -1,8 +1,9 @@
-const passport = require("passport");
+import * as passport from "passport"
 const { logger } = require("../config/logger");
+import { Request, Response, NextFunction } from 'express';
 
 //토큰이 없이 들어오면 빠꾸 --- 사유 : 회원 탈퇴-아에 접근하면 안됨, 게시글 작성-아에 접근하면 안됨, 좋아요 등등
-exports.logInOnly = (req, res, next) => {
+export function logInOnly(req: Request, res: Response, next: NextFunction) {
   try {
     // 아까 local로 등록한 인증과정 실행
     passport.authenticate("jwt", (passportError, user, info) => {
@@ -24,7 +25,7 @@ exports.logInOnly = (req, res, next) => {
   }
 };
 // 토큰이 없어도 들어와짐 // 하지만 토큰으로 정보를 가져오는 부분은 안보여줌.(대문 == following user의 게시글 목록)
-exports.logInBoth = (req, res, next) => {
+export function logInBoth(req: Request, res: Response, next: NextFunction) {
   try {
     // 아까 local로 등록한 인증과정 실행
     passport.authenticate("jwt", (passportError, user, info) => {
@@ -47,7 +48,7 @@ exports.logInBoth = (req, res, next) => {
   // authenticate -> strategy -> serialize -> deserialize
 };
 
-exports.logInNot = (req, res, next) => {
+export function logInNot(req: Request, res: Response, next: NextFunction){
   try {
     passport.authenticate("jwt", (passportError, user, info) => {
       // 인증이 실패했거나 유저 데이터가 없다면 에러 발생
