@@ -1,15 +1,17 @@
-const { Like } = require("../../models");
-const { logger } = require("../../config/logger");
+import { Request, Response } from 'express';
+import { likepost } from "../models";
+import { logger } from "../../../";
+import { likeposting } from "../interfaces/likepost"
 
-const postList = {
+class postList {
   // 게시물 좋아요 추가 기능
   // 빈하트일때 좋아요 검사
-  addLike: async (req, res) => {
+  public addLike =  async (req: Request, res: Response) => {
     try {
       // postId 변수에서 req.params에 있는 값을 불러와 할당한다(구조분해할당)
       const { postId } = req.params;
-      // res.locals.user 는 미들웨어인 loginOnly에서 값을 가져와 userId에 할당한다
-      const { userId } = res.locals.user;
+      // res.loLcals.user 는 미들웨어인 loginOnly에서 값을 가져와 userId에 할당한다
+      const userId : number = res.locals.user.userId;
       const date = new Date();
 
       // isLiked는 기존에 userId에 해당하는 user가 좋아요를 한 적이 있는지 체크 하기 위해 db에서 검색
