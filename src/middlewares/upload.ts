@@ -7,6 +7,9 @@ import { Request } from "express";
 const s3 = new aws.S3();
 // aws.config.loadFromPath(`${process.cwd()}/config/s3.js`);
 class uploadMiddlewares {
+  single(arg0: string): import("express-serve-static-core").RequestHandler<import("express-serve-static-core").ParamsDictionary, any, any, import("qs").ParsedQs, Record<string, any>> {
+    throw new Error("Method not implemented.");
+  }
   uploadAvatarS3 = multer({
     storage: multerS3({
       s3,
