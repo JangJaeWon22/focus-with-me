@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
 import * as Joi from "joi"
 import { logger } from "../config/logger"
-import {singUpUser, updateUserProfile, updateUserPw, existNickname, existEmail } from "../interfaces/joi"
+import {signUpUser, updateUserProfile, updateUserPw, existNickname, existEmail } from "../interfaces/joi"
 
 class VerifyJoi {
   //회원가입 시 joi 검증 실행
-  public singUpUser = async (req: Request, res: Response, next: NextFunction) => {
+  public signUpUser = async (req: Request, res: Response, next: NextFunction) => {
     const joiSchema = Joi.object({
       email : Joi.string()
         .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
@@ -17,19 +17,19 @@ class VerifyJoi {
       ),
       confirmPassword: Joi.ref("password"),
     });
-    const { email, nickname, password, confirmPassword } : singUpUser = req.body;
+    const { email, nickname, password, confirmPassword } : signUpUser = req.body;
     try {
-      const verifyBody : singUpUser = await joiSchema.validateAsync({
+      const verifyBody : signUpUser = await joiSchema.validateAsync({
         email,
         nickname,
         password,
         confirmPassword,
       });
-      res.singUpUser = verifyBody;
+      res.signUpUser = verifyBody;
       next();
     } catch (error) {
       const message : string = "아이디와 비밀번호의 형식이 올바르지 않습니다.";
-      logger.info(`verifyJoi-singUpUser middlewares 500 error:${message}`);
+      logger.info(`verifyJoi-signUpUser middlewares 500 error:${message}`);
       return res.status(500).send({ message });
     }
   }

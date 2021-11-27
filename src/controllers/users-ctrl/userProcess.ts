@@ -11,7 +11,7 @@ class UserProcess {
   public createUser = async (req: Request, res: Response) => {
     // 패스워드와 패스워드 확인 검증
     try {
-      const { email, nickname, password, confirmPassword } = res.singUpUser;
+      const { email, nickname, password, confirmPassword } = res.signUpUser;
       if (password !== confirmPassword) {
         const message : string = "패스워드가 패스워드 확인란과 동일하지 않습니다.";
         logger.info(`POST /api/users/signup 400 res:${message}`);

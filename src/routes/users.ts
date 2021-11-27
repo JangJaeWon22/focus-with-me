@@ -18,7 +18,7 @@ const {
 router.post(
   "/users/signup",
   logInNot,
-  VerifyJoi.singUpUser,
+  VerifyJoi.signUpUser,
   UserProcess.createUser
 );
 
