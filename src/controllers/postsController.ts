@@ -1,22 +1,24 @@
-const { Post, Bookmark, Like, User, sequelize } = require("../models");
-const {
-  extractImageSrcS3,
-  copyImagesS3,
-  removeObjS3,
-  getObjS3,
-} = require("../library/controlS3");
-const { logger } = require("../config/logger");
+import { Post, Bookmark, Like, User, sequelize } from "../models";
+import { Request, Response } from "express";
+import ControlS3 from "../library/controlS3";
+import { logger } from "../config/logger";
+const { extractImageSrcS3, copyImagesS3, removeObjS3, getObjS3 } = ControlS3;
 /* option + shift + a */
 
-module.exports = {
+class PostsController {
   /* 
     게시물 조회
   */
-  getPosts: async (req, res) => {
+  public async getPosts(req, res) {
     //조회는 미들웨어에서 처리하고, 여기는 던지는 역할만 하기
-    const { randPosts, posts, totalPage } = req;
+    const {
+      randPosts,
+      posts,
+      totalPage,
+    }: { randPosts: Request<any>; posts: Request; totalPage: Request<any> } =
+      req;
     const followPost = res.followPost;
-    message = "posts 조회 성공";
+    const message: string = "posts 조회 성공";
     logger.info(`GET /api/posts 200 res:${message}`);
     return res.status(200).send({
       message,
@@ -25,11 +27,11 @@ module.exports = {
       followPost,
       totalPage,
     });
-  },
+  }
   /* 
     게시물 생성
   */
-  postPosts: async (req, res) => {
+  public async postPosts(req: Request, res: Response) {
     const files = JSON.parse(JSON.stringify(req.files));
     const originPath = req.files
       ? `uploads${files["coverOriginal"][0].location.split("uploads")[1]}`
@@ -50,11 +52,17 @@ module.exports = {
       categoryStudyMate,
       categoryInterest,
       contentEditor,
+    }: {
+      title: string;
+      categorySpace: string;
+      categoryStudyMate: string;
+      categoryInterest: string;
+      contentEditor: string;
     } = body;
     // image list 추출
     const imageList = extractImageSrcS3(contentEditor);
     // 비교 후 이동
-    await copyImagesS3(imageList);
+    await copyImagesS3(await imageList);
 
     // 모든 temp 경로를 content로 바꾸기
     const innerHtml = contentEditor.replace(/temp/g, "content");
@@ -76,20 +84,20 @@ module.exports = {
     };
     try {
       await Post.create(post);
-      message = "게시물 작성 성공!";
+      const message: string = "게시물 작성 성공!";
       logger.info(`POST /api/posts 201 res:${message}`);
       return res.status(201).send({ message });
     } catch (error) {
       console.log(error);
-      message = "DB 저장에 실패했습니다.";
+      const message: string = "DB 저장에 실패했습니다.";
       logger.info(`POST /api/posts 500 res:${message}`);
       return res.status(500).send({ message });
     }
-  },
+  }
   /* 
     게시물 수정
   */
-  putPosts: async (req, res) => {
+  public async putPosts(req: Request, res: Response) {
     const { userId } = res.locals.user;
     const { postId } = req.params;
     const files = JSON.parse(JSON.stringify(req.files));
@@ -128,11 +136,11 @@ module.exports = {
         await removeObjS3(croppedPath);
         // 조건에 따라 status 분기
         if (!post) {
-          message = "해당 게시물이 존재하지 않습니다.";
+          const message: string = "해당 게시물이 존재하지 않습니다.";
           logger.info(`PUT /api/posts/${postId} 404 res:${message}`);
           return res.status(404).send({ message });
         } else {
-          message = "본인의 게시물만 수정할 수 있습니다.";
+          const message: string = "본인의 게시물만 수정할 수 있습니다.";
           logger.info(`PUT /api/posts/${postId} 404 res:${message}`);
           return res.status(403).send({ message });
         }
@@ -154,7 +162,7 @@ module.exports = {
 
       // 새로 올라온 html에서 이미지 src 추출 후 파일 이동
       const imageList = extractImageSrcS3(contentEditor);
-      await copyImagesS3(imageList);
+      await copyImagesS3(await imageList);
       // 수정 본문 이미지 처리가 안되어있음.
       //새로 올라온 데이터가 있을 때만 데이터 바꾸기
       // if (path) post.imageCover = path;
@@ -166,7 +174,7 @@ module.exports = {
       if (categoryStudyMate) post.categoryStudyMate = categoryStudyMate;
       if (contentEditor) post.contentEditor = encodeURIComponent(contentEditor);
       await post.save();
-      message = "게시물 수정 성공";
+      const message: string = "게시물 수정 성공";
       logger.info(`PUT /api/posts/${postId} 204 res:${message}`);
       res.status(204).send({ message });
       //성공하면 기존 본문 이미지들 삭제
@@ -191,15 +199,15 @@ module.exports = {
 
       await removeObjS3(originPath);
       await removeObjS3(croppedPath);
-      message = "DB 업데이트 실패";
+      const message: string = "DB 업데이트 실패";
       logger.error(`PUT /api/posts/${postId} 204 res:${message}`);
       return res.status(500).send({ message });
     }
-  },
+  }
   /* 
     게시물 삭제
   */
-  deletePosts: async (req, res) => {
+  public async deletePosts(req: Request, res: Response) {
     const { postId } = req.params;
     const { userId } = res.locals.user;
 
@@ -218,30 +226,30 @@ module.exports = {
       await removeObjS3(post.coverOriginal);
       await removeObjS3(post.coverCropped);
       await post.destroy();
-      message = "포스팅 삭제 성공";
+      const message: string = "포스팅 삭제 성공";
       logger.info(`DELETE /api/posts/${postId} 200 res:${message}`);
       return res.status(200).send({ message });
     } catch (error) {
       console.log(error);
-      message = "포스팅 삭제 실패";
+      const message: string = "포스팅 삭제 실패";
       logger.error(`DELETE /api/posts/${postId} 200 res:${error}`);
       return res.status(500).send({ message });
     }
-  },
+  }
   /* 
     특정 게시물 조회
   */
-  getOnePost: async (req, res) => {
+  public async getOnePost(req: Request, res: Response) {
     const { postId } = req.params;
     // const userId = req.user ? req.user.userId : undefined;
     // 예외처리
     const { userId } = res.locals.user ? res.locals.user : { userId: null };
     // FE 뷰에 활용하기 위한 데이터
-    let isBookmarked = false;
-    let isLiked = false;
-    let isFollowing = false;
-    let currentNick = "";
-    let currentAvatar = "";
+    let isBookmarked: boolean = false;
+    let isLiked: boolean = false;
+    let isFollowing: boolean = false;
+    let currentNick: string = "";
+    let currentAvatar: string = "";
     try {
       const post = await Post.findOne({
         where: { postId },
@@ -275,7 +283,7 @@ module.exports = {
         );
         if (following.length !== 0) isFollowing = true;
       }
-      message = "특정 게시물 1개를 조회 했습니다.";
+      const message: string = "특정 게시물 1개를 조회 했습니다.";
       logger.info(`GET /api/posts/${postId} 200 res:${message}`);
       return res.status(200).send({
         post,
@@ -287,24 +295,24 @@ module.exports = {
       });
     } catch (error) {
       console.log(error);
-      message = "DB 조회에 실패했습니다.";
+      const message: string = "DB 조회에 실패했습니다.";
       logger.error(`GET /api/posts/${postId} 500 res:${error}}`);
       return res.status(500).send({ message });
     }
-  },
+  }
   /* 
     ckEditor 본문 이미지 업로드
   */
-  ckUpload: (req, res) => {
+  public ckUpload(req: Request, res: Response) {
     const { user } = res.locals.user;
     const path = `uploads${req.file.location.split("uploads")[1]}`;
     logger.info(`POST /api/posts/ckUpload 201 res:${path} 경로 이미지 저장`);
     return res.status(201).send({ path });
-  },
+  }
   /*
     크롭퍼에 넣어줄 이미지 가져온 뒤 보여주기
   */
-  getCoverOriginal: async (req, res) => {
+  public async getCoverOriginal(req: Request, res: Response) {
     // 포스트 수정 시 이미지 가져오기
     const { postId } = req.params;
     /*
@@ -332,7 +340,7 @@ module.exports = {
       logger.error(`POST /api/posts/${postId}/coverOriginal 500 res:${error}`);
       return res.status(500).send({ message: "파일을 불러올 수 없습니다." });
     }
-  },
-};
+  }
+}
 
-//test
+export default new PostsController();

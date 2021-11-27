@@ -1,5 +1,10 @@
-const express = require("express");
-const postsRouter = express.Router();
+// const express = require("express");
+import * as express from "express";
+import PostsController from "../controllers/postsController";
+import uploadMiddlewares from "../middlewares/upload";
+import filter from "../middlewares/filter";
+import { logInOnly, logInBoth } from "../middlewares/passport-auth";
+
 const {
   getOnePost,
   getPosts,
@@ -8,23 +13,10 @@ const {
   deletePosts,
   ckUpload,
   getCoverOriginal,
-} = require("../controllers/postsController");
-const { uploadTempS3, uploadCoverS3 } = require("../middlewares/upload");
+} = PostsController;
+const { uploadTempS3, uploadCoverS3 } = uploadMiddlewares;
 
-const { filter } = require("../middlewares/filter");
-const { logInOnly, logInBoth } = require("../middlewares/passport-auth");
-const upload = require("../middlewares/upload");
-
-/* GET users listing. */
-// postsRouter
-//   .route("/posts")
-//   .get(logInBoth, filter, getPosts)
-//   .post(logInOnly, uploadCover.single("imageCover"), postPosts);
-
-// ckEditor5 custom image upload adapter
-// postsRouter
-//   .route("/posts/ckUpload")
-//   .post(logInOnly, uploadTemp.single("temp"), ckUpload);
+const postsRouter = express.Router();
 
 postsRouter
   .route("/posts")
