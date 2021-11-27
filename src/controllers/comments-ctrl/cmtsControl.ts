@@ -117,7 +117,7 @@ class Comment {
         // 사용자 인증 미들웨어를 타고 들어왔는데 사용자가 로그인 상태라면
         if (res.locals.user) {
           // 로그인 한 사용자가 현재의 포스트에서 좋아요를 했는지 db 검색
-          const liked = await CommentLike.findOne({
+          const liked : Cmt = await CommentLike.findOne({
             where: { userId: res.locals.user.userId, postId: comment.postId },
           });
           if (liked) isCommentLiked = true;
@@ -175,12 +175,12 @@ class Comment {
         cmtsList.push(respondComments[i]);
       }
       
-      message = "댓글 조회에 성공했습니다.";
+      const message:string = "댓글 조회에 성공했습니다.";
       logger.info(`GET /api/posts/${postId}/comments 200 res:${message}`);
       return res.status(200).send({ cmtsList, message, totalPg, totCmtCount });
     } catch (error) {
       console.log(error);
-      message = "알 수 없는 문제가 발생했습니다.";
+      const message:string = "알 수 없는 문제가 발생했습니다.";
       logger.error(`GET /api/posts/${postId}/comments 500 res:${error}`);
       return res.status(500).send({ message });
      
@@ -189,32 +189,32 @@ class Comment {
 
   // 댓글 삭제
   public commentDel = async (req:Request, res:Response) => {
+    // postId와 commentId 변수에서 req.params에 있는 값을 불러와 할당한다(구조분해할당)
+    const { postId, commentId } = req.params;
     try {
-      // postId와 commentId 변수에서 req.params에 있는 값을 불러와 할당한다(구조분해할당)
-      const { postId, commentId } = req.params;
       // res.locals.user 는 미들웨어인 loginOnly에서 값을 가져와 userId에 할당한다
-      const { userId } = res.locals.user;
+      const userId : number = res.locals.user.userId;
       // Comment 의 첫번째 요소만 보기 위해 데이터를 가져온다
-      const reqDelete = await Comment.findOne({
+      const reqDelete : Cmt = await Comment.findOne({
         // where 옵션으로 나열함으로써, 기본적으로 and 옵션과 같다
         // postId 라는 컬럼에서 postId로, commentId 라는 컬럼에서 commentId로 가져온다
-        where: { postId, commentId },
+        where: { postId:Number(postId), commentId:Number(commentId) },
       });
 
       // 삭제할 요청의 아이디가 해당 유저의 아이디가 같다면
       if (reqDelete.userId === userId) {
         // 특정 포스트에 해당하는 특정 댓글을 지운다
         // 특정 포스트 -> 특정 댓글
-        await reqDelete.destroy();
+        await reqDelete.destroy({ where: {postId:Number(postId), commentId:Number(commentId)}});
         // 댓글이 삭제되는 메세지를 제대로 보내졌을 경우
-        message = "댓글이 삭제되었습니다.";
+        const message:string = "댓글이 삭제되었습니다.";
         logger.info(
           `DELETE /api/posts/${postId}/comments/${commentId} 200 res:${message}`
         );
         return res.status(200).send({ message });
         // 삭제할 댓글이 해당 유저의 아이디가 일치하지 않을 경우
       } else {
-        message = "작성자가 아닙니다.";
+        const message:string = "작성자가 아닙니다.";
         logger.info(
           `DELETE /api/posts/${postId}/comments/${commentId} 400 res:${message}`
         );
@@ -223,7 +223,7 @@ class Comment {
     } catch (error) {
       console.log(error);
       // 댓글 기능이 제대로 작동하지 않을 경우
-      message = "알 수 없는 문제가 발생했습니다.";
+      const message:string = "알 수 없는 문제가 발생했습니다.";
       logger.error(
         `DELETE /api/posts/${postId}/comments/${commentId} 500 res:${error}`
       );
