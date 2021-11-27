@@ -1,7 +1,7 @@
-const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
-const bcrypt = require("bcrypt");
-const { User } = require("../models");
+import * as passport from "passport";
+import * as LocalStrategy from "passport-local";
+import * as bcrypt from "bcrypt";
+import { User } from "../models";
 
 const passportConfig = { usernameField: "email", passwordField: "password" };
 const passportVerify = async (email, password, done) => {
@@ -29,6 +29,7 @@ const passportVerify = async (email, password, done) => {
   }
 };
 
-module.exports = () => {
-  passport.use("local", new LocalStrategy(passportConfig, passportVerify));
-};
+export default passport.use(
+  "local",
+  new LocalStrategy(passportConfig, passportVerify)
+);

@@ -1,7 +1,20 @@
 "use strict";
 const { Model } = require("sequelize");
-module.exports = (sequelize, DataTypes) => {
-  class ChildComment extends Model {
+
+interface ChildAttributes {
+  postId: number;
+  coverOriginal: string;
+  coverCropped: string;
+  title: string;
+  categorySpace: string;
+  categoryStudyMate: string;
+  categoryInterest: string;
+  contentEditor: string;
+  date: Date;
+}
+
+module.exports = (sequelize: any, DataTypes: any) => {
+  class ChildComment extends Model<ChildAttributes> implements ChildAttributes {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
