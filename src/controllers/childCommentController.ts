@@ -21,12 +21,14 @@ import { Request, Response } from "express";
 */
 class ChildCommentsController {
   getChildComments = async (req: Request, res: Response) => {
-    let { page } = req.query;
+    const { page }: { page: string } = req.query;
     const { commentId, postId } = req.params;
-    if (!page) page = 1;
+    let currentPage: number = 0;
+    if (!page) currentPage = 1;
+    currentPage = parseInt(page, 10);
     //특정 댓글의 전체 답글 수
     const childPerPage: number = 3;
-    const offset: number = (page - 1) * childPerPage;
+    const offset: number = (currentPage - 1) * childPerPage;
 
     try {
       const totalCnt: number = await ChildComment.count({

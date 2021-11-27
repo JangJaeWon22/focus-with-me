@@ -9,7 +9,7 @@ class PostsController {
   /* 
     게시물 조회
   */
-  public async getPosts(req: Request, res: Response) {
+  public async getPosts(req, res) {
     //조회는 미들웨어에서 처리하고, 여기는 던지는 역할만 하기
     const {
       randPosts,
@@ -343,4 +343,4 @@ class PostsController {
   }
 }
 
-//test
+export default new PostsController();
