@@ -1,19 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { User } from "../../models";
 import { logger } from "../../config/logger"
-import { Follow } from "../../interfaces/user"
-
-
-function follow(user) {
-  user.followerCount = user ? user.Followers.length : 0;
-  user.followingCount = user ? user.Followings.length : 0;
-  user.followingIdList = user ? user.Followings : [];
-  user.followerIdList = user ? user.Followers : [];
-  const followerCount:number = user.followerCount;
-  const followingCount: number = user.followingCount;
-  const followingIdList: Follow[] = user.followingIdList;
-  const followerIdList: Follow[] = user.followerIdList;
-}
+import { FollowUser, IsFollow } from "../../interfaces/user"
 
 class FollowMw {
   public follow = async (req: Request, res: Response, next: NextFunction) => {
@@ -21,7 +9,7 @@ class FollowMw {
     try {
       // const user = res.locals;
       // const { userId } = req.body === undefined ? res.locals.user : req.body;
-      const user:Follow = await User.findOne({
+      const user: FollowUser = await User.findOne({
         where: { userId: Number(userId) },
         include: [
           {
@@ -41,8 +29,18 @@ class FollowMw {
         logger.info(`userInfo/userFollow middleware error: ${message}`);
         return res.status(400).send({ message });
       } else {
-        follow(user);
+        user.followerCount = user ? user.Followers.length : 0;
+        user.followingCount = user ? user.Followings.length : 0;
+        user.followingIdList = user ? user.Followings : [];
+        user.followerIdList = user ? user.Followers : [];
+        const followerCount:number = user.followerCount;
+        const followingCount: number = user.followingCount;
+        const followingIdList: IsFollow = user.followingIdList;
+        const followerIdList: IsFollow = user.followerIdList;
         res.followerCount = followerCount
+        res.followingCount = followingCount
+        res.followingIdList = followingIdList
+        res.followerIdList = followerIdList
         next();
       }
     } catch (error) {

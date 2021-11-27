@@ -1,8 +1,8 @@
 import * as express from "express";
 const router = express.Router();
-import { UserInfoOutPut } from "../controllers/userInfoOutPut";
-import UserInfo from "../middlewares/userInfo/userInfo";
-import FollowMw from "../middlewares/userInfo/userFollow";
+import UserInfoOutPut from "../controllers/userInfoOutPut"
+import UserInfo from "../middlewares/userInfo/userInfo"
+import FollowMw from "../middlewares/userInfo/userFollow"
 import { logInBoth } from "../middlewares/passport-auth";
 
 // 회원 정보 페이지 - 회원정보조회 -- 메인 셋팅
@@ -25,4 +25,3 @@ router.get(
 );
 
 export default router;
-// module.exports = router;

@@ -15,6 +15,12 @@ export interface FollowUser{
     userId: number;
     email?: string;
     nickname: string;
+    followerCount?: number
+    followingCount?: number
+    Followers?:IsFollow
+    Followings?:IsFollow
+    followingIdList?: IsFollow
+    followerIdList?: IsFollow
 }
 
 export interface Follow extends FollowUser{
@@ -22,6 +28,9 @@ export interface Follow extends FollowUser{
     followerId: number
     createdAt?: Date
     updatedAt?: Date
+    followerCount?: number
+    followingCount?: number
+    length?: number
 }
 
 
@@ -30,8 +39,9 @@ export interface GetUserInfo extends UserAttr {
 }
 
 export interface IsFollow {
-    followingId: number
-    followerId: number
+    followingId?: number
+    followerId?: number
     createdAt?: Date
     updatedAt?: Date
+    length?: number
 }

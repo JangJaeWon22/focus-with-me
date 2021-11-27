@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Post, Bookmark, Like, sequelize, Sequelize } from "../models"
+import { Post, Bookmark, Like, Sequelize } from "../models"
 import { logger } from "../config/logger"
 import { MyBookLists, MyPosts, MyPostList, MyBookListsAdd } from "../interfaces/List"
 import { BookmarkAttr } from "../interfaces/bookmark"
@@ -10,6 +10,8 @@ class UserInfoOutPut {
   public getUser = async (req: Request, res: Response) => {
     const userInfo = res.userInfo;
     const isFollowing = res.isFollowing;
+    const followerCount = res.followerCount
+    const followingCount = res.followingCount
     try {
       /*
         현재 로그인한 사람이 다른 사람 정보 페이지 갈 경우,

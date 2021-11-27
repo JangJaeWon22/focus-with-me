@@ -28,7 +28,7 @@ module.exports = (sequelize:any, DataTypes:any) => {
      provider: string;
      snsId?: string;
      date: Date;
-    static associate(db) {
+    static associate(db:any) {
       User.hasMany(db.Post, {
         foreignKey: "userId",
         sourceKey: "userId",

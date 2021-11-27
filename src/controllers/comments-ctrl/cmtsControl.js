@@ -172,7 +172,7 @@ const comments = {
       for (let i = startNum; i < lastNum; i++) {
         cmtsList.push(respondComments[i]);
       }
-
+      
       message = "댓글 조회에 성공했습니다.";
       logger.info(`GET /api/posts/${postId}/comments 200 res:${message}`);
       return res.status(200).send({ cmtsList, message, totalPg, totCmtCount });
@@ -181,6 +181,7 @@ const comments = {
       message = "알 수 없는 문제가 발생했습니다.";
       logger.error(`GET /api/posts/${postId}/comments 500 res:${error}`);
       return res.status(500).send({ message });
+     
     }
   },
 
