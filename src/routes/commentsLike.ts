@@ -7,11 +7,11 @@ const router = express.Router();
 import commentsLikeController from "../controllers/likes-ctrl/cmtsLikeControl";
 // 로그인 했을 때만 이용 가능한 미들웨어다
 import { logInOnly } from "../middlewares/passport-auth";
-import { commentLikeFactory } from "../models/commentLike";
+
 
 // 댓글 좋아요 추가
 router.post("/posts/:postId/comments/:commentId/like", logInOnly, commentsLikeController.likeExist);
 // 댓글 좋아요 취소
 router.delete("/posts/:postId/comments/:commentId/like", logInOnly, commentsLikeController.notLikeExist);
 
-export default commentLikeFactory;
+export default router;

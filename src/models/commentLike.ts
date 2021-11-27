@@ -1,11 +1,11 @@
 import { Model } from "sequelize";
 
 interface commentLikeAttr {
-  commentLikeId: number;
-  date: Date;
+  commentLikeId: number
+  date: Date
 }
 
-export function commentLikeFactory (sequelize: any, DataTypes: any){
+export function commentLikeFac (sequelize: any, DataTypes: any){
   class Commentlike extends Model<commentLikeAttr>
   implements commentLikeAttr {
     /**
@@ -13,8 +13,8 @@ export function commentLikeFactory (sequelize: any, DataTypes: any){
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    commentLikeId!: number;
-    date: Date;
+    commentLikeId: number
+    date: Date
 
   static associate(db: any) {
     Commentlike.belongsTo(db.Post, {

@@ -1,19 +1,15 @@
-
 import { Request, Response } from "express";
-
 import { Commentlike } from "../../models";
-
 import { logger } from "../../config/logger";
-
 import { commentlike } from "../../interfaces/commentlike";
 
 class commentsLikeController {
   public likeExist = async (req: Request, res: Response) => {
     // params로 postId, commentId 받아옴
     const { postId, commentId }  = req.params;
-    // 미들웨어를 통해 userId 받아옴
-    const userId: number = res.locals.user.userId;
     try {
+      // 미들웨어를 통해 userId 받아옴
+      const userId: number = res.locals.user.userId;
       // 해당 postId와 userId와 commentId를 가진 likecmt를 가져와 보자
       const cmts: commentlike  = await Commentlike.findOne({
         where: { postId:Number(postId) , commentId:Number(commentId), userId:Number(userId) },
@@ -30,10 +26,10 @@ class commentsLikeController {
           date,
         });
         const likeCount: number = await Commentlike.count({
-            where: { postId, commentId },
+            where: { postId:Number(postId), commentId:Number(commentId) },
         });
         // 성공 응답값 200 및 로그인 유저가 댓글 했으면 true값을 보내어 프론트에서 state 바로 적용.
-        const message: string = "댓글 좋아요";
+        const message: string = "댓글 좋아요.";
         logger.info(`POST /api/posts/${postId}/comments/${commentId}/like 200 res:${message}`);
         return res.status(200).send({ isLiked: true, likeCount, message });
         // 이미 좋아요를 함.
@@ -53,9 +49,9 @@ class commentsLikeController {
   public notLikeExist = async (req: Request, res: Response) => {
     // params로 postId, commentId 값 가져옴
     const { postId, commentId } = req.params;
-    // 사용자 인증 미들웨어로 userId 값 받아옴
-    const userId: number = res.locals.user.userId;
     try {
+      // 사용자 인증 미들웨어로 userId 값 받아옴
+      const userId: number = res.locals.user.userId;
       // 해당 postId와 userId를 가진 likecmt를 가져와 보자
       const cmts : commentlike = await Commentlike.findOne({
         where: { postId:Number(postId), commentId:Number(commentId), userId:Number(userId) },
@@ -88,4 +84,4 @@ class commentsLikeController {
   };
 }
 
-export default new commentsLikeController ();
+export default new commentsLikeController();

@@ -1,13 +1,20 @@
-"use strict";
-const { Model } = require("sequelize");
-module.exports = (sequelize, DataTypes) => {
-  class Like extends Model {
+import { Model } from "sequelize";
+
+interface LikeAttributes {
+  likeId: number;
+  date: Date;
+}
+module.exports = (sequelize:any, DataTypes:any) => {
+  class Like extends Model<LikeAttributes>
+  implements LikeAttributes {
+    likeId: number;
+    date: Date;
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(db) {
+    static associate(db:any) {
       Like.belongsTo(db.Post, {
         foreignKey: "postId",
         targetKey: "postId",

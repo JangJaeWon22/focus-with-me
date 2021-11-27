@@ -1,44 +1,46 @@
-const { Comment, User, CommentLike, ChildComment } = require("../../models");
-const { Sequelize } = require("../../models");
-const { logger } = require("../../config/logger");
+import { Request, Response } from "express";
+import { Comment, User, CommentLike, ChildComment, Sequelize } from "../../models";
+import { logger } from "../../config/logger";
+import { UserAttr } from "../../interfaces/user"
+import { Cmt } from "../../interfaces/comment"
 
-const comments = {
+class Comment {
   // 댓글 생성을 비동기식 방식으로 처리한다
-  commentCreate: async (req, res) => {
+  public commentCreate =  async (req:Request, res:Response) => {
+    const { postId } = req.params;
     try {
-      const { textContent } = req.body;
-      const { postId } = req.params;
-      const { userId } = res.locals.user;
-
+      const { textContent } : {textContent: string} = req.body;
+      const userId : number = res.locals.user.userId;
+      
       // user 변수에서 findByPk 를 통해 식별된 값을 가져온다
-      const user = await User.findByPk(userId);
+      const user: UserAttr = await User.findByPk(userId);
       // userNick 변수에서 사용자의 nickname을 선언한다
       const userNick = user.nickname;
-      // avatarUrl 변수에서 사용자의 avatarUrl을 선언한다
+      // avatarUrl 변수에서 사용자의 avatarUrl을 :선언한다
       const avatarUrl = user.avatarUrl;
       // 날짜를 선언한다
       const date = new Date();
 
       // comment model에서 생성해주기 위해 create를 사용한다
       // comment 라는 변수에 저장하고자 하는 값을 넣어준다
-      const comment = await Comment.create({
+      const comment : Cmt = await Comment.create({
         userId,
-        postId,
+        postId: Number(postId),
         date,
         textContent,
       });
 
       //특정 게시물의 댓글의 수
-      const cmtCount = await Comment.count({
-        where: { postId },
+      const cmtCount: number = await Comment.count({
+        where: { postId:Number(postId) },
       });
       //페이지네이션 1페이지당 몇개를 보여줄지?
-      const perPage = 4;
+      const perPage: number = 4;
 
       //전체 페이지 수
       const totalPg = Math.ceil(cmtCount / perPage);
 
-      message = "댓글 작성에 성공했습니다.";
+      const message: string = "댓글 작성에 성공했습니다.";
       logger.info(`POST api/posts/${postId}/comments 201 res:${message}`);
       // 성공 했을 경우, 다음과 같은 값을 보내준다
       return res.status(201).send({
@@ -51,21 +53,21 @@ const comments = {
     } catch (error) {
       // 에러 발생 했을 경우, console.log를 찍어준다
       console.log(error);
-      message = "알 수 없는 문제가 발생했습니다.";
+      const message: string = "알 수 없는 문제가 발생했습니다.";
       logger.error(`POST api/posts/${postId}/comments 500 res:${error}`);
       // try 구문에 에러가 생겼을 경우, 서버 에러로 인식하고 오류창을 보여준다
       return res.status(500).send({ message });
     }
-  },
+  }
 
   /* 
     댓글 조회
     각 댓글별로 답글이 몇개있는지 끼워넣어서 보내줘야 함
   */
-  commentSearch: async (req, res) => {
+  public commentSearch = async (req:Request, res:Response) => {
+    // req.params로 postId를 할당 받음
+    const { postId } = req.params;
     try {
-      // req.params로 postId를 할당 받음
-      const { postId } = req.params;
       // const postId = req.params.postId; // ES5 및 이전 문법
 
       // comment db에서 값을 찾아보자
@@ -144,7 +146,7 @@ const comments = {
 
       // 댓글 페이지네이션
       let { pagination } = req.query;
-      const perPage = 4; // limit
+      const perPage: number = 4; // limit
 
       // pagination 예외처리
       if (!pagination) {
@@ -159,7 +161,7 @@ const comments = {
 
       // 예외처리
       if (pageNum < 1) {
-        message = "댓글 리스트를 불러오는데 실패 했습니다.";
+        const message: string = "댓글 리스트를 불러오는데 실패 했습니다.";
         logger.info(`GET /api/posts/${postId}/comments 400 res:${message}`);
         return res.status(400).send({ message });
       }
@@ -183,10 +185,10 @@ const comments = {
       return res.status(500).send({ message });
      
     }
-  },
+  }
 
   // 댓글 삭제
-  commentDel: async (req, res) => {
+  public commentDel = async (req:Request, res:Response) => {
     try {
       // postId와 commentId 변수에서 req.params에 있는 값을 불러와 할당한다(구조분해할당)
       const { postId, commentId } = req.params;
@@ -227,7 +229,7 @@ const comments = {
       );
       return res.status(500).send({ message });
     }
-  },
+  }
 };
 
-module.exports = { comments };
+export default new Comment();

@@ -1,13 +1,26 @@
-"use strict";
-const { Model } = require("sequelize");
-module.exports = (sequelize, DataTypes) => {
-  class Comment extends Model {
+import { Model } from "sequelize";
+
+interface CommentAttr {
+  commentId: number
+  date: Date
+  textContent: string
+}
+
+
+
+export function CommentFac (sequelize: any, DataTypes: any) {
+  class Comment extends Model<CommentAttr>
+  implements CommentAttr {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(db) {
+     commentId: number
+     date: Date
+     textContent: string
+
+    static associate(db: any) {
       Comment.hasMany(db.ChildComment, {
         foreignKey: "commentId",
         sourceKey: "commentId",
