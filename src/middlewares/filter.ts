@@ -1,7 +1,7 @@
 import { sequelize, Sequelize, Post, User, Like, Bookmark } from "../models";
 import { Request, Response, NextFunction } from "express";
 
-const filter = async (req, res, next: NextFunction) => {
+const filter = async (req: any, res: any, next: NextFunction) => {
   const { searchMode }: { searchMode: string } = req.query;
   if (searchMode === "main") {
     //여기에 유저 정보 보여주기

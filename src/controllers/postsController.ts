@@ -302,7 +302,9 @@ class PostsController {
   */
   public ckUpload(req: Request, res: Response) {
     const { user } = res.locals.user;
-    const path = `uploads${req.file.location.split("uploads")[1]}`;
+    const path = `uploads${
+      (req.file as Express.MulterS3.File).location.split("uploads")[1]
+    }`;
     logger.info(`POST /api/posts/ckUpload 201 res:${path} 경로 이미지 저장`);
     return res.status(201).send({ path });
   }
