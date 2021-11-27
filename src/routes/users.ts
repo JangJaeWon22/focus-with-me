@@ -72,4 +72,4 @@ router.put(
 // 회원탈퇴 
 router.delete("/users/withdrawal", logInOnly, UserProcess.deleteUser);
 
-module.exports = router;
+export default router;
