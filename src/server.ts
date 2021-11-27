@@ -1,5 +1,7 @@
-const express = require("express");
-const morgan = require("morgan");
+// const express = require("express");
+import * as express from "express";
+// const morgan = require("morgan");
+import * as morgan from "morgan";
 const app = express();
 const cors = require("cors");
 const { sequelize } = require("./models");
