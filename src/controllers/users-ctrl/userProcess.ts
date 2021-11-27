@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import { User } from "../../models"
+import User from "../../models"
 import { Op } from "sequelize"
 import * as bcrypt from "bcrypt"
-import {logger} from "../../config/logger"
+import { logger } from "../../config/logger"
 import { UserAttr } from "../../interfaces/user"
 
 //userProcess => user 관련 db 생성, 삭제 메소드 포함

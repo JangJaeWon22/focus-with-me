@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Bookmark } from "../models";
+import Bookmark from "../models";
 import { logger } from "../config/logger";
 import { BookmarkAttr } from "../interfaces/bookmark";
 

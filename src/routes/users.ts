@@ -8,11 +8,7 @@ import UploadAvatarS3 from "../middlewares/upload";
 import VerifyJoi from "../middlewares/verifyJoi";
 import * as passport from "passport";
 // 수정해야됨 auth
-const {
-  logInOnly,
-  logInNot,
-  logInBoth,
-} = require("../middlewares/passport-auth");
+import {  logInOnly,  logInNot,  logInBoth,} from "../middlewares/passport-auth"
 
 // 회원가입
 router.post(

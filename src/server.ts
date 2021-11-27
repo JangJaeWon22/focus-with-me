@@ -3,8 +3,6 @@ import * as morgan from "morgan";
 import * as cors from "cors";
 import { sequelize } from "./models";
 import * as dotenv from "dotenv";
-import * as passport from "passport";
-import * as passportConfig from "./passport";
 import userRouter from "./routes/users";
 import postsRouter from "./routes/posts";
 import likeRouter from "./routes/postsLike";
@@ -14,8 +12,7 @@ import userInfoRouter from "./routes/userInfo";
 import bookmarkRouter from "./routes/bookmark";
 import likeCommentRouter from "./routes/commentsLike";
 import childCommentRouter from "./routes/childComments";
-import * as stream from "./config/logger";
-// const { stream } = require("./config/logger");
+
 
 //swagger
 import swaggerUi from "swagger-ui-express";
@@ -65,10 +62,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 //passport
-// import Passport from './passport/index';
-// const passportConfig: Passport = new Passport();
-// passportConfig.config()
-passportConfig();
+import * as passport from 'passport';
+import Passport from "./passport"
+const passportConfig: Passport = new Passport();
+passportConfig.config()
+// passportConfig();
 // app.use(
 //   session({
 //     // false, 변경사항도 없는 session이 매번 다시 저장되는 걸 막아 작동 효율을 높임
@@ -99,39 +97,39 @@ app.use("/api", likeCommentRouter);
 app.use("/api", childCommentRouter);
 
 // metrics
-const client = require("prom-client");
+// const client = require("prom-client");
 
-collectDefaultMetrics = client.collectDefaultMetrics;
-client.collectDefaultMetrics({ timeOut: 5000 });
+// collectDefaultMetrics = client.collectDefaultMetrics;
+// client.collectDefaultMetrics({ timeOut: 5000 });
 
-const counter = new client.Counter({
-  name: "node_request_operations_total",
-  help: "The total number of processed request",
-});
+// const counter = new client.Counter({
+//   name: "node_request_operations_total",
+//   help: "The total number of processed request",
+// });
 
-const histogram = new client.Histogram({
-  name: "node_request_duration_seconds",
-  help: "Histogram for the durations in seconds",
-  buckets: [1, 2, 5, 6, 10],
-});
+// const histogram = new client.Histogram({
+//   name: "node_request_duration_seconds",
+//   help: "Histogram for the durations in seconds",
+//   buckets: [1, 2, 5, 6, 10],
+// });
 
-app.get("/", (req, res) => {
-  let start = new Date();
-  let simulateTime = 1000;
+// app.get("/", (req, res) => {
+//   let start = new Date();
+//   let simulateTime = 1000;
 
-  setTimeout(() => {
-    let end = new Date() - start;
-    histogram.observe(end / 1000);
-  }, simulateTime);
-  counter.inc();
+//   setTimeout(() => {
+//     let end = new Date() - start;
+//     histogram.observe(end / 1000);
+//   }, simulateTime);
+//   counter.inc();
 
-  res.send("에이치 아이");
-});
+//   res.send("에이치 아이");
+// });
 
-app.get("/metrics", async (req, res) => {
-  res.setHeader("Content-Type", client.register.contentType);
-  res.send(await client.register.metrics());
-});
+// app.get("/metrics", async (req, res) => {
+//   res.setHeader("Content-Type", client.register.contentType);
+//   res.send(await client.register.metrics());
+// });
 
 //Error handler
 app.use(function (err, req, res, next) {
@@ -143,4 +141,4 @@ app.use(function (err, req, res, next) {
   res.render("error");
 });
 
-module.exports = app;
+export default app;

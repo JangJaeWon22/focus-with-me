@@ -1,7 +1,14 @@
+<<<<<<< HEAD
 import { Request, Response, NextFunction } from "express";
 import { User } from "../../models";
 import { logger } from "../../config/logger";
 import { FollowUser, IsFollow } from "../../interfaces/user";
+=======
+import { Request, Response, NextFunction } from 'express';
+import User from "../../models";
+import { logger } from "../../config/logger"
+import { FollowUser, IsFollow } from "../../interfaces/user"
+>>>>>>> cca9545549d928aa363ed5b91ee912e5097c4c8c
 
 class FollowMw {
   public follow = async (req: Request, res: Response, next: NextFunction) => {

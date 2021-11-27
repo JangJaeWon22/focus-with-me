@@ -1,5 +1,6 @@
-// const { Sequelize, sequelize, ChildComment, User } = require("../models");
-import { Sequelize, sequelize, ChildComment, User } from "../models";
+import Sequelize from "../models"
+import sequelize from "../models"
+import ChildComment from "../models"
 import { logger } from "../config/logger";
 import { Request, Response } from "express";
 
@@ -25,7 +26,7 @@ class ChildCommentsController {
     const { commentId, postId } = req.params;
     let currentPage: number = 0;
     if (!page) currentPage = 1;
-    currentPage = parseInt(page, 10);
+    currentPage = Number(page)
     //특정 댓글의 전체 답글 수
     const childPerPage: number = 3;
     const offset: number = (currentPage - 1) * childPerPage;

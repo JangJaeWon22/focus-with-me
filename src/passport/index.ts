@@ -5,9 +5,9 @@ import { User } from "../models";
 import { jwt } from "./jwt";
 
 class Passport {
-  public confing = () => {
+  public config = () => {
     console.log("passportconfig() 실행!");
-    passport.serializeUser((user, done) => {
+    passport.serializeUser((user: any, done: any) => {
       console.log("kakaoStrategy.js에서 옴 ㅎㅇ");
       done(null, user.userId);
     });
@@ -39,4 +39,4 @@ class Passport {
   };
 }
 
-export default new Passport();
+export default Passport;
