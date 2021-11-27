@@ -1,6 +1,6 @@
 import * as express from "express"
 const router = express.Router();
-import { UserInfoOutPut } from "../controllers/userInfoOutPut"
+import UserInfoOutPut from "../controllers/userInfoOutPut"
 import UserInfo from "../middlewares/userInfo/userInfo"
 import FollowMw from "../middlewares/userInfo/userFollow"
 import { logInBoth } from "../middlewares/passport-auth";
