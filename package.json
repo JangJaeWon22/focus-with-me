@@ -60,7 +60,7 @@
     "@types/passport-local": "^1.0.34",
     "@types/validator": "^13.7.0",
     "@types/winston": "^2.4.4",
-    "artillery": "^2.0.0-5",
+    "artillery": "^1.7.9",
     "sequelize-cli": "^6.2.0",
     "swagger-autogen": "^2.12.4",
     "tsc-watch": "^4.5.0"

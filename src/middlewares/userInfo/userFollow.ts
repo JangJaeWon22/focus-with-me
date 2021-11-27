@@ -1,7 +1,14 @@
+<<<<<<< HEAD
+import { Request, Response, NextFunction } from "express";
+import { User } from "../../models";
+import { logger } from "../../config/logger";
+import { FollowUser, IsFollow } from "../../interfaces/user";
+=======
 import { Request, Response, NextFunction } from 'express';
 import User from "../../models";
 import { logger } from "../../config/logger"
 import { FollowUser, IsFollow } from "../../interfaces/user"
+>>>>>>> cca9545549d928aa363ed5b91ee912e5097c4c8c
 
 class FollowMw {
   public follow = async (req: Request, res: Response, next: NextFunction) => {
@@ -33,23 +40,24 @@ class FollowMw {
         user.followingCount = user ? user.Followings.length : 0;
         user.followingIdList = user ? user.Followings : [];
         user.followerIdList = user ? user.Followers : [];
-        const followerCount:number = user.followerCount;
+        const followerCount: number = user.followerCount;
         const followingCount: number = user.followingCount;
         const followingIdList: IsFollow = user.followingIdList;
         const followerIdList: IsFollow = user.followerIdList;
-        res.followerCount = followerCount
-        res.followingCount = followingCount
-        res.followingIdList = followingIdList
-        res.followerIdList = followerIdList
+        res.followerCount = followerCount;
+        res.followingCount = followingCount;
+        res.followingIdList = followingIdList;
+        res.followerIdList = followerIdList;
         next();
       }
     } catch (error) {
       console.log(error);
-      const message: string = "알 수 없는 문제로 회원 정보를 가져오는데 실패 했습니다.";
+      const message: string =
+        "알 수 없는 문제로 회원 정보를 가져오는데 실패 했습니다.";
       logger.error(`userInfo/userFollow middleware catch error: ${error}`);
       res.status(500).send({ message });
     }
   };
 }
 
-export default new FollowMw()
+export default new FollowMw();
