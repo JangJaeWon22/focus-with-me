@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { User } from "../../models";
+import User from "../../models";
 import { logger } from "../../config/logger"
 import { FollowUser, IsFollow } from "../../interfaces/user"
 

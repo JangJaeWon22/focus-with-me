@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { User } from "../../models"
+import User from "../../models"
 import {logger } from "../../config/logger"
 import { UserAttr } from "../../interfaces/user"
 

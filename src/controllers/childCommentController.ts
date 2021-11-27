@@ -1,5 +1,6 @@
-// const { Sequelize, sequelize, ChildComment, User } = require("../models");
-import { Sequelize, sequelize, ChildComment, User } from "../models";
+import Sequelize from "../models"
+import sequelize from "../models"
+import ChildComment from "../models"
 import { logger } from "../config/logger";
 import { Request, Response } from "express";
 
@@ -21,11 +22,11 @@ import { Request, Response } from "express";
 */
 class ChildCommentsController {
   getChildComments = async (req: Request, res: Response) => {
-    const { page }: { page: string } = req.query;
+    const { page } = req.query;
     const { commentId, postId } = req.params;
     let currentPage: number = 0;
     if (!page) currentPage = 1;
-    currentPage = parseInt(page, 10);
+    currentPage = Number(page)
     //특정 댓글의 전체 답글 수
     const childPerPage: number = 3;
     const offset: number = (currentPage - 1) * childPerPage;
@@ -115,7 +116,6 @@ class ChildCommentsController {
 
   deleteChildComments = async (req: Request, res: Response) => {
     const { postId, commentId, childCommentId } = req.params;
-    console.log("hi");
     // 자기꺼만 삭제할 수 있어야 하고
     // 기타 등등.....
     try {

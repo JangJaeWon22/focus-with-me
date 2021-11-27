@@ -1,15 +1,24 @@
-import { Post, Bookmark, Like, User, sequelize } from "../models";
-import { Request, Response } from "express";
+import Post from "../models"
+import Bookmark from "../models"
+import Like from "../models"
+import User from "../models"
+import sequelize from "../models"
+import { Request, Response} from "express";
 import ControlS3 from "../library/controlS3";
 import { logger } from "../config/logger";
-const { extractImageSrcS3, copyImagesS3, removeObjS3, getObjS3 } = ControlS3;
+const { extractImageSrcS3, copyImagesS3, removeObjS3 } = ControlS3;
 /* option + shift + a */
+
+interface MulterRequest extends Request {
+  file: any;
+}
+
 
 class PostsController {
   /* 
     게시물 조회
   */
-  public async getPosts(req, res) {
+  public async getPosts(req: any, res: any) {
     //조회는 미들웨어에서 처리하고, 여기는 던지는 역할만 하기
     const {
       randPosts,
@@ -40,9 +49,6 @@ class PostsController {
       ? `uploads${files["coverCropped"][0].location.split("uploads")[1]}`
       : "";
     const { userId } = res.locals.user;
-    // const path = req.file
-    //   ? `uploads${req.file.location.split("uploads")[1]}`
-    //   : "";
 
     //multipart 에서 json 형식으로 변환
     const body = JSON.parse(JSON.stringify(req.body));
@@ -304,8 +310,8 @@ class PostsController {
     ckEditor 본문 이미지 업로드
   */
   public ckUpload(req: Request, res: Response) {
-    const { user } = res.locals.user;
-    const path = `uploads${req.file.location.split("uploads")[1]}`;
+    const { file } = (req as MulterRequest)
+    const path = `uploads${file.location.split("uploads")[1]}`;
     logger.info(`POST /api/posts/ckUpload 201 res:${path} 경로 이미지 저장`);
     return res.status(201).send({ path });
   }

@@ -1,4 +1,4 @@
-export interface singUpUser {
+export interface signUpUser {
     email : string
     nickname: string
     password: string

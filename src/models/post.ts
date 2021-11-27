@@ -1,13 +1,34 @@
-"use strict";
-const { Model } = require("sequelize");
-module.exports = (sequelize, DataTypes) => {
-  class Post extends Model {
+import { Model } from "sequelize";
+// const { Model } = require("sequelize");
+interface PostsAttributes {
+  postId: number;
+  coverOriginal: string;
+  coverCropped: string;
+  title: string;
+  categorySpace: string;
+  categoryStudyMate: string;
+  categoryInterest: string;
+  contentEditor: string;
+  date: Date;
+}
+
+module.exports = (sequelize: any, DataTypes: any) => {
+  class Post extends Model<PostsAttributes> implements PostsAttributes {
+    postId: number;
+    coverOriginal: string;
+    coverCropped: string;
+    title: string;
+    categorySpace: string;
+    categoryStudyMate: string;
+    categoryInterest: string;
+    contentEditor: string;
+    date: Date;
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(db) {
+    static associate(db: any) {
       Post.belongsTo(db.User, {
         foreignKey: "userId",
         targetKey: "userId",

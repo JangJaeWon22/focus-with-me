@@ -1,9 +1,13 @@
-import { Request, Response } from 'express';
-import { User } from "../../models"
+import { Request, Response} from 'express';
+import User from "../../models"
 import * as bcrypt from "bcrypt"
-import { removeObjS3 } from "../../library/controlS3"
+import ControlS3 from "../../library/controlS3"
 import { logger } from "../../config/logger"
 import {UserAttr} from "../../interfaces/user"
+
+interface MulterRequest extends Request {
+  file: any;
+}
 
 // 프로필 수정 페이지 접근 시 회원 정보 먼저 조회
 class UserUpdate {
@@ -13,7 +17,8 @@ class UserUpdate {
       // locals type 지정
       const { user } = res.locals;
       // file type 지정
-      const { file } = req;
+      const { file }= (req as MulterRequest);
+
       let avatarUrl = "";
       // 닉네임입력란이 공백일 경우 대비
       const { nicknameNew } = res.updateUserProfile;
@@ -24,7 +29,7 @@ class UserUpdate {
       if (file) {
         if (user.avatarUrl !== "uploads/assets/noAvatar.svg") {
           // await removeImage(user.avatarUrl);
-          await removeObjS3(user.avatarUrl);
+          await ControlS3.removeObjS3(user.avatarUrl);
         }
         avatarUrl = `uploads${file.location.split("uploads")[1]}`;
       } else {

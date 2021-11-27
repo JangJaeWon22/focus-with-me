@@ -23,4 +23,4 @@ router.get(
 // user가 팔로워하는 계정 보기
 router.get("/followers/:userId", logInOnly, FollowMW.follow, FollowOutPut.getFollower);
 
-module.exports = router;
+export default router;

@@ -1,10 +1,10 @@
-const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
-const bcrypt = require("bcrypt");
-const { User } = require("../models");
+import * as passport from "passport";
+const LocalStrategy = require("passport-local").Strategy
+import * as bcrypt from "bcrypt";
+import { User } from "../models";
 
 const passportConfig = { usernameField: "email", passwordField: "password" };
-const passportVerify = async (email, password, done) => {
+const passportVerify = async (email : any, password: any, done:any) => {
   try {
     // 유저 아이디로 일치하는 유저 데이터 검색
     const user = await User.findOne({ where: { email: email } });
@@ -29,6 +29,7 @@ const passportVerify = async (email, password, done) => {
   }
 };
 
-module.exports = () => {
-  passport.use("local", new LocalStrategy(passportConfig, passportVerify));
-};
+export default function local(){
+  passport.use("local", new LocalStrategy(passportConfig, passportVerify)
+  );
+} 

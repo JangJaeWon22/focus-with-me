@@ -2,7 +2,9 @@ import { Request, Response } from "express";
 import { Comment, User, CommentLike, ChildComment, Sequelize } from "../../models";
 import { logger } from "../../config/logger";
 import { UserAttr } from "../../interfaces/user"
+import { likepost } from "../../interfaces/likepost"
 import { Cmt } from "../../interfaces/comment"
+import { number } from "joi";
 
 class Comment {
   // 댓글 생성을 비동기식 방식으로 처리한다
@@ -34,6 +36,7 @@ class Comment {
       const cmtCount: number = await Comment.count({
         where: { postId:Number(postId) },
       });
+    
       //페이지네이션 1페이지당 몇개를 보여줄지?
       const perPage: number = 4;
 
@@ -73,16 +76,13 @@ class Comment {
       // comment db에서 값을 찾아보자
       const commentAll = await Comment.findAll({
         // db에서 찾을 때 할당 받은 postId와 같은 조건인 것을 찾음 (해당 게시글의 댓글만 가져오면 되서)
-        where: { postId },
+        where: { postId : Number(postId)},
         // 가져올때 속성은 comment의 전부 + commentLikeCnt(commentLikeId의 갯수)
         attributes: [
           "Comment.*",
           "User.avatarUrl",
           "User.nickname",
-          [
-            Sequelize.literal("COUNT(DISTINCT CommentLikes.commentLikeId)"),
-            "commentLikeCnt",
-          ],
+          [Sequelize.literal("COUNT(DISTINCT CommentLikes.commentLikeId)"), "commentLikeCnt"],
         ],
         /*  join!! (user, commentLike) ==> user는 작성자의 닉네임, 작성자의 프로필사진
         commentLike는 현재 미들웨어(loginBoth)를 타고 res.local.user가 있을 경우를 대비해서 그 사람이 각 댓글마다 
@@ -105,7 +105,7 @@ class Comment {
       });
 
       // 배열, 배열안에 객체(Object)를 저장
-      const respondComments = [];
+      const respondComments : any = [];
       /*
         반복문의 역할: commentAll 이 인덱스 오름차순으로 정렬되는데, 날짜 오름차순과 일치한다
                     프론트 쪽에서 날짜 최신순으로 보여줘야 해서, 배열의 unshift 메서드로 처리한다
@@ -117,15 +117,15 @@ class Comment {
         // 사용자 인증 미들웨어를 타고 들어왔는데 사용자가 로그인 상태라면
         if (res.locals.user) {
           // 로그인 한 사용자가 현재의 포스트에서 좋아요를 했는지 db 검색
-          const liked : Cmt = await CommentLike.findOne({
-            where: { userId: res.locals.user.userId, postId: comment.postId },
+          const liked : likepost = await CommentLike.findOne({
+            where: { userId: Number(res.locals.user.userId), postId: Number(comment.postId) },
           });
           if (liked) isCommentLiked = true;
         }
 
         childCnt = await ChildComment.count({
           where: {
-            commentId: comment.commentId,
+            commentId: Number(comment.commentId),
           },
         });
         // 각 댓글별로 답글 수 찾기
@@ -145,16 +145,16 @@ class Comment {
       }
 
       // 댓글 페이지네이션
-      let { pagination } = req.query;
+      let { pagination } : { pagination: number }= req.query;
       const perPage: number = 4; // limit
 
       // pagination 예외처리
-      if (!pagination) {
-        pagination = 1;
-      }
+      if (!pagination) pagination = 1;
+      pagination = Number(pagination);
+      
 
       const pageNum = parseInt(pagination, 10); // 페이지 수를 10진수로 처리함
-      const totCmtCount = respondComments.length; // 댓글 총 페이지 수와 댓글 총 수 구할때 필요함, 배열의 길이
+      const totCmtCount: number = respondComments.length; // 댓글 총 페이지 수와 댓글 총 수 구할때 필요함, 배열의 길이
       const totalPg = Math.ceil(totCmtCount / perPage); // 총 페이지를 보여주면, 댓글 여러개 달렸을때, 나눠서 보여주려고 사용함
       let startNum = (pageNum - 1) * perPage;
       let lastNum = pageNum * perPage;
@@ -170,7 +170,7 @@ class Comment {
         lastNum = totCmtCount;
       }
 
-      const cmtsList = [];
+      const cmtsList : any = [];
       for (let i = startNum; i < lastNum; i++) {
         cmtsList.push(respondComments[i]);
       }
@@ -205,7 +205,9 @@ class Comment {
       if (reqDelete.userId === userId) {
         // 특정 포스트에 해당하는 특정 댓글을 지운다
         // 특정 포스트 -> 특정 댓글
-        await reqDelete.destroy({ where: {postId:Number(postId), commentId:Number(commentId)}});
+        await reqDelete.destroy({ 
+          where: {postId:Number(postId), commentId:Number(commentId)}
+        });
         // 댓글이 삭제되는 메세지를 제대로 보내졌을 경우
         const message:string = "댓글이 삭제되었습니다.";
         logger.info(

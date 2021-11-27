@@ -12,7 +12,7 @@ class uploadMiddlewares {
       s3,
       bucket: "kkirri-images",
       acl: "public-read",
-      key: (req, file, cb) => {
+      key: (req: Request, file, cb) => {
         console.log(file);
         cb(
           null,

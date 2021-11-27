@@ -1,9 +1,8 @@
 import * as passport from "passport"
 import * as passportJwt from "passport-jwt"
 const { ExtractJwt, Strategy: JWTStrategy } = passportJwt
-
 import { User } from "../models"
-import { user } from "../interfaces/user"
+import { UserAttr } from "../interfaces/user"
 
 export interface jwtPayload{
   userId:number
@@ -17,7 +16,7 @@ const JWTConfig = {
 const JWTVerify = async (jwtPayload: jwtPayload, done: any) => {
   try {
     // payload의 id값으로 유저의 데이터 조회
-    const user: user = await User.findOne({
+    const user: UserAttr = await User.findOne({
       where: { userId: jwtPayload.userId },
       include: [
         {

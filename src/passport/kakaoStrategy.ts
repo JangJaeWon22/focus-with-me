@@ -1,10 +1,10 @@
-const passport = require("passport");
-const KakaoStrategy = require("passport-kakao").Strategy;
-const { User } = require("../models");
+import * as passport from "passport"
+const KakaoStrategy = require('passport-kakao').Strategy
+import { User } from "../models"
 require("dotenv").config();
 
-module.exports = () => {
-  console.log("hihihii");
+export default function kakao(){
+
   passport.use(
     "kakao",
     new KakaoStrategy(
@@ -12,7 +12,7 @@ module.exports = () => {
         clientID: process.env.KAKAO_ID,
         callbackURL: process.env.KAKAO_CALLBACK,
       },
-      async (accessToken, refreshToken, profile, done) => {
+      async (accessToken: any, refreshTokenL:any, profile:any, done:any) => {
         console.log("profile", profile);
         const email = profile["_json"].kakao_account.email;
         let nickname = profile.displayName;

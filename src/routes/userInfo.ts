@@ -1,4 +1,4 @@
-import * as express from "express"
+import * as express from "express";
 const router = express.Router();
 import UserInfoOutPut from "../controllers/userInfoOutPut"
 import UserInfo from "../middlewares/userInfo/userInfo"
@@ -24,4 +24,4 @@ router.get(
   UserInfoOutPut.getUserBookmark
 );
 
-module.exports = router;
+export default router;

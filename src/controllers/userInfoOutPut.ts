@@ -1,7 +1,10 @@
 import { Request, Response } from 'express';
-import { Post, Bookmark, Like, Sequelize } from "../models"
+import Post from "../models"
+import Bookmark from "../models"
+import Like from "../models"
+import Sequelize from "../models"
 import { logger } from "../config/logger"
-import { MyBookLists, MyPosts, MyPostList, MyBookListsAdd } from "../interfaces/List"
+import { MyBookLists, MyPosts, MyPostList, MyBookListsAdd } from "../interfaces/list"
 import { BookmarkAttr } from "../interfaces/bookmark"
 import { LikeAttr } from "../interfaces/like"
 

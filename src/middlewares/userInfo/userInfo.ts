@@ -1,12 +1,16 @@
-import { Request, Response, NextFunction } from 'express';
-import { User, Post, sequelize, Sequelize} from "../../models"
-import { logger } from "../../config/logger"
-import { GetUserInfo } from "../../interfaces/user"
-
+import { Request, Response, NextFunction } from "express";
+import sequelize from "../../models"
+import Sequelize from "../../models"
+import { logger } from "../../config/logger";
+import { GetUserInfo } from "../../interfaces/user";
 
 //유저 정보 가공(작성한 게시글 갯수 카운트)
 class UserInfo {
-  public getUserInfo = async (req: Request, res: Response, next: NextFunction) => {
+  public getUserInfo = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
     try {
       // const { userId } = req.body === undefined ? res.locals.user : req.body;
       const { userId } = req.params;
@@ -17,10 +21,10 @@ class UserInfo {
       WHERE Users.userId = ${userId}
       GROUP BY Users.userId
       ORDER BY date DESC;`;
-      const userInfo : GetUserInfo  = await sequelize.query(userQuery, {
+      const userInfo: GetUserInfo = await sequelize.query(userQuery, {
         type: sequelize.QueryTypes.SELECT,
       });
-  
+
       let isFollowing = false;
       if (res.locals.user) {
         const result = await sequelize.query(
@@ -38,7 +42,8 @@ class UserInfo {
       next();
     } catch (error) {
       console.error(error);
-      const message: string = "알 수 없는 문제로 회원 정보를 가져오는데 실패 했습니다.";
+      const message: string =
+        "알 수 없는 문제로 회원 정보를 가져오는데 실패 했습니다.";
       logger.error(`userInfo/userInfo middleware error: ${error}`);
       res.status(500).send({ message });
     }
