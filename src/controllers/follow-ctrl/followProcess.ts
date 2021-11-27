@@ -17,6 +17,7 @@ class FollowProcess {
         if (tagetUser.userId !== user_id) {
           // 사용자가 자신을 팔로우를 하지못하게 하기 위해 비교 (메서드 비교를 위해 string 타입 그대로 사용)
           // await userInfo.addFollowing(parseInt(userId, 10));
+          
           const sqlQuery = `
           INSERT INTO Follow (createAt, updateAt, followingId, followerId)
           VALUES(${date},${date},${tagetUser.userId},${user_id})
