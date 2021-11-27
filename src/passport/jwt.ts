@@ -1,7 +1,7 @@
 import * as passport from "passport"
 import * as passportJwt from "passport-jwt"
 const { ExtractJwt, Strategy: JWTStrategy } = passportJwt
-import { User } from "../models"
+import User from "../models"
 import { UserAttr } from "../interfaces/user"
 
 export interface jwtPayload{

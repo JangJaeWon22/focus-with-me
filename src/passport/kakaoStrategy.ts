@@ -1,6 +1,6 @@
 import * as passport from "passport"
 const KakaoStrategy = require('passport-kakao').Strategy
-import { User } from "../models"
+import User from "../models"
 require("dotenv").config();
 
 export default function kakao(){

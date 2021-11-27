@@ -1,7 +1,7 @@
 import * as passport from "passport";
 const LocalStrategy = require("passport-local").Strategy
 import * as bcrypt from "bcrypt";
-import { User } from "../models";
+import User from "../models";
 
 const passportConfig = { usernameField: "email", passwordField: "password" };
 const passportVerify = async (email : any, password: any, done:any) => {
