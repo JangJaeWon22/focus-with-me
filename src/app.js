@@ -24,9 +24,50 @@ const job = schedule.scheduleJob("0 0 0 * * *", async () => {
   console.log("temp 폴더 삭제");
 });
 
+const app = express();
+
+const https = require("https");
+// Certificate 인증서 경로
+const privateKey = fs.readFileSync(
+  "/etc/letsencrypt/live/wwworld.shop/privkey.pem",
+  "utf8"
+);
+const certificate = fs.readFileSync(
+  "/etc/letsencrypt/live/wwworld.shop/cert.pem",
+  "utf8"
+);
+const ca = fs.readFileSync(
+  "/etc/letsencrypt/live/wwworld.shop/chain.pem",
+  "utf8"
+);
+
+const credentials = {
+  key: privateKey,
+  cert: certificate,
+  ca: ca,
+};
+
+const httpsServer = https.createServer(credentials, app);
+
 app.listen(port, () => {
-  console.log("서연제도 푸쉬 된다!!!");
-  console.log("서연제도 푸쉬 된다!!!");
+  logger.info(`
+  ${port} 포트에서 서버가 가동되었습니다.😄😄
+----------------------------------------------
+
+       / / / / / / / / / / 
+      / / / / / / / / / / 
+    ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ
+               __
+              / _) 
+       .-^^^-/ / 
+    __/       / 
+   <__.|_|-|_|
+
+----------------------------------------------
+  `);
+});
+
+httpsServer.listen(443, () => {
   logger.info(`
   ${port} 포트에서 서버가 가동되었습니다.😄😄
 ----------------------------------------------
