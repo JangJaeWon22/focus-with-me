@@ -1,12 +1,12 @@
-import * as express from "express"
+import * as express from "express";
 const router = express.Router();
-import UserProcess from "../controllers/users-ctrl/userProcess"
-import UserOutPut from "../controllers/users-ctrl/userOutPut"
-import UserExist from "../controllers/users-ctrl/userExist"
-import UserUpdate from "../controllers/users-ctrl/userUpdate"
-import UploadAvatarS3 from "../middlewares/upload"
-import VerifyJoi from "../middlewares/verifyJoi"
-import * as passport from "passport"
+import UserProcess from "../controllers/users-ctrl/userProcess";
+import UserOutPut from "../controllers/users-ctrl/userOutPut";
+import UserExist from "../controllers/users-ctrl/userExist";
+import UserUpdate from "../controllers/users-ctrl/userUpdate";
+import UploadAvatarS3 from "../middlewares/upload";
+import VerifyJoi from "../middlewares/verifyJoi";
+import * as passport from "passport";
 // 수정해야됨 auth
 const {
   logInOnly,
@@ -69,7 +69,8 @@ router.put(
   UserUpdate.updateUserPw
 );
 
-// 회원탈퇴 
+// 회원탈퇴
 router.delete("/users/withdrawal", logInOnly, UserProcess.deleteUser);
 
-module.exports = router;
+export default router;
+// module.exports = router;
