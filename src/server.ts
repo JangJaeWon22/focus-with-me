@@ -1,27 +1,30 @@
-const express = require("express");
-const morgan = require("morgan");
-const app = express();
-const cors = require("cors");
-const { sequelize } = require("./models");
-require("dotenv").config();
-const passport = require("passport");
-const passportConfig = require("./passport");
-const userRouter = require("./routes/users");
-const postsRouter = require("./routes/posts");
-const likeRouter = require("./routes/postsLike");
-const cmtRouter = require("./routes/comments");
-const followRouter = require("./routes/follow");
-const userInfoRouter = require("./routes/userInfo");
-const bookmarkRouter = require("./routes/bookmark");
-const likeCommentRouter = require("./routes/commentsLike");
-const childCommentRouter = require("./routes/childComments");
-
-const { stream } = require("./config/logger");
+import * as express from "express";
+import * as morgan from "morgan";
+import * as cors from "cors";
+import { sequelize } from "./models";
+import * as dotenv from "dotenv";
+import * as passport from "passport";
+import * as passportConfig from "./passport";
+import userRouter from "./routes/users";
+import postsRouter from "./routes/posts";
+import likeRouter from "./routes/postsLike";
+import cmtRouter from "./routes/comments";
+import followRouter from "./routes/follow";
+import userInfoRouter from "./routes/userInfo";
+import bookmarkRouter from "./routes/bookmark";
+import likeCommentRouter from "./routes/commentsLike";
+import childCommentRouter from "./routes/childComments";
+import * as stream from "./config/logger";
+// const { stream } = require("./config/logger");
 
 //swagger
-const swaggerUi = require("swagger-ui-express");
-const swaggerFile = require("./swagger-output");
+import swaggerUi from "swagger-ui-express";
+// const swaggerUi = require("swagger-ui-express");
+import swaggerFile from "./swagger-output.json";
+// const swaggerFile = require("./swagger-output");
 
+dotenv.config();
+const app = express();
 // 테스트용
 // const authMiddleware = require("./middlewares/auth");
 
@@ -113,11 +116,11 @@ const histogram = new client.Histogram({
 });
 
 app.get("/", (req, res) => {
-  var start = new Date();
-  var simulateTime = 1000;
+  let start = new Date();
+  let simulateTime = 1000;
 
   setTimeout(() => {
-    var end = new Date() - start;
+    let end = new Date() - start;
     histogram.observe(end / 1000);
   }, simulateTime);
   counter.inc();

@@ -14,4 +14,5 @@ childCommentRouter
   .route("/posts/:postId/comments/:commentId/childs/:childCommentId")
   .delete(logInOnly, deleteChildComments);
 
-module.exports = childCommentRouter;
+export default childCommentRouter;
+// module.exports = childCommentRouter;

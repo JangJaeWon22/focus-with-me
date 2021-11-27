@@ -21,7 +21,7 @@ import { Request, Response } from "express";
 */
 class ChildCommentsController {
   getChildComments = async (req: Request, res: Response) => {
-    const { page }: { page: string } = req.query;
+    const { page } = req.query;
     const { commentId, postId } = req.params;
     let currentPage: number = 0;
     if (!page) currentPage = 1;
@@ -115,7 +115,6 @@ class ChildCommentsController {
 
   deleteChildComments = async (req: Request, res: Response) => {
     const { postId, commentId, childCommentId } = req.params;
-    console.log("hi");
     // 자기꺼만 삭제할 수 있어야 하고
     // 기타 등등.....
     try {
