@@ -23,6 +23,6 @@ jobs:
             cd /home/ubuntu/focus-with-me
             sudo git pull origin maintest --ff
             sudo rm -rf package-lock.json
-            npm i
+            sudo npm i
             tsc
             sudo npm start
