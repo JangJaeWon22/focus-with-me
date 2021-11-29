@@ -1,5 +1,5 @@
-import "dotenv/config";
-const config = {
+import 'dotenv/config';
+export const config = {
   development: {
     username: "root",
     password: process.env.DB_TEST_PW,
@@ -29,5 +29,3 @@ const config = {
     dialect: "mysql",
   },
 };
-
-export default config;

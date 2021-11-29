@@ -22,7 +22,7 @@ import { Request, Response } from "express";
 */
 class ChildCommentsController {
   getChildComments = async (req: Request, res: Response) => {
-    const { page }: { page: string } = req.query;
+    const { page } = req.query;
     const { commentId, postId } = req.params;
     let currentPage: number = 0;
     if (!page) currentPage = 1;

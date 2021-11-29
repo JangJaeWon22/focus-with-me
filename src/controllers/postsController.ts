@@ -310,15 +310,8 @@ class PostsController {
     ckEditor 본문 이미지 업로드
   */
   public ckUpload(req: Request, res: Response) {
-<<<<<<< HEAD
-    const { user } = res.locals.user;
-    const path = `uploads${
-      (req.file as Express.MulterS3.File).location.split("uploads")[1]
-    }`;
-=======
     const { file } = (req as MulterRequest)
     const path = `uploads${file.location.split("uploads")[1]}`;
->>>>>>> cca9545549d928aa363ed5b91ee912e5097c4c8c
     logger.info(`POST /api/posts/ckUpload 201 res:${path} 경로 이미지 저장`);
     return res.status(201).send({ path });
   }

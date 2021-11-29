@@ -5,20 +5,20 @@ import * as express from "express";
 const router = express.Router();
 
 // 댓글 기능을 위해 컨트롤러를 적용했다
-import cmtCtrl from "../controllers/comments-ctrl/cmtsControl";
+import CommentController from "../controllers/comments-ctrl/cmtsControl";
 // 로그인 했을 때와 안 했을 때 모두 적용된 미들웨어다
 import { logInOnly, logInBoth } from "../middlewares/passport-auth";
 
 
 // 댓글 생성 라우터
-router.post("/posts/:postId/comments", logInOnly, cmtCtrl.commentCreate);
+router.post("/posts/:postId/comments", logInOnly, CommentController.commentCreate);
 // 댓글 조회 라우터
-router.get("/posts/:postId/comments", logInBoth, cmtCtrl.commentSearch);
+router.get("/posts/:postId/comments", logInBoth, CommentController.commentSearch);
 
 // 댓글 삭제 라우터
 // 해당 게시물에 대한 특정한 댓글을 식별해주기 위해서, :commentId 라는 유니크한 값을 붙여줌 
 // 로그인이 된 상태에서만 해당 기능이 작동하기 위해서 logInOnly 미들웨어를 사용함
 // 댓글 삭제
-router.delete("/posts/:postId/comments/:commentId", logInOnly, cmtCtrl.commentDel);
+router.delete("/posts/:postId/comments/:commentId", logInOnly, CommentController.commentDel);
 
 export default router;

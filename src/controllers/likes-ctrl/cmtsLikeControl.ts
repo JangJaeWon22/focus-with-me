@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Commentlike } from "../../models";
+import Commentlike from "../../models";
 import { logger } from "../../config/logger";
 import { commentlike } from "../../interfaces/commentlike";
 

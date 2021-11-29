@@ -1,10 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import * as passport from "passport"
-<<<<<<< HEAD
-import { logger } from "../../src/config/logger"
-=======
 import { logger } from "../config/logger"
->>>>>>> cca9545549d928aa363ed5b91ee912e5097c4c8c
 
 //토큰이 없이 들어오면 빠꾸 --- 사유 : 회원 탈퇴-아에 접근하면 안됨, 게시글 작성-아에 접근하면 안됨, 좋아요 등등
 export function logInOnly(req: Request, res: Response, next: NextFunction) {

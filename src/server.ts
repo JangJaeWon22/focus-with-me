@@ -1,8 +1,7 @@
-import * as express from "express";
-import * as morgan from "morgan";
-import * as cors from "cors";
-import { sequelize } from "./models";
-import * as dotenv from "dotenv";
+import express from "express";
+import morgan from "morgan";
+import cors from "cors";
+import sequelize from "./models";
 import userRouter from "./routes/users";
 import postsRouter from "./routes/posts";
 import likeRouter from "./routes/postsLike";
@@ -13,17 +12,15 @@ import bookmarkRouter from "./routes/bookmark";
 import likeCommentRouter from "./routes/commentsLike";
 import childCommentRouter from "./routes/childComments";
 
+const app: express.Application = express();
+
+import * as dotenv from "dotenv";
+dotenv.config();
 
 //swagger
 import swaggerUi from "swagger-ui-express";
-// const swaggerUi = require("swagger-ui-express");
 import swaggerFile from "./swagger-output.json";
-// const swaggerFile = require("./swagger-output");
 
-dotenv.config();
-const app = express();
-// 테스트용
-// const authMiddleware = require("./middlewares/auth");
 
 sequelize
   .sync({ force: false })

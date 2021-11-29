@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Like } from "../../models";
+import Like from "../../models";
 import { logger } from "../../config/logger";
 import { likepost } from "../../interfaces/likepost";
 

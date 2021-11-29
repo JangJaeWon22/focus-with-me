@@ -63,6 +63,7 @@
     "artillery": "^1.7.9",
     "sequelize-cli": "^6.2.0",
     "swagger-autogen": "^2.12.4",
-    "tsc-watch": "^4.5.0"
+    "tsc-watch": "^4.5.0",
+    "typescript": "^4.5.2"
   }
 }

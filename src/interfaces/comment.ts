@@ -1,6 +1,10 @@
 export interface Cmt {   
-    userId: number
-    postId: number
-    date: Date
-    textContent: string
+    commentId?: number
+    userId?: number
+    postId?: number
+    date?: Date
+    textContent?: string
+    commentLikeCnt?: number
+    avatarUrl?: string
+    nickname?: string
 }
