@@ -15,7 +15,6 @@ import { Request, Response } from "express";
     avatarUrl (JOIN)
     nickname (JOIN)
   }
-
   Options:
     정렬 : 최신순(날짜 내림차순)
 */
@@ -23,9 +22,7 @@ class ChildCommentsController {
   getChildComments = async (req: Request, res: Response) => {
     const { page } = req.query;
     const { commentId, postId } = req.params;
-    let currentPage: number = 0;
-    if (!page) currentPage = 1;
-    currentPage = Number(page)
+    const currentPage : number = page ? Number(page) : 1;
     //특정 댓글의 전체 답글 수
     const childPerPage: number = 3;
     const offset: number = (currentPage - 1) * childPerPage;
