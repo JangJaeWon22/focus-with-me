@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+      "module": "commonjs",
+      "target":"ES2015",
+      "sourceMap":true,
+      "typeRoots": ["./node_modules/@types","src/customType"],
+      "outDir": "dist",
+      "resolveJsonModule": true,
+      "esModuleInterop": true,
+
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"],
+  "esModuleInterop": true
+}

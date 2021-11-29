@@ -1,13 +1,9 @@
 */node_modules
 *.DS_Store
 *.env
-*/uploads
-*/images
-src/public/images
-src/public/test
-src/public/uploads/
 test.js
-doc/presentation/*
+
+
 # Logs
 logs
 *.log
@@ -92,6 +88,7 @@ typings/
 # Nuxt.js build / generate output
 .nuxt
 dist
+distsss
 
 # Gatsby files
 .cache/
