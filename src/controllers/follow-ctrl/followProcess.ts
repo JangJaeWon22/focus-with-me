@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import User from "../../models"
-import sequelize from "../../models"
+import { User, sequelize } from "../../models"
+import { QueryTypes } from 'sequelize';
 import { logger } from "../../config/logger";
 import { UserAttr } from "../../interfaces/user"
 
@@ -10,8 +10,8 @@ class FollowProcess {
     const user_id: number  = user.userId
     const { userId } : {userId:number} = req.body;
     try {
-      const userInfo: UserAttr = await User.findOne({ where: { userId:user_id } });
-      const tagetUser: UserAttr = await User.findOne({ where: { userId } });
+      const userInfo = await User.findOne({ where: { userId:user_id } });
+      const tagetUser = await User.findOne({ where: { userId } });
       const date: Date = new Date()
       // 사용자 있는지 체크
       if (userInfo) {
@@ -24,7 +24,7 @@ class FollowProcess {
           VALUES(${date},${date},${tagetUser.userId},${user_id})
           `
           await sequelize.query(sqlQuery, {
-            type: sequelize.QueryTypes.INSERT,
+            type: QueryTypes.INSERT,
           });
 
           const message: string = `${user.nickname}님이 ${tagetUser.nickname}님을 팔로잉 했습니다.`;
@@ -52,8 +52,8 @@ class FollowProcess {
     const user_id: number  = user.userId
     const { userId } : {userId:number} = req.body;
     try {
-      const userInfo: UserAttr = await User.findOne({ where: { userId: user_id } });
-      const tagetUser: UserAttr = await User.findOne({ where: { userId } });
+      const userInfo = await User.findOne({ where: { userId: user_id } });
+      const tagetUser = await User.findOne({ where: { userId } });
       const date : Date = new Date()
       // 사용자 있는지 체크
       if (userInfo) {
@@ -65,7 +65,7 @@ class FollowProcess {
           VALUES(${date},${date},${tagetUser.userId},${user_id})
           `
           await sequelize.query(sqlQuery, {
-            type: sequelize.QueryTypes.DELETE,
+            type: QueryTypes.DELETE,
           });
           const message: string = `${user.nickname}님이 ${tagetUser.nickname}님을 팔로잉 취소 했습니다.`;
           logger.info(`DELETE /api/follows 200 res:${message}`);

@@ -1,10 +1,6 @@
-import sequelize from "../models";
-import Sequelize from "../models";
-import Post from "../models";
-import User from "../models";
-import Like from "../models";
-import Bookmark from "../models";
 import { Request, Response, NextFunction } from "express";
+import { sequelize, Post, User, Like, Bookmark } from "../models";
+import Sequelize from "sequelize";
 import { Posts, FollowPost } from "../interfaces/post";
 import { LikeAttr } from "../interfaces/like";
 import { BookmarkAttr } from "../interfaces/bookmark";
@@ -25,12 +21,12 @@ const filter = async (req: Request, res: Response, next: NextFunction) => {
     ORDER BY likeCnt DESC
     LIMIT 10;`;
 
-    const posts: Posts = await sequelize.query(sqlQuery, {
+    const posts = await sequelize.query(sqlQuery, {
       type: Sequelize.QueryTypes.SELECT,
     });
 
     // 랜덤 게시물 10개 조회
-    const randPosts: Posts = await Post.findAll({
+    const randPosts: any = await Post.findAll({
       attributes: ["Post.*", "User.nickname", "User.avatarUrl"],
       include: {
         model: User,
@@ -46,7 +42,7 @@ const filter = async (req: Request, res: Response, next: NextFunction) => {
       const followingIdList = res.locals.user
         ? res.locals.user.Followings.map((f) => f.userId)
         : [];
-      const followPost: FollowPost = await Post.findAll({
+      const followPost = await Post.findAll({
         where: { userId: followingIdList },
         attributes: ["Post.*", "User.nickname", "User.avatarUrl"],
         include: {
@@ -119,7 +115,7 @@ const filter = async (req: Request, res: Response, next: NextFunction) => {
 
     // sequelize count 처리 방법 or sql count 만 하는거 찾아봐서 고쳐보고 monitoring 확인
 
-    const cntForPaging = await sequelize.query(beforePagination, {
+    const cntForPaging: any = await sequelize.query(beforePagination, {
       type: Sequelize.QueryTypes.SELECT,
     });
     //조회한 결과의 개수 -> 현재 9개로 limit을 걸어놨으니까 당연히 1밖에 안 나오지
@@ -139,11 +135,11 @@ const filter = async (req: Request, res: Response, next: NextFunction) => {
     LIMIT ${postPerPage}
     OFFSET ${offset};`;
 
-    const posts = await sequelize.query(sqlQuery, {
+    const posts: Posts[] = await sequelize.query(sqlQuery, {
       type: Sequelize.QueryTypes.SELECT,
     });
 
-    const postsArr: Posts[] = [];
+    const postsArr: any = [];
     //forEach는 await 안 기다려줘서 기대한 대로 안됨
     for (const post of posts) {
       // 초기값은 false로 두고, 토큰이 없으면 false를 push
@@ -152,10 +148,10 @@ const filter = async (req: Request, res: Response, next: NextFunction) => {
       //로그인을 했다면 게시물에 좋아요 북마크 했는지 확인하는 작업 수행
       if (res.locals.user) {
         userId = res.locals.user.userId;
-        const liked: LikeAttr = await Like.findOne({
+        const liked = await Like.findOne({
           where: { userId, postId: post.postId },
         });
-        const bookmarked: BookmarkAttr = await Bookmark.findOne({
+        const bookmarked = await Bookmark.findOne({
           where: { userId, postId: post.postId },
         });
         0;

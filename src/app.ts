@@ -4,6 +4,7 @@ dotenv.config();
 import * as schedule from "node-schedule";
 import ControlS3 from "./library/controlS3";
 const { emptyTempS3 } = ControlS3;
+import { sequelize } from './models';
 
 const port = process.env.EXPRESS_PORT;
 
@@ -25,7 +26,33 @@ const job = schedule.scheduleJob("0 0 0 * * *", async () => {
   console.log("temp 폴더 삭제");
 });
 
-app.listen(port, () => {
+//sequelize(ORM)
+sequelize
+  .sync({ force: false })
+  .then(() => {
+console.log(
+      `
+      🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬
+      🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬
+      🐬🐬 돌고래 db 연결 🐬🐬
+      🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬
+      🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬
+      🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙
+      🐙🐙🐙 나는 무너! 🐙🐙🐙
+      🐙🐙 꿈을 꾸는 무너 🐙🐙
+      🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙
+      `
+    )
+  })
+  .catch((err) => {
+    console.error(err);
+  });
+
+
+
+
+
+app.listen(port, async () => {
   logger.info(`
   ${port} 포트에서 서버가 가동되었습니다.😄😄
 ----------------------------------------------

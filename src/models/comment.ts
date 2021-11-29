@@ -1,50 +1,23 @@
-import { Model } from "sequelize";
+import { BuildOptions, DataTypes, Model, Sequelize } from 'sequelize';
 
-interface CommentAttr {
-  commentId: number
+interface CommentAttributes {
+  commentId?: number
   date: Date
   textContent: string
+  userId: number
+  postId: number
 }
 
+export interface CommentModel extends Model<CommentAttributes>, CommentAttributes {}
+export class Comment extends Model<CommentModel, CommentAttributes> {}
 
-module.exports =  (sequelize: any, DataTypes: any) => {
-  class Comment extends Model<CommentAttr>
-  implements CommentAttr {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-     commentId: number
-     date: Date
-     textContent: string
+export type CommentStatic = typeof Model & {
+  new (values?: object, options?: BuildOptions): CommentModel;
+};
 
-    static associate(db: any) {
-      Comment.hasMany(db.ChildComment, {
-        foreignKey: "commentId",
-        sourceKey: "commentId",
-      });
-      Comment.hasMany(db.CommentLike, {
-        foreignKey: "commentId",
-        sourceKey: "commentId",
-      });
-      Comment.hasMany(db.ChildComment, {
-        foreignKey: "commentId",
-        sourceKey: "commentId",
-      });
-      Comment.belongsTo(db.User, {
-        foreignKey: "userId",
-        targetKey: "userId",
-        onDelete: "cascade",
-      });
-      Comment.belongsTo(db.Post, {
-        foreignKey: "postId",
-        targetKey: "postId",
-        onDelete: "cascade",
-      });
-    }
-  }
-  Comment.init(
+export function CommentFactory(sequelize: Sequelize): CommentStatic {
+  return <CommentStatic>sequelize.define(
+    'Comment',
     {
       commentId: {
         allowNull: false,
@@ -63,12 +36,10 @@ module.exports =  (sequelize: any, DataTypes: any) => {
       },
     },
     {
-      sequelize,
       modelName: "Comment",
       timestamps: false,
       charset: "utf8",
       collate: "utf8_general_ci",
     }
   );
-  return Comment;
 };

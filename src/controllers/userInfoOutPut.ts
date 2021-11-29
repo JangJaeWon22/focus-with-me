@@ -1,8 +1,6 @@
 import { Request, Response } from 'express';
-import Post from "../models"
-import Bookmark from "../models"
-import Like from "../models"
-import Sequelize from "../models"
+import { Post, Bookmark, Like } from "../models"
+import Sequelize from "sequelize"
 import { logger } from "../config/logger"
 import { MyBookLists, MyPosts, MyPostList, MyBookListsAdd } from "../interfaces/list"
 import { BookmarkAttr } from "../interfaces/bookmark"
@@ -43,7 +41,7 @@ class UserInfoOutPut {
   public getUserPost = async (req: Request, res: Response) => {
     const { userId } = req.params; // user 정보를 통으로 보내줌
     try {
-      const postLists = await Post.findAll({
+      const postLists: any = await Post.findAll({
         where: { userId: Number(userId) },
         attributes: [
           "Post.*",
@@ -72,14 +70,14 @@ class UserInfoOutPut {
         let isBookmarked = false;
         if (res.locals.user) {
           // 좋아요 했는지 check
-          const liked: LikeAttr = await Like.findOne({
+          const liked = await Like.findOne({
             where: { userId: Number(res.locals.user.userId), postId: Number(postList.postId)},
           });
           // 좋아요 했으면 true
           if (liked) isLiked = true;
 
           // 북마크 했는지 check
-          const bookmarked : BookmarkAttr = await Bookmark.findOne({
+          const bookmarked = await Bookmark.findOne({
             where: { userId: Number(res.locals.user.userId), postId: Number(postList.postId) },
           });
           // 북마크 했으면 true
@@ -119,7 +117,7 @@ class UserInfoOutPut {
     const { userId } = req.params;
     try {
       // 로그인 한 유저의 북마크 table의 postId를 가져와서 post 테이블에서 리스트를 뽑아서 옴
-      const postLists : MyPosts[] = await Post.findAll({
+      const postLists: any = await Post.findAll({
         attributes: [
           "Post.*",
           [Sequelize.literal("COUNT(DISTINCT Likes.likeId)"), "likeCnt"],
@@ -145,7 +143,7 @@ class UserInfoOutPut {
       // 전체 포스트의 좋아요 갯수와 북마크 갯수를 가져옴
       // 그 중 params user가 북마크한 게시글만 보고 싶다..
       // 내가 북마크한 포스트를 불러오고
-      const mybooks : BookmarkAttr[] = await Bookmark.findAll({
+      const mybooks: any = await Bookmark.findAll({
         where: { userId: Number(userId) },
       });
 

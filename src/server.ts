@@ -1,7 +1,6 @@
 import express from "express";
 import morgan from "morgan";
 import cors from "cors";
-import sequelize from "./models";
 import userRouter from "./routes/users";
 import postsRouter from "./routes/posts";
 import likeRouter from "./routes/postsLike";
@@ -21,27 +20,26 @@ dotenv.config();
 import swaggerUi from "swagger-ui-express";
 import swaggerFile from "./swagger-output.json";
 
-
-sequelize
-  .sync({ force: false })
-  .then(() => {
-    console.log(
-      `
-      🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬
-      🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬
-      🐬🐬 돌고래 db 연결 🐬🐬
-      🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬
-      🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬
-      🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙
-      🐙🐙🐙 나는 무너! 🐙🐙🐙
-      🐙🐙 꿈을 꾸는 무너 🐙🐙
-      🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙
-      `
-    );
-  })
-  .catch((error) => {
-    console.error(error);
-  });
+// sequelize
+  // .sync({ force: false })
+  // .then(() => {
+  //   console.log(
+  //     `
+  //     🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬
+  //     🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬
+  //     🐬🐬 돌고래 db 연결 🐬🐬
+  //     🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬
+  //     🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬
+  //     🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙
+  //     🐙🐙🐙 나는 무너! 🐙🐙🐙
+  //     🐙🐙 꿈을 꾸는 무너 🐙🐙
+  //     🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙
+  //     `
+  //   );
+  // })
+  // .catch((error) => {
+  //   console.error(error);
+  // });
 
 app.use(cors({ origin: true, credentials: true }));
 
@@ -59,7 +57,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 //passport
-import * as passport from 'passport';
+import passport from 'passport';
 import Passport from "./passport"
 const passportConfig: Passport = new Passport();
 passportConfig.config()

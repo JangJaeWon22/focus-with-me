@@ -1,6 +1,5 @@
-import Sequelize from "../models"
-import sequelize from "../models"
-import ChildComment from "../models"
+import {sequelize, ChildComment} from "../models"
+import { QueryTypes } from "sequelize"
 import { logger } from "../config/logger";
 import { Request, Response } from "express";
 
@@ -32,7 +31,7 @@ class ChildCommentsController {
     const offset: number = (currentPage - 1) * childPerPage;
 
     try {
-      const totalCnt: number = await ChildComment.count({
+      const totalCnt = await ChildComment.count({
         where: { commentId, postId },
       });
       const sqlQuery = `
@@ -46,7 +45,8 @@ class ChildCommentsController {
         ; 
       `;
       const childComments = await sequelize.query(sqlQuery, {
-        type: Sequelize.QueryTypes.SELECT,
+        // type: Sequelize.QueryTypes.SELECT,
+        type: QueryTypes.SELECT,
       });
 
       const message: string = "답글 조회 성공";
@@ -77,15 +77,14 @@ class ChildCommentsController {
       res.locals.user;
     const date = new Date();
 
-    const createdChild = {
-      textContent,
-      postId,
-      userId,
-      date,
-      commentId,
-    };
     try {
-      const child = await ChildComment.create(createdChild);
+      const child = await ChildComment.create({
+          textContent,
+          postId: Number(postId),
+          userId,
+          date,
+          commentId: Number(commentId),
+        });
       // 프론트에서 댓글 생성하면 바로 리턴되는 댓글을 컴포넌트로 붙여서 보여준다고 함
       // avatarUrl, nickname
 

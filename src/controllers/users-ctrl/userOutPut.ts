@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import * as Jwt from "jsonwebtoken"
 import * as dotenv from "dotenv"
 dotenv.config();
-import * as passport from "passport"
+import passport from "passport"
 import {logger} from "../../config/logger"
 
 class UserOutPut {

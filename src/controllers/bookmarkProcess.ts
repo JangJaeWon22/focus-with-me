@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import Bookmark from "../models";
+import { Bookmark } from "../models";
 import { logger } from "../config/logger";
 import { BookmarkAttr } from "../interfaces/bookmark";
 
@@ -11,7 +11,7 @@ class BookmarkProcess {
     const userId: number = res.locals.user.userId;
     try {
       // 해당 postId와 userId를 가진 bookmark를 가져와 보자
-      const bookmark: BookmarkAttr = await Bookmark.findOne({
+      const bookmark = await Bookmark.findOne({
         where: { postId, userId },
       });
       // 날짜 생성
@@ -22,7 +22,6 @@ class BookmarkProcess {
         await Bookmark.create({
           postId: Number(postId),
           userId,
-          bookmark,
           date,
         });
         // 성공 응답값 200 및 로그인 유저가 북마크 했으면 true값을 보내어 프론트에서 state 바로 적용.
@@ -51,7 +50,7 @@ class BookmarkProcess {
     const userId: number = res.locals.user.userId;
     try {
       // 해당 postId와 userId를 가진 bookmark를 가져와 보자
-      const bookmark: BookmarkAttr = await Bookmark.findOne({
+      const bookmark = await Bookmark.findOne({
         where: { postId, userId },
       });
       // 북마크가 있을 때
@@ -59,7 +58,7 @@ class BookmarkProcess {
         // 북마크의 userId가 로그인한 userId가 같을 경우
         if (bookmark.userId === userId) {
           //해당 북마크 db 삭제
-          await Bookmark.destroy(bookmark);
+          await Bookmark.destroy({where: { postId, userId },});
           // 성공 응답값 200 및 로그인 유저가 북마크 취소하면 false값을 보내어 프론트에서 state 바로 적용.
           const message: string = "북마크 취소";
           logger.info(`DELETE /api/bookmarks/${postId} 200 res:${message}`);

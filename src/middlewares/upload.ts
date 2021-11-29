@@ -1,21 +1,24 @@
-// const multer = require("multer");
 import multer from "multer";
 import multerS3 from "multer-s3";
 import * as aws from "aws-sdk";
-import { Request } from "express";
+import dotenv from 'dotenv';
+dotenv.config();
+// import { Request } from "express";
 
-const s3 = new aws.S3();
+const awsConfig = {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+}
+
+const s3 = new aws.S3(awsConfig)
 // aws.config.loadFromPath(`${process.cwd()}/config/s3.js`);
 class uploadMiddlewares {
-  single(arg0: string): import("express-serve-static-core").RequestHandler<import("express-serve-static-core").ParamsDictionary, any, any, import("qs").ParsedQs, Record<string, any>> {
-    throw new Error("Method not implemented.");
-  }
   uploadAvatarS3 = multer({
     storage: multerS3({
       s3,
       bucket: "kkirri-images",
       acl: "public-read",
-      key: (req: Request, file, cb) => {
+      key: (req, file, cb) => {
         console.log(file);
         cb(
           null,
@@ -31,7 +34,7 @@ class uploadMiddlewares {
       s3,
       bucket: "kkirri-images",
       acl: " public-read",
-      key: (req: Request, file, cb) => {
+      key: (req, file, cb) => {
         cb(
           null,
           `uploads/content/${Date.now()}_${file.originalname
@@ -46,7 +49,7 @@ class uploadMiddlewares {
       s3,
       bucket: "kkirri-images",
       acl: " public-read",
-      key: (req: Request, files, cb) => {
+      key: (req, files, cb) => {
         //여기서 분기처리 하면 되겠네
         if (files.fieldname === "coverOriginal")
           cb(
@@ -70,7 +73,7 @@ class uploadMiddlewares {
       s3,
       bucket: "kkirri-images",
       acl: " public-read",
-      key: (req: Request, file, cb) => {
+      key: (req, file, cb) => {
         cb(
           null,
           `uploads/temp/${Date.now()}_${file.originalname

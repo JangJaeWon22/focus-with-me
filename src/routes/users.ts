@@ -4,9 +4,9 @@ import UserProcess from "../controllers/users-ctrl/userProcess";
 import UserOutPut from "../controllers/users-ctrl/userOutPut";
 import UserExist from "../controllers/users-ctrl/userExist";
 import UserUpdate from "../controllers/users-ctrl/userUpdate";
-import UploadAvatarS3 from "../middlewares/upload";
+import uploadMiddlewares from "../middlewares/upload";
 import VerifyJoi from "../middlewares/verifyJoi";
-import * as passport from "passport";
+import passport from "passport";
 // 수정해야됨 auth
 import {  logInOnly,  logInNot,  logInBoth,} from "../middlewares/passport-auth"
 
@@ -52,7 +52,7 @@ router.get(
 router.put(
   "/users/profileEdit",
   logInOnly,
-  UploadAvatarS3.single("file"),
+  uploadMiddlewares.uploadAvatarS3.single("file"),
   VerifyJoi.updateUserProfile,
   UserUpdate.updateUserProfile
 );

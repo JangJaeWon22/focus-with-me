@@ -1,4 +1,5 @@
-import 'dotenv/config';
+import dotenv from 'dotenv';
+dotenv.config();
 export const config = {
   development: {
     username: "root",
@@ -15,10 +16,10 @@ export const config = {
     dialect: "mysql",
   },
   production: {
-    username: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    host: process.env.DB_END_POINT,
+    username: process.env.RDS_USER,
+    password: process.env.RDS_PASSWORD,
+    database: process.env.RDS_DB_NAME,
+    host: process.env.RDS_END_POINT,
     dialect: "mysql",
   },
   rds: {

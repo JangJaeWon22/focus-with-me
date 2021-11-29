@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-import sequelize from "../../models"
-import Sequelize from "../../models"
+import { sequelize } from "../../models"
+import Sequelize from "sequelize"
 import { logger } from "../../config/logger";
 import { GetUserInfo } from "../../interfaces/user";
 
@@ -21,8 +21,8 @@ class UserInfo {
       WHERE Users.userId = ${userId}
       GROUP BY Users.userId
       ORDER BY date DESC;`;
-      const userInfo: GetUserInfo = await sequelize.query(userQuery, {
-        type: sequelize.QueryTypes.SELECT,
+      const userInfo: any = await sequelize.query(userQuery, {
+        type: Sequelize.QueryTypes.SELECT,
       });
 
       let isFollowing = false;

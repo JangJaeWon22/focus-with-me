@@ -30,11 +30,12 @@ export interface MyPosts {
     contentEditor: string
     date: Date
     userId: number
-    likeCnt: number
-    bookCnt: number
+
 }
 
 export interface MyPostList extends MyPosts {
     isLiked: boolean
     isBookmarked: boolean
+    likeCnt: number
+    bookCnt: number
 }

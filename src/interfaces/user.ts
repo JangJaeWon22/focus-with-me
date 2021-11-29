@@ -1,10 +1,10 @@
 export interface UserAttr {
-    userId: number;
+    userId?: number;
     email?: string;
     nickname: string;
     password?: string;
     avatarUrl?: string;
-    provider: string;
+    provider?: string;
     snsId?: string;
     date: Date;
     // 배열의 길이를 수행하기 위 선언
@@ -12,7 +12,7 @@ export interface UserAttr {
 }
 
 export interface FollowUser{
-    userId: number;
+    userId?: number;
     email?: string;
     nickname: string;
     followerCount?: number

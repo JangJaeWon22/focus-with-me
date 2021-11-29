@@ -16,7 +16,7 @@ declare global {
 			followingCount?: number;
 			followingIdList?: IsFollow;
 			followerIdList?: IsFollow;
-			followPost?: FollowPost | undefined[]
+			followPost?: FollowPost[] | undefined[]
 		}
 		interface Request{
 			posts? :any;

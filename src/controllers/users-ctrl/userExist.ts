@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import User from "../../models"
+import { User } from "../../models"
 import {logger } from "../../config/logger"
 import { UserAttr } from "../../interfaces/user"
 
@@ -7,7 +7,7 @@ class UserExist {
   public existEmail = async (req: Request, res: Response) => {
     const { email } : {email:string} = res.existEmail;
     try {
-      const existEmail : UserAttr = await User.findOne({ where: { email } });
+      const existEmail = await User.findOne({ where: { email } });
       if (!existEmail) {
         const message: string = "사용 가능한 이메일 입니다.";
         logger.info(`POST /api/users/emailexist 200 "res:${message}`);
@@ -27,7 +27,7 @@ class UserExist {
   public existNickname =  async (req: Request, res: Response) => {
     const { nickname }: {nickname:string} = res.existNickname;
     try {
-      const existNickname: UserAttr = await User.findOne({ where: { nickname } });
+      const existNickname = await User.findOne({ where: { nickname } });
       if (res.locals.user) {
         const nickname : string = res.locals.user.nickname;
         if (nickname == res.existNickname.nickname) {

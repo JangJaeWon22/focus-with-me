@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
-import Commentlike from "../../models";
+import { CommentLike } from "../../models";
 import { logger } from "../../config/logger";
-import { commentlike } from "../../interfaces/commentlike";
 
 class commentsLikeController {
   public likeExist = async (req: Request, res: Response) => {
@@ -11,7 +10,7 @@ class commentsLikeController {
       // 미들웨어를 통해 userId 받아옴
       const userId: number = res.locals.user.userId;
       // 해당 postId와 userId와 commentId를 가진 likecmt를 가져와 보자
-      const cmts: commentlike  = await Commentlike.findOne({
+      const cmts  = await CommentLike.findOne({
         where: { postId:Number(postId) , commentId:Number(commentId), userId:Number(userId) },
       });
 
@@ -19,13 +18,13 @@ class commentsLikeController {
       if (!cmts) {
         const date = new Date();
         // 댓글 기능 추가 실행
-        await Commentlike.create({
+        await CommentLike.create({
           postId: Number(postId),
           userId: Number(userId),
           commentId: Number(commentId),
           date,
         });
-        const likeCount: number = await Commentlike.count({
+        const likeCount: number = await CommentLike.count({
             where: { postId:Number(postId), commentId:Number(commentId) },
         });
         // 성공 응답값 200 및 로그인 유저가 댓글 했으면 true값을 보내어 프론트에서 state 바로 적용.
@@ -53,15 +52,15 @@ class commentsLikeController {
       // 사용자 인증 미들웨어로 userId 값 받아옴
       const userId: number = res.locals.user.userId;
       // 해당 postId와 userId를 가진 likecmt를 가져와 보자
-      const cmts : commentlike = await Commentlike.findOne({
+      const cmts = await CommentLike.findOne({
         where: { postId:Number(postId), commentId:Number(commentId), userId:Number(userId) },
       });
       // 댓글이 있을 때
       if (cmts) {
           //해당 댓글로부터 db 삭제
-          await Commentlike.destroy({ where: {postId:Number(postId), commentId:Number(commentId), userId:Number(userId)}});
+          await CommentLike.destroy({ where: {postId:Number(postId), commentId:Number(commentId), userId:Number(userId)}});
           // 성공 응답값 200 및 로그인 유저가 댓글 취소하면 false값을 보내어 프론트에서 state 바로 적용.
-          const likeCount:number = await Commentlike.count({
+          const likeCount:number = await CommentLike.count({
             where: { commentId:Number(commentId), postId:Number(postId) },
         });
           const message: string = "댓글 좋아요 취소";

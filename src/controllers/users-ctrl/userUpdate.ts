@@ -1,5 +1,5 @@
 import { Request, Response} from 'express';
-import User from "../../models"
+import { User } from "../../models"
 import * as bcrypt from "bcrypt"
 import ControlS3 from "../../library/controlS3"
 import { logger } from "../../config/logger"
@@ -39,7 +39,7 @@ class UserUpdate {
       // 뷰에서 기본 이미지로 돌아가기 버튼??
 
       // 변경할 닉네임 중복 검사
-      const existNick : UserAttr = await User.findOne({ where: { nickname: nicknameNew } });
+      const existNick = await User.findOne({ where: { nickname: nicknameNew } });
 
       if (!existNick) {
         // 중복 되는 내용이 없을 경우 update 진행
@@ -80,7 +80,7 @@ class UserUpdate {
       // locals 설정
       const { user } = res.locals;
       const { passwordOld, passwordNew } = res.updateUserPw;
-      const existUser : UserAttr = await User.findOne({ where: { userId: user.userId } });
+      const existUser = await User.findOne({ where: { userId: user.userId } });
 
       //등록된 유저가 있는지 다시 한번 조회
       if (existUser) {
@@ -93,7 +93,7 @@ class UserUpdate {
             },
             { where: { userId: user.userId } }
           );
-          const profile: UserAttr = await User.findOne({
+          const profile = await User.findOne({
             where: { userId: user.userId },
           });
           const message: string = "회원정보 수정이 완료되었습니다.";

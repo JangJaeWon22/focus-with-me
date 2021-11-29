@@ -1,33 +1,22 @@
-import { Model } from "sequelize";
+import { BuildOptions, DataTypes, Model, Sequelize } from 'sequelize';
 
 interface LikeAttributes {
-  likeId: number;
+  likeId?: number;
   date: Date;
+  postId?: number;
+  userId?: number
 }
-module.exports = (sequelize:any, DataTypes:any) => {
-  class Like extends Model<LikeAttributes>
-  implements LikeAttributes {
-    likeId: number;
-    date: Date;
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(db:any) {
-      Like.belongsTo(db.Post, {
-        foreignKey: "postId",
-        targetKey: "postId",
-        onDelete: "cascade",
-      });
-      Like.belongsTo(db.User, {
-        foreignKey: "userId",
-        targetKey: "userId",
-        onDelete: "cascade",
-      });
-    }
-  }
-  Like.init(
+
+export interface LikeModel extends Model<LikeAttributes>, LikeAttributes {}
+export class Like extends Model<LikeModel, LikeAttributes> {}
+
+export type LikeStatic = typeof Model & {
+  new (values?: object, options?: BuildOptions): LikeModel;
+};
+
+export function LikeFactory(sequelize: Sequelize): LikeStatic {
+  return <LikeStatic>sequelize.define(
+      'User',
     {
       likeId: {
         allowNull: false,
@@ -42,12 +31,10 @@ module.exports = (sequelize:any, DataTypes:any) => {
       },
     },
     {
-      sequelize,
       modelName: "Like",
       timestamps: false,
       charset: "utf8",
       collate: "utf8_general_ci",
     }
   );
-  return Like;
 };

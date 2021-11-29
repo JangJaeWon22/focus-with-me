@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import * as passport from "passport"
+import passport from "passport"
 import { logger } from "../config/logger"
 
 //토큰이 없이 들어오면 빠꾸 --- 사유 : 회원 탈퇴-아에 접근하면 안됨, 게시글 작성-아에 접근하면 안됨, 좋아요 등등

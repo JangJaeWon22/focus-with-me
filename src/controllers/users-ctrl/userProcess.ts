@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import User from "../../models"
+import { User } from "../../models"
 import { Op } from "sequelize"
 import * as bcrypt from "bcrypt"
 import { logger } from "../../config/logger"
@@ -25,7 +25,7 @@ class UserProcess {
         return res.status(400).send({ message });
       }
 
-      const existUsers: UserAttr = await User.findAll({
+      const existUsers = await User.findAll({
         where: {
           [Op.or]: [{ nickname }, { email }],
         },
@@ -41,7 +41,7 @@ class UserProcess {
         // const avatarUrl = "uploads/assets/noAvatar.png";
         const avatarUrl: string = "uploads/assets/noAvatar.svg";
         const encryptPassword = bcrypt.hashSync(password, 10);
-        const user: UserAttr = await User.create({
+        const user = await User.create({
           email,
           nickname,
           password: encryptPassword,
@@ -64,7 +64,7 @@ class UserProcess {
   public deleteUser = async (req, res) => {
     try {
       const userId : number = res.locals.user.userId;
-      const existUser: UserAttr = await User.findOne({ where: { userId } });
+      const existUser = await User.findOne({ where: { userId } });
       if (existUser) {
         await User.destroy({ where: { userId: existUser.userId } });
         const message: string = "회원탈퇴가 완료되었습니다.";

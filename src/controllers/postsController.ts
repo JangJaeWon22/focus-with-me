@@ -1,9 +1,6 @@
-import Post from "../models"
-import Bookmark from "../models"
-import Like from "../models"
-import User from "../models"
-import sequelize from "../models"
 import { Request, Response} from "express";
+import { Post, Bookmark, Like, User,sequelize }from "../models"
+import { QueryTypes } from 'sequelize';
 import ControlS3 from "../library/controlS3";
 import { logger } from "../config/logger";
 const { extractImageSrcS3, copyImagesS3, removeObjS3 } = ControlS3;
@@ -285,7 +282,7 @@ class PostsController {
         const following = await sequelize.query(
           `SELECT * FROM Follow
         WHERE Follow.followingId=${targetId} AND Follow.followerId=${userId};`,
-          { type: sequelize.QueryTypes.SELECT }
+          { type: QueryTypes.SELECT }
         );
         if (following.length !== 0) isFollowing = true;
       }

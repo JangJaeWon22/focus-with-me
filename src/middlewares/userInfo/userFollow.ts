@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import User from "../../models";
+import { User } from "../../models";
 import { logger } from "../../config/logger"
 import { FollowUser, IsFollow } from "../../interfaces/user"
 
@@ -9,7 +9,7 @@ class FollowMw {
     try {
       // const user = res.locals;
       // const { userId } = req.body === undefined ? res.locals.user : req.body;
-      const user: FollowUser = await User.findOne({
+      const user: any = await User.findOne({
         where: { userId: Number(userId) },
         include: [
           {

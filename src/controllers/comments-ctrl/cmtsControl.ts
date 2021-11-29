@@ -1,11 +1,7 @@
 import { Request, Response } from "express";
-import Comment from "../../models"
-import User from "../../models"
-import Commentlike from "../../models"
-import ChildComment from "../../models"
-import Sequelize from "../../models"
+import {Comment, User, CommentLike, ChildComment } from "../../models"
+import Sequelize from "sequelize"
 import { logger } from "../../config/logger";
-import { UserAttr } from "../../interfaces/user"
 import { likepost } from "../../interfaces/likepost"
 import { Cmt } from "../../interfaces/comment"
 
@@ -19,7 +15,7 @@ class CommentController {
       const userId : number = res.locals.user.userId;
       
       // user 변수에서 findByPk 를 통해 식별된 값을 가져온다
-      const user: UserAttr = await User.findByPk(userId);
+      const user = await User.findByPk(userId);
       // userNick 변수에서 사용자의 nickname을 선언한다
       const userNick = user.nickname;
       // avatarUrl 변수에서 사용자의 avatarUrl을 :선언한다
@@ -78,7 +74,7 @@ class CommentController {
       // const postId = req.params.postId; // ES5 및 이전 문법
 
       // comment db에서 값을 찾아보자
-      const commentAll : Cmt[] = await Comment.findAll({
+      const commentAll : Cmt[]= await Comment.findAll({
         // db에서 찾을 때 할당 받은 postId와 같은 조건인 것을 찾음 (해당 게시글의 댓글만 가져오면 되서)
         where: { postId : Number(postId)},
         // 가져올때 속성은 comment의 전부 + commentLikeCnt(commentLikeId의 갯수)
@@ -97,7 +93,7 @@ class CommentController {
             attributes: [],
           },
           {
-            model: Commentlike,
+            model: CommentLike,
             attributes: [],
           },
         ],
@@ -117,11 +113,11 @@ class CommentController {
       */
       for (const comment of commentAll) {
         let isCommentLiked = false;
-        let childCnt = 0;
+        let childCnt: any = 0;
         // 사용자 인증 미들웨어를 타고 들어왔는데 사용자가 로그인 상태라면
         if (res.locals.user) {
           // 로그인 한 사용자가 현재의 포스트에서 좋아요를 했는지 db 검색
-          const liked : likepost = await Commentlike.findOne({
+          const liked : likepost = await CommentLike.findOne({
             where: { userId: Number(res.locals.user.userId), postId: Number(comment.postId) },
           });
           if (liked) isCommentLiked = true;

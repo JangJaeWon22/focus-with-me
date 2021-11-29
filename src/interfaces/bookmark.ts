@@ -1,6 +1,6 @@
 export interface BookmarkAttr {
-    postId: number
-    userId: number,
-    bookmarkId: number,
-    date: Date,
+    postId?: number
+    userId?: number,
+    bookmarkId?: number,
+    date?: Date,
 }

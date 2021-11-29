@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import Like from "../../models";
+import { Like } from "../../models";
 import { logger } from "../../config/logger";
 import { likepost } from "../../interfaces/likepost";
 
@@ -62,7 +62,7 @@ class postLikeController {
 
       if (liked) {
         await Like.destroy({
-          liked
+          where: { postId:Number(postId), userId:Number(userId) }
         });
         const message: string = "좋아요 취소";
         logger.info(`DELETE /api/posts/${postId}/like 200 res:${message}`);
