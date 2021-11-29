@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import { Comment, User, CommentLike, ChildComment, Sequelize } from "../../models";
+import { Comment, User, Commentlike, ChildComment, Sequelize } from "../../models";
 import { logger } from "../../config/logger";
 import { UserAttr } from "../../interfaces/user"
 import { likepost } from "../../interfaces/likepost"
 import { Cmt } from "../../interfaces/comment"
-import { number } from "joi";
+
 
 class Comment {
   // 댓글 생성을 비동기식 방식으로 처리한다
@@ -25,7 +25,7 @@ class Comment {
 
       // comment model에서 생성해주기 위해 create를 사용한다
       // comment 라는 변수에 저장하고자 하는 값을 넣어준다
-      const comment : Cmt = await Comment.create({
+      const comment = await Commentlike.create({
         userId,
         postId: Number(postId),
         date,
@@ -33,7 +33,7 @@ class Comment {
       });
 
       //특정 게시물의 댓글의 수
-      const cmtCount: number = await Comment.count({
+      const cmtCount: number = await Commentlike.count({
         where: { postId:Number(postId) },
       });
     
@@ -74,7 +74,7 @@ class Comment {
       // const postId = req.params.postId; // ES5 및 이전 문법
 
       // comment db에서 값을 찾아보자
-      const commentAll = await Comment.findAll({
+      const commentAll : Cmt = await Commentlike.findAll({
         // db에서 찾을 때 할당 받은 postId와 같은 조건인 것을 찾음 (해당 게시글의 댓글만 가져오면 되서)
         where: { postId : Number(postId)},
         // 가져올때 속성은 comment의 전부 + commentLikeCnt(commentLikeId의 갯수)
@@ -93,7 +93,7 @@ class Comment {
             attributes: [],
           },
           {
-            model: CommentLike,
+            model: Commentlike,
             attributes: [],
           },
         ],
@@ -117,7 +117,7 @@ class Comment {
         // 사용자 인증 미들웨어를 타고 들어왔는데 사용자가 로그인 상태라면
         if (res.locals.user) {
           // 로그인 한 사용자가 현재의 포스트에서 좋아요를 했는지 db 검색
-          const liked : likepost = await CommentLike.findOne({
+          const liked : likepost = await Commentlike.findOne({
             where: { userId: Number(res.locals.user.userId), postId: Number(comment.postId) },
           });
           if (liked) isCommentLiked = true;
@@ -145,7 +145,7 @@ class Comment {
       }
 
       // 댓글 페이지네이션
-      let { pagination } : { pagination: number }= req.query;
+      let pagination: number = req.query;
       const perPage: number = 4; // limit
 
       // pagination 예외처리
@@ -153,7 +153,7 @@ class Comment {
       pagination = Number(pagination);
       
 
-      const pageNum = parseInt(pagination, 10); // 페이지 수를 10진수로 처리함
+      const pageNum = parseInt(req.query.pageNum, 10); // 페이지 수를 10진수로 처리함
       const totCmtCount: number = respondComments.length; // 댓글 총 페이지 수와 댓글 총 수 구할때 필요함, 배열의 길이
       const totalPg = Math.ceil(totCmtCount / perPage); // 총 페이지를 보여주면, 댓글 여러개 달렸을때, 나눠서 보여주려고 사용함
       let startNum = (pageNum - 1) * perPage;
@@ -195,7 +195,7 @@ class Comment {
       // res.locals.user 는 미들웨어인 loginOnly에서 값을 가져와 userId에 할당한다
       const userId : number = res.locals.user.userId;
       // Comment 의 첫번째 요소만 보기 위해 데이터를 가져온다
-      const reqDelete : Cmt = await Comment.findOne({
+      const reqDelete : Cmt = await Commentlike.findOne({
         // where 옵션으로 나열함으로써, 기본적으로 and 옵션과 같다
         // postId 라는 컬럼에서 postId로, commentId 라는 컬럼에서 commentId로 가져온다
         where: { postId:Number(postId), commentId:Number(commentId) },
