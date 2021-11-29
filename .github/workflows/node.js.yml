@@ -2,7 +2,7 @@ name: node.js CI
 
 on:
   push:
-    branches: [main]
+    branches: [maintest]
   # pull_request:
   #   branches: [main]
 
@@ -21,8 +21,8 @@ jobs:
           script: |
             sudo -s
             cd /home/ubuntu/focus-with-me
-            sudo git pull --ff
+            sudo git pull origin maintest --ff
             sudo rm -rf package-lock.json
-            npm i
+            sudo npm i
             tsc
-            sudo pm2 reload all
+            sudo npm start
