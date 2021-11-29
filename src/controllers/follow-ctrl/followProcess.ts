@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { User, sequelize } from "../../models"
 import { QueryTypes } from 'sequelize';
 import { logger } from "../../config/logger";
-import { UserAttr } from "../../interfaces/user"
+import moment from "moment"
 
 class FollowProcess {
   public createFollow = async (req:Request, res:Response) => {
@@ -12,7 +12,10 @@ class FollowProcess {
     try {
       const userInfo = await User.findOne({ where: { userId:user_id } });
       const tagetUser = await User.findOne({ where: { userId } });
-      const date: Date = new Date()
+      // var date = new Date();
+      const dateStr = moment()
+      const date = dateStr.format("YYYY-MM-DD HH:mm:ss")
+
       // 사용자 있는지 체크
       if (userInfo) {
         if (tagetUser.userId !== user_id) {
@@ -20,8 +23,8 @@ class FollowProcess {
           // await userInfo.addFollowing(parseInt(userId, 10));
           
           const sqlQuery = `
-          INSERT INTO Follow (createAt, updateAt, followingId, followerId)
-          VALUES(${date},${date},${tagetUser.userId},${user_id})
+          INSERT INTO Follow (createdAt, updatedAt, followingId, followerId)
+          VALUES("${date}","${date}",${tagetUser.userId},${user_id})
           `
           await sequelize.query(sqlQuery, {
             type: QueryTypes.INSERT,
@@ -61,8 +64,8 @@ class FollowProcess {
         if (tagetUser.userId !== user_id) {  
           // await userInfo.removeFollowing(parseInt(userId, 10));
           const sqlQuery = `
-          DELETE INTO Follow (createAt, updateAt, followingId, followerId)
-          VALUES(${date},${date},${tagetUser.userId},${user_id})
+          DELETE From Follow
+          WHERE followingId = ${tagetUser.userId} AND followerId = ${user_id}
           `
           await sequelize.query(sqlQuery, {
             type: QueryTypes.DELETE,

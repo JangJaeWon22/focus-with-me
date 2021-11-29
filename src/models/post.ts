@@ -31,8 +31,12 @@ export function PostFactory(sequelize: Sequelize): PostStatic {
         type: DataTypes.INTEGER,
         unique: true,
       },
-      coverOriginal: { type: DataTypes.STRING },
-      coverCropped: { type: DataTypes.STRING },
+      coverOriginal: { 
+        type: DataTypes.STRING
+      },
+      coverCropped: {
+        type: DataTypes.STRING 
+      },
       title: {
         allowNull: false,
         type: DataTypes.STRING,

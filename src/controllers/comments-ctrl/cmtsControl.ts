@@ -145,19 +145,17 @@ class CommentController {
       }
 
       // 댓글 페이지네이션
-      let pagination = req.query;
+      let {pagination} = req.query;
       let page = Number(pagination)
       const perPage: number = 4; // limit
 
       // pagination 예외처리
       if (!pagination) page = 1;
       page = Number(page);
-      
-
       const pageNum = page // 페이지 수를 10진수로 처리함
       const totCmtCount: number = respondComments.length; // 댓글 총 페이지 수와 댓글 총 수 구할때 필요함, 배열의 길이
       const totalPg = Math.ceil(totCmtCount / perPage); // 총 페이지를 보여주면, 댓글 여러개 달렸을때, 나눠서 보여주려고 사용함
-      let startNum = (pageNum - 1) * perPage;
+      let startNum =(pageNum - 1) * perPage;
       let lastNum = pageNum * perPage;
 
       // 예외처리

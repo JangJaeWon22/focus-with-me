@@ -22,7 +22,7 @@ jobs:
             sudo -s
             cd /home/ubuntu/focus-with-me
             sudo git pull --ff
-            cd /home/ubuntu/focus-with-me/src
             sudo rm -rf package-lock.json
             npm i
+            tsc
             sudo pm2 reload all
