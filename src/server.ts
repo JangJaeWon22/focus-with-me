@@ -92,39 +92,40 @@ app.use("/api", likeCommentRouter);
 app.use("/api", childCommentRouter);
 
 // metrics
-// const client = require("prom-client");
+const client = require("prom-client");
 
-// collectDefaultMetrics = client.collectDefaultMetrics;
-// client.collectDefaultMetrics({ timeOut: 5000 });
+const collectDefaultMetrics = client.collectDefaultMetrics;
+client.collectDefaultMetrics({ timeOut: 5000 });
 
-// const counter = new client.Counter({
-//   name: "node_request_operations_total",
-//   help: "The total number of processed request",
-// });
+const counter = new client.Counter({
+  name: "node_request_operations_total",
+  help: "The total number of processed request",
+});
 
-// const histogram = new client.Histogram({
-//   name: "node_request_duration_seconds",
-//   help: "Histogram for the durations in seconds",
-//   buckets: [1, 2, 5, 6, 10],
-// });
+const histogram = new client.Histogram({
+  name: "node_request_duration_seconds",
+  help: "Histogram for the durations in seconds",
+  buckets: [1, 2, 5, 6, 10],
+});
 
-// app.get("/", (req, res) => {
-//   let start = new Date();
-//   let simulateTime = 1000;
+app.get("/", (req, res) => {
+  let start: any = new Date();
+  let simulateTime = 1000;
 
-//   setTimeout(() => {
-//     let end = new Date() - start;
-//     histogram.observe(end / 1000);
-//   }, simulateTime);
-//   counter.inc();
+  setTimeout(() => {
+    let time: any = new Date() 
+    let end = time - start;
+    histogram.observe(end / 1000);
+  }, simulateTime);
+  counter.inc();
 
-//   res.send("에이치 아이");
-// });
+  res.send("에이치 아이");
+});
 
-// app.get("/metrics", async (req, res) => {
-//   res.setHeader("Content-Type", client.register.contentType);
-//   res.send(await client.register.metrics());
-// });
+app.get("/metrics", async (req, res) => {
+  res.setHeader("Content-Type", client.register.contentType);
+  res.send(await client.register.metrics());
+});
 
 //Error handler
 app.use(function (err, req, res, next) {

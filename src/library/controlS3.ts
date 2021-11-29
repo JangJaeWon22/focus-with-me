@@ -8,8 +8,13 @@ import * as aws from "aws-sdk";
  * - 파일 삭제
  * - 폴더 삭제
  */
-class ControlS3 {
-  s3 = new aws.S3();
+
+ const awsConfig = {
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+}
+const s3 = new aws.S3(awsConfig);
+class ControlS3 {  
 
   public extractImageSrcS3(html: string) {
     try {
@@ -38,7 +43,7 @@ class ControlS3 {
        */
       for (const url of imageList) {
         const filename: string = url.split("temp/")[1];
-        await this.s3
+        await s3
           .copyObject({
             Bucket: process.env.S3_BUCKET_NAME,
             CopySource: `kkirri-images/${url}`,
@@ -62,7 +67,7 @@ class ControlS3 {
   // 배열까지 처리할 수 있도록 만들어보기
   public async removeObjS3(src: string) {
     try {
-      await this.s3
+      await s3
         .deleteObject({
           Bucket: process.env.S3_BUCKET_NAME,
           Key: src,
@@ -80,7 +85,7 @@ class ControlS3 {
       Prefix: "uploads/temp",
     };
 
-    const listedObjects = await this.s3.listObjectsV2(listParams).promise();
+    const listedObjects = await s3.listObjectsV2(listParams).promise();
 
     // 폴더 내 파일이 없으면 함수 종료
     if (listedObjects.Contents.length === 0) return;
@@ -94,14 +99,14 @@ class ControlS3 {
       deleteParams.Delete.Objects.push({ Key });
     });
 
-    await this.s3.deleteObjects(deleteParams).promise();
+    await s3.deleteObjects(deleteParams).promise();
 
     if (listedObjects.IsTruncated) await this.emptyTempS3();
   }
 
   public async getObjS3(src: string) {
     try {
-      const result = await this.s3
+      const result = await s3
         .getObject({
           Bucket: process.env.S3_BUCKET_NAME,
           Key: src,

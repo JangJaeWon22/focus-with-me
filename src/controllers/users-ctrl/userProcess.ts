@@ -61,7 +61,7 @@ class UserProcess {
   }
 
   //회원탈퇴
-  public deleteUser = async (req, res) => {
+  public deleteUser = async (req: Request, res: Response) => {
     try {
       const userId : number = res.locals.user.userId;
       const existUser = await User.findOne({ where: { userId } });
@@ -73,7 +73,7 @@ class UserProcess {
       } else {
         const message: string = "회원탈퇴가 실패되었습니다.";
         logger.info(`DELETE /api/users/withdrawal 400 res:${message}`);
-        res.stauts(400).send({ message });
+        res.status(400).send({ message });
       }
     } catch (error) {
       console.log(error);

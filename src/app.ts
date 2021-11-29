@@ -22,7 +22,7 @@ import { logger } from "./config/logger";
 // 매일 0시 0분 0초에 temp 폴더 비우기
 // 초 분 시 일 월 년
 const job = schedule.scheduleJob("0 0 0 * * *", async () => {
-  await emptyTempS3();
+  await ControlS3.emptyTempS3();
   console.log("temp 폴더 삭제");
 });
 
