@@ -7,7 +7,6 @@ interface CommentAttr {
 }
 
 
-
 export function CommentFac (sequelize: any, DataTypes: any) {
   class Comment extends Model<CommentAttr>
   implements CommentAttr {
