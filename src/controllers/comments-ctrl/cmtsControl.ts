@@ -148,7 +148,6 @@ class CommentController {
       let {pagination} = req.query;
       let page = Number(pagination)
       const perPage: number = 4; // limit
-
       // pagination 예외처리
       if (!pagination) page = 1;
       page = Number(page);

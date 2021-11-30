@@ -83,10 +83,11 @@ const filter = async (req: Request, res: Response, next: NextFunction) => {
     } = req.query;
     let { page } = req.query;
     // 페이지네이션에 필요한 것 : page query string, total number of posts, total page
-    let currentPage: number = 0;
-    if (!page) currentPage = 1;
+    
+    const currentPage : number = page ? Number(page) : 1;
     const postPerPage: number = 9;
     const offset = (currentPage - 1) * postPerPage;
+    console.log(offset)
     // 로그인한 사람이 좋아요, 북마크했는지 확인할 때 쓸 변수. 토큰 유무에 따라 재할당 할 수 있으므로 let 선언
     let userId: number;
     // WHERE에 사용할 조건문을 담을 List
