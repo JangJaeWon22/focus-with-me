@@ -32,12 +32,12 @@ class CommentController {
         textContent,
       });
 
-      //특정 게시물의 댓글의 수
+      // 특정 게시물의 댓글의 수
       const cmtCount: number = await Comment.count({
         where: { postId:Number(postId) },
       });
     
-      //페이지네이션 1페이지당 몇개를 보여줄지?
+      // 페이지네이션 1페이지당 몇개를 보여줄지?
       const perPage: number = 4;
 
       //전체 페이지 수
