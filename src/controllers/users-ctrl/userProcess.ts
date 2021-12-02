@@ -64,17 +64,43 @@ class UserProcess {
   public deleteUser = async (req: Request, res: Response) => {
     try {
       const userId : number = res.locals.user.userId;
-      const existUser = await User.findOne({ where: { userId } });
+      const existUser = await User.findOne({ where: { userId } }); 
       if (existUser) {
-        await User.destroy({ where: { userId: existUser.userId } });
-        const message: string = "회원탈퇴가 완료되었습니다.";
-        logger.info(`DELETE /api/users/withdrawal 400 res:${message}`);
-        res.status(200).send({ message });
+        if (existUser.provider === "kakao"){
+          await User.destroy({ where: { userId: existUser.userId } });
+              const message: string = "회원탈퇴가 완료되었습니다.";
+              logger.info(`DELETE /api/users/withdrawal 200 res:${message}`);
+              res.status(200).send({ message });
+        }else {
+          if(!req.body.password){
+            const message: string = "비밀번호를 입력해주세요.";
+            logger.info(`DELETE /api/users/withdrawal 400 res:${message}`);
+            res.status(400).send({ message });
+          }else{
+            const { password } :{password:string} = req.body;
+            if (bcrypt.compareSync(password, existUser.password)){
+              await User.destroy({ where: { userId: existUser.userId } });
+              const message: string = "회원탈퇴가 완료되었습니다.";
+              logger.info(`DELETE /api/users/withdrawal 200 res:${message}`);
+              res.status(200).send({ message });
+            }else {
+              console.log("hi")
+              const message: string = "입력하신 비밀번호가 일치하지 않습니다."
+              logger.info(`DELETE /api/users/withdrawal 400 res:${message}`);
+              res.status(400).send({ message });
+            }
+          }
+        }
       } else {
-        const message: string = "회원탈퇴가 실패되었습니다.";
+        const message: string = "존재하지 않는 회원입니다.";
         logger.info(`DELETE /api/users/withdrawal 400 res:${message}`);
         res.status(400).send({ message });
       }
+      
+
+        
+
+
     } catch (error) {
       console.log(error);
       const message: string = "알 수 없는 문제가 발생했습니다. 잠시 후 다시 시도해주세요.";
