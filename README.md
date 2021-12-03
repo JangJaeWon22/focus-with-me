@@ -2,8 +2,7 @@
 
 ## <div align=left> ❓ 프로젝트 개요 ❓ </div>
 
-![logo](/presentation/logo.png)
-![grafana_실행화면.png](grafana_실행화면.png)
+![logo](presentation/logo.png)
 
 현대 사회에서 **'책상'** 은 단순히 책을 올려놓고 공부하도록 하는 도구, 그 이상의 이미를 가집니다.
 
