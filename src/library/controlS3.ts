@@ -9,13 +9,12 @@ import * as aws from "aws-sdk";
  * - 폴더 삭제
  */
 
- const awsConfig = {
+const awsConfig = {
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
-}
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+};
 const s3 = new aws.S3(awsConfig);
-class ControlS3 {  
-
+class ControlS3 {
   public extractImageSrcS3(html: string) {
     try {
       const regexp: RegExp = /<img[^>]+src\s*=\s*['"]([^'"]+)['"][^>]*>/g;
@@ -43,6 +42,7 @@ class ControlS3 {
        */
       for (const url of imageList) {
         const filename: string = url.split("temp/")[1];
+        console.log(filename);
         await s3
           .copyObject({
             Bucket: process.env.S3_BUCKET_NAME,

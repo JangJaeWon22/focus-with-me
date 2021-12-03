@@ -1,6 +1,6 @@
-import { Request, Response} from "express";
-import { Post, Bookmark, Like, User,sequelize }from "../models"
-import { QueryTypes } from 'sequelize';
+import { Request, Response } from "express";
+import { Post, Bookmark, Like, User, sequelize } from "../models";
+import { QueryTypes } from "sequelize";
 import ControlS3 from "../library/controlS3";
 import { logger } from "../config/logger";
 const { extractImageSrcS3, copyImagesS3, removeObjS3 } = ControlS3;
@@ -9,7 +9,6 @@ const { extractImageSrcS3, copyImagesS3, removeObjS3 } = ControlS3;
 interface MulterRequest extends Request {
   file: any;
 }
-
 
 class PostsController {
   /* 
@@ -46,7 +45,6 @@ class PostsController {
       ? `uploads${files["coverCropped"][0].location.split("uploads")[1]}`
       : "";
     const { userId } = res.locals.user;
-
     //multipart 에서 json 형식으로 변환
     const body = JSON.parse(JSON.stringify(req.body));
     const {
@@ -64,11 +62,13 @@ class PostsController {
     } = body;
     // image list 추출
     const imageList = extractImageSrcS3(contentEditor);
+    console.log(imageList);
     // 비교 후 이동
-    await copyImagesS3(await imageList);
+    await copyImagesS3(imageList);
 
     // 모든 temp 경로를 content로 바꾸기
     const innerHtml = contentEditor.replace(/temp/g, "content");
+    console.log(innerHtml);
     // 인코딩 해서 저장, why? 이모티콘
     const encodedTitle = encodeURIComponent(title);
     const encodedHTML = encodeURIComponent(innerHtml);
@@ -113,10 +113,8 @@ class PostsController {
       ? `uploads${files["coverCropped"][0].location.split("uploads")[1]}`
       : null;
 
-    console.log("ㅎㅎ", originPath);
-    console.log("ㅎㅎ", croppedPath);
-
     const body = JSON.parse(JSON.stringify(req.body));
+
     const {
       title,
       categoryInterest,
@@ -134,6 +132,7 @@ class PostsController {
       //조회 결과 게시물 주인이 현재 로그인한 사람 소유가 아니면 꺼져
       if (!post || userId !== post.userId) {
         // 이미 업로드된 이미지 삭제
+        console.log("설마 여기로 오나?!!");
         // await removeObjS3(path);
         await removeObjS3(originPath);
         await removeObjS3(croppedPath);
@@ -157,15 +156,20 @@ class PostsController {
 
       // 기존 이미지 삭제 - 수정 성공하고 난 뒤에 해도 늦지 않음
       // post 의 이미지 url 따라가서 삭제
+      // 기존 본문 html을 디코딩
       const decodedHtml = decodeURIComponent(post.contentEditor);
+      // 기존 본문에서 추출한 이미지 리스트
       const prevImageList = extractImageSrcS3(decodedHtml);
-      // const prevImageCover = decodeURIComponent(post.imageCover);
       const prevCoverOriginal = decodeURIComponent(post.coverOriginal);
+      // 기존 크롭 이미지 url
       const prevCoverCropped = decodeURIComponent(post.coverCropped);
 
       // 새로 올라온 html에서 이미지 src 추출 후 파일 이동
       const imageList = extractImageSrcS3(contentEditor);
-      await copyImagesS3(await imageList);
+      await copyImagesS3(imageList);
+      // 새로 온 본문 이미지 파일 이동이 끝나면, html temp -> content
+      const innerHtml = contentEditor.replace(/temp/g, "content");
+
       // 수정 본문 이미지 처리가 안되어있음.
       //새로 올라온 데이터가 있을 때만 데이터 바꾸기
       // if (path) post.imageCover = path;
@@ -175,17 +179,20 @@ class PostsController {
       if (categorySpace) post.categorySpace = categorySpace;
       if (categoryInterest) post.categoryInterest = categoryInterest;
       if (categoryStudyMate) post.categoryStudyMate = categoryStudyMate;
-      if (contentEditor) post.contentEditor = encodeURIComponent(contentEditor);
+      if (contentEditor) post.contentEditor = encodeURIComponent(innerHtml);
+      console.log(innerHtml);
       await post.save();
       const message: string = "게시물 수정 성공";
       logger.info(`PUT /api/posts/${postId} 204 res:${message}`);
       res.status(204).send({ message });
+
       //성공하면 기존 본문 이미지들 삭제
-      if (prevImageList.length !== 0) {
-        prevImageList.forEach(async (src) => {
-          await removeObjS3(src);
-        });
-      }
+      // 안 쓰는 이미지 삭제 -> 기존 이미지 : 새로 들어온 이미지 비교를 안 함
+      // if (prevImageList.length !== 0) {
+      //   prevImageList.forEach(async (src) => {
+      //     await removeObjS3(src);
+      //   });
+      // }
       // 커버 이미지 삭제 -> Null이 아닐 때에만 삭제 :
       // 새로 이미지가 올라올 때에만 삭제
       if (originPath) await removeObjS3(prevCoverOriginal);
@@ -307,8 +314,9 @@ class PostsController {
     ckEditor 본문 이미지 업로드
   */
   public ckUpload(req: Request, res: Response) {
-    const { file } = (req as MulterRequest)
+    const { file } = req as MulterRequest;
     const path = `uploads${file.location.split("uploads")[1]}`;
+    console.log(path);
     logger.info(`POST /api/posts/ckUpload 201 res:${path} 경로 이미지 저장`);
     return res.status(201).send({ path });
   }

@@ -63,6 +63,10 @@ class UserProcess {
   //회원탈퇴
   public deleteUser = async (req: Request, res: Response) => {
     try {
+      console.log("asdasdas")
+      console.log(req.body)
+      console.log(req.body.password)
+      console.log("asdasdas")
       const userId : number = res.locals.user.userId;
       const existUser = await User.findOne({ where: { userId } }); 
       if (existUser) {
