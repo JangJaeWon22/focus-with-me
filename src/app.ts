@@ -4,7 +4,7 @@ dotenv.config();
 import * as schedule from "node-schedule";
 import ControlS3 from "./library/controlS3";
 const { emptyTempS3 } = ControlS3;
-import { sequelize } from './models';
+import { sequelize } from "./models";
 
 const port = process.env.EXPRESS_PORT;
 
@@ -30,7 +30,7 @@ const job = schedule.scheduleJob("0 0 0 * * *", async () => {
 sequelize
   .sync({ force: false })
   .then(() => {
-console.log(
+    console.log(
       `
       🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬
       🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬
@@ -42,15 +42,11 @@ console.log(
       🐙🐙 꿈을 꾸는 무너 🐙🐙
       🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙
       `
-    )
+    );
   })
   .catch((err) => {
     console.error(err);
   });
-
-
-
-
 
 app.listen(port, async () => {
   logger.info(`
