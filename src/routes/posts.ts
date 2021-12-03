@@ -14,7 +14,7 @@ const {
   ckUpload,
   getCoverOriginal,
 } = PostsController;
-const { uploadTempS3, uploadCoverS3 } = uploadMiddlewares;
+// const { uploadTempS3, uploadCoverS3 } = uploadMiddlewares;
 
 const postsRouter = express.Router();
 
@@ -23,7 +23,7 @@ postsRouter
   .get(logInBoth, filter, getPosts)
   .post(
     logInOnly,
-    uploadCoverS3.fields([
+    uploadMiddlewares.uploadCoverS3.fields([
       { name: "coverOriginal", maxCount: 1 },
       { name: "coverCropped", maxCount: 1 },
     ]),
@@ -33,13 +33,13 @@ postsRouter
 // ckEditor5 custom image upload adapter
 postsRouter
   .route("/posts/ckUpload")
-  .post(logInOnly, uploadTempS3.single("temp"), ckUpload);
+  .post(logInOnly, uploadMiddlewares.uploadTempS3.single("temp"), ckUpload);
 
 postsRouter
   .route("/posts/:postId")
   .put(
     logInOnly,
-    uploadCoverS3.fields([
+    uploadMiddlewares.uploadCoverS3.fields([
       { name: "coverOriginal", maxCount: 1 },
       { name: "coverCropped", maxCount: 1 },
     ]),
